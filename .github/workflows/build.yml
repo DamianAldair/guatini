@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@main
 
       - name: Setup Java
-        uses: actions/setup-java@main
+        uses: actions/setup-java@v2
         with:
           java-version: "14.x"
 
