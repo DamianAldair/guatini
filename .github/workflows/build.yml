@@ -7,8 +7,8 @@ on:
     branches: [master]
 
 jobs:
-  build_apk:
-    name: Build APK
+  flutter_analize:
+    name: Flutter analize
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,36 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@main
         with:
-          distribution: 'zulu'
+          distribution: "zulu"
+          java-version: "14.x"
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@main
+        with:
+          channel: "stable"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Check Flutter version
+        run: flutter --version
+
+      - name: Analyze project source
+        run: flutter analyze
+
+  build_apk:
+    name: Build APK
+    needs: [flutter_analize]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@main
+
+      - name: Setup Java
+        uses: actions/setup-java@main
+        with:
+          distribution: "zulu"
           java-version: "14.x"
 
       - name: Install Flutter
