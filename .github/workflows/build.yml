@@ -1,0 +1,60 @@
+name: Build application
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  flutter_analize:
+    name: Flutter analize
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@main
+
+      - name: Setup Java
+        uses: actions/setup-java@main
+        with:
+          java-version: "14.x"
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@main
+        with:
+          channel: "stable"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Check Flutter version
+        run: flutter --version
+
+      - name: Analyze project source
+        run: flutter analyze
+
+  build_apk:
+    name: Build APK
+    needs: [flutter_analize]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@main
+
+      - name: Setup Java
+        uses: actions/setup-java@main
+        with:
+          java-version: "14.x"
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@main
+        with:
+          channel: "stable"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build
+        run: flutter build apk --release
