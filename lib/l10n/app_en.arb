@@ -1,4 +1,25 @@
 {
-    "language_name": "English",
-    "home": "Home"
+    "about": "About",
+    "back": "Back",
+    "clear": "Clear",
+    "college": "College of Computer Engineering",
+    "database": "Databases",
+    "dark": "Dark",
+    "developedBy": "Developed by",
+    "exit": "Exit the app?",
+    "exitText": "Do you really want to exit the application?",
+    "home": "Home",
+    "language": "Language",
+    "languageName": "English",
+    "light": "Light",
+    "no": "No",
+    "search": "Search",
+    "searchSpecie": "Search Specie",
+    "settings": "Settings",
+    "system": "System",
+    "theme": "Theme",
+    "university": "Technological University of Havana",
+    "unknown": "Unknown",
+    "version": "Version",
+    "yes": "Yes"
 }

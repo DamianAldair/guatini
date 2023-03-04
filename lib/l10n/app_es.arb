@@ -1,4 +1,25 @@
 {
-    "language_name": "Español",
-    "home": "Inicio"
+    "about": "Acerca de...",
+    "back": "Volver",
+    "clear": "Borrar todo",
+    "college": "Facultat de Ingeniería informática",
+    "database": "Base de datos",
+    "dark": "Oscuro",
+    "developedBy": "Desarrollado por",
+    "exit": "¿Salir?",
+    "exitText": "¿Realmente desea salir de la aplicación?",
+    "home": "Inicio",
+    "language": "Idioma",
+    "languageName": "Español",
+    "light": "Claro",
+    "no": "No",
+    "search": "Buscar",
+    "searchSpecie": "Buscar especie",
+    "settings": "Configuración",
+    "system": "Según el sistema",
+    "theme": "Tema",
+    "university": "Universidad Tecnológica de La Habana",
+    "unknown": "Desconocido",
+    "version": "Versión",
+    "yes": "Sí"
 }

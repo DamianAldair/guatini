@@ -18,12 +18,19 @@ dependencies:
   card_swiper: ^2.0.4
   provider: ^6.0.3
   path_provider: ^2.0.11
+  external_path: ^1.0.1
   permission_handler: ^9.2.0
   shared_preferences: ^2.0.15
   sqflite: ^2.0.3+1
-  audioplayers: ^1.0.1
-  video_player: ^2.4.6
-  video_thumbnail: ^0.5.2
+  # headset_connection_event:
+  # audioplayers: ^1.0.1
+  # video_player: ^2.4.6
+  # video_thumbnail: ^0.5.2
+  dio: ^4.0.6
+  version: ^3.0.2
+  device_info_plus: ^8.1.0
+  package_info_plus: ^3.0.3
+  share_plus: ^6.3.1
 
 dev_dependencies:
   flutter_test:
