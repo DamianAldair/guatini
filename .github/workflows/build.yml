@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [master]
 
+permissions:
+  contents: write
+
 jobs:
   flutter_analize:
     name: Flutter analize
@@ -66,7 +69,7 @@ jobs:
         run: flutter build apk --release
 
       - name: Create Release
-        uses: ncipollo/release-action@v1.12.0
+        uses: ncipollo/release-action@main
         with:
          artifacts: "build/app/outputs/apk/release/app-release.apk"
          tag: ${{ steps.datetime.outputs.builddate }}
