@@ -10,15 +10,15 @@ permissions:
   contents: write
 
 jobs:
-  flutter_analize:
-    name: Flutter analize
+  flutter_analyze:
+    name: Analyze code
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@main
 
-      - name: Setup Java
+      - name: Install Java
         uses: actions/setup-java@main
         with:
           distribution: "zulu"
@@ -35,12 +35,12 @@ jobs:
       - name: Check Flutter version
         run: flutter --version
 
-      - name: Analyze project source
+      - name: Analyze Dart code
         run: flutter analyze
 
   build_apk:
     name: Build APK
-    needs: [flutter_analize]
+    needs: [flutter_analyze]
     runs-on: ubuntu-latest
 
     steps:
@@ -51,7 +51,7 @@ jobs:
         id: datetime
         run: echo "builddate=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
 
-      - name: Setup Java
+      - name: Install Java
         uses: actions/setup-java@main
         with:
           distribution: "zulu"
@@ -65,17 +65,12 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build
+      - name: Build app
         run: flutter build apk --release
-        
-      - name: Create Tag
-        uses: rickstaa/action-create-tag@main
-        with:
-          tag: ${{ steps.datetime.outputs.builddate }}
 
-#       - name: Create Release
-#         uses: ncipollo/release-action@main
-#         with:
-#          artifacts: "build/app/outputs/apk/release/app-release.apk"
-#          tag: ${{ steps.datetime.outputs.builddate }}
+      - name: Create Release Tag
+        uses: ncipollo/release-action@main
+        with:
+         artifacts: "build/app/outputs/apk/release/app-release.apk"
+         tag: ${{ steps.datetime.outputs.builddate }}
        
