@@ -45,8 +45,8 @@ jobs:
         uses: actions/checkout@main
         
       - name: Get current date and time
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y/%m/%d - %H:%M:%S')"
+        id: datetime
+        run: echo "builddate=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_OUTPUT
 
       - name: Setup Java
         uses: actions/setup-java@main
@@ -68,5 +68,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@main
         with:
-          name: app-release ${{ steps.date.outputs.date }}.apk
+          name: app-release ${{ steps.datetime.outputs.builddate }}.apk
           path: build/app/outputs/apk/release/app-release.apk
