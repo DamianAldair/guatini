@@ -65,8 +65,8 @@ jobs:
       - name: Build
         run: flutter build apk --release
 
-      - name: Release APK
-        uses: ncipollo/release-action@main
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
         with:
          artifacts: "build/app/outputs/apk/release/app-release.apk"
          tag: ${{ steps.datetime.outputs.builddate }}
