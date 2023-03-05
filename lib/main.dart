@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:guatini/pages/main_page.dart';
 import 'package:guatini/providers/appinfo_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

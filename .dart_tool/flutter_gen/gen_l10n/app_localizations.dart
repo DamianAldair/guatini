@@ -100,6 +100,30 @@ abstract class AppLocalizations {
   /// **'About'**
   String get about;
 
+  /// No description provided for @addDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Add database from storage'**
+  String get addDatabase;
+
+  /// No description provided for @added.
+  ///
+  /// In en, this message translates to:
+  /// **'Added'**
+  String get added;
+
+  /// No description provided for @addedDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Added database'**
+  String get addedDatabase;
+
+  /// No description provided for @alreadyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'This database is already added'**
+  String get alreadyAdded;
+
   /// No description provided for @back.
   ///
   /// In en, this message translates to:
@@ -118,6 +142,12 @@ abstract class AppLocalizations {
   /// **'College of Computer Engineering'**
   String get college;
 
+  /// No description provided for @current.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get current;
+
   /// No description provided for @database.
   ///
   /// In en, this message translates to:
@@ -129,6 +159,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get dark;
+
+  /// No description provided for @deletedDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Database permanently deleted'**
+  String get deletedDatabase;
+
+  /// No description provided for @deleteFromList.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete from list'**
+  String get deleteFromList;
+
+  /// No description provided for @deleteFromListText.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete from list?'**
+  String get deleteFromListText;
+
+  /// No description provided for @deletePermanently.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete permanently'**
+  String get deletePermanently;
+
+  /// No description provided for @deletePermanentlyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete permanently?'**
+  String get deletePermanentlyText;
 
   /// No description provided for @developedBy.
   ///
@@ -148,6 +208,12 @@ abstract class AppLocalizations {
   /// **'Do you really want to exit the application?'**
   String get exitText;
 
+  /// No description provided for @findDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Find database'**
+  String get findDatabase;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
@@ -166,6 +232,12 @@ abstract class AppLocalizations {
   /// **'English'**
   String get languageName;
 
+  /// No description provided for @previousFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to previous folder'**
+  String get previousFolder;
+
   /// No description provided for @light.
   ///
   /// In en, this message translates to:
@@ -177,6 +249,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No'**
   String get no;
+
+  /// No description provided for @noDatabases.
+  ///
+  /// In en, this message translates to:
+  /// **'No databases'**
+  String get noDatabases;
+
+  /// No description provided for @notSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not selected'**
+  String get notSelected;
 
   /// No description provided for @search.
   ///

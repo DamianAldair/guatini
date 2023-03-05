@@ -1,6 +1,6 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:guatini/pages/databases_page.dart';
 import 'package:guatini/pages/language_page.dart';
 import 'package:guatini/pages/themes_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
@@ -20,10 +20,27 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.library_books_rounded),
             title: Text(AppLocalizations.of(context).database),
-            subtitle:
-                Text(UserPreferences().dbPath ?? 'No hay DB seleccionada'),
+            subtitle: StreamBuilder(
+              stream: UserPreferences().dbPathStream,
+              builder: (_, AsyncSnapshot<String> snapshot) {
+                final String path;
+                if (!snapshot.hasData) {
+                  path = UserPreferences().dbPath;
+                } else {
+                  path = snapshot.data!;
+                }
+                return Text(
+                  path.isEmpty
+                      ? AppLocalizations.of(context).notSelected
+                      : '${AppLocalizations.of(context).current}: $path',
+                );
+              },
+            ),
             trailing: const Icon(Icons.chevron_right_rounded),
-            onTap: () {},
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const DatabasesPage()),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.brightness_6_rounded),

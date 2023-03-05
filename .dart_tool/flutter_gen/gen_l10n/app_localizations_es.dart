@@ -11,19 +11,49 @@ class AppLocalizationsEs extends AppLocalizations {
   String get about => 'Acerca de...';
 
   @override
+  String get addDatabase => 'Añadir base de datos desde el almacenamiento';
+
+  @override
+  String get added => 'Añadida';
+
+  @override
+  String get addedDatabase => 'Base de datos añadida';
+
+  @override
+  String get alreadyAdded => 'Esta base de datos ya está añadida';
+
+  @override
   String get back => 'Volver';
 
   @override
   String get clear => 'Borrar todo';
 
   @override
-  String get college => 'Facultat de Ingeniería informática';
+  String get college => 'Facultad de Ingeniería informática';
+
+  @override
+  String get current => 'Actual';
 
   @override
   String get database => 'Base de datos';
 
   @override
   String get dark => 'Oscuro';
+
+  @override
+  String get deletedDatabase => 'Base de datos borrada permanentemente';
+
+  @override
+  String get deleteFromList => 'Borrar de la lista';
+
+  @override
+  String get deleteFromListText => '¿Borrar de la lista?';
+
+  @override
+  String get deletePermanently => 'Borrar permanentemente';
+
+  @override
+  String get deletePermanentlyText => '¿Borrar permanentemente?';
 
   @override
   String get developedBy => 'Desarrollado por';
@@ -35,6 +65,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exitText => '¿Realmente desea salir de la aplicación?';
 
   @override
+  String get findDatabase => 'Buscar base de datos';
+
+  @override
   String get home => 'Inicio';
 
   @override
@@ -44,10 +77,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get languageName => 'Español';
 
   @override
+  String get previousFolder => 'Ir a la carpeta anterior';
+
+  @override
   String get light => 'Claro';
 
   @override
   String get no => 'No';
+
+  @override
+  String get noDatabases => 'No hay bases de datos';
+
+  @override
+  String get notSelected => 'No seleccionada';
 
   @override
   String get search => 'Buscar';

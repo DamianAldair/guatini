@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,9 +9,13 @@ class UserPreferences {
   factory UserPreferences() => _instance;
 
   SharedPreferences? _prefs;
+  StreamController<String>? _dbPathStreamController;
+  StreamController<List<String>>? _databasesStreamController;
 
   Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
+    _dbPathStreamController = StreamController<String>.broadcast();
+    _databasesStreamController = StreamController<List<String>>.broadcast();
   }
 
   // If the app is opened for the forst time
@@ -22,13 +28,38 @@ class UserPreferences {
   // Path of Database
   final String _keyDbPath = 'dbPath';
 
-  String? get dbPath => _prefs!.getString(_keyDbPath);
+  Stream<String> get dbPathStream => _dbPathStreamController!.stream;
+
+  String get dbPath => _prefs!.getString(_keyDbPath) ?? '';
 
   set dbPath(String? path) {
     if (path == null) {
       throw ArgumentError('Path can not be null');
     }
     _prefs!.setString(_keyDbPath, path);
+    _dbPathStreamController!.add(path);
+  }
+
+  // Registered databases
+  final String _keyDatabases = 'databases';
+
+  List<String> get databases => _prefs!.getStringList(_keyDatabases) ?? [];
+
+  Stream<List<String>> get databasesStream =>
+      _databasesStreamController!.stream;
+
+  void newDatabase(String path) {
+    List<String> list = databases;
+    if (!list.contains(path)) list.add(path);
+    _prefs!.setStringList(_keyDatabases, list);
+    _databasesStreamController!.add(list);
+  }
+
+  void deleteDatabase(String path) {
+    List<String> list = databases;
+    if (list.contains(path)) list.remove(path);
+    _prefs!.setStringList(_keyDatabases, list);
+    _databasesStreamController!.add(list);
   }
 
   // Number of searches to show in search log
@@ -58,7 +89,7 @@ class UserPreferences {
     }
   }
 
-  set newSearch(String search) {
+  void newSearch(String search) {
     List<String> list = lastSearches;
     if (list.contains(search)) {
       list.remove(search);

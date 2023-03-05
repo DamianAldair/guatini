@@ -1,8 +1,6 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/pages/about_page.dart';
-import 'package:guatini/pages/main_page.dart';
 import 'package:guatini/pages/settings_page.dart';
 import 'package:guatini/providers/appinfo_provider.dart';
 
