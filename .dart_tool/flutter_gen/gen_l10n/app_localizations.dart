@@ -214,6 +214,12 @@ abstract class AppLocalizations {
   /// **'Find database'**
   String get findDatabase;
 
+  /// No description provided for @grantPermissionManually.
+  ///
+  /// In en, this message translates to:
+  /// **'Grant required app permissions manually'**
+  String get grantPermissionManually;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
@@ -231,6 +237,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English'**
   String get languageName;
+
+  /// No description provided for @noStoragePermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Guatiní has not permission to access to storage'**
+  String get noStoragePermission;
 
   /// No description provided for @previousFolder.
   ///

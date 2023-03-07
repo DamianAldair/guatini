@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/pages/find_database_pege.dart';
+import 'package:guatini/providers/permissions_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/widgets/delete_db_dialogs.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DatabasesPage extends StatefulWidget {
   const DatabasesPage({Key? key}) : super(key: key);
@@ -125,10 +127,17 @@ class _DatabasesPageState extends State<DatabasesPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const FindDatabasePage()),
-        ),
+        onPressed: () async {
+          PermissionsHandler.requestStoragePermission(
+            context,
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const FindDatabasePage()),
+              );
+            },
+          );
+        },
         tooltip: AppLocalizations.of(context).addDatabase,
         child: const Icon(Icons.add_rounded),
       ),

@@ -68,6 +68,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get findDatabase => 'Buscar base de datos';
 
   @override
+  String get grantPermissionManually => 'Conceda los permisos requeridos de la aplicación manualmente';
+
+  @override
   String get home => 'Inicio';
 
   @override
@@ -75,6 +78,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get languageName => 'Español';
+
+  @override
+  String get noStoragePermission => 'Guatiní no tiene permiso para acceder al almacenamiento';
 
   @override
   String get previousFolder => 'Ir a la carpeta anterior';

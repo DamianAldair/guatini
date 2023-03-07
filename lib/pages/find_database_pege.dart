@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:external_path/external_path.dart';
+import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
@@ -74,7 +75,7 @@ class _FindDatabasePageState extends State<FindDatabasePage> {
                   final dir = content[i];
                   if (dir is File) return Container();
                   final isDB = File(
-                    p.join(dir.path, 'db', 'db_guatini.db'),
+                    p.join(dir.path, DbProvider.relativeDbPath),
                   ).existsSync();
                   final isAdded =
                       UserPreferences().databases.contains(dir.path);
