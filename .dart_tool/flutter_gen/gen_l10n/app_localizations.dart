@@ -154,6 +154,12 @@ abstract class AppLocalizations {
   /// **'Databases'**
   String get database;
 
+  /// No description provided for @databaseSelectedInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'The database language does not depend on the app language'**
+  String get databaseSelectedInfo;
+
   /// No description provided for @dark.
   ///
   /// In en, this message translates to:
@@ -226,6 +232,12 @@ abstract class AppLocalizations {
   /// **'Home'**
   String get home;
 
+  /// No description provided for @info.
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get info;
+
   /// No description provided for @language.
   ///
   /// In en, this message translates to:
@@ -273,6 +285,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not selected'**
   String get notSelected;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get ok;
 
   /// No description provided for @search.
   ///

@@ -38,6 +38,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get database => 'Databases';
 
   @override
+  String get databaseSelectedInfo => 'The database language does not depend on the app language';
+
+  @override
   String get dark => 'Dark';
 
   @override
@@ -74,6 +77,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home => 'Home';
 
   @override
+  String get info => 'Info';
+
+  @override
   String get language => 'Language';
 
   @override
@@ -96,6 +102,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notSelected => 'Not selected';
+
+  @override
+  String get ok => 'Ok';
 
   @override
   String get search => 'Search';

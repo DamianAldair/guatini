@@ -5,8 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/pages/find_database_pege.dart';
 import 'package:guatini/providers/permissions_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
-import 'package:guatini/widgets/delete_db_dialogs.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:guatini/widgets/dialogs.dart';
 
 class DatabasesPage extends StatefulWidget {
   const DatabasesPage({Key? key}) : super(key: key);
@@ -24,6 +23,21 @@ class _DatabasesPageState extends State<DatabasesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).database),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline_rounded),
+            tooltip: AppLocalizations.of(context).info,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) => infoDialog(
+                  context,
+                  Text(AppLocalizations.of(context).databaseSelectedInfo),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: StreamBuilder(
         stream: prefs.databasesStream,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/pages/simple_search_page.dart';
+import 'package:guatini/widgets/dialogs.dart';
 import 'package:guatini/widgets/drawer_widget.dart';
-import 'package:guatini/widgets/exit_dialog.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
