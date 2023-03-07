@@ -12,7 +12,7 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await AppInfo().initialize();
   await UserPreferences().initialize();
-  await DbProvider().initialize();
+  await DbProvider.initialize();
   runApp(const MyApp());
   FlutterNativeSplash.remove();
 }

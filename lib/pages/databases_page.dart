@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/pages/find_database_pege.dart';
+import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/permissions_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/widgets/dialogs.dart';
@@ -64,7 +65,7 @@ class _DatabasesPageState extends State<DatabasesPage> {
                         itemBuilder: (_) {
                           void deleteDb() {
                             if (db == currentDb) {
-                              prefs.dbPath = '';
+                              DbProvider.close();
                             }
                             prefs.deleteDatabase(db);
                           }
@@ -134,7 +135,10 @@ class _DatabasesPageState extends State<DatabasesPage> {
                           ];
                         },
                       ),
-                      onTap: () => setState(() => prefs.dbPath = db),
+                      onTap: () async {
+                        await DbProvider.open(db);
+                        setState(() {});
+                      },
                     );
                   },
                 );

@@ -53,6 +53,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteFromListText => '¿Borrar de la lista?';
 
   @override
+  String get deleteList => 'Borrar lista';
+
+  @override
+  String get deleteListText => '¿Está seguro que desea borrar la lista?';
+
+  @override
   String get deletePermanently => 'Borrar permanentemente';
 
   @override
@@ -99,6 +105,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noDatabases => 'No hay bases de datos';
+
+  @override
+  String get noRecentSearches => 'No hay búsquedas recientes';
 
   @override
   String get notSelected => 'No seleccionada';

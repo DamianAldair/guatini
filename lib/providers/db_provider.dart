@@ -13,28 +13,38 @@ class DbProvider {
   DbProvider._();
   factory DbProvider() => _instance;
 
-  Database? _db;
+  static Database? _db;
 
-  Future<Database?> get database async {
+  static Future<Database?> get database async {
     if (_db != null) return _db;
     return await initialize();
   }
 
-  Future<bool> open(String path) async {
+  static Future<bool> open(String path) async {
     final prefs = UserPreferences();
     prefs.dbPath = path;
-    return await initialize() != null;
+    final db = await initialize();
+    return db != null;
   }
 
-  Future<Database?> initialize() async {
+  static void close() {
+    final prefs = UserPreferences();
+    prefs.dbPath = '';
+    _db = null;
+  }
+
+  static bool isOpen() => _db != null;
+
+  static Future<Database?> initialize() async {
     final prefs = UserPreferences();
     final path = prefs.dbPath;
     final db = p.join(path, DbProvider.relativeDbPath);
     if (!File(db).existsSync()) return null;
-    return await openDatabase(
+    _db = await openDatabase(
       db,
       version: 1,
       onCreate: (_, __) async {},
     );
+    return _db;
   }
 }

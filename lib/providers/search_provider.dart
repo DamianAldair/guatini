@@ -19,7 +19,8 @@ import 'package:guatini/models/specie_search_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class SearchProvider {
-  Future<MainImageModel?> _getMainImage(Database db, int specieId) async {
+  static Future<MainImageModel?> _getMainImage(
+      Database db, int specieId) async {
     final query = '''
         select
         [main].[media].[id],
@@ -36,7 +37,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? MainImageModel.fromMap(result.first) : null;
   }
 
-  Future<List<CommonNameModel>> _getCommonNames(
+  static Future<List<CommonNameModel>> _getCommonNames(
       Database db, int specieId) async {
     final query = '''
         select
@@ -54,7 +55,7 @@ abstract class SearchProvider {
     return commonNames;
   }
 
-  Future<GenusModel?> _getGenus(Database db, int? specieId) async {
+  static Future<GenusModel?> _getGenus(Database db, int? specieId) async {
     final query = '''
         select
         [main].[t_genus].[id],
@@ -68,7 +69,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? GenusModel.fromMap(result.first) : null;
   }
 
-  Future<FamilyModel?> _getFamily(Database db, int? genusId) async {
+  static Future<FamilyModel?> _getFamily(Database db, int? genusId) async {
     final query = '''
         select 
         [main].[t_family].[id], 
@@ -82,7 +83,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? FamilyModel.fromMap(result.first) : null;
   }
 
-  Future<OrderModel?> _getOrder(Database db, int? familyId) async {
+  static Future<OrderModel?> _getOrder(Database db, int? familyId) async {
     final query = '''
         select
         [main].[t_order].[id],
@@ -96,7 +97,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? OrderModel.fromMap(result.first) : null;
   }
 
-  Future<ClassModel?> _getClass(Database db, int? orderId) async {
+  static Future<ClassModel?> _getClass(Database db, int? orderId) async {
     final query = '''
         select
         [main].[t_class].[id],
@@ -110,7 +111,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? ClassModel.fromMap(result.first) : null;
   }
 
-  Future<PhylumModel?> _getPhylum(Database db, int? classId) async {
+  static Future<PhylumModel?> _getPhylum(Database db, int? classId) async {
     final query = '''
         select
         [main].[t_phylum].[id],
@@ -124,7 +125,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? PhylumModel.fromMap(result.first) : null;
   }
 
-  Future<KindomModel?> _getKindom(Database db, int? phylumId) async {
+  static Future<KindomModel?> _getKindom(Database db, int? phylumId) async {
     final query = '''
         select
         [main].[t_kindom].[id],
@@ -138,7 +139,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? KindomModel.fromMap(result.first) : null;
   }
 
-  Future<DomainModel?> _getDomain(Database db, int? kindomId) async {
+  static Future<DomainModel?> _getDomain(Database db, int? kindomId) async {
     final query = '''
         select
         [main].[t_domain].[id],
@@ -152,7 +153,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? DomainModel.fromMap(result.first) : null;
   }
 
-  Future<ConservationStatusModel?> _getConservationStatus(
+  static Future<ConservationStatusModel?> _getConservationStatus(
       Database db, int? specieId) async {
     final query = '''
         select
@@ -168,7 +169,7 @@ abstract class SearchProvider {
         : null;
   }
 
-  Future<EndemismModel?> _getEndemism(Database db, int? specieId) async {
+  static Future<EndemismModel?> _getEndemism(Database db, int? specieId) async {
     final query = '''
         select
         [main].[endemism].[id],
@@ -181,7 +182,8 @@ abstract class SearchProvider {
     return result.isNotEmpty ? EndemismModel.fromMap(result.first) : null;
   }
 
-  Future<AbundanceModel?> _getAbundance(Database db, int? specieId) async {
+  static Future<AbundanceModel?> _getAbundance(
+      Database db, int? specieId) async {
     final query = '''
         select
         [main].[abundance].[id],
@@ -194,7 +196,8 @@ abstract class SearchProvider {
     return result.isNotEmpty ? AbundanceModel.fromMap(result.first) : null;
   }
 
-  Future<List<ActivityModel>> _getActivities(Database db, int specieId) async {
+  static Future<List<ActivityModel>> _getActivities(
+      Database db, int specieId) async {
     final query = '''
         select
         [main].[activity].[id],
@@ -212,7 +215,8 @@ abstract class SearchProvider {
     return activities;
   }
 
-  Future<List<HabitatModel>> _getHabitats(Database db, int specieId) async {
+  static Future<List<HabitatModel>> _getHabitats(
+      Database db, int specieId) async {
     final query = '''
         select
         [main].[habitat].[id],
@@ -230,7 +234,7 @@ abstract class SearchProvider {
     return habitats;
   }
 
-  Future<List<DietModel>> _getDiets(Database db, int specieId) async {
+  static Future<List<DietModel>> _getDiets(Database db, int specieId) async {
     final query = '''
         select
         [main].[diet].[id],
@@ -248,7 +252,7 @@ abstract class SearchProvider {
     return diets;
   }
 
-  Future<List<MediaModel>> _getMedias(Database db, int specieId) async {
+  static Future<List<MediaModel>> _getMedias(Database db, int specieId) async {
     final query = '''
         select
         [main].[media].[id],
@@ -275,7 +279,8 @@ abstract class SearchProvider {
     return medias;
   }
 
-  Future<MediaTypeModel?> _getMediaType(Database db, int? mediaId) async {
+  static Future<MediaTypeModel?> _getMediaType(
+      Database db, int? mediaId) async {
     final query = '''
         select
         [main].[type].[id],
@@ -288,7 +293,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? MediaTypeModel.fromMap(result.first) : null;
   }
 
-  Future<SpecieModel?> getSpecie(Database db, int specieId) async {
+  static Future<SpecieModel?> getSpecie(Database db, int specieId) async {
     try {
       final query = '''
           select
@@ -339,7 +344,7 @@ abstract class SearchProvider {
     }
   }
 
-  Future<List<SpecieModelFromSimpleSearch>> searchSpecie(
+  static Future<List<SpecieModelFromSimpleSearch>> searchSpecie(
       Database db, String search) async {
     try {
       final query = '''
@@ -365,7 +370,7 @@ abstract class SearchProvider {
     }
   }
 
-  Future<List<SpecieModelFromSimpleSearch>> homeSuggestion(
+  static Future<List<SpecieModelFromSimpleSearch>> homeSuggestion(
       Database db, int max) async {
     try {
       final query = '''

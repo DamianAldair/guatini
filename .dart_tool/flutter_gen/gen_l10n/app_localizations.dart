@@ -184,6 +184,18 @@ abstract class AppLocalizations {
   /// **'Delete from list?'**
   String get deleteFromListText;
 
+  /// No description provided for @deleteList.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete list'**
+  String get deleteList;
+
+  /// No description provided for @deleteListText.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete the list?'**
+  String get deleteListText;
+
   /// No description provided for @deletePermanently.
   ///
   /// In en, this message translates to:
@@ -279,6 +291,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No databases'**
   String get noDatabases;
+
+  /// No description provided for @noRecentSearches.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no recent searches'**
+  String get noRecentSearches;
 
   /// No description provided for @notSelected.
   ///
