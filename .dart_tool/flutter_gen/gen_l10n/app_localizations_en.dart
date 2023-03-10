@@ -11,6 +11,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get about => 'About';
 
   @override
+  String get abundance => 'Abundance';
+
+  @override
+  String get activity => 'Activity';
+
+  @override
   String get addDatabase => 'Add database from storage';
 
   @override
@@ -32,6 +38,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get college => 'College of Computer Engineering';
 
   @override
+  String get conservationStatus => 'Conservation status';
+
+  @override
+  String get criticalEndangered => 'Critical endangered';
+
+  @override
   String get current => 'Current';
 
   @override
@@ -42,6 +54,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dark => 'Dark';
+
+  @override
+  String get deficientData => 'Deficient data';
 
   @override
   String get deletedDatabase => 'Database permanently deleted';
@@ -65,7 +80,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deletePermanentlyText => 'Delete permanently?';
 
   @override
+  String get description => 'Description';
+
+  @override
   String get developedBy => 'Developed by';
+
+  @override
+  String get diet => 'Diet';
+
+  @override
+  String get endangered => 'Endangered';
+
+  @override
+  String get endemism => 'Endemism';
+
+  @override
+  String get errorObtainingInfo => 'An error has occurred while obtaining the information';
 
   @override
   String get exit => 'Exit the app?';
@@ -74,13 +104,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exitText => 'Do you really want to exit the application?';
 
   @override
+  String get extinct => 'Extinct';
+
+  @override
+  String get extinctInTheWild => 'Extinct in the wild';
+
+  @override
   String get findDatabase => 'Find database';
+
+  @override
+  String get gallery => 'Gallery';
 
   @override
   String get grantPermissionManually => 'Grant required app permissions manually';
 
   @override
+  String get habitat => 'Habitat';
+
+  @override
   String get home => 'Home';
+
+  @override
+  String get image => 'Image';
 
   @override
   String get info => 'Info';
@@ -92,13 +137,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageName => 'English';
 
   @override
-  String get noStoragePermission => 'Guatiní has not permission to access to storage';
-
-  @override
-  String get previousFolder => 'Go to previous folder';
+  String get leastConcern => 'Least concern';
 
   @override
   String get light => 'Light';
+
+  @override
+  String get nearThreataned => 'Near threataned';
+
+  @override
+  String get noStoragePermission => 'Guatiní has not permission to access to storage';
+
+  @override
+  String get notEvaluated => 'Not evaluated';
 
   @override
   String get no => 'No';
@@ -116,19 +167,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ok => 'Ok';
 
   @override
+  String get previousFolder => 'Go to previous folder';
+
+  @override
   String get search => 'Search';
 
   @override
-  String get searchSpecie => 'Search Specie';
+  String get searchSpecies => 'Search Species';
 
   @override
   String get settings => 'Settings';
 
   @override
+  String get sound => 'Sound';
+
+  @override
+  String get speciesDetails => 'Species Details';
+
+  @override
   String get system => 'System';
 
   @override
+  String get taxClass => 'Class';
+
+  @override
+  String get taxDomain => 'Domain';
+
+  @override
+  String get taxFamily => 'Family';
+
+  @override
+  String get taxGenus => 'Genus';
+
+  @override
+  String get taxKingdom => 'Kingdom';
+
+  @override
+  String get taxPhylum => 'Phylum';
+
+  @override
+  String get taxOrder => 'Order';
+
+  @override
   String get theme => 'Theme';
+
+  @override
+  String get unavailable => 'No disponible';
 
   @override
   String get university => 'Technological University of Havana';
@@ -138,6 +222,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get version => 'Version';
+
+  @override
+  String get video => 'Video';
+
+  @override
+  String get vulnerable => 'Vulnerable';
 
   @override
   String get yes => 'Yes';

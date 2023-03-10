@@ -20,7 +20,7 @@ import 'package:sqflite/sqflite.dart';
 
 abstract class SearchProvider {
   static Future<MainImageModel?> _getMainImage(
-      Database db, int specieId) async {
+      Database db, int speciesId) async {
     final query = '''
         select
         [main].[media].[id],
@@ -31,21 +31,21 @@ abstract class SearchProvider {
         from [main].[specie]
         inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
         inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     return result.isNotEmpty ? MainImageModel.fromMap(result.first) : null;
   }
 
   static Future<List<CommonNameModel>> _getCommonNames(
-      Database db, int specieId) async {
+      Database db, int speciesId) async {
     final query = '''
         select
         [main].[common_name].[id],
         [main].[common_name].[name]
         from [main].[specie]
         inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     final commonNames = <CommonNameModel>[];
@@ -55,7 +55,7 @@ abstract class SearchProvider {
     return commonNames;
   }
 
-  static Future<GenusModel?> _getGenus(Database db, int? specieId) async {
+  static Future<GenusModel?> _getGenus(Database db, int? speciesId) async {
     final query = '''
         select
         [main].[t_genus].[id],
@@ -63,9 +63,9 @@ abstract class SearchProvider {
         [main].[t_genus].[description]
         from [main].[specie]
         inner join [main].[t_genus] on [main].[t_genus].[id] = [main].[specie].[fk_t_genus_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
-    final result = specieId != null ? await db.rawQuery(query) : [];
+    final result = speciesId != null ? await db.rawQuery(query) : [];
     return result.isNotEmpty ? GenusModel.fromMap(result.first) : null;
   }
 
@@ -154,50 +154,51 @@ abstract class SearchProvider {
   }
 
   static Future<ConservationStatusModel?> _getConservationStatus(
-      Database db, int? specieId) async {
+      Database db, int? speciesId) async {
     final query = '''
         select
         [main].[coservation_status].[id],
-        [main].[coservation_status].[status
+        [main].[coservation_status].[status]
         from [main].[specie]
         inner join [main].[coservation_status] on [main].[coservation_status].[id] = [main].[specie].[fk_coservation_status_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
-    final result = specieId != null ? await db.rawQuery(query) : [];
+    final result = speciesId != null ? await db.rawQuery(query) : [];
     return result.isNotEmpty
         ? ConservationStatusModel.fromMap(result.first)
         : null;
   }
 
-  static Future<EndemismModel?> _getEndemism(Database db, int? specieId) async {
+  static Future<EndemismModel?> _getEndemism(
+      Database db, int? speciesId) async {
     final query = '''
         select
         [main].[endemism].[id],
-        [main].[endemism].[zone
+        [main].[endemism].[zone]
         from [main].[specie]
         inner join [main].[endemism] on [main].[endemism].[id] = [main].[specie].[fk_endemism_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
-    final result = specieId != null ? await db.rawQuery(query) : [];
+    final result = speciesId != null ? await db.rawQuery(query) : [];
     return result.isNotEmpty ? EndemismModel.fromMap(result.first) : null;
   }
 
   static Future<AbundanceModel?> _getAbundance(
-      Database db, int? specieId) async {
+      Database db, int? speciesId) async {
     final query = '''
         select
         [main].[abundance].[id],
-        [main].[abundance].[abundance
+        [main].[abundance].[abundance]
         from [main].[specie]
         inner join [main].[abundance] on [main].[abundance].[id] = [main].[specie].[fk_abundance_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
-    final result = specieId != null ? await db.rawQuery(query) : [];
+    final result = speciesId != null ? await db.rawQuery(query) : [];
     return result.isNotEmpty ? AbundanceModel.fromMap(result.first) : null;
   }
 
   static Future<List<ActivityModel>> _getActivities(
-      Database db, int specieId) async {
+      Database db, int speciesId) async {
     final query = '''
         select
         [main].[activity].[id],
@@ -205,7 +206,7 @@ abstract class SearchProvider {
         from [main].[specie]
         inner join [main].[specie_activity] on [main].[specie].[id] = [main].[specie_activity].[fk_specie_]
         inner join [main].[activity] on [main].[activity].[id] = [main].[specie_activity].[fk_activity_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     final activities = <ActivityModel>[];
@@ -216,7 +217,7 @@ abstract class SearchProvider {
   }
 
   static Future<List<HabitatModel>> _getHabitats(
-      Database db, int specieId) async {
+      Database db, int speciesId) async {
     final query = '''
         select
         [main].[habitat].[id],
@@ -224,7 +225,7 @@ abstract class SearchProvider {
         from [main].[specie]
         inner join [main].[specie_habitat] on [main].[specie].[id] = [main].[specie_habitat].[fk_specie_]
         inner join [main].[habitat] on [main].[habitat].[id] = [main].[specie_habitat].[fk_habitat_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     final habitats = <HabitatModel>[];
@@ -234,7 +235,7 @@ abstract class SearchProvider {
     return habitats;
   }
 
-  static Future<List<DietModel>> _getDiets(Database db, int specieId) async {
+  static Future<List<DietModel>> _getDiets(Database db, int speciesId) async {
     final query = '''
         select
         [main].[diet].[id],
@@ -242,7 +243,7 @@ abstract class SearchProvider {
         from [main].[specie]
         inner join [main].[specie_diet] on [main].[specie].[id] = [main].[specie_diet].[fk_specie_]
         inner join [main].[diet] on [main].[diet].[id] = [main].[specie_diet].[fk_diet_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     final diets = <DietModel>[];
@@ -252,7 +253,7 @@ abstract class SearchProvider {
     return diets;
   }
 
-  static Future<List<MediaModel>> _getMedias(Database db, int specieId) async {
+  static Future<List<MediaModel>> _getMedias(Database db, int speciesId) async {
     final query = '''
         select
         [main].[media].[id],
@@ -263,7 +264,7 @@ abstract class SearchProvider {
         [main].[media].[fk_type_]
         from [main].[media]
         inner join [main].[specie] on [main].[specie].[id] = [main].[media].[fk_specie_]
-        where [main].[specie].[id] = $specieId;
+        where [main].[specie].[id] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     final medias = <MediaModel>[];
@@ -293,7 +294,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? MediaTypeModel.fromMap(result.first) : null;
   }
 
-  static Future<SpecieModel?> getSpecie(Database db, int specieId) async {
+  static Future<SpeciesModel?> getSpecie(Database db, int speciesId) async {
     try {
       final query = '''
           select
@@ -301,26 +302,27 @@ abstract class SearchProvider {
           [main].[specie].[scientific_name],
           [main].[specie].[description]
           from [main].[specie]
-          where [main].[specie].[id] = $specieId;
+          where [main].[specie].[id] = $speciesId;
       ''';
+
       final result = await db.rawQuery(query);
-      final mainImage = await _getMainImage(db, specieId);
-      final commonNames = await _getCommonNames(db, specieId);
-      final taxgenus = await _getGenus(db, specieId);
+      final mainImage = await _getMainImage(db, speciesId);
+      final commonNames = await _getCommonNames(db, speciesId);
+      final taxgenus = await _getGenus(db, speciesId);
       final taxfamily = await _getFamily(db, taxgenus!.id);
       final taxorder = await _getOrder(db, taxfamily!.id);
       final taxclass = await _getClass(db, taxorder!.id);
       final taxphylum = await _getPhylum(db, taxclass!.id);
       final taxkindom = await _getKindom(db, taxphylum!.id);
       final taxdomain = await _getDomain(db, taxkindom!.id);
-      final conservationStatus = await _getConservationStatus(db, specieId);
-      final endemism = await _getEndemism(db, specieId);
-      final abundance = await _getAbundance(db, specieId);
-      final activities = await _getActivities(db, specieId);
-      final habitats = await _getHabitats(db, specieId);
-      final diets = await _getDiets(db, specieId);
-      final medias = await _getMedias(db, specieId);
-      return SpecieModel.fromMap(
+      final conservationStatus = await _getConservationStatus(db, speciesId);
+      final endemism = await _getEndemism(db, speciesId);
+      final abundance = await _getAbundance(db, speciesId);
+      final activities = await _getActivities(db, speciesId);
+      final habitats = await _getHabitats(db, speciesId);
+      final diets = await _getDiets(db, speciesId);
+      final medias = await _getMedias(db, speciesId);
+      return SpeciesModel.fromMap(
         json: result.first,
         mainImage: mainImage,
         commonNames: commonNames,
@@ -344,7 +346,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<List<SpecieModelFromSimpleSearch>> searchSpecie(
+  static Future<List<SpeciesModelFromSimpleSearch>> searchSpecie(
       Database db, String search) async {
     try {
       final query = '''
@@ -360,9 +362,9 @@ abstract class SearchProvider {
           where [main].[common_name].[name] LIKE '%$search%' OR [main].[specie].[scientific_name] LIKE '%$search%';
       ''';
       final result = await db.rawQuery(query);
-      final results = <SpecieModelFromSimpleSearch>[];
+      final results = <SpeciesModelFromSimpleSearch>[];
       for (var item in result) {
-        results.add(SpecieModelFromSimpleSearch.fromMap(item));
+        results.add(SpeciesModelFromSimpleSearch.fromMap(item));
       }
       return results;
     } catch (e) {
@@ -370,7 +372,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<List<SpecieModelFromSimpleSearch>> homeSuggestion(
+  static Future<List<SpeciesModelFromSimpleSearch>> homeSuggestion(
       Database db, int max) async {
     try {
       final query = '''
@@ -393,9 +395,9 @@ abstract class SearchProvider {
           limit $max;
       ''';
       final result = await db.rawQuery(query);
-      final results = <SpecieModelFromSimpleSearch>[];
+      final results = <SpeciesModelFromSimpleSearch>[];
       for (var item in result) {
-        results.add(SpecieModelFromSimpleSearch.fromMap(item));
+        results.add(SpeciesModelFromSimpleSearch.fromMap(item));
       }
       return results;
     } catch (e) {

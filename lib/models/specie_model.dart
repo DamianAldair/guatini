@@ -14,7 +14,7 @@ import 'package:guatini/models/media_model.dart';
 import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
 
-class SpecieModel {
+class SpeciesModel {
   final int? id;
   final MainImageModel? mainImage;
   final List<CommonNameModel>? commonNames;
@@ -35,7 +35,7 @@ class SpecieModel {
   final String? description;
   final List<MediaModel>? medias;
 
-  const SpecieModel({
+  const SpeciesModel({
     this.id,
     this.mainImage,
     this.commonNames,
@@ -57,7 +57,7 @@ class SpecieModel {
     this.medias,
   });
 
-  factory SpecieModel.fromMap({
+  factory SpeciesModel.fromMap({
     required Map<String, dynamic>? json,
     required MainImageModel? mainImage,
     required List<CommonNameModel>? commonNames,
@@ -76,7 +76,7 @@ class SpecieModel {
     required List<DietModel>? diets,
     required List<MediaModel>? medias,
   }) {
-    return SpecieModel(
+    return SpeciesModel(
       id: json!["id"],
       mainImage: mainImage,
       commonNames: commonNames,
@@ -100,10 +100,10 @@ class SpecieModel {
   }
 
   String get commonNamesAsString {
-    String _names = '';
+    String names = '';
     for (var item in commonNames!) {
-      _names += '${item.name}\n';
+      names += '${item.name}\n';
     }
-    return _names.substring(0, _names.length - 1);
+    return names.substring(0, names.length - 1);
   }
 }

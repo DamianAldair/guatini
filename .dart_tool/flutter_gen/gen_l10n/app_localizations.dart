@@ -100,6 +100,18 @@ abstract class AppLocalizations {
   /// **'About'**
   String get about;
 
+  /// No description provided for @abundance.
+  ///
+  /// In en, this message translates to:
+  /// **'Abundance'**
+  String get abundance;
+
+  /// No description provided for @activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get activity;
+
   /// No description provided for @addDatabase.
   ///
   /// In en, this message translates to:
@@ -142,6 +154,18 @@ abstract class AppLocalizations {
   /// **'College of Computer Engineering'**
   String get college;
 
+  /// No description provided for @conservationStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Conservation status'**
+  String get conservationStatus;
+
+  /// No description provided for @criticalEndangered.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical endangered'**
+  String get criticalEndangered;
+
   /// No description provided for @current.
   ///
   /// In en, this message translates to:
@@ -165,6 +189,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get dark;
+
+  /// No description provided for @deficientData.
+  ///
+  /// In en, this message translates to:
+  /// **'Deficient data'**
+  String get deficientData;
 
   /// No description provided for @deletedDatabase.
   ///
@@ -208,11 +238,41 @@ abstract class AppLocalizations {
   /// **'Delete permanently?'**
   String get deletePermanentlyText;
 
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
   /// No description provided for @developedBy.
   ///
   /// In en, this message translates to:
   /// **'Developed by'**
   String get developedBy;
+
+  /// No description provided for @diet.
+  ///
+  /// In en, this message translates to:
+  /// **'Diet'**
+  String get diet;
+
+  /// No description provided for @endangered.
+  ///
+  /// In en, this message translates to:
+  /// **'Endangered'**
+  String get endangered;
+
+  /// No description provided for @endemism.
+  ///
+  /// In en, this message translates to:
+  /// **'Endemism'**
+  String get endemism;
+
+  /// No description provided for @errorObtainingInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'An error has occurred while obtaining the information'**
+  String get errorObtainingInfo;
 
   /// No description provided for @exit.
   ///
@@ -226,11 +286,29 @@ abstract class AppLocalizations {
   /// **'Do you really want to exit the application?'**
   String get exitText;
 
+  /// No description provided for @extinct.
+  ///
+  /// In en, this message translates to:
+  /// **'Extinct'**
+  String get extinct;
+
+  /// No description provided for @extinctInTheWild.
+  ///
+  /// In en, this message translates to:
+  /// **'Extinct in the wild'**
+  String get extinctInTheWild;
+
   /// No description provided for @findDatabase.
   ///
   /// In en, this message translates to:
   /// **'Find database'**
   String get findDatabase;
+
+  /// No description provided for @gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get gallery;
 
   /// No description provided for @grantPermissionManually.
   ///
@@ -238,11 +316,23 @@ abstract class AppLocalizations {
   /// **'Grant required app permissions manually'**
   String get grantPermissionManually;
 
+  /// No description provided for @habitat.
+  ///
+  /// In en, this message translates to:
+  /// **'Habitat'**
+  String get habitat;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
+
+  /// No description provided for @image.
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get image;
 
   /// No description provided for @info.
   ///
@@ -262,23 +352,35 @@ abstract class AppLocalizations {
   /// **'English'**
   String get languageName;
 
-  /// No description provided for @noStoragePermission.
+  /// No description provided for @leastConcern.
   ///
   /// In en, this message translates to:
-  /// **'Guatiní has not permission to access to storage'**
-  String get noStoragePermission;
-
-  /// No description provided for @previousFolder.
-  ///
-  /// In en, this message translates to:
-  /// **'Go to previous folder'**
-  String get previousFolder;
+  /// **'Least concern'**
+  String get leastConcern;
 
   /// No description provided for @light.
   ///
   /// In en, this message translates to:
   /// **'Light'**
   String get light;
+
+  /// No description provided for @nearThreataned.
+  ///
+  /// In en, this message translates to:
+  /// **'Near threataned'**
+  String get nearThreataned;
+
+  /// No description provided for @noStoragePermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Guatiní has not permission to access to storage'**
+  String get noStoragePermission;
+
+  /// No description provided for @notEvaluated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not evaluated'**
+  String get notEvaluated;
 
   /// No description provided for @no.
   ///
@@ -310,17 +412,23 @@ abstract class AppLocalizations {
   /// **'Ok'**
   String get ok;
 
+  /// No description provided for @previousFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to previous folder'**
+  String get previousFolder;
+
   /// No description provided for @search.
   ///
   /// In en, this message translates to:
   /// **'Search'**
   String get search;
 
-  /// No description provided for @searchSpecie.
+  /// No description provided for @searchSpecies.
   ///
   /// In en, this message translates to:
-  /// **'Search Specie'**
-  String get searchSpecie;
+  /// **'Search Species'**
+  String get searchSpecies;
 
   /// No description provided for @settings.
   ///
@@ -328,17 +436,77 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
+  /// No description provided for @sound.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound'**
+  String get sound;
+
+  /// No description provided for @speciesDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Species Details'**
+  String get speciesDetails;
+
   /// No description provided for @system.
   ///
   /// In en, this message translates to:
   /// **'System'**
   String get system;
 
+  /// No description provided for @taxClass.
+  ///
+  /// In en, this message translates to:
+  /// **'Class'**
+  String get taxClass;
+
+  /// No description provided for @taxDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain'**
+  String get taxDomain;
+
+  /// No description provided for @taxFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Family'**
+  String get taxFamily;
+
+  /// No description provided for @taxGenus.
+  ///
+  /// In en, this message translates to:
+  /// **'Genus'**
+  String get taxGenus;
+
+  /// No description provided for @taxKingdom.
+  ///
+  /// In en, this message translates to:
+  /// **'Kingdom'**
+  String get taxKingdom;
+
+  /// No description provided for @taxPhylum.
+  ///
+  /// In en, this message translates to:
+  /// **'Phylum'**
+  String get taxPhylum;
+
+  /// No description provided for @taxOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Order'**
+  String get taxOrder;
+
   /// No description provided for @theme.
   ///
   /// In en, this message translates to:
   /// **'Theme'**
   String get theme;
+
+  /// No description provided for @unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No disponible'**
+  String get unavailable;
 
   /// No description provided for @university.
   ///
@@ -357,6 +525,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version'**
   String get version;
+
+  /// No description provided for @video.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get video;
+
+  /// No description provided for @vulnerable.
+  ///
+  /// In en, this message translates to:
+  /// **'Vulnerable'**
+  String get vulnerable;
 
   /// No description provided for @yes.
   ///

@@ -3,7 +3,7 @@ import 'package:guatini/models/specie_model.dart';
 class CommonNameModel {
   final int? id;
   final String? name;
-  final SpecieModel? specie;
+  final SpeciesModel? specie;
 
   const CommonNameModel({
     required this.id,
@@ -21,4 +21,7 @@ class CommonNameModel {
         "name": name,
         "fk_specie_": specie?.id,
       };
+
+  @override
+  String toString() => name.toString();
 }

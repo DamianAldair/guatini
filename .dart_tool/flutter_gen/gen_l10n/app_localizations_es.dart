@@ -11,6 +11,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get about => 'Acerca de...';
 
   @override
+  String get abundance => 'Abundancia';
+
+  @override
+  String get activity => 'Actividad';
+
+  @override
   String get addDatabase => 'Añadir base de datos desde el almacenamiento';
 
   @override
@@ -32,6 +38,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get college => 'Facultad de Ingeniería informática';
 
   @override
+  String get conservationStatus => 'Estado de conservación';
+
+  @override
+  String get criticalEndangered => 'En peligro crítico';
+
+  @override
   String get current => 'Actual';
 
   @override
@@ -42,6 +54,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dark => 'Oscuro';
+
+  @override
+  String get deficientData => 'Datos deficientes';
 
   @override
   String get deletedDatabase => 'Base de datos borrada permanentemente';
@@ -65,7 +80,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deletePermanentlyText => '¿Borrar permanentemente?';
 
   @override
+  String get description => 'Descripción';
+
+  @override
   String get developedBy => 'Desarrollado por';
+
+  @override
+  String get diet => 'Dieta';
+
+  @override
+  String get endangered => 'En peligro';
+
+  @override
+  String get endemism => 'Endemismo';
+
+  @override
+  String get errorObtainingInfo => 'Ha ocurrido un error al obtener la información';
 
   @override
   String get exit => '¿Salir?';
@@ -74,13 +104,28 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exitText => '¿Realmente desea salir de la aplicación?';
 
   @override
+  String get extinct => 'Extinta';
+
+  @override
+  String get extinctInTheWild => 'Extinta en estado silvestre';
+
+  @override
   String get findDatabase => 'Buscar base de datos';
+
+  @override
+  String get gallery => 'Galería';
 
   @override
   String get grantPermissionManually => 'Conceda los permisos requeridos de la aplicación manualmente';
 
   @override
+  String get habitat => 'Hábitat';
+
+  @override
   String get home => 'Inicio';
+
+  @override
+  String get image => 'Imagen';
 
   @override
   String get info => 'Información';
@@ -92,13 +137,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get languageName => 'Español';
 
   @override
-  String get noStoragePermission => 'Guatiní no tiene permiso para acceder al almacenamiento';
-
-  @override
-  String get previousFolder => 'Ir a la carpeta anterior';
+  String get leastConcern => 'Preocupación menor';
 
   @override
   String get light => 'Claro';
+
+  @override
+  String get nearThreataned => 'Casi amenazada';
+
+  @override
+  String get noStoragePermission => 'Guatiní no tiene permiso para acceder al almacenamiento';
+
+  @override
+  String get notEvaluated => 'No evaluado';
 
   @override
   String get no => 'No';
@@ -116,19 +167,52 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ok => 'Aceptar';
 
   @override
+  String get previousFolder => 'Ir a la carpeta anterior';
+
+  @override
   String get search => 'Buscar';
 
   @override
-  String get searchSpecie => 'Buscar especie';
+  String get searchSpecies => 'Buscar especie';
 
   @override
   String get settings => 'Configuración';
 
   @override
+  String get sound => 'Sonido';
+
+  @override
+  String get speciesDetails => 'Detalles de la especie';
+
+  @override
   String get system => 'Según el sistema';
 
   @override
+  String get taxClass => 'Clase';
+
+  @override
+  String get taxDomain => 'Dominio';
+
+  @override
+  String get taxFamily => 'Familia';
+
+  @override
+  String get taxGenus => 'Género';
+
+  @override
+  String get taxKingdom => 'Reino';
+
+  @override
+  String get taxPhylum => 'Filo';
+
+  @override
+  String get taxOrder => 'Orden';
+
+  @override
   String get theme => 'Tema';
+
+  @override
+  String get unavailable => 'No disponible';
 
   @override
   String get university => 'Universidad Tecnológica de La Habana';
@@ -138,6 +222,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get version => 'Versión';
+
+  @override
+  String get video => 'Vídeo';
+
+  @override
+  String get vulnerable => 'Vulnerable';
 
   @override
   String get yes => 'Sí';

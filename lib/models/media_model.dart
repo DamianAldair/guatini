@@ -10,7 +10,7 @@ class MediaModel {
   final String? dateCapture;
   final Float? latitude;
   final Float? longitude;
-  final SpecieModel? specie;
+  final SpeciesModel? species;
   final LicenseModel? license;
   MediaTypeModel? type;
 
@@ -20,7 +20,7 @@ class MediaModel {
     required this.dateCapture,
     required this.latitude,
     required this.longitude,
-    this.specie,
+    this.species,
     this.license,
   });
 
@@ -38,7 +38,7 @@ class MediaModel {
         "dateCapture": dateCapture,
         "latitude": latitude,
         "longitude": longitude,
-        "fk_specie_": specie?.id,
+        "fk_specie_": species?.id,
         "fk_license_": license?.id,
         "fk_type_": type?.id,
       };
@@ -54,7 +54,7 @@ class MainImageModel extends MediaModel {
     required String? dateCapture,
     required Float? latitude,
     required Float? longitude,
-    SpecieModel? specie,
+    SpeciesModel? species,
     LicenseModel? license,
   }) : super(
           id: id,
@@ -62,7 +62,7 @@ class MainImageModel extends MediaModel {
           dateCapture: dateCapture,
           latitude: latitude,
           longitude: longitude,
-          specie: specie,
+          species: species,
           license: license,
         );
 

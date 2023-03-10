@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/specie_search_model.dart';
+import 'package:guatini/pages/spacies_details_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
@@ -13,7 +14,7 @@ class SimpleSearch extends SearchDelegate {
   SimpleSearch(this.context);
 
   @override
-  String get searchFieldLabel => AppLocalizations.of(context).searchSpecie;
+  String get searchFieldLabel => AppLocalizations.of(context).searchSpecies;
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -77,21 +78,29 @@ class SimpleSearch extends SearchDelegate {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
-            final results = snapshot.data as List<SpecieModelFromSimpleSearch>;
+            final results = snapshot.data as List<SpeciesModelFromSimpleSearch>;
             return ListView.builder(
               itemCount: results.length,
               itemBuilder: (_, int i) => ListTile(
-                leading: SizedBox(
-                  height: 60.0,
-                  width: 60.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5.0),
-                    child: results[i].image,
+                  leading: SizedBox(
+                    height: 60.0,
+                    width: 60.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5.0),
+                      child: results[i].image,
+                    ),
                   ),
-                ),
-                title: getSearchedText(results[i].name!, query),
-                subtitle: getSearchedText(results[i].scientificName!, query),
-              ),
+                  title: getSearchedText(results[i].name!, query),
+                  subtitle: getSearchedText(results[i].scientificName!, query),
+                  onTap: () {
+                    UserPreferences().newSearch(query);
+                    close(context, null);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => SpeciesDetailsPage(results[i].id)),
+                    );
+                  }),
             );
           },
         );

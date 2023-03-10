@@ -16,13 +16,16 @@ dependencies:
   flutter_native_splash: ^2.2.8
   adaptive_theme: ^3.2.0
   card_swiper: ^2.0.4
+  selectable: ^0.2.9
   provider: ^6.0.3
   path_provider: ^2.0.11
   external_path: ^1.0.1
   permission_handler: ^9.2.0
   shared_preferences: ^2.0.15
   sqflite: ^2.0.3+1
-  # headset_connection_event:
+  photo_view:
+    path: packages/photo_view
+  # headset_connection_event: ^2.1.1
   # audioplayers: ^1.0.1
   # video_player: ^2.4.6
   # video_thumbnail: ^0.5.2

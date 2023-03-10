@@ -34,7 +34,8 @@ class MainPage extends StatelessWidget {
           ],
         ),
         drawer: const MyDrawer(),
-        body: const Center(child: Text('This is the main page')),
+        body:
+            const Center(child: Text('This is the main page')), //TODO: HomePage
       ),
     );
   }

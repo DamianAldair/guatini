@@ -5,21 +5,21 @@ import 'package:guatini/providers/userpreferences_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 
-class SpecieModelFromSimpleSearch {
+class SpeciesModelFromSimpleSearch {
   final int? id;
   final String? name;
   final String? scientificName;
   final String? imagePath;
 
-  const SpecieModelFromSimpleSearch({
+  const SpeciesModelFromSimpleSearch({
     required this.id,
     required this.name,
     required this.scientificName,
     required this.imagePath,
   });
 
-  factory SpecieModelFromSimpleSearch.fromMap(Map<String, dynamic> json) =>
-      SpecieModelFromSimpleSearch(
+  factory SpeciesModelFromSimpleSearch.fromMap(Map<String, dynamic> json) =>
+      SpeciesModelFromSimpleSearch(
         id: json["id"],
         name: json["name"],
         scientificName: json["scientific_name"],
