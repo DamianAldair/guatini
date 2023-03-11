@@ -30,7 +30,11 @@ class InfoCard<T> extends StatelessWidget {
       for (T i in instances!) {
         text += '${i.toString()}\n';
       }
-      text = text.substring(0, text.length - 1);
+      if (instances!.isNotEmpty) {
+        text = text.substring(0, text.length - 1);
+      } else {
+        text = AppLocalizations.of(context).unknown;
+      }
     } else {
       text = instance.toString();
     }

@@ -51,13 +51,27 @@ class SimpleSearch extends SearchDelegate {
           child: Text(AppLocalizations.of(context).noRecentSearches),
         );
       }
-      return ListView.builder(
-        itemCount: lastSearches.length,
-        itemBuilder: (_, int i) => ListTile(
-          leading: const Icon(Icons.access_time_rounded),
-          title: Text(lastSearches[i]),
-          onTap: () => query = lastSearches[i],
-        ),
+      return Column(
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: lastSearches.length,
+            itemBuilder: (_, int i) => ListTile(
+              leading: const Icon(Icons.access_time_rounded),
+              title: Text(lastSearches[i]),
+              onTap: () => query = lastSearches[i],
+            ),
+          ),
+          const Divider(),
+          TextButton(
+            child: Text(AppLocalizations.of(context).deleteList),
+            onPressed: () {
+              final prefs = UserPreferences();
+              prefs.cleanLastSearches();
+              Navigator.pop(context);
+            },
+          ),
+        ],
       );
     }
     if (!DbProvider.isOpen()) {

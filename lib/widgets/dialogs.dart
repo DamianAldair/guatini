@@ -57,3 +57,30 @@ AlertDialog deleteDatabaseDialog({
     ],
   );
 }
+
+AlertDialog inputDialog({
+  required BuildContext context,
+  required String title,
+  required dynamic value,
+  required void Function() onOk,
+}) {
+  assert(int.tryParse(value.toString()) is int);
+  final controller = TextEditingController(text: value.toString());
+  return AlertDialog(
+    title: Text(title),
+    content: TextField(
+      controller: controller,
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(border: OutlineInputBorder()),
+    ),
+    actions: [
+      TextButton(
+        onPressed: () {
+          onOk.call();
+          Navigator.pop(context);
+        },
+        child: Text(AppLocalizations.of(context).ok),
+      )
+    ],
+  );
+}

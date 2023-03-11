@@ -164,6 +164,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notSelected => 'Not selected';
 
   @override
+  String get numberItemsSearchHistory => 'Number of items in the search history';
+
+  @override
+  String get numberSeggestions => 'Number of suggestions on Home';
+
+  @override
   String get ok => 'Ok';
 
   @override

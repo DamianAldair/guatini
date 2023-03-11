@@ -51,6 +51,8 @@
     "noDatabases": "No hay bases de datos",
     "noRecentSearches": "No hay búsquedas recientes",
     "notSelected": "No seleccionada",
+    "numberItemsSearchHistory": "Cantidad de elementos en el historial de búsqueda",
+    "numberSeggestions": "Cantidad de sugerencias en Inicio",
     "ok": "Aceptar",
     "previousFolder": "Ir a la carpeta anterior",
     "search": "Buscar",

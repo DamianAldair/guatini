@@ -89,6 +89,8 @@ class UserPreferences {
     }
   }
 
+  void cleanLastSearches() => _prefs!.setStringList(_keyLastSearches, []);
+
   void newSearch(String search) {
     List<String> list = lastSearches;
     if (list.contains(search)) {
@@ -101,6 +103,14 @@ class UserPreferences {
     }
     _prefs!.setStringList(_keyLastSearches, list);
   }
+
+  final String _keySeggestions = 'suggestions';
+  static const int defaultNumberOfSeggestions = 5;
+
+  int get suggestions =>
+      _prefs!.getInt(_keySeggestions) ?? defaultNumberOfSeggestions;
+
+  set suggestions(int number) => _prefs!.setInt(_keySeggestions, number);
 
   // If headset is connected or not
   final String _keyOnlyHeadset = 'onlyHeadset';

@@ -406,6 +406,18 @@ abstract class AppLocalizations {
   /// **'Not selected'**
   String get notSelected;
 
+  /// No description provided for @numberItemsSearchHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of items in the search history'**
+  String get numberItemsSearchHistory;
+
+  /// No description provided for @numberSeggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of suggestions on Home'**
+  String get numberSeggestions;
+
   /// No description provided for @ok.
   ///
   /// In en, this message translates to:

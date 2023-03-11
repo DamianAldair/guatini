@@ -51,6 +51,8 @@
     "noDatabases": "No databases",
     "noRecentSearches": "There are no recent searches",
     "notSelected": "Not selected",
+    "numberItemsSearchHistory": "Number of items in the search history",
+    "numberSeggestions": "Number of suggestions on Home",
     "ok": "Ok",
     "previousFolder": "Go to previous folder",
     "search": "Search",
