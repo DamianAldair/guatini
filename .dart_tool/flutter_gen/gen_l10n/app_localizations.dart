@@ -136,11 +136,29 @@ abstract class AppLocalizations {
   /// **'This database is already added'**
   String get alreadyAdded;
 
+  /// No description provided for @audio.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio'**
+  String get audio;
+
+  /// No description provided for @author.
+  ///
+  /// In en, this message translates to:
+  /// **'Author'**
+  String get author;
+
   /// No description provided for @back.
   ///
   /// In en, this message translates to:
   /// **'Back'**
   String get back;
+
+  /// No description provided for @chooseOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose one'**
+  String get chooseOne;
 
   /// No description provided for @clear.
   ///
@@ -183,6 +201,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The database language does not depend on the app language'**
   String get databaseSelectedInfo;
+
+  /// Date
+  ///
+  /// In en, this message translates to:
+  /// **'Date: {date}'**
+  String date(DateTime date);
 
   /// No description provided for @dark.
   ///
@@ -358,6 +382,12 @@ abstract class AppLocalizations {
   /// **'Least concern'**
   String get leastConcern;
 
+  /// No description provided for @license.
+  ///
+  /// In en, this message translates to:
+  /// **'License'**
+  String get license;
+
   /// No description provided for @light.
   ///
   /// In en, this message translates to:
@@ -429,6 +459,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to previous folder'**
   String get previousFolder;
+
+  /// No description provided for @refresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refresh;
 
   /// No description provided for @search.
   ///

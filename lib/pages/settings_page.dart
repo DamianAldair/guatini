@@ -5,7 +5,6 @@ import 'package:guatini/pages/language_page.dart';
 import 'package:guatini/pages/themes_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/util/parse.dart';
-import 'package:guatini/widgets/dialogs.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);

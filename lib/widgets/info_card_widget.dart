@@ -1,6 +1,9 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:guatini/models/author_model.dart';
 import 'package:guatini/models/conservationstatus_model.dart';
+import 'package:guatini/models/license_model.dart';
 import 'package:selectable/selectable.dart';
 
 class InfoCard<T> extends StatelessWidget {
@@ -15,10 +18,12 @@ class InfoCard<T> extends StatelessWidget {
     this.instance,
     this.instances,
     this.onTap,
-  })  : assert(
+  })  : assert(instance is! List),
+        assert(
           instance == null || instances == null,
           'Cannot provide both a instance and a list of instances.',
         ),
+        assert(instances == null || onTap == null),
         super(key: key);
 
   @override
@@ -40,7 +45,60 @@ class InfoCard<T> extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: instances == null
+          ? () {}
+          : () {
+              if (instances!.length == 1) {
+              } else {
+                showDialog(
+                  context: context,
+                  barrierColor: Colors.black.withOpacity(0.7),
+                  builder: (_) {
+                    return Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text(
+                              '${AppLocalizations.of(context).chooseOne}:',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          for (T i in instances!)
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(15.0),
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 25.0,
+                                  vertical: 5.0,
+                                ),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: AdaptiveTheme.of(context).mode.isDark
+                                      ? const Color.fromARGB(255, 50, 50, 50)
+                                      : const Color.fromARGB(
+                                          255, 220, 220, 220),
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(i.toString()),
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              }
+            },
       child: Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15.0,
@@ -498,6 +556,110 @@ class Description extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AuthorCard extends StatelessWidget {
+  final AuthorModel author;
+
+  const AuthorCard(this.author, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const radius = 10.0;
+    return GestureDetector(
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 15.0,
+          vertical: 7.0,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.black12,
+          borderRadius: BorderRadius.circular(radius),
+        ),
+        width: double.infinity,
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.person_rounded),
+                  const SizedBox(width: 5.0),
+                  Text(AppLocalizations.of(context).author),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text(
+                author.name ?? AppLocalizations.of(context).unknown,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LicenseCard extends StatelessWidget {
+  final LicenseModel license;
+
+  const LicenseCard(this.license, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const radius = 10.0;
+    return GestureDetector(
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 15.0,
+          vertical: 7.0,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.black12,
+          borderRadius: BorderRadius.circular(radius),
+        ),
+        width: double.infinity,
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.text_snippet_rounded),
+                  const SizedBox(width: 5.0),
+                  Text(AppLocalizations.of(context).license),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text(
+                license.name ?? AppLocalizations.of(context).unknown,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

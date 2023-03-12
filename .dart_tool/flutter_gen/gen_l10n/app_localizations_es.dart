@@ -1,6 +1,6 @@
 
 
-
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 /// The translations for Spanish Castilian (`es`).
@@ -29,7 +29,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get alreadyAdded => 'Esta base de datos ya está añadida';
 
   @override
+  String get audio => 'Audio';
+
+  @override
+  String get author => 'Autor';
+
+  @override
   String get back => 'Volver';
+
+  @override
+  String get chooseOne => 'Sellecione una opción';
 
   @override
   String get clear => 'Borrar todo';
@@ -51,6 +60,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get databaseSelectedInfo => 'El lenguae de la bases de datos no depende de la aplicación';
+
+  @override
+  String date(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return 'Fecha: $dateString';
+  }
 
   @override
   String get dark => 'Oscuro';
@@ -140,6 +157,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get leastConcern => 'Preocupación menor';
 
   @override
+  String get license => 'Licencia';
+
+  @override
   String get light => 'Claro';
 
   @override
@@ -174,6 +194,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get previousFolder => 'Ir a la carpeta anterior';
+
+  @override
+  String get refresh => 'Refrescar';
 
   @override
   String get search => 'Buscar';

@@ -1,6 +1,6 @@
 
 
-
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
 /// The translations for English (`en`).
@@ -29,7 +29,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alreadyAdded => 'This database is already added';
 
   @override
+  String get audio => 'Audio';
+
+  @override
+  String get author => 'Author';
+
+  @override
   String get back => 'Back';
+
+  @override
+  String get chooseOne => 'Choose one';
 
   @override
   String get clear => 'Clear';
@@ -51,6 +60,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get databaseSelectedInfo => 'The database language does not depend on the app language';
+
+  @override
+  String date(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return 'Date: $dateString';
+  }
 
   @override
   String get dark => 'Dark';
@@ -140,6 +157,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leastConcern => 'Least concern';
 
   @override
+  String get license => 'License';
+
+  @override
   String get light => 'Light';
 
   @override
@@ -174,6 +194,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get previousFolder => 'Go to previous folder';
+
+  @override
+  String get refresh => 'Refresh';
 
   @override
   String get search => 'Search';

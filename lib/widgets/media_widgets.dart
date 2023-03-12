@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/media_model.dart';
 import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/pages/media_info_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
@@ -44,7 +45,7 @@ class MainImage extends StatelessWidget {
       padding: const EdgeInsets.all(15.0),
       child: GestureDetector(
         child: Hero(
-          tag: 'mainImage',
+          tag: species.id.toString(),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
             child: image,
@@ -55,7 +56,11 @@ class MainImage extends StatelessWidget {
           if (media != null) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => ImageViewer(media)),
+              MaterialPageRoute(
+                  builder: (_) => ImageViewer(
+                        media,
+                        speciesId: species.id.toString(),
+                      )),
             );
           }
         },
@@ -206,9 +211,13 @@ class Thumbnail extends StatelessWidget {
 
 class ImageViewer extends StatefulWidget {
   final MediaModel media;
+  final Object? speciesId;
 
-  ImageViewer(this.media, {Key? key})
-      : assert(media.mediaType.type == MediaType.image),
+  ImageViewer(
+    this.media, {
+    Key? key,
+    this.speciesId,
+  })  : assert(media.mediaType.type == MediaType.image),
         super(key: key);
 
   @override
@@ -245,7 +254,8 @@ class _ImageViewerState extends State<ImageViewer>
         children: [
           GestureDetector(
             child: PhotoView(
-              heroAttributes: const PhotoViewHeroAttributes(tag: 'mainImage'),
+              heroAttributes:
+                  PhotoViewHeroAttributes(tag: widget.speciesId.toString()),
               imageProvider: imageProvider,
               minScale: PhotoViewComputedScale.contained,
               maxScale: 10.0,
@@ -293,9 +303,15 @@ class _ImageViewerState extends State<ImageViewer>
                               icon: const Icon(Icons.info_outlined),
                               color: Colors.white,
                               tooltip: AppLocalizations.of(context).info,
-                              onPressed: () {
-                                //TODO: Image info
-                              },
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => MediaInfoPage(
+                                    widget.media,
+                                    heroTag: widget.speciesId,
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),

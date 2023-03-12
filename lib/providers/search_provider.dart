@@ -1,5 +1,6 @@
 import 'package:guatini/models/abundance_model.dart';
 import 'package:guatini/models/activity_model.dart';
+import 'package:guatini/models/author_model.dart';
 import 'package:guatini/models/class_model.dart';
 import 'package:guatini/models/commonmane_model.dart';
 import 'package:guatini/models/conservationstatus_model.dart';
@@ -10,28 +11,59 @@ import 'package:guatini/models/family_model.dart';
 import 'package:guatini/models/genus_model.dart';
 import 'package:guatini/models/habitat_model.dart';
 import 'package:guatini/models/kindom_model.dart';
+import 'package:guatini/models/license_model.dart';
 import 'package:guatini/models/media_model.dart';
 import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
 import 'package:guatini/models/specie_model.dart';
-import 'package:guatini/models/specie_search_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class SearchProvider {
+  static Future<LicenseModel?> getLicense(Database db, int id) async {
+    final query = '''
+      SELECT 
+      [main].[license].[id], 
+      [main].[license].[name], 
+      [main].[license].[description]
+      FROM   [main].[license]
+      WHERE  [main].[license].[id] = $id;
+    ''';
+    final result = await db.rawQuery(query);
+    return result.isNotEmpty ? LicenseModel.fromMap(result.first) : null;
+  }
+
+  static Future<AuthorModel?> getAuthor(Database db, int id) async {
+    final query = '''
+      SELECT 
+      [main].[author].[id], 
+      [main].[author].[name], 
+      [main].[author].[description]
+      FROM   [main].[author]
+      WHERE  [main].[author].[id] = $id;
+    ''';
+    final result = await db.rawQuery(query);
+    return result.isNotEmpty ? AuthorModel.fromMap(result.first) : null;
+  }
+
   static Future<MainImageModel?> _getMainImage(
       Database db, int speciesId) async {
     final query = '''
-        select
-        [main].[media].[id],
-        [main].[media].[path],
-        [main].[media].[date_capture],
-        [main].[media].[lat],
-        [main].[media].[lon]
-        from [main].[specie]
-        inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-        inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
-        where [main].[specie].[id] = $speciesId;
+      SELECT 
+      [main].[media].[id], 
+      [main].[media].[path], 
+      [main].[media].[date_capture], 
+      [main].[media].[lat], 
+      [main].[media].[lon], 
+      [main].[author].[id] AS [authorId], 
+      [main].[license].[id] AS [licenseId]
+      FROM [main].[specie]
+      INNER JOIN [main].[media] ON [main].[specie].[id] = [main].[media].[fk_specie_]
+      INNER JOIN [main].[main_image] ON [main].[media].[id] = [main].[main_image].[fk_media_]
+      INNER JOIN [main].[media_author] ON [main].[media].[id] = [main].[media_author].[fk_media_]
+      INNER JOIN [main].[author] ON [main].[author].[id] = [main].[media_author].[fk_author_]
+      INNER JOIN [main].[license] ON [main].[license].[id] = [main].[media].[fk_license_]
+      where [main].[specie].[id] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     return result.isNotEmpty ? MainImageModel.fromMap(result.first) : null;
@@ -346,7 +378,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<List<SpeciesModelFromSimpleSearch>> searchSpecie(
+  static Future<List<SpeciesModel>> searchSpecie(
       Database db, String search) async {
     try {
       final query = '''
@@ -362,9 +394,9 @@ abstract class SearchProvider {
           where [main].[common_name].[name] LIKE '%$search%' OR [main].[specie].[scientific_name] LIKE '%$search%';
       ''';
       final result = await db.rawQuery(query);
-      final results = <SpeciesModelFromSimpleSearch>[];
+      final results = <SpeciesModel>[];
       for (var item in result) {
-        results.add(SpeciesModelFromSimpleSearch.fromMap(item));
+        results.add(SpeciesModel.fromSimpleSearch(item));
       }
       return results;
     } catch (e) {
@@ -372,8 +404,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<List<SpeciesModelFromSimpleSearch>> homeSuggestion(
-      Database db, int max) async {
+  static Future<List<SpeciesModel>> homeSuggestion(Database db, int max) async {
     try {
       final query = '''
           select * from (
@@ -395,9 +426,9 @@ abstract class SearchProvider {
           limit $max;
       ''';
       final result = await db.rawQuery(query);
-      final results = <SpeciesModelFromSimpleSearch>[];
+      final results = <SpeciesModel>[];
       for (var item in result) {
-        results.add(SpeciesModelFromSimpleSearch.fromMap(item));
+        results.add(SpeciesModel.fromSimpleSearch(item));
       }
       return results;
     } catch (e) {

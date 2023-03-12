@@ -6,7 +6,10 @@
     "added": "Added",
     "addedDatabase": "Added database",
     "alreadyAdded": "This database is already added",
+    "audio": "Audio",
+    "author": "Author",
     "back": "Back",
+    "chooseOne": "Choose one",
     "clear": "Clear",
     "college": "College of Computer Engineering",
     "conservationStatus": "Conservation status",
@@ -14,6 +17,16 @@
     "current": "Current",
     "database": "Databases",
     "databaseSelectedInfo": "The database language does not depend on the app language",
+    "date": "Date: {date}",
+    "@date": {
+        "description": "Date",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
     "dark": "Dark",
     "deficientData": "Deficient data",
     "deletedDatabase": "Database permanently deleted",
@@ -43,6 +56,7 @@
     "language": "Language",
     "languageName": "English",
     "leastConcern": "Least concern",
+    "license": "License",
     "light": "Light",
     "nearThreataned": "Near threataned",
     "noStoragePermission": "Guatiní has not permission to access to storage",
@@ -55,6 +69,7 @@
     "numberSeggestions": "Number of suggestions on Home",
     "ok": "Ok",
     "previousFolder": "Go to previous folder",
+    "refresh": "Refresh",
     "search": "Search",
     "searchSpecies": "Search Species",
     "settings": "Settings",

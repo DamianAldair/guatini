@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:guatini/models/abundance_model.dart';
 import 'package:guatini/models/activity_model.dart';
 import 'package:guatini/models/class_model.dart';
@@ -13,11 +16,16 @@ import 'package:guatini/models/kindom_model.dart';
 import 'package:guatini/models/media_model.dart';
 import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
+import 'package:guatini/providers/userpreferences_provider.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart' as p;
 
 class SpeciesModel {
   final int? id;
   final MainImageModel? mainImage;
+  final String? imagePath;
   final List<CommonNameModel>? commonNames;
+  final String? searchName;
   final String? scientificName;
   final DomainModel? taxdomain;
   final KindomModel? taxkindom;
@@ -38,7 +46,9 @@ class SpeciesModel {
   const SpeciesModel({
     this.id,
     this.mainImage,
+    this.imagePath,
     this.commonNames,
+    this.searchName,
     this.scientificName,
     this.taxdomain,
     this.taxkindom,
@@ -75,27 +85,35 @@ class SpeciesModel {
     required List<HabitatModel>? habitats,
     required List<DietModel>? diets,
     required List<MediaModel>? medias,
-  }) {
+  }) =>
+      SpeciesModel(
+        id: json!["id"],
+        mainImage: mainImage,
+        commonNames: commonNames,
+        scientificName: json["scientific_name"],
+        taxdomain: taxdomain,
+        taxkindom: taxkindom,
+        taxphylum: taxphylum,
+        taxclass: taxclass,
+        taxorder: taxorder,
+        taxfamily: taxfamily,
+        taxgenus: taxgenus,
+        conservationStatus: conservationStatus,
+        endemism: endemism,
+        abundance: abundance,
+        activities: activities,
+        habitats: habitats,
+        diets: diets,
+        description: json["description"],
+        medias: medias,
+      );
+
+  factory SpeciesModel.fromSimpleSearch(Map<String, dynamic> json) {
     return SpeciesModel(
-      id: json!["id"],
-      mainImage: mainImage,
-      commonNames: commonNames,
+      id: json["id"],
+      searchName: json["name"],
       scientificName: json["scientific_name"],
-      taxdomain: taxdomain,
-      taxkindom: taxkindom,
-      taxphylum: taxphylum,
-      taxclass: taxclass,
-      taxorder: taxorder,
-      taxfamily: taxfamily,
-      taxgenus: taxgenus,
-      conservationStatus: conservationStatus,
-      endemism: endemism,
-      abundance: abundance,
-      activities: activities,
-      habitats: habitats,
-      diets: diets,
-      description: json["description"],
-      medias: medias,
+      imagePath: json["path"],
     );
   }
 
@@ -105,5 +123,18 @@ class SpeciesModel {
       names += '${item.name}\n';
     }
     return names.substring(0, names.length - 1);
+  }
+
+  Image get image {
+    assert(imagePath != null);
+    final prefs = UserPreferences();
+    final db = prefs.dbPath;
+    final file = File(p.join(db, imagePath));
+    return file.existsSync()
+        ? Image.file(file, fit: BoxFit.cover)
+        : Image.asset(
+            'assets/images/image_not_available.png',
+            fit: BoxFit.cover,
+          );
   }
 }

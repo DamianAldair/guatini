@@ -6,7 +6,10 @@
     "added": "Añadida",
     "addedDatabase": "Base de datos añadida",
     "alreadyAdded": "Esta base de datos ya está añadida",
+    "audio": "Audio",
+    "author": "Autor",
     "back": "Volver",
+    "chooseOne": "Sellecione una opción",
     "clear": "Borrar todo",
     "college": "Facultad de Ingeniería informática",
     "conservationStatus": "Estado de conservación",
@@ -14,6 +17,16 @@
     "current": "Actual",
     "database": "Base de datos",
     "databaseSelectedInfo": "El lenguae de la bases de datos no depende de la aplicación",
+    "date": "Fecha: {date}",
+    "@date": {
+        "description": "Fecha",
+        "placeholders": {
+            "date": {
+                "type": "DateTime",
+                "format": "yMd"
+            }
+        }
+    },
     "dark": "Oscuro",
     "deficientData": "Datos deficientes",
     "deletedDatabase": "Base de datos borrada permanentemente",
@@ -43,6 +56,7 @@
     "language": "Idioma",
     "languageName": "Español",
     "leastConcern": "Preocupación menor",
+    "license": "Licencia",
     "light": "Claro",
     "nearThreataned": "Casi amenazada",
     "noStoragePermission": "Guatiní no tiene permiso para acceder al almacenamiento",
@@ -55,6 +69,7 @@
     "numberSeggestions": "Cantidad de sugerencias en Inicio",
     "ok": "Aceptar",
     "previousFolder": "Ir a la carpeta anterior",
+    "refresh": "Refrescar",
     "search": "Buscar",
     "searchSpecies": "Buscar especie",
     "settings": "Configuración",

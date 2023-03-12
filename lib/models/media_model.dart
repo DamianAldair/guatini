@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:guatini/models/author_model.dart';
 import 'package:guatini/models/license_model.dart';
 import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/models/specie_model.dart';
@@ -11,6 +12,9 @@ class MediaModel {
   final Float? latitude;
   final Float? longitude;
   final SpeciesModel? species;
+  final int? authorId;
+  final AuthorModel? author;
+  final int? licenseId;
   final LicenseModel? license;
   MediaTypeModel? type;
 
@@ -20,8 +24,11 @@ class MediaModel {
     required this.dateCapture,
     required this.latitude,
     required this.longitude,
-    this.species,
+    this.authorId,
+    this.author,
+    this.licenseId,
     this.license,
+    this.species,
   });
 
   factory MediaModel.fromMap(Map<String, dynamic> json) => MediaModel(
@@ -30,6 +37,8 @@ class MediaModel {
         dateCapture: json["dateCapture"],
         latitude: json["latitude"],
         longitude: json["longitude"],
+        authorId: json["authorId"],
+        licenseId: json["licenseId"],
       );
 
   Map<String, dynamic> toMap() => {
@@ -44,7 +53,16 @@ class MediaModel {
       };
 
   set mediaType(MediaTypeModel type) => this.type = type;
+
   MediaTypeModel get mediaType => type!;
+
+  DateTime? get date => dateCapture == null
+      ? null
+      : DateTime(
+          int.parse(dateCapture!.substring(0, 4)),
+          int.parse(dateCapture!.substring(4, 6)),
+          int.parse(dateCapture!.substring(6)),
+        );
 }
 
 class MainImageModel extends MediaModel {
@@ -54,23 +72,31 @@ class MainImageModel extends MediaModel {
     required String? dateCapture,
     required Float? latitude,
     required Float? longitude,
-    SpeciesModel? species,
+    int? authorId,
+    AuthorModel? author,
+    int? licenseId,
     LicenseModel? license,
+    SpeciesModel? species,
   }) : super(
           id: id,
           path: path,
           dateCapture: dateCapture,
           latitude: latitude,
           longitude: longitude,
-          species: species,
+          authorId: authorId,
+          author: author,
+          licenseId: licenseId,
           license: license,
+          species: species,
         );
 
   factory MainImageModel.fromMap(Map<String, dynamic> json) => MainImageModel(
         id: json["id"],
         path: json["path"],
-        dateCapture: json["dateCapture"],
+        dateCapture: json["date_capture"],
         latitude: json["latitude"],
         longitude: json["longitude"],
+        authorId: json["authorId"],
+        licenseId: json["licenseId"],
       );
 }
