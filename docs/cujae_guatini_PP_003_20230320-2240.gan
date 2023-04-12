@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="PP2 y tesis" company="CUJAE" webLink="" view-date="2023-09-21" view-index="1" gantt-divider-location="579" resource-divider-location="780" version="3.2.3230" locale="es_ES">
+    <description>
+        <![CDATA[Plan de proyecto para las PP2 y tesis]]>
+    </description>
+    <view zooming-state="default:0" id="gantt-chart">
+        <field id="tpd3" name="Nombre" width="399" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="79" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="85" order="2"/>
+        <option id="taskLabelUp" value="name"/>
+        <option id="taskLabelDown" value="advancement"/>
+        <option id="taskLabelRight" value="resources"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="color.recent">
+            <![CDATA[#000000]]>
+        </option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nombre" width="440" order="0"/>
+        <field id="1" name="Función" width="320" order="1"/>
+    </view>
+    <!-- -->
+    <calendars base-id="Ninguna">
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="true"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+        <date year="2023" month="4" date="17" type="HOLIDAY">
+            <![CDATA[Semana de receso]]>
+        </date>
+        <date year="2023" month="4" date="18" type="HOLIDAY">
+            <![CDATA[Semana de receso]]>
+        </date>
+        <date year="2023" month="4" date="19" type="HOLIDAY">
+            <![CDATA[Semana de receso]]>
+        </date>
+        <date year="2023" month="4" date="20" type="HOLIDAY">
+            <![CDATA[Semana de receso]]>
+        </date>
+        <date year="2023" month="4" date="21" type="HOLIDAY">
+            <![CDATA[Semana de receso]]>
+        </date>
+        <date year="2023" month="4" date="22" type="HOLIDAY">
+            <![CDATA[Semana de receso]]>
+        </date>
+        <date year="2023" month="4" date="23" type="HOLIDAY"/>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="1" name="Reunión inicial con los interesados" color="#8cb6ce" meeting="false" start="2023-02-22" duration="1" complete="100" thirdDate="2023-02-22" thirdDate-constraint="0" priority="2" expand="true"/>
+        <task id="241" name="Gestionar configuración" meeting="false" start="2023-02-22" duration="286" complete="11" expand="true">
+            <task id="239" name="Definir elementos sujetos a controlar su versionamiento" color="#8cb6ce" meeting="false" start="2023-02-22" duration="1" complete="76" thirdDate="2023-02-22" thirdDate-constraint="0" expand="true">
+                <depend id="240" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="242" name="Definir momento de bajada y subida de elementos sujetos a versionamiento" color="#8cb6ce" meeting="false" start="2023-02-22" duration="1" complete="100" thirdDate="2023-02-22" thirdDate-constraint="0" expand="true">
+                <depend id="240" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="243" name="Definir estandar para nombrar los elementos sujetos a versionamiento" color="#8cb6ce" meeting="false" start="2023-02-22" duration="1" complete="100" thirdDate="2023-02-22" thirdDate-constraint="0" expand="true">
+                <depend id="240" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="240" name="Dar seguimiento al uso de las herramientas definidas para el control del versionamiento de los elementos a controlar" color="#8cb6ce" meeting="false" start="2023-02-23" duration="285" complete="10" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+            <task id="28" name="Configurar ramas a utilizar en Git" color="#8cb6ce" meeting="false" start="2023-02-22" duration="1" complete="100" thirdDate="2023-02-22" thirdDate-constraint="0" expand="true"/>
+            <task id="29" name="Configurar CI/CD con GitHub Actions" color="#8cb6ce" meeting="false" start="2023-02-22" duration="1" complete="100" thirdDate="2023-02-22" thirdDate-constraint="0" expand="true"/>
+            <task id="53" name="Establecer las políticas de copias de seguridad" color="#8cb6ce" meeting="false" start="2023-02-22" duration="1" complete="100" thirdDate="2023-02-22" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="137" name="Aplicación de test de Belbin y MBTI" color="#8cb6ce" meeting="false" start="2023-02-25" duration="1" complete="100" thirdDate="2023-02-25" thirdDate-constraint="0" expand="true"/>
+        <task id="238" name="Plan de proyecto" meeting="false" start="2023-02-27" duration="281" complete="7" expand="true">
+            <task id="237" name="Crear plan de proyecto" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="false">
+                <depend id="236" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="236" name="Dar seguimiento al plan de proyecto" color="#8cb6ce" meeting="false" start="2023-02-28" duration="280" complete="7" thirdDate="2023-02-01" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="232" name="Riesgos" meeting="false" start="2023-02-27" duration="281" complete="6" expand="true">
+            <task id="233" name="Identificar riesgos" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true">
+                <depend id="234" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="234" name="Elaborar planes de mitigación y contingencia" color="#8cb6ce" meeting="false" start="2023-02-28" duration="4" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true">
+                <depend id="235" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="235" name="Dar seguimiento a los riesgos" color="#8cb6ce" meeting="false" start="2023-03-04" duration="276" complete="5" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="2" name="Estudiar insuficiencias de la versión presentada en las PP1" meeting="false" start="2023-02-23" duration="4" complete="100" expand="true">
+            <task id="3" name="Cambiar aspecto de la app a Material You (Material Design 3)" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+            <task id="12" name="Desarrollar página de ajustes" meeting="false" start="2023-02-23" duration="1" complete="100" expand="true">
+                <task id="4" name="Diseñar páginas de ajustes" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-17" thirdDate-constraint="0" expand="true"/>
+                <task id="13" name="Implementar página de ajustes" meeting="false" start="2023-02-23" duration="1" complete="100" expand="true">
+                    <task id="5" name="Implementar cambio entre tema claro y oscuro" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+                    <task id="6" name="Implementar internacionalización" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+                </task>
+            </task>
+            <task id="14" name="Probar cambios en la GUI" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+            <task id="250" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+            <task id="15" name="Corrección de errore presentados en las pruebas aplicadas a la GUI" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+            <task id="251" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+            <task id="18" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+            <task id="54" name="Realizar copia de seguridad del repositorio de compilación" color="#8cb6ce" meeting="false" start="2023-02-23" duration="1" complete="100" thirdDate="2023-02-23" thirdDate-constraint="0" expand="true"/>
+            <task id="7" name="Corregir consultas a la BD" meeting="false" start="2023-02-24" duration="1" complete="100" expand="true">
+                <task id="9" name="Corregir consulta de especies" color="#8cb6ce" meeting="false" start="2023-02-24" duration="1" complete="100" thirdDate="2023-02-24" thirdDate-constraint="0" expand="true">
+                    <depend id="16" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="8" name="Corregir consuta de los elementos multimedia" color="#8cb6ce" meeting="false" start="2023-02-24" duration="1" complete="100" thirdDate="2023-02-24" thirdDate-constraint="0" expand="true">
+                    <depend id="11" type="2" difference="0" hardness="Strong"/>
+                </task>
+            </task>
+            <task id="10" name="Refactorizar modelo de especie" color="#8cb6ce" meeting="false" start="2023-02-24" duration="1" complete="100" thirdDate="2023-02-24" thirdDate-constraint="0" expand="true">
+                <depend id="11" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="11" name="Corregir posibilidad de que existan más de un audio" color="#8cb6ce" meeting="false" start="2023-02-25" duration="1" complete="100" thirdDate="2023-02-25" thirdDate-constraint="0" expand="true"/>
+            <task id="16" name="Probar nuevos resultados de las correcciones a las consultas y resultados" color="#8cb6ce" meeting="false" start="2023-02-25" duration="1" complete="100" thirdDate="2023-02-25" thirdDate-constraint="0" expand="true">
+                <depend id="17" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="252" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-02-25" duration="1" complete="100" thirdDate="2023-02-25" thirdDate-constraint="0" expand="true">
+                <depend id="17" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="17" name="Corrección de errores de las pruebas a la corrección de consultas" color="#8cb6ce" meeting="false" start="2023-02-26" duration="1" complete="100" thirdDate="2023-02-26" thirdDate-constraint="0" expand="true"/>
+            <task id="253" name="Docuentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-02-26" duration="1" complete="100" thirdDate="2023-02-26" thirdDate-constraint="0" expand="true"/>
+            <task id="20" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-02-26" duration="1" complete="100" thirdDate="2023-02-26" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="21" name="Entregar versión corregida de la app" color="#8cb6ce" meeting="false" start="2023-02-26" duration="1" complete="100" thirdDate="2023-02-26" thirdDate-constraint="0" expand="true"/>
+        <task id="30" name="Implementar selección de BD del almacenamiento del dispositivo" meeting="false" start="2023-02-27" duration="1" complete="100" expand="true">
+            <depend id="41" type="2" difference="0" hardness="Strong"/>
+            <depend id="48" type="2" difference="0" hardness="Strong"/>
+            <task id="31" name="Añadir permisos de lectura y escritura de almacenamiento" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="32" name="Diseñar pantallas de selección de BD" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="33" name="Implementar explorador de archivos interno de la app para añadir BD" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="34" name="Implementar pantalla de selección de bases de datos añadidas" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="35" name="Probar detección y selección de la BD" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="254" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="36" name="Implementar inicialización y reinicialización de la BD" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="39" name="Implementar borrado de la BD" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="37" name="Probar acceso a la BD" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="255" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="38" name="Corregir errores detectados en las pruebas de acceso a la BD" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="256" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+            <task id="40" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-02-27" duration="1" complete="100" thirdDate="2023-02-27" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="41" name="Desarrollo de la página de información de la multimedia" color="#000000" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true">
+            <task id="42" name="Diseñar pantalla de la información de la multimedia" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="43" name="Crear consultas para obtener información de un elemento multimedia" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="44" name="Implementar pantalla de información de la multimedia" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="45" name="Probar obtención de información de los elementos multimedias" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="257" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="46" name="Corregir errores presentados en las pruebas a las páginas de información de los elementos multimedia" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="258" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="47" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-28" thirdDate-constraint="0" expand="true"/>
+            <task id="56" name="Realizar copia de seguridad del repositorio de compilación" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="100" thirdDate="2023-02-19" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="48" name="Implementar pantallas de información de características de la especie" color="#000000" meeting="false" start="2023-03-01" duration="5" complete="100" thirdDate="2023-03-01" thirdDate-constraint="0" expand="true">
+            <task id="49" name="Diseñar pantallas de información de características de la especie" color="#8cb6ce" meeting="false" start="2023-03-01" duration="1" complete="100" thirdDate="2023-03-01" thirdDate-constraint="0" expand="true">
+                <depend id="59" type="2" difference="0" hardness="Strong"/>
+                <depend id="63" type="2" difference="0" hardness="Strong"/>
+                <depend id="67" type="2" difference="0" hardness="Strong"/>
+                <depend id="71" type="2" difference="0" hardness="Strong"/>
+                <depend id="75" type="2" difference="1" hardness="Strong"/>
+                <depend id="79" type="2" difference="1" hardness="Strong"/>
+                <depend id="83" type="2" difference="1" hardness="Strong"/>
+                <depend id="87" type="2" difference="2" hardness="Strong"/>
+                <depend id="91" type="2" difference="2" hardness="Strong"/>
+                <depend id="95" type="2" difference="2" hardness="Strong"/>
+                <depend id="99" type="2" difference="3" hardness="Strong"/>
+                <depend id="103" type="2" difference="3" hardness="Strong"/>
+                <depend id="107" type="2" difference="3" hardness="Strong"/>
+            </task>
+            <task id="58" name="Crear consulta de para obtener información del dominio" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="59" name="Implementar pantalla de información del dominio" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="60" name="Probar pantalla de información del dominio" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="259" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" expand="true" cost-manual-value="0.0" cost-calculated="true"/>
+            <task id="61" name="Corregir errores detectados en la pantalla de información del dominio" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="260" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="62" name="Crear consulta de para obtener información del reino" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="63" name="Implementar pantalla de información del reino" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="64" name="Probar pantalla de información del reino" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="261" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="65" name="Corregir errores detectados en la pantalla de información del reino" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="262" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="66" name="Crear consulta de para obtener información del filo" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="67" name="Implementar pantalla de información del filo" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="68" name="Probar pantalla de información del filo" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="263" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="69" name="Corregir errores detectados en la pantalla de información del filo" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="264" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="70" name="Crear consulta de para obtener información de la clase" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="71" name="Implementar pantalla de información de la clase" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="72" name="Probar pantalla de información de la clase" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="265" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="73" name="Corregir errores detectados en la pantalla de información de la clase" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="266" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="57" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-02" duration="1" complete="100" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+            <task id="74" name="Crear consulta de para obtener información del orden" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="75" name="Implementar pantalla de información del orden" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="76" name="Probar pantalla de información del orden" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="267" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="77" name="Corregir errores detectados en la pantalla de información del orden" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="268" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="78" name="Crear consulta de para obtener información de la familia" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="79" name="Implementar pantalla de información de la familia" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="80" name="Probar pantalla de información de la familia" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="269" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="81" name="Corregir errores detectados en la pantalla de información de la familia" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="270" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="82" name="Crear consulta de para obtener información del género" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="83" name="Implementar pantalla de información del género" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="84" name="Probar pantalla de información del género" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="271" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="85" name="Corregir errores detectados en la pantalla de información del género" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="272" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="50" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-03" duration="1" complete="100" thirdDate="2023-03-03" thirdDate-constraint="0" expand="true"/>
+            <task id="86" name="Crear consulta de para obtener información de la actividad" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="87" name="Implementar pantalla de información de la actividad" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="88" name="Probar pantalla de información de la actividad" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="273" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="89" name="Corregir errores detectados en la pantalla de información de la actividad" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="274" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="90" name="Crear consulta de para obtener información del hábitat" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="91" name="Implementar pantalla de información del hábitat" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="92" name="Probar pantalla de información del hábitat" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="275" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="93" name="Corregir errores detectados en la pantalla de información del hábitat" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="276" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="94" name="Crear consulta de para obtener información de la dieta" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="95" name="Implementar pantalla de información de la dieta" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="96" name="Probar pantalla de información de la dieta" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="277" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="97" name="Corregir errores detectados en la pantalla de información de la dieta" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="278" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="51" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-04" duration="1" complete="100" thirdDate="2023-03-04" thirdDate-constraint="0" expand="true"/>
+            <task id="98" name="Crear consulta de para obtener información de la abundancia" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="99" name="Implementar pantalla de información de la abundancia" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="100" name="Probar pantalla de información de la abundancia" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="279" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="101" name="Corregir errores detectados en la pantalla de información de la abundancia" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="280" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="102" name="Crear consulta de para obtener información del endemismo" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="103" name="Implementar pantalla de información del endemismo" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="104" name="Probar pantalla de información del endemismo" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="281" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="105" name="Corregir errores detectados en la pantalla de información del endemismo" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="282" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="106" name="Crear consulta de para obtener información del estado de conservación" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="107" name="Implementar pantalla de información del estado de conservación" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="108" name="Probar pantalla de información del estado de conservación" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="283" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="109" name="Corregir errores detectados en la pantalla de información del estado de conservación" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="284" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+            <task id="52" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-05" duration="1" complete="100" thirdDate="2023-03-05" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="110" name="Implementar multimedia online" meeting="false" start="2023-03-06" duration="1" complete="100" expand="true">
+            <task id="111" name="Añadir permisos de acceso a internet" color="#8cb6ce" meeting="false" start="2023-03-06" duration="1" complete="100" thirdDate="2023-03-06" thirdDate-constraint="0" expand="true"/>
+            <task id="112" name="Añadir opción a la pantalla de ajustes" color="#8cb6ce" meeting="false" start="2023-03-06" duration="1" complete="100" thirdDate="2023-03-06" thirdDate-constraint="0" expand="true"/>
+            <task id="113" name="Implementar reconocimiento de enlaces de internet" color="#8cb6ce" meeting="false" start="2023-03-06" duration="1" complete="100" thirdDate="2023-03-06" thirdDate-constraint="0" expand="true"/>
+            <task id="114" name="Implementar mostrado de multimedia online" color="#8cb6ce" meeting="false" start="2023-03-06" duration="1" complete="100" thirdDate="2023-03-06" thirdDate-constraint="0" expand="true"/>
+            <task id="115" name="Probar multimedia online" color="#8cb6ce" meeting="false" start="2023-03-06" duration="1" complete="100" thirdDate="2023-03-06" thirdDate-constraint="0" expand="true"/>
+            <task id="285" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-06" duration="1" complete="100" thirdDate="2023-03-06" thirdDate-constraint="0" expand="true"/>
+            <task id="116" name="Corregir errores en las pruebas a la multimedia online" color="#8cb6ce" meeting="false" start="2023-03-06" duration="1" complete="100" thirdDate="2023-03-06" thirdDate-constraint="0" expand="true"/>
+            <task id="286" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-06" duration="1" complete="100" thirdDate="2023-03-06" thirdDate-constraint="0" expand="true"/>
+            <task id="117" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-06" duration="1" complete="100" thirdDate="2023-03-06" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="119" name="Implementación de mapas u ubicación GPS" meeting="false" start="2023-03-07" duration="13" complete="80" expand="true">
+            <task id="118" name="Asimilación de uso de mapas y ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-07" duration="3" complete="100" thirdDate="2023-03-07" thirdDate-constraint="0" expand="true">
+                <depend id="121" type="2" difference="1" hardness="Strong"/>
+                <depend id="123" type="2" difference="1" hardness="Strong"/>
+                <depend id="124" type="2" difference="2" hardness="Strong"/>
+                <depend id="126" type="2" difference="2" hardness="Strong"/>
+                <depend id="129" type="2" difference="7" hardness="Strong"/>
+                <depend id="134" type="2" difference="8" hardness="Strong"/>
+                <depend id="244" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="244" name="Entrega de app demo utilizando mapas y ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-10" duration="1" complete="100" thirdDate="2023-03-10" thirdDate-constraint="0" expand="true"/>
+            <task id="247" name="Comprobación de asimilación de uso de mapas y ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-10" duration="1" complete="100" thirdDate="2023-03-10" thirdDate-constraint="0" expand="true">
+                <depend id="120" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="120" name="Añadir permisos de localización" color="#8cb6ce" meeting="false" start="2023-03-11" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="121" name="Implementar ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-11" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="122" name="Probar ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-11" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="287" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-11" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="123" name="Corregir errores presentados en la pruebas de ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-11" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="288" name="Documentar corracción de errores" color="#8cb6ce" meeting="false" start="2023-03-11" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="127" name="Actualizar repositorio de GitHub}" color="#8cb6ce" meeting="false" start="2023-03-11" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="124" name="Implementación de mapas" color="#8cb6ce" meeting="false" start="2023-03-12" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="125" name="Probar mapas" color="#8cb6ce" meeting="false" start="2023-03-12" duration="1" complete="100" thirdDate="2023-03-12" thirdDate-constraint="0" expand="true"/>
+            <task id="289" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-12" duration="1" complete="100" thirdDate="2023-03-12" thirdDate-constraint="0" expand="true"/>
+            <task id="126" name="Corregir errores presentados en la implementación de mapas" color="#8cb6ce" meeting="false" start="2023-03-12" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="290" name="Documentar corracción de errores" color="#8cb6ce" meeting="false" start="2023-03-12" duration="1" complete="100" thirdDate="2023-03-12" thirdDate-constraint="0" expand="true"/>
+            <task id="128" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-12" duration="1" complete="100" thirdDate="2023-03-12" thirdDate-constraint="0" expand="true"/>
+            <task id="129" name="Implementar ubicación GPS en el mapa" color="#8cb6ce" meeting="false" start="2023-03-17" duration="1" complete="100" thirdDate="2023-03-11" thirdDate-constraint="0" expand="true"/>
+            <task id="130" name="Probar ubicación GPS en el mapa" color="#8cb6ce" meeting="false" start="2023-03-18" duration="1" complete="100" thirdDate="2023-03-18" thirdDate-constraint="0" expand="true"/>
+            <task id="131" name="Corregir errores presentados en las pruebas de la ubicación GPS en el mapa" color="#8cb6ce" meeting="false" start="2023-03-18" duration="1" complete="100" thirdDate="2023-03-18" thirdDate-constraint="0" expand="true"/>
+            <task id="132" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-18" duration="1" complete="100" thirdDate="2023-03-18" thirdDate-constraint="0" expand="true"/>
+            <task id="134" name="Implementar distribución de especie en el mapa" color="#8cb6ce" meeting="false" start="2023-03-18" duration="1" complete="54" thirdDate="2023-03-19" thirdDate-constraint="0" expand="true"/>
+            <task id="135" name="Probar distribución de especie en el mapa" color="#8cb6ce" meeting="false" start="2023-03-19" duration="1" complete="0" thirdDate="2023-03-19" thirdDate-constraint="0" expand="true"/>
+            <task id="291" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-19" duration="1" complete="0" thirdDate="2023-03-19" thirdDate-constraint="0" expand="true"/>
+            <task id="136" name="Corregir errores presentados en las pruebas de la distribución de la especie en el mapa" color="#8cb6ce" meeting="false" start="2023-03-19" duration="1" complete="0" thirdDate="2023-03-19" thirdDate-constraint="0" expand="true">
+                <depend id="185" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="292" name="Documentar corracción de errores" color="#8cb6ce" meeting="false" start="2023-03-19" duration="1" complete="0" thirdDate="2023-03-19" thirdDate-constraint="0" expand="true"/>
+            <task id="133" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-19" duration="1" complete="0" thirdDate="2023-03-19" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="179" name="Búsqueda por QR" meeting="false" start="2023-03-20" duration="1" complete="0" expand="true">
+            <task id="180" name="Diseñar interfaz de cámara para captar QR" color="#8cb6ce" meeting="false" start="2023-03-20" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+            <task id="181" name="Implemetar cámara para captar QR" color="#8cb6ce" meeting="false" start="2023-03-20" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+            <task id="182" name="Probar cámara para captar QR" color="#8cb6ce" meeting="false" start="2023-03-20" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+            <task id="293" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-20" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+            <task id="183" name="Corregir errores de cámara para captar QR" color="#8cb6ce" meeting="false" start="2023-03-20" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+            <task id="294" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-20" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+            <task id="184" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-20" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="185" name="Desarrollo de búsqueda por ubicacón GPS" meeting="false" start="2023-03-21" duration="3" complete="0" expand="true">
+            <task id="186" name="Diseñar pantalla de búsqueda por ubicación" color="#8cb6ce" meeting="false" start="2023-03-21" duration="1" complete="0" thirdDate="2023-03-21" thirdDate-constraint="0" expand="true">
+                <depend id="188" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="187" name="Crear consulta para obtener información según ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-21" duration="1" complete="0" thirdDate="2023-03-21" thirdDate-constraint="0" expand="true">
+                <depend id="188" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="188" name="Implementar la pantalla de búsqueda por ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-22" duration="2" complete="0" thirdDate="2023-03-22" thirdDate-constraint="0" expand="true"/>
+            <task id="189" name="Probar búsqueda por ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-23" duration="1" complete="0" thirdDate="2023-03-23" thirdDate-constraint="0" expand="true"/>
+            <task id="295" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-23" duration="1" complete="0" thirdDate="2023-03-23" thirdDate-constraint="0" expand="true"/>
+            <task id="190" name="Corregir errores presentados en las pruebas a la búsqueda por ubicación GPS" color="#8cb6ce" meeting="false" start="2023-03-23" duration="1" complete="0" thirdDate="2023-03-23" thirdDate-constraint="0" expand="true"/>
+            <task id="296" name="Documentar correccion de errores" color="#8cb6ce" meeting="false" start="2023-03-23" duration="1" complete="0" thirdDate="2023-03-23" thirdDate-constraint="0" expand="true"/>
+            <task id="197" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-23" duration="1" complete="0" thirdDate="2023-03-23" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="191" name="Desarrollo de reportes de especies" meeting="false" start="2023-03-24" duration="2" complete="0" expand="true">
+            <task id="193" name="Asimilación de uso de librerías de creación de PDFs" color="#8cb6ce" meeting="false" start="2023-03-24" duration="1" complete="0" thirdDate="2023-03-24" thirdDate-constraint="0" expand="true">
+                <depend id="194" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="245" name="Entrega de app demo con implementación de reportes PDFs" color="#8cb6ce" meeting="false" start="2023-03-24" duration="1" complete="0" thirdDate="2023-03-24" thirdDate-constraint="0" expand="true"/>
+            <task id="248" name="Comprobación de implementación de reportes PDFs" color="#8cb6ce" meeting="false" start="2023-03-24" duration="1" complete="0" thirdDate="2023-03-24" thirdDate-constraint="0" expand="true">
+                <depend id="192" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="192" name="Diseñar reporte de especie" color="#8cb6ce" meeting="false" start="2023-03-25" duration="1" complete="0" thirdDate="2023-03-24" thirdDate-constraint="0" expand="true"/>
+            <task id="194" name="Implementar función de creación de reportes" color="#8cb6ce" meeting="false" start="2023-03-25" duration="1" complete="0" thirdDate="2023-03-25" thirdDate-constraint="0" expand="true"/>
+            <task id="195" name="Probar reportes" color="#8cb6ce" meeting="false" start="2023-03-25" duration="1" complete="0" thirdDate="2023-03-25" thirdDate-constraint="0" expand="true"/>
+            <task id="297" name="Documentar preubas realizadas" color="#8cb6ce" meeting="false" start="2023-03-25" duration="1" complete="0" thirdDate="2023-03-25" thirdDate-constraint="0" expand="true"/>
+            <task id="196" name="Corregir errores presentados en pruebas a los reportes" color="#8cb6ce" meeting="false" start="2023-03-25" duration="1" complete="0" thirdDate="2023-03-25" thirdDate-constraint="0" expand="true"/>
+            <task id="298" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-25" duration="1" complete="0" thirdDate="2023-03-25" thirdDate-constraint="0" expand="true"/>
+            <task id="198" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-25" duration="1" complete="0" thirdDate="2023-03-25" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="169" name="Desarrollo de los juegos" meeting="false" start="2023-03-27" duration="5" complete="0" expand="true">
+            <task id="171" name="Diseño de las pantallas de los juegos" color="#8cb6ce" meeting="false" start="2023-03-27" duration="1" complete="0" thirdDate="2023-03-27" thirdDate-constraint="0" expand="true">
+                <depend id="173" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="172" name="Crear consultas a la BD para la ejecución de los juegos" color="#8cb6ce" meeting="false" start="2023-03-27" duration="1" complete="0" thirdDate="2023-03-27" thirdDate-constraint="0" expand="true">
+                <depend id="173" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="173" name="Implementación de las pantallas de los juegos" color="#8cb6ce" meeting="false" start="2023-03-28" duration="1" complete="0" thirdDate="2023-03-27" thirdDate-constraint="0" expand="true">
+                <depend id="174" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="176" name="Diseño del sistema de puntuación" color="#8cb6ce" meeting="false" start="2023-03-29" duration="1" complete="0" thirdDate="2023-03-29" thirdDate-constraint="0" expand="true"/>
+            <task id="177" name="Implementación del sistema de puntuación" color="#8cb6ce" meeting="false" start="2023-03-29" duration="1" complete="0" thirdDate="2023-03-29" thirdDate-constraint="0" expand="true">
+                <depend id="174" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="174" name="Probar juegos" color="#8cb6ce" meeting="false" start="2023-03-30" duration="2" complete="0" thirdDate="2023-03-30" thirdDate-constraint="0" expand="true"/>
+            <task id="299" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-03-31" duration="1" complete="0" thirdDate="2023-03-31" thirdDate-constraint="0" expand="true"/>
+            <task id="175" name="Corregir errores presentados en las puebas a los juegos" color="#8cb6ce" meeting="false" start="2023-03-31" duration="1" complete="0" thirdDate="2023-03-31" thirdDate-constraint="0" expand="true"/>
+            <task id="300" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-03-31" duration="1" complete="0" thirdDate="2023-03-31" thirdDate-constraint="0" expand="true"/>
+            <task id="178" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-03-31" duration="1" complete="0" thirdDate="2023-03-31" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="158" name="Desarrollo de las pantallas de bienvenida" color="#000000" meeting="false" start="2023-04-02" duration="1" complete="0" thirdDate="2023-04-02" thirdDate-constraint="0" expand="true">
+            <task id="159" name="Diseño de las pantallas de bienvenida" color="#8cb6ce" meeting="false" start="2023-04-02" duration="1" complete="0" thirdDate="2023-04-02" thirdDate-constraint="0" expand="true"/>
+            <task id="160" name="Implementación de las pantallas de bienvenida" color="#8cb6ce" meeting="false" start="2023-04-02" duration="1" complete="0" thirdDate="2023-04-02" thirdDate-constraint="0" expand="true"/>
+            <task id="161" name="Implementación para que las pantallas de bienvenida aparezcan sólo la primera vez que inicie la app" color="#8cb6ce" meeting="false" start="2023-04-02" duration="1" complete="0" thirdDate="2023-04-02" thirdDate-constraint="0" expand="true"/>
+            <task id="162" name="Prueba de la pantalla de bienvenida" color="#8cb6ce" meeting="false" start="2023-04-02" duration="1" complete="0" thirdDate="2023-04-02" thirdDate-constraint="0" expand="true"/>
+            <task id="301" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-04-02" duration="1" complete="0" thirdDate="2023-04-02" thirdDate-constraint="0" expand="true"/>
+            <task id="163" name="Corrección de errores presentados en la pantalla de bienvenida" color="#8cb6ce" meeting="false" start="2023-04-02" duration="1" complete="0" thirdDate="2023-04-02" thirdDate-constraint="0" expand="true"/>
+            <task id="302" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-04-02" duration="1" complete="0" thirdDate="2023-04-01" thirdDate-constraint="0" expand="true"/>
+            <task id="164" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-04-02" duration="1" complete="0" thirdDate="2023-04-02" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="165" name="Probar toda la app" color="#8cb6ce" meeting="false" start="2023-04-03" duration="1" complete="0" thirdDate="2023-04-03" thirdDate-constraint="0" expand="true">
+            <depend id="166" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="303" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-04-03" duration="1" complete="0" thirdDate="2023-04-03" thirdDate-constraint="0" expand="true"/>
+        <task id="166" name="Corregir errorres presentados en las pruebas realizadas a la app" color="#8cb6ce" meeting="false" start="2023-04-04" duration="2" complete="0" thirdDate="2023-04-03" thirdDate-constraint="0" expand="true">
+            <depend id="168" type="2" difference="0" hardness="Strong"/>
+            <depend id="221" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="304" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-04-05" duration="1" complete="0" thirdDate="2023-04-05" thirdDate-constraint="0" expand="true"/>
+        <task id="168" name="Mezclar ramas de development con la master" color="#8cb6ce" meeting="false" start="2023-04-06" duration="1" complete="0" thirdDate="2023-04-06" thirdDate-constraint="0" expand="true"/>
+        <task id="167" name="Subir todas las ramas a GitHub" color="#8cb6ce" meeting="false" start="2023-04-06" duration="1" complete="0" thirdDate="2023-04-06" thirdDate-constraint="0" expand="true"/>
+        <task id="157" name="Entregar de la nueva versión de la app" color="#8cb6ce" meeting="false" start="2023-04-07" duration="1" complete="0" thirdDate="2023-04-07" thirdDate-constraint="0" expand="true"/>
+        <task id="199" name="Informe final de PP2" meeting="false" start="2023-04-07" duration="22" complete="0" expand="true">
+            <task id="200" name="Redactar informe PP2" color="#8cb6ce" meeting="false" start="2023-04-07" duration="2" complete="0" thirdDate="2023-04-07" thirdDate-constraint="0" expand="true">
+                <depend id="201" type="2" difference="0" hardness="Strong"/>
+                <depend id="206" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="206" name="Aplicación de lista de chequeo para el informe de PP2" color="#8cb6ce" meeting="false" start="2023-04-09" duration="1" complete="0" thirdDate="2023-04-09" thirdDate-constraint="0" expand="true">
+                <depend id="201" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="201" name="Entrega del informe de PP2 al interesado" color="#8cb6ce" meeting="false" start="2023-04-10" duration="1" complete="0" thirdDate="2023-04-10" thirdDate-constraint="0" expand="true"/>
+            <task id="203" name="Rectificación de errores detectados por el interesado" color="#8cb6ce" meeting="false" start="2023-04-15" duration="4" complete="0" thirdDate="2023-04-15" thirdDate-constraint="0" expand="true">
+                <depend id="202" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="207" name="Reaplicación de lista de chequeo para el informe de PP2" color="#8cb6ce" meeting="false" start="2023-04-26" duration="1" complete="0" thirdDate="2023-04-26" thirdDate-constraint="0" expand="true">
+                <depend id="202" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="202" name="Entrega definitiva del informe PP2" color="#8cb6ce" meeting="false" start="2023-04-27" duration="1" complete="0" thirdDate="2023-04-27" thirdDate-constraint="0" expand="true">
+                <depend id="204" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="205" name="Preparación de exposición de PP2" color="#8cb6ce" meeting="false" start="2023-04-29" duration="4" complete="0" thirdDate="2023-04-29" thirdDate-constraint="0" expand="true">
+                <depend id="204" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="204" name="Exposición de PP2" color="#8cb6ce" meeting="false" start="2023-05-03" duration="3" complete="0" thirdDate="2023-05-03" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="208" name="Reunión con el interesado" color="#8cb6ce" meeting="false" start="2023-09-04" duration="1" complete="0" thirdDate="2023-09-04" thirdDate-constraint="0" expand="true">
+            <depend id="209" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="209" name="Desarrollo de la app auxiliar" meeting="false" start="2023-09-08" duration="3" complete="0" expand="true">
+            <task id="210" name="Diseño de la pantalla principal de la app" color="#8cb6ce" meeting="false" start="2023-09-08" duration="1" complete="0" thirdDate="2023-09-05" thirdDate-constraint="0" expand="true">
+                <depend id="212" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="211" name="Asimilación de procesos de copia hacia el almacenamiento del dispositivo" color="#8cb6ce" meeting="false" start="2023-09-08" duration="1" complete="0" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true"/>
+            <task id="246" name="Entrega de app demo con implementación de copia de archivos hacia el almacenamiento del dispositivo" color="#8cb6ce" meeting="false" start="2023-09-08" duration="1" complete="0" thirdDate="2023-09-08" thirdDate-constraint="0" expand="true"/>
+            <task id="249" name="Comprobación de implementación de copia de archivos hacia el almacenamiento del dispositivo" color="#8cb6ce" meeting="false" start="2023-09-08" duration="1" complete="0" thirdDate="2023-09-08" thirdDate-constraint="0" expand="true">
+                <depend id="212" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="212" name="Implementar función de copia hacia el almacenamiento del dispositivo" color="#8cb6ce" meeting="false" start="2023-09-09" duration="1" complete="0" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true"/>
+            <task id="213" name="Implementar pantalla principal e incuir función de copia" color="#8cb6ce" meeting="false" start="2023-09-09" duration="1" complete="0" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true">
+                <depend id="217" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="214" name="Probar app auxiliar" color="#8cb6ce" meeting="false" start="2023-09-09" duration="1" complete="0" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true"/>
+            <task id="305" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-09-09" duration="1" complete="0" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true"/>
+            <task id="215" name="Corregir errores detectados en las pruebas a la app auxiliar" color="#8cb6ce" meeting="false" start="2023-09-09" duration="1" complete="0" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true">
+                <depend id="217" type="2" difference="0" hardness="Strong"/>
+                <depend id="221" type="2" difference="27" hardness="Strong"/>
+            </task>
+            <task id="306" name="Documentar correcciónd de errores" color="#8cb6ce" meeting="false" start="2023-09-09" duration="1" complete="0" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true"/>
+            <task id="216" name="Actualizar repositorio de GitHub" color="#8cb6ce" meeting="false" start="2023-09-09" duration="1" complete="0" thirdDate="2023-09-09" thirdDate-constraint="0" expand="true"/>
+            <task id="217" name="Entregar código fuente para el desarrollo de la Herramienta de Autor" color="#8cb6ce" meeting="false" start="2023-09-10" duration="1" complete="0" thirdDate="2023-09-10" thirdDate-constraint="0" expand="true">
+                <depend id="219" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="218" name="Entrega de herramientas para la compilación de la app auxiliar" color="#8cb6ce" meeting="false" start="2023-09-10" duration="1" complete="0" thirdDate="2023-09-10" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="219" name="Probar compilación de app auxiliar por HA." color="#8cb6ce" meeting="false" start="2023-09-11" duration="1" complete="0" thirdDate="2023-09-11" thirdDate-constraint="0" expand="true">
+            <depend id="220" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="307" name="Documentar pruebas realizadas" color="#8cb6ce" meeting="false" start="2023-09-11" duration="1" complete="0" thirdDate="2023-09-11" thirdDate-constraint="0" expand="true"/>
+        <task id="220" name="Corregir errores presentados en la compilación de la app auxiliar por la HA." color="#8cb6ce" meeting="false" start="2023-09-12" duration="1" complete="0" thirdDate="2023-09-12" thirdDate-constraint="0" expand="true"/>
+        <task id="308" name="Documentar corrección de errores" color="#8cb6ce" meeting="false" start="2023-09-12" duration="1" complete="0" thirdDate="2023-09-11" thirdDate-constraint="0" expand="true"/>
+        <task id="221" name="Entregar versiones BETA de las apps" color="#8cb6ce" meeting="false" start="2023-10-07" duration="1" complete="0" thirdDate="2023-10-07" thirdDate-constraint="0" expand="true">
+            <depend id="222" type="2" difference="4" hardness="Strong"/>
+        </task>
+        <task id="222" name="Entregar versiones RC1 de las apps" color="#8cb6ce" meeting="false" start="2023-10-12" duration="1" complete="0" thirdDate="2023-10-12" thirdDate-constraint="0" expand="true"/>
+        <task id="223" name="Documento de tesis" meeting="false" start="2023-09-18" duration="85" complete="0" expand="true">
+            <task id="224" name="Redactar documento de tesis" color="#8cb6ce" meeting="false" start="2023-09-18" duration="31" complete="0" thirdDate="2023-09-18" thirdDate-constraint="0" expand="true">
+                <depend id="230" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="230" name="Aplicar lista de chequeo para documento de tesis" color="#8cb6ce" meeting="false" start="2023-10-19" duration="1" complete="0" thirdDate="2023-10-18" thirdDate-constraint="0" expand="true">
+                <depend id="225" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="225" name="Entregar documento al interesado para la revisión" color="#8cb6ce" meeting="false" start="2023-10-20" duration="1" complete="0" thirdDate="2023-10-20" thirdDate-constraint="0" expand="true">
+                <depend id="226" type="2" difference="2" hardness="Strong"/>
+            </task>
+            <task id="226" name="Rectificar señalamientos hechos por el interesado" color="#8cb6ce" meeting="false" start="2023-10-23" duration="13" complete="0" thirdDate="2023-10-23" thirdDate-constraint="0" expand="true">
+                <depend id="231" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="231" name="Reaplicar lista de chequeo para documento de tesis" color="#8cb6ce" meeting="false" start="2023-11-05" duration="1" complete="0" thirdDate="2023-11-05" thirdDate-constraint="0" expand="true">
+                <depend id="227" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="227" name="Entrega final del documento de tesis" color="#8cb6ce" meeting="false" start="2023-11-06" duration="1" complete="0" thirdDate="2023-11-06" thirdDate-constraint="0" expand="true">
+                <depend id="228" type="2" difference="27" hardness="Strong"/>
+            </task>
+            <task id="228" name="Predefensa" color="#8cb6ce" meeting="false" start="2023-12-04" duration="1" complete="0" thirdDate="2023-11-07" thirdDate-constraint="0" expand="true">
+                <depend id="229" type="2" difference="6" hardness="Strong"/>
+            </task>
+            <task id="229" name="Defensa de tesis" color="#8cb6ce" meeting="false" start="2023-12-11" duration="1" complete="0" thirdDate="2023-12-05" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="151" name="Documentación de Jefe de Proyecto" meeting="false" start="2023-03-08" duration="3" complete="100" expand="true">
+            <task id="25" name="Redactar documentación de Jefe de Proyecto" color="#8cb6ce" meeting="false" start="2023-03-08" duration="2" complete="100" thirdDate="2023-03-08" thirdDate-constraint="0" expand="true">
+                <depend id="22" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="24" name="Aplicación de lista de chequeo a la documentación de Jefe de Proyecto" color="#8cb6ce" meeting="false" start="2023-03-09" duration="1" complete="100" thirdDate="2023-03-09" thirdDate-constraint="0" expand="true">
+                <depend id="22" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="22" name="Entregar documentación de Jefe de Proyecto" color="#8cb6ce" meeting="false" start="2023-03-10" duration="1" complete="100" thirdDate="2023-03-10" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="152" name="Documentación del Planificador" meeting="false" start="2023-03-13" duration="7" complete="100" expand="true">
+            <task id="27" name="Redactar documentación del Planificador" color="#8cb6ce" meeting="false" start="2023-03-13" duration="4" complete="100" thirdDate="2023-03-13" thirdDate-constraint="0" expand="true">
+                <depend id="23" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="26" name="Aplicación de la lista de chequeo a la documentación del Planificador" color="#8cb6ce" meeting="false" start="2023-03-16" duration="1" complete="100" thirdDate="2023-03-16" thirdDate-constraint="0" expand="true">
+                <depend id="23" type="2" difference="2" hardness="Strong"/>
+            </task>
+            <task id="23" name="Entregar documentación del Planificador" color="#8cb6ce" meeting="false" start="2023-03-19" duration="1" complete="100" thirdDate="2023-03-17" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="153" name="Documentación del Gestor de la Configuración" meeting="false" start="2023-03-20" duration="5" complete="0" expand="true">
+            <task id="138" name="Redactar documentación del Gestor de la configuración" color="#8cb6ce" meeting="false" start="2023-03-20" duration="4" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true">
+                <depend id="140" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="139" name="Aplicación de la lista de chequeo a la documentación del Gestor de la Configuración" color="#8cb6ce" meeting="false" start="2023-03-23" duration="1" complete="0" thirdDate="2023-03-23" thirdDate-constraint="0" expand="true">
+                <depend id="140" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="140" name="Entrega de la ducumentación del Gestor de la Configuración" color="#8cb6ce" meeting="false" start="2023-03-24" duration="1" complete="0" thirdDate="2023-03-24" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="154" name="Documentación del Analista-Arquitecto-Diseñador" meeting="false" start="2023-04-02" duration="4" complete="0" expand="true">
+            <task id="141" name="Redactar documenación del Analista-Arquitecto-Diseñador" color="#8cb6ce" meeting="false" start="2023-04-02" duration="3" complete="0" thirdDate="2023-04-02" thirdDate-constraint="0" expand="true">
+                <depend id="144" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="143" name="Aplicación de la lista de chequeo a la documenación del Analista-Arquitecto-Diseñador" color="#8cb6ce" meeting="false" start="2023-04-04" duration="1" complete="0" thirdDate="2023-04-04" thirdDate-constraint="0" expand="true">
+                <depend id="144" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="144" name="Entraga de la documenación del Analista-Arquitecto-Diseñador" color="#8cb6ce" meeting="false" start="2023-04-05" duration="1" complete="0" thirdDate="2023-04-05" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="155" name="Documentación del Especialista de calidad-Probador" meeting="false" start="2023-04-05" duration="3" complete="0" expand="true">
+            <task id="145" name="Redactar documenación del Especialista de calidad-Probador" color="#8cb6ce" meeting="false" start="2023-04-05" duration="2" complete="0" thirdDate="2023-04-05" thirdDate-constraint="0" expand="true">
+                <depend id="147" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="146" name="Aplicar lista de chequeo a la documenación del Especialista de calidad-Probador" color="#8cb6ce" meeting="false" start="2023-04-06" duration="1" complete="0" thirdDate="2023-04-06" thirdDate-constraint="0" expand="true">
+                <depend id="147" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="147" name="Entregar la documenación del Especialista de calidad-Probador" color="#8cb6ce" meeting="false" start="2023-04-07" duration="1" complete="0" thirdDate="2023-04-07" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="156" name="Documentación del Programador" meeting="false" start="2023-04-10" duration="3" complete="0" expand="true">
+            <task id="148" name="Redactar documenación del Programador" color="#8cb6ce" meeting="false" start="2023-04-10" duration="2" complete="0" thirdDate="2023-04-10" thirdDate-constraint="0" expand="true">
+                <depend id="150" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="149" name="Aplicar lista de chequeo a la documenación del Programador" color="#8cb6ce" meeting="false" start="2023-04-11" duration="1" complete="0" thirdDate="2023-04-11" thirdDate-constraint="0" expand="true">
+                <depend id="150" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="150" name="Entregar la documenación del Programador" color="#8cb6ce" meeting="false" start="2023-04-12" duration="1" complete="0" thirdDate="2023-04-12" thirdDate-constraint="0" expand="true"/>
+        </task>
+    </tasks>
+    <resources>
+        <resource id="0" name="Damian (JP)" function="1" contacts="" phone=""/>
+        <resource id="1" name="Damian (Planif)" function="2" contacts="" phone=""/>
+        <resource id="2" name="Juan C. Sepúlveda" function="10" contacts="" phone=""/>
+        <resource id="3" name="Damian (GC)" function="4" contacts="" phone=""/>
+        <resource id="4" name="Damian (Prog)" function="6" contacts="" phone=""/>
+        <resource id="5" name="Damian (Prob)" function="7" contacts="" phone=""/>
+        <resource id="6" name="Damian (EE)" function="9" contacts="" phone=""/>
+        <resource id="7" name="Damian (D)" function="5" contacts="" phone=""/>
+        <resource id="8" name="Damian (EC)" function="8" contacts="" phone=""/>
+        <resource id="9" name="Damian (An)" function="3" contacts="" phone=""/>
+        <resource id="10" name="Damian (Arq)" function="11" contacts="" phone=""/>
+        <resource id="11" name="Juan Carlos Sepúlveda Peña" function="Default:1" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="1" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="137" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="21" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="157" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="201" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="202" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="208" resource-id="0" function="1" responsible="false" load="100.0"/>
+        <allocation task-id="217" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="221" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="222" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="225" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="227" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="25" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="22" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="247" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="248" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="249" resource-id="0" function="1" responsible="true" load="100.0"/>
+        <allocation task-id="27" resource-id="1" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="23" resource-id="1" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="233" resource-id="1" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="234" resource-id="1" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="235" resource-id="1" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="236" resource-id="1" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="237" resource-id="1" function="2" responsible="true" load="100.0"/>
+        <allocation task-id="1" resource-id="2" function="10" responsible="false" load="100.0"/>
+        <allocation task-id="208" resource-id="2" function="10" responsible="true" load="100.0"/>
+        <allocation task-id="28" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="29" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="53" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="218" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="138" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="140" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="239" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="240" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="242" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="243" resource-id="3" function="4" responsible="true" load="100.0"/>
+        <allocation task-id="3" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="5" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="6" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="15" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="18" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="54" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="9" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="8" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="10" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="11" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="17" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="20" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="31" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="33" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="34" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="36" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="39" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="38" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="40" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="43" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="44" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="46" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="47" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="56" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="58" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="59" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="61" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="62" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="63" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="65" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="66" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="67" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="69" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="70" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="71" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="73" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="57" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="74" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="75" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="77" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="78" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="79" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="81" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="82" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="83" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="85" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="50" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="86" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="87" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="89" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="90" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="91" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="93" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="94" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="95" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="97" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="51" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="98" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="99" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="101" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="102" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="103" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="105" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="106" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="107" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="109" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="52" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="111" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="112" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="113" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="114" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="116" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="117" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="118" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="120" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="121" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="123" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="124" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="126" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="128" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="129" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="131" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="132" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="134" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="136" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="133" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="181" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="183" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="184" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="187" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="188" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="190" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="197" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="193" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="194" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="196" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="198" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="172" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="173" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="177" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="175" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="178" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="160" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="161" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="163" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="164" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="166" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="168" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="167" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="211" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="212" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="213" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="215" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="216" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="220" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="148" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="150" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="246" resource-id="4" function="6" responsible="true" load="100.0"/>
+        <allocation task-id="245" resource-id="4" function="6" responsible="true" load="100.0"/>
+        <allocation task-id="244" resource-id="4" function="6" responsible="true" load="100.0"/>
+        <allocation task-id="256" resource-id="4" function="6" responsible="true" load="100.0"/>
+        <allocation task-id="269" resource-id="4" function="6" responsible="true" load="100.0"/>
+        <allocation task-id="14" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="16" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="35" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="37" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="45" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="60" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="64" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="68" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="72" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="76" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="80" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="84" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="88" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="92" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="96" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="100" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="104" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="108" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="115" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="122" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="127" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="125" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="130" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="135" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="182" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="189" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="195" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="174" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="162" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="165" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="214" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="219" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="145" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="147" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="250" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="251" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="252" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="253" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="255" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="254" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="257" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="258" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="259" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="260" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="261" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="262" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="263" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="264" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="265" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="266" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="267" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="268" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="270" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="271" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="271" resource-id="5" function="7" responsible="false" load="100.0"/>
+        <allocation task-id="272" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="273" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="274" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="275" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="276" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="277" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="278" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="279" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="280" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="281" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="282" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="283" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="284" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="285" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="286" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="287" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="288" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="289" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="290" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="291" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="292" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="293" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="294" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="295" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="296" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="297" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="298" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="299" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="300" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="301" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="302" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="304" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="303" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="305" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="306" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="307" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="308" resource-id="5" function="7" responsible="true" load="100.0"/>
+        <allocation task-id="200" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="203" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="205" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="204" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="224" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="226" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="229" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="228" resource-id="6" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="4" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="32" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="42" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="49" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="180" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="186" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="192" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="171" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="176" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="159" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="210" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="141" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="144" resource-id="7" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="206" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="207" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="230" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="231" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="24" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="26" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="139" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="143" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="145" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="146" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="147" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="149" resource-id="8" function="8" responsible="true" load="100.0"/>
+        <allocation task-id="141" resource-id="9" function="3" responsible="true" load="100.0"/>
+        <allocation task-id="144" resource-id="9" function="3" responsible="true" load="100.0"/>
+        <allocation task-id="141" resource-id="10" function="11" responsible="true" load="100.0"/>
+        <allocation task-id="144" resource-id="10" function="11" responsible="true" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles>
+        <role id="1" name="Jefe de Proyecto"/>
+        <role id="2" name="Planificador"/>
+        <role id="3" name="Analista"/>
+        <role id="4" name="Gestor de la Configuración"/>
+        <role id="5" name="Diseñador"/>
+        <role id="6" name="Programador"/>
+        <role id="7" name="Probador"/>
+        <role id="8" name="Especialista de calidad"/>
+        <role id="9" name="Escritor-Expositor de trabajos"/>
+        <role id="10" name="Tutor"/>
+        <role id="11" name="Arquitecto"/>
+    </roles>
+</project>
