@@ -34,12 +34,6 @@ class SpeciesDetailsPage extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     }
                     final species = snapshot.data as SpeciesModel;
-                    final gallery = Gallery(
-                      species.medias,
-                      mainImageId: species.mainImage != null
-                          ? species.mainImage!.id
-                          : null,
-                    );
                     return SingleChildScrollView(
                       child: Column(
                         children: [
@@ -104,12 +98,14 @@ class SpeciesDetailsPage extends StatelessWidget {
                             title: AppLocalizations.of(context).diet,
                             instances: species.diets,
                           ),
-                          const InfoCard(
-                            title: 'sonido',
-                            instance: 'species.sound',
-                          ),
+                          AudioCard(species.medias),
                           Description(species.description.toString()),
-                          gallery,
+                          Gallery(
+                            species.medias,
+                            mainImageId: species.mainImage != null
+                                ? species.mainImage!.id
+                                : null,
+                          ),
                           const SizedBox(height: 20.0),
                         ],
                       ),

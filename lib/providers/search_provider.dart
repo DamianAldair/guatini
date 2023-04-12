@@ -287,25 +287,26 @@ abstract class SearchProvider {
 
   static Future<List<MediaModel>> _getMedias(Database db, int speciesId) async {
     final query = '''
-        select
-        [main].[media].[id],
-        [main].[media].[path],
-        [main].[media].[date_capture],
-        [main].[media].[lat],
-        [main].[media].[lon],
+        SELECT 
+        [main].[media].[id], 
+        [main].[media].[path], 
+        [main].[media].[date_capture], 
+        [main].[media].[lat], 
+        [main].[media].[lon], 
+        [main].[author].[id] AS [authorId], 
+        [main].[media].[fk_license_] AS [licenseId], 
         [main].[media].[fk_type_]
-        from [main].[media]
-        inner join [main].[specie] on [main].[specie].[id] = [main].[media].[fk_specie_]
-        where [main].[specie].[id] = $speciesId;
+        FROM [main].[media]
+        INNER JOIN [main].[media_author] ON [main].[media].[id] = [main].[media_author].[fk_media_]
+        INNER JOIN [main].[author] ON [main].[author].[id] = [main].[media_author].[fk_author_]
+        INNER JOIN [main].[type] ON [main].[type].[id] = [main].[media].[fk_type_]
+        WHERE [main].[media].[fk_specie_] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     final medias = <MediaModel>[];
     for (Map<String, Object?> item in result) {
-      MediaTypeModel? type = await _getMediaType(
-        db,
-        MediaModel.fromMap(item).id,
-      );
       MediaModel media = MediaModel.fromMap(item);
+      MediaTypeModel? type = await _getMediaType(db, media.id);
       media.type = type;
       medias.add(media);
     }

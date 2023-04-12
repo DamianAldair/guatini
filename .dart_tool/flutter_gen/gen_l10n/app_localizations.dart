@@ -394,6 +394,42 @@ abstract class AppLocalizations {
   /// **'Light'**
   String get light;
 
+  /// No description provided for @moreAudiosOf.
+  ///
+  /// In en, this message translates to:
+  /// **'More audios of'**
+  String get moreAudiosOf;
+
+  /// No description provided for @morePhotosOf.
+  ///
+  /// In en, this message translates to:
+  /// **'More photos of'**
+  String get morePhotosOf;
+
+  /// No description provided for @moreVideosOf.
+  ///
+  /// In en, this message translates to:
+  /// **'More videos of'**
+  String get moreVideosOf;
+
+  /// No description provided for @moreAudiosWith.
+  ///
+  /// In en, this message translates to:
+  /// **'More audios with'**
+  String get moreAudiosWith;
+
+  /// No description provided for @morePhotosWith.
+  ///
+  /// In en, this message translates to:
+  /// **'More photos with'**
+  String get morePhotosWith;
+
+  /// No description provided for @moreVideosWith.
+  ///
+  /// In en, this message translates to:
+  /// **'More videos with'**
+  String get moreVideosWith;
+
   /// No description provided for @nearThreataned.
   ///
   /// In en, this message translates to:
@@ -454,6 +490,18 @@ abstract class AppLocalizations {
   /// **'Ok'**
   String get ok;
 
+  /// No description provided for @pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pause;
+
+  /// No description provided for @play.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get play;
+
   /// No description provided for @previousFolder.
   ///
   /// In en, this message translates to:
@@ -465,6 +513,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Refresh'**
   String get refresh;
+
+  /// No description provided for @replay.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay'**
+  String get replay;
 
   /// No description provided for @search.
   ///
@@ -495,6 +549,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Species Details'**
   String get speciesDetails;
+
+  /// No description provided for @stop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get stop;
 
   /// No description provided for @system.
   ///

@@ -4,6 +4,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/author_model.dart';
 import 'package:guatini/models/conservationstatus_model.dart';
 import 'package:guatini/models/license_model.dart';
+import 'package:guatini/pages/author_details_page.dart';
+import 'package:guatini/pages/license_details_page.dart';
 import 'package:selectable/selectable.dart';
 
 class InfoCard<T> extends StatelessWidget {
@@ -562,7 +564,7 @@ class Description extends StatelessWidget {
 }
 
 class AuthorCard extends StatelessWidget {
-  final AuthorModel author;
+  final AuthorModel? author;
 
   const AuthorCard(this.author, {Key? key}) : super(key: key);
 
@@ -570,6 +572,10 @@ class AuthorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const radius = 10.0;
     return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => AuthorDetailsPage(author)),
+      ),
       child: Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15.0,
@@ -601,7 +607,7 @@ class AuthorCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(
-                author.name ?? AppLocalizations.of(context).unknown,
+                author?.name ?? AppLocalizations.of(context).unknown,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -614,7 +620,7 @@ class AuthorCard extends StatelessWidget {
 }
 
 class LicenseCard extends StatelessWidget {
-  final LicenseModel license;
+  final LicenseModel? license;
 
   const LicenseCard(this.license, {Key? key}) : super(key: key);
 
@@ -622,6 +628,10 @@ class LicenseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const radius = 10.0;
     return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => LicenseDetailsPage(license)),
+      ),
       child: Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15.0,
@@ -653,7 +663,7 @@ class LicenseCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Text(
-                license.name ?? AppLocalizations.of(context).unknown,
+                license?.name ?? AppLocalizations.of(context).unknown,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),

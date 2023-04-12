@@ -7,9 +7,9 @@ enum MediaType {
 _setType(String type) {
   if (type == 'Audio') {
     return MediaType.audio;
-  } else if (type == 'Imagen') {
+  } else if (type == 'Imagen' || type == "Image") {
     return MediaType.image;
-  } else if (type == 'Video') {
+  } else if (type == 'Vídeo' || type == 'Video') {
     return MediaType.video;
   } else {
     return;

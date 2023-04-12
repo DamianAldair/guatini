@@ -163,6 +163,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get light => 'Light';
 
   @override
+  String get moreAudiosOf => 'More audios of';
+
+  @override
+  String get morePhotosOf => 'More photos of';
+
+  @override
+  String get moreVideosOf => 'More videos of';
+
+  @override
+  String get moreAudiosWith => 'More audios with';
+
+  @override
+  String get morePhotosWith => 'More photos with';
+
+  @override
+  String get moreVideosWith => 'More videos with';
+
+  @override
   String get nearThreataned => 'Near threataned';
 
   @override
@@ -193,10 +211,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ok => 'Ok';
 
   @override
+  String get pause => 'Pause';
+
+  @override
+  String get play => 'Play';
+
+  @override
   String get previousFolder => 'Go to previous folder';
 
   @override
   String get refresh => 'Refresh';
+
+  @override
+  String get replay => 'Replay';
 
   @override
   String get search => 'Search';
@@ -212,6 +239,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get speciesDetails => 'Species Details';
+
+  @override
+  String get stop => 'Stop';
 
   @override
   String get system => 'System';

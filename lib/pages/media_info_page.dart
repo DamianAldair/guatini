@@ -13,6 +13,7 @@ import 'package:guatini/widgets/info_card_widget.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class MediaInfoPage extends StatelessWidget {
   final MediaModel media;
@@ -48,16 +49,20 @@ class MediaInfoPage extends StatelessWidget {
             final db = snapshot.data as Database;
             return FutureBuilder(
                 future: Future.wait([
-                  SearchProvider.getAuthor(db, media.authorId!),
-                  SearchProvider.getLicense(db, media.licenseId!),
+                  media.authorId == null
+                      ? Future.value(null)
+                      : SearchProvider.getAuthor(db, media.authorId!),
+                  media.licenseId == null
+                      ? Future.value(null)
+                      : SearchProvider.getLicense(db, media.licenseId!),
                 ]),
                 builder: (_, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   }
                   final results = snapshot.data as List;
-                  final author = results[0] as AuthorModel;
-                  final license = results[1] as LicenseModel;
+                  final author = results[0] as AuthorModel?;
+                  final license = results[1] as LicenseModel?;
                   return SingleChildScrollView(
                     child: Column(
                       children: [
@@ -72,7 +77,72 @@ class MediaInfoPage extends StatelessWidget {
                                   child: SizedBox(
                                     height: size.width / 3,
                                     width: size.width / 3,
-                                    child: image,
+                                    child: FutureBuilder(
+                                      future: file.exists(),
+                                      builder: (_, AsyncSnapshot snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+                                        if (media.mediaType.type ==
+                                            MediaType.image) {
+                                          return snapshot.data
+                                              ? Image.file(
+                                                  file,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image.asset(
+                                                  'assets/images/image_not_available.png',
+                                                  fit: BoxFit.cover,
+                                                );
+                                        } else if (media.mediaType.type ==
+                                            MediaType.video) {
+                                          return FutureBuilder(
+                                            future:
+                                                VideoThumbnail.thumbnailData(
+                                                    video: path),
+                                            builder:
+                                                (_, AsyncSnapshot snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              }
+                                              return Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Container(
+                                                    color: Colors.black
+                                                        .withOpacity(0.6),
+                                                  ),
+                                                  Image.memory(
+                                                    snapshot.data,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  Container(
+                                                    width: 45.0,
+                                                    height: 45.0,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.black
+                                                          .withOpacity(0.6),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100.0),
+                                                    ),
+                                                    child: const Icon(Icons
+                                                        .play_arrow_rounded),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          return const SizedBox.shrink();
+                                        }
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
@@ -90,7 +160,7 @@ class MediaInfoPage extends StatelessWidget {
                             style: const TextStyle(fontSize: 17.0),
                           ),
                         ),
-                        AuthorCard(author),
+                        AuthorCard(author!),
                         LicenseCard(license),
                         //TODO: map with capture location
                       ],

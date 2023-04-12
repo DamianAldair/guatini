@@ -34,7 +34,7 @@ class MediaModel {
   factory MediaModel.fromMap(Map<String, dynamic> json) => MediaModel(
         id: json["id"],
         path: json["path"],
-        dateCapture: json["dateCapture"],
+        dateCapture: json["date_capture"],
         latitude: json["latitude"],
         longitude: json["longitude"],
         authorId: json["authorId"],

@@ -163,6 +163,24 @@ class AppLocalizationsEs extends AppLocalizations {
   String get light => 'Claro';
 
   @override
+  String get moreAudiosOf => 'Más audios de';
+
+  @override
+  String get morePhotosOf => 'Más fotos de';
+
+  @override
+  String get moreVideosOf => 'Más videos de';
+
+  @override
+  String get moreAudiosWith => 'Más audios con';
+
+  @override
+  String get morePhotosWith => 'Más photos con';
+
+  @override
+  String get moreVideosWith => 'Más videos con';
+
+  @override
   String get nearThreataned => 'Casi amenazada';
 
   @override
@@ -193,10 +211,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ok => 'Aceptar';
 
   @override
+  String get pause => 'Pausa';
+
+  @override
+  String get play => 'Reproducir';
+
+  @override
   String get previousFolder => 'Ir a la carpeta anterior';
 
   @override
   String get refresh => 'Refrescar';
+
+  @override
+  String get replay => 'Comenzar reproducción de nuevo';
 
   @override
   String get search => 'Buscar';
@@ -212,6 +239,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get speciesDetails => 'Detalles de la especie';
+
+  @override
+  String get stop => 'Parar reproducción';
 
   @override
   String get system => 'Según el sistema';
