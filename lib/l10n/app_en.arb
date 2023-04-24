@@ -70,10 +70,16 @@
     "no": "No",
     "noDatabases": "No databases",
     "noRecentSearches": "There are no recent searches",
+    "noResults": "There are no results",
     "notSelected": "Not selected",
     "numberItemsSearchHistory": "Number of items in the search history",
     "numberSeggestions": "Number of suggestions on Home",
     "ok": "Ok",
+    "onlineAudio": "Online audio",
+    "onlineImage": "Online image",
+    "onlineUse": "Online use",
+    "onlineVideo": "Online video",
+    "onlineUseText": "Use of información from internet",
     "pause": "Pause",
     "play": "Play",
     "previousFolder": "Go to previous folder",
@@ -100,5 +106,6 @@
     "version": "Version",
     "video": "Video",
     "vulnerable": "Vulnerable",
+    "wikiSearch": "Search on Wikipedia",
     "yes": "Yes"
 }

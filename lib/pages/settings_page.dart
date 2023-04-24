@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/pages/databases_page.dart';
 import 'package:guatini/pages/language_page.dart';
+import 'package:guatini/pages/online_page.dart';
 import 'package:guatini/pages/themes_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/util/parse.dart';
@@ -40,6 +41,16 @@ class SettingsPage extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const DatabasesPage()),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.open_in_new_rounded),
+            title: Text(AppLocalizations.of(context).onlineUse),
+            subtitle: Text(AppLocalizations.of(context).onlineUseText),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const OnlineUsePage()),
             ),
           ),
           ListTile(

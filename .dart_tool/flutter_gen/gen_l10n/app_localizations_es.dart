@@ -38,7 +38,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get back => 'Volver';
 
   @override
-  String get chooseOne => 'Sellecione una opción';
+  String get chooseOne => 'Seleccione una opción';
 
   @override
   String get clear => 'Borrar todo';
@@ -199,6 +199,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noRecentSearches => 'No hay búsquedas recientes';
 
   @override
+  String get noResults => 'No hay resultados';
+
+  @override
   String get notSelected => 'No seleccionada';
 
   @override
@@ -209,6 +212,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ok => 'Aceptar';
+
+  @override
+  String get onlineAudio => 'Audio en línea';
+
+  @override
+  String get onlineImage => 'Imagen en línea';
+
+  @override
+  String get onlineUse => 'Uso en línea';
+
+  @override
+  String get onlineVideo => 'Video en línea';
+
+  @override
+  String get onlineUseText => 'Uso de información desde internet';
 
   @override
   String get pause => 'Pausa';
@@ -287,6 +305,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get vulnerable => 'Vulnerable';
+
+  @override
+  String get wikiSearch => 'Buscar en Wikipedia';
 
   @override
   String get yes => 'Sí';

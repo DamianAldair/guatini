@@ -199,6 +199,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noRecentSearches => 'There are no recent searches';
 
   @override
+  String get noResults => 'There are no results';
+
+  @override
   String get notSelected => 'Not selected';
 
   @override
@@ -209,6 +212,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ok => 'Ok';
+
+  @override
+  String get onlineAudio => 'Online audio';
+
+  @override
+  String get onlineImage => 'Online image';
+
+  @override
+  String get onlineUse => 'Online use';
+
+  @override
+  String get onlineVideo => 'Online video';
+
+  @override
+  String get onlineUseText => 'Use of información from internet';
 
   @override
   String get pause => 'Pause';
@@ -287,6 +305,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vulnerable => 'Vulnerable';
+
+  @override
+  String get wikiSearch => 'Search on Wikipedia';
 
   @override
   String get yes => 'Yes';
