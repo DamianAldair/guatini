@@ -20,6 +20,12 @@ class WikiSearchPage extends StatelessWidget {
           : FutureBuilder(
               future: WikipediaProvider.search(context, query!),
               builder: (_, AsyncSnapshot<WikiResults> snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child:
+                        Text(AppLocalizations.of(context).errorObtainingInfo),
+                  );
+                }
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }

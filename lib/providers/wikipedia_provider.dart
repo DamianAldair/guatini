@@ -10,14 +10,18 @@ abstract class WikipediaProvider {
   }
 
   static Future<WikiResults> search(BuildContext context, String query) async {
-    final response = await Dio().get(
-      _getApiUrl(context),
-      queryParameters: {
-        "action": "opensearch",
-        "format": "json",
-        "search": query,
-      },
-    );
-    return WikiResults.fromResponse(response.data);
+    try {
+      final response = await Dio().get(
+        _getApiUrl(context),
+        queryParameters: {
+          "action": "opensearch",
+          "format": "json",
+          "search": query,
+        },
+      );
+      return WikiResults.fromResponse(response.data);
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 }
