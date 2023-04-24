@@ -229,6 +229,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get onlineUseText => 'Uso de información desde internet';
 
   @override
+  String get openQrReader => 'Abrir lector de códigos QR';
+
+  @override
   String get pause => 'Pausa';
 
   @override

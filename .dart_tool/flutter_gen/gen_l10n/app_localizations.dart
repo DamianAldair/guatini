@@ -526,6 +526,12 @@ abstract class AppLocalizations {
   /// **'Use of información from internet'**
   String get onlineUseText;
 
+  /// No description provided for @openQrReader.
+  ///
+  /// In en, this message translates to:
+  /// **'Open QR reader'**
+  String get openQrReader;
+
   /// No description provided for @pause.
   ///
   /// In en, this message translates to:

@@ -46,6 +46,13 @@ class _MainPageState extends State<MainPage> {
                 );
               },
             ),
+            IconButton(
+              icon: const Icon(Icons.qr_code_scanner_rounded),
+              tooltip: AppLocalizations.of(context).openQrReader,
+              onPressed: () {
+                // TODO: QR Reader
+              },
+            ),
           ],
         ),
         drawer: const MyDrawer(),
