@@ -172,7 +172,7 @@ class ConservationStateCard extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: _getConservationIcon(status!.status),
+            children: _getConservationIcon(context, status!.status),
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -220,7 +220,7 @@ class ConservationStateCard extends StatelessWidget {
     return conservation;
   }
 
-  List<Widget> _getConservationIcon(int? index) {
+  List<Widget> _getConservationIcon(BuildContext context, int? index) {
     List<Widget> list = <Widget>[];
     if (index! >= 1 && index <= 7) {
       bool ex = false;
@@ -253,13 +253,13 @@ class ConservationStateCard extends StatelessWidget {
           lc = true;
           break;
       }
-      list.add(_extinct(ex));
-      list.add(_extinctInTheWild(ew));
-      list.add(_criticalEndangered(ce));
-      list.add(_endangered(ed));
-      list.add(_vulnerable(vu));
-      list.add(_nearThreataned(nt));
-      list.add(_leastConcern(lc));
+      list.add(_extinct(context, ex));
+      list.add(_extinctInTheWild(context, ew));
+      list.add(_criticalEndangered(context, ce));
+      list.add(_endangered(context, ed));
+      list.add(_vulnerable(context, vu));
+      list.add(_nearThreataned(context, nt));
+      list.add(_leastConcern(context, lc));
     } else if (index == 8 || index == 9) {
       bool dd = false;
       bool ne = false;
@@ -268,214 +268,26 @@ class ConservationStateCard extends StatelessWidget {
           dd = true;
           break;
         case 9:
+        default:
           ne = true;
           break;
       }
-      list.add(_deficientData(dd));
-      list.add(_notEvaluated(ne));
+      list.add(_deficientData(context, dd));
+      list.add(_notEvaluated(context, ne));
     }
     return list;
   }
 
-  Widget _extinct(bool active) {
-    return Container(
-      height: 35.0,
-      width: 35.0,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: active
-            ? const Color.fromARGB(255, 0, 0, 0)
-            : const Color.fromARGB(125, 240, 240, 240),
-        borderRadius: BorderRadius.circular(100.0),
-        border: Border.all(
-          color: active
-              ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-      child: Text(
-        'EX',
-        style: TextStyle(
-          color: active
-              ? const Color.fromARGB(255, 207, 52, 52)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget _extinctInTheWild(bool active) {
-    return Container(
-      height: 35.0,
-      width: 35.0,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: active
-            ? const Color.fromARGB(255, 0, 0, 0)
-            : const Color.fromARGB(125, 240, 240, 240),
-        borderRadius: BorderRadius.circular(100.0),
-        border: Border.all(
-          color: active
-              ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-      child: Text(
-        'EW',
-        style: TextStyle(
-          color: active
-              ? const Color.fromARGB(255, 255, 255, 255)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget _criticalEndangered(bool active) {
-    return Container(
-      height: 35.0,
-      width: 35.0,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: active
-            ? const Color.fromARGB(255, 204, 51, 51)
-            : const Color.fromARGB(125, 240, 240, 240),
-        borderRadius: BorderRadius.circular(100.0),
-        border: Border.all(
-          color: active
-              ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-      child: Text(
-        'CE',
-        style: TextStyle(
-          color: active
-              ? const Color.fromARGB(255, 252, 193, 193)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget _endangered(bool active) {
-    return Container(
-      height: 35.0,
-      width: 35.0,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: active
-            ? const Color.fromARGB(255, 204, 102, 51)
-            : const Color.fromARGB(125, 240, 240, 240),
-        borderRadius: BorderRadius.circular(100.0),
-        border: Border.all(
-          color: active
-              ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-      child: Text(
-        'EN',
-        style: TextStyle(
-          color: active
-              ? const Color.fromARGB(255, 247, 188, 137)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget _vulnerable(bool active) {
-    return Container(
-      height: 35.0,
-      width: 35.0,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: active
-            ? const Color.fromARGB(255, 204, 159, 0)
-            : const Color.fromARGB(125, 240, 240, 240),
-        border: Border.all(
-          color: active
-              ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-        borderRadius: BorderRadius.circular(100.0),
-      ),
-      child: Text(
-        'VU',
-        style: TextStyle(
-          color: active
-              ? const Color.fromARGB(255, 255, 255, 255)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget _nearThreataned(bool active) {
-    return Container(
-      height: 35.0,
-      width: 35.0,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: active
-            ? const Color.fromARGB(255, 0, 102, 102)
-            : const Color.fromARGB(125, 240, 240, 240),
-        border: Border.all(
-          color: active
-              ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-        borderRadius: BorderRadius.circular(100.0),
-      ),
-      child: Text(
-        'NT',
-        style: TextStyle(
-          color: active
-              ? const Color.fromARGB(255, 113, 177, 140)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget _leastConcern(bool active) {
-    return Container(
-      height: 35.0,
-      width: 35.0,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: active
-            ? const Color.fromARGB(255, 0, 102, 102)
-            : const Color.fromARGB(125, 240, 240, 240),
-        borderRadius: BorderRadius.circular(100.0),
-        border: Border.all(
-          color: active
-              ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-      child: Text(
-        'LC',
-        style: TextStyle(
-          color: active
-              ? const Color.fromARGB(255, 255, 255, 255)
-              : const Color.fromARGB(125, 0, 0, 0),
-        ),
-      ),
-    );
-  }
-
-  Widget _deficientData(bool active) {
-    return Expanded(
+  Widget _extinct(BuildContext context, bool active) {
+    return Tooltip(
+      message: _getConservationText(context, 1),
       child: Container(
         height: 35.0,
         width: 35.0,
-        margin: const EdgeInsets.only(left: 15.0, right: 8.0),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: active
-              ? const Color.fromARGB(255, 55, 55, 135)
+              ? const Color.fromARGB(255, 0, 0, 0)
               : const Color.fromARGB(125, 240, 240, 240),
           borderRadius: BorderRadius.circular(100.0),
           border: Border.all(
@@ -485,7 +297,37 @@ class ConservationStateCard extends StatelessWidget {
           ),
         ),
         child: Text(
-          'DD',
+          'EX',
+          style: TextStyle(
+            color: active
+                ? const Color.fromARGB(255, 207, 52, 52)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _extinctInTheWild(BuildContext context, bool active) {
+    return Tooltip(
+      message: _getConservationText(context, 2),
+      child: Container(
+        height: 35.0,
+        width: 35.0,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: active
+              ? const Color.fromARGB(255, 0, 0, 0)
+              : const Color.fromARGB(125, 240, 240, 240),
+          borderRadius: BorderRadius.circular(100.0),
+          border: Border.all(
+            color: active
+                ? const Color.fromARGB(0, 0, 0, 0)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+        ),
+        child: Text(
+          'EW',
           style: TextStyle(
             color: active
                 ? const Color.fromARGB(255, 255, 255, 255)
@@ -496,16 +338,16 @@ class ConservationStateCard extends StatelessWidget {
     );
   }
 
-  Widget _notEvaluated(bool active) {
-    return Expanded(
+  Widget _criticalEndangered(BuildContext context, bool active) {
+    return Tooltip(
+      message: _getConservationText(context, 3),
       child: Container(
         height: 35.0,
         width: 35.0,
-        margin: const EdgeInsets.only(left: 8.0, right: 15.0),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: active
-              ? const Color.fromARGB(255, 55, 55, 135)
+              ? const Color.fromARGB(255, 204, 51, 51)
               : const Color.fromARGB(125, 240, 240, 240),
           borderRadius: BorderRadius.circular(100.0),
           border: Border.all(
@@ -515,11 +357,197 @@ class ConservationStateCard extends StatelessWidget {
           ),
         ),
         child: Text(
-          'NE',
+          'CE',
+          style: TextStyle(
+            color: active
+                ? const Color.fromARGB(255, 252, 193, 193)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _endangered(BuildContext context, bool active) {
+    return Tooltip(
+      message: _getConservationText(context, 4),
+      child: Container(
+        height: 35.0,
+        width: 35.0,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: active
+              ? const Color.fromARGB(255, 204, 102, 51)
+              : const Color.fromARGB(125, 240, 240, 240),
+          borderRadius: BorderRadius.circular(100.0),
+          border: Border.all(
+            color: active
+                ? const Color.fromARGB(0, 0, 0, 0)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+        ),
+        child: Text(
+          'EN',
+          style: TextStyle(
+            color: active
+                ? const Color.fromARGB(255, 247, 188, 137)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _vulnerable(BuildContext context, bool active) {
+    return Tooltip(
+      message: _getConservationText(context, 5),
+      child: Container(
+        height: 35.0,
+        width: 35.0,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: active
+              ? const Color.fromARGB(255, 204, 159, 0)
+              : const Color.fromARGB(125, 240, 240, 240),
+          border: Border.all(
+            color: active
+                ? const Color.fromARGB(0, 0, 0, 0)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+          borderRadius: BorderRadius.circular(100.0),
+        ),
+        child: Text(
+          'VU',
           style: TextStyle(
             color: active
                 ? const Color.fromARGB(255, 255, 255, 255)
                 : const Color.fromARGB(125, 0, 0, 0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _nearThreataned(BuildContext context, bool active) {
+    return Tooltip(
+      message: _getConservationText(context, 6),
+      child: Container(
+        height: 35.0,
+        width: 35.0,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: active
+              ? const Color.fromARGB(255, 0, 102, 102)
+              : const Color.fromARGB(125, 240, 240, 240),
+          border: Border.all(
+            color: active
+                ? const Color.fromARGB(0, 0, 0, 0)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+          borderRadius: BorderRadius.circular(100.0),
+        ),
+        child: Text(
+          'NT',
+          style: TextStyle(
+            color: active
+                ? const Color.fromARGB(255, 113, 177, 140)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _leastConcern(BuildContext context, bool active) {
+    return Tooltip(
+      message: _getConservationText(context, 7),
+      child: Container(
+        height: 35.0,
+        width: 35.0,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: active
+              ? const Color.fromARGB(255, 0, 102, 102)
+              : const Color.fromARGB(125, 240, 240, 240),
+          borderRadius: BorderRadius.circular(100.0),
+          border: Border.all(
+            color: active
+                ? const Color.fromARGB(0, 0, 0, 0)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+        ),
+        child: Text(
+          'LC',
+          style: TextStyle(
+            color: active
+                ? const Color.fromARGB(255, 255, 255, 255)
+                : const Color.fromARGB(125, 0, 0, 0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _deficientData(BuildContext context, bool active) {
+    return Expanded(
+      child: Tooltip(
+        message: _getConservationText(context, 8),
+        child: Container(
+          height: 35.0,
+          width: 35.0,
+          margin: const EdgeInsets.only(left: 15.0, right: 8.0),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active
+                ? const Color.fromARGB(255, 55, 55, 135)
+                : const Color.fromARGB(125, 240, 240, 240),
+            borderRadius: BorderRadius.circular(100.0),
+            border: Border.all(
+              color: active
+                  ? const Color.fromARGB(0, 0, 0, 0)
+                  : const Color.fromARGB(125, 0, 0, 0),
+            ),
+          ),
+          child: Text(
+            'DD',
+            style: TextStyle(
+              color: active
+                  ? const Color.fromARGB(255, 255, 255, 255)
+                  : const Color.fromARGB(125, 0, 0, 0),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _notEvaluated(BuildContext context, bool active) {
+    return Expanded(
+      child: Tooltip(
+        message: _getConservationText(context, 9),
+        child: Container(
+          height: 35.0,
+          width: 35.0,
+          margin: const EdgeInsets.only(left: 8.0, right: 15.0),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active
+                ? const Color.fromARGB(255, 55, 55, 135)
+                : const Color.fromARGB(125, 240, 240, 240),
+            borderRadius: BorderRadius.circular(100.0),
+            border: Border.all(
+              color: active
+                  ? const Color.fromARGB(0, 0, 0, 0)
+                  : const Color.fromARGB(125, 0, 0, 0),
+            ),
+          ),
+          child: Text(
+            'NE',
+            style: TextStyle(
+              color: active
+                  ? const Color.fromARGB(255, 255, 255, 255)
+                  : const Color.fromARGB(125, 0, 0, 0),
+            ),
           ),
         ),
       ),
