@@ -285,12 +285,12 @@ class ConservationStateCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: active
             ? const Color.fromARGB(255, 0, 0, 0)
-            : const Color.fromARGB(255, 240, 240, 240),
+            : const Color.fromARGB(125, 240, 240, 240),
         borderRadius: BorderRadius.circular(100.0),
         border: Border.all(
           color: active
               ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
       child: Text(
@@ -298,7 +298,7 @@ class ConservationStateCard extends StatelessWidget {
         style: TextStyle(
           color: active
               ? const Color.fromARGB(255, 207, 52, 52)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
     );
@@ -312,12 +312,12 @@ class ConservationStateCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: active
             ? const Color.fromARGB(255, 0, 0, 0)
-            : const Color.fromARGB(255, 240, 240, 240),
+            : const Color.fromARGB(125, 240, 240, 240),
         borderRadius: BorderRadius.circular(100.0),
         border: Border.all(
           color: active
               ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
       child: Text(
@@ -325,7 +325,7 @@ class ConservationStateCard extends StatelessWidget {
         style: TextStyle(
           color: active
               ? const Color.fromARGB(255, 255, 255, 255)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
     );
@@ -339,12 +339,12 @@ class ConservationStateCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: active
             ? const Color.fromARGB(255, 204, 51, 51)
-            : const Color.fromARGB(255, 240, 240, 240),
+            : const Color.fromARGB(125, 240, 240, 240),
         borderRadius: BorderRadius.circular(100.0),
         border: Border.all(
           color: active
               ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
       child: Text(
@@ -352,7 +352,7 @@ class ConservationStateCard extends StatelessWidget {
         style: TextStyle(
           color: active
               ? const Color.fromARGB(255, 252, 193, 193)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
     );
@@ -366,12 +366,12 @@ class ConservationStateCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: active
             ? const Color.fromARGB(255, 204, 102, 51)
-            : const Color.fromARGB(255, 240, 240, 240),
+            : const Color.fromARGB(125, 240, 240, 240),
         borderRadius: BorderRadius.circular(100.0),
         border: Border.all(
           color: active
               ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
       child: Text(
@@ -379,7 +379,7 @@ class ConservationStateCard extends StatelessWidget {
         style: TextStyle(
           color: active
               ? const Color.fromARGB(255, 247, 188, 137)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
     );
@@ -393,11 +393,11 @@ class ConservationStateCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: active
             ? const Color.fromARGB(255, 204, 159, 0)
-            : const Color.fromARGB(255, 240, 240, 240),
+            : const Color.fromARGB(125, 240, 240, 240),
         border: Border.all(
           color: active
               ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
         borderRadius: BorderRadius.circular(100.0),
       ),
@@ -406,7 +406,7 @@ class ConservationStateCard extends StatelessWidget {
         style: TextStyle(
           color: active
               ? const Color.fromARGB(255, 255, 255, 255)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
     );
@@ -420,11 +420,11 @@ class ConservationStateCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: active
             ? const Color.fromARGB(255, 0, 102, 102)
-            : const Color.fromARGB(255, 240, 240, 240),
+            : const Color.fromARGB(125, 240, 240, 240),
         border: Border.all(
           color: active
               ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
         borderRadius: BorderRadius.circular(100.0),
       ),
@@ -433,7 +433,7 @@ class ConservationStateCard extends StatelessWidget {
         style: TextStyle(
           color: active
               ? const Color.fromARGB(255, 113, 177, 140)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
     );
@@ -447,12 +447,12 @@ class ConservationStateCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: active
             ? const Color.fromARGB(255, 0, 102, 102)
-            : const Color.fromARGB(255, 240, 240, 240),
+            : const Color.fromARGB(125, 240, 240, 240),
         borderRadius: BorderRadius.circular(100.0),
         border: Border.all(
           color: active
               ? const Color.fromARGB(0, 0, 0, 0)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
       child: Text(
@@ -460,7 +460,7 @@ class ConservationStateCard extends StatelessWidget {
         style: TextStyle(
           color: active
               ? const Color.fromARGB(255, 255, 255, 255)
-              : const Color.fromARGB(255, 0, 0, 0),
+              : const Color.fromARGB(125, 0, 0, 0),
         ),
       ),
     );
@@ -476,12 +476,12 @@ class ConservationStateCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: active
               ? const Color.fromARGB(255, 55, 55, 135)
-              : const Color.fromARGB(255, 240, 240, 240),
+              : const Color.fromARGB(125, 240, 240, 240),
           borderRadius: BorderRadius.circular(100.0),
           border: Border.all(
             color: active
                 ? const Color.fromARGB(0, 0, 0, 0)
-                : const Color.fromARGB(255, 0, 0, 0),
+                : const Color.fromARGB(125, 0, 0, 0),
           ),
         ),
         child: Text(
@@ -489,7 +489,7 @@ class ConservationStateCard extends StatelessWidget {
           style: TextStyle(
             color: active
                 ? const Color.fromARGB(255, 255, 255, 255)
-                : const Color.fromARGB(255, 0, 0, 0),
+                : const Color.fromARGB(125, 0, 0, 0),
           ),
         ),
       ),
@@ -506,12 +506,12 @@ class ConservationStateCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: active
               ? const Color.fromARGB(255, 55, 55, 135)
-              : const Color.fromARGB(255, 240, 240, 240),
+              : const Color.fromARGB(125, 240, 240, 240),
           borderRadius: BorderRadius.circular(100.0),
           border: Border.all(
             color: active
                 ? const Color.fromARGB(0, 0, 0, 0)
-                : const Color.fromARGB(255, 0, 0, 0),
+                : const Color.fromARGB(125, 0, 0, 0),
           ),
         ),
         child: Text(
@@ -519,7 +519,7 @@ class ConservationStateCard extends StatelessWidget {
           style: TextStyle(
             color: active
                 ? const Color.fromARGB(255, 255, 255, 255)
-                : const Color.fromARGB(255, 0, 0, 0),
+                : const Color.fromARGB(125, 0, 0, 0),
           ),
         ),
       ),
