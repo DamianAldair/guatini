@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/license_model.dart';
+import 'package:guatini/widgets/more_media_widget.dart';
 import 'package:selectable/selectable.dart';
 
 class LicenseDetailsPage extends StatelessWidget {
@@ -18,6 +19,7 @@ class LicenseDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(height: 20.0),
             const Icon(
               Icons.text_snippet_rounded,
               size: 80.0,
@@ -54,11 +56,16 @@ class LicenseDetailsPage extends StatelessWidget {
                 ),
               ),
             const SizedBox(height: 20.0),
-            Text(
-              '${AppLocalizations.of(context).moreWith} ${AppLocalizations.of(context).license}: ${license?.name ?? AppLocalizations.of(context).unknown}',
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Text(
+                '${AppLocalizations.of(context).moreWith} ${AppLocalizations.of(context).license}: ${license?.name ?? AppLocalizations.of(context).unknown}',
+                textAlign: TextAlign.center,
+              ),
             ),
-            //TODO: list of photos. Get all data with null license
+            MoreMedia(
+              licenseId: license!.id,
+            )
           ],
         ),
       ),

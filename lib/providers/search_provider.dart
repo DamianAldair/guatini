@@ -460,6 +460,21 @@ abstract class SearchProvider {
             where [main].[media_author].[fk_author_] = $authorId;
         ''';
       }
+      if (licenseId != null) {
+        query = '''
+          select 
+            [main].[media].[id], 
+            [main].[media].[path], 
+            [main].[media].[lat], 
+            [main].[media].[lon], 
+            [main].[media].[date_capture], 
+            [main].[media].[fk_specie_], 
+            [main].[type].[type]
+          from [main].[media]
+            inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
+          where [main].[media].[fk_license_] = $licenseId;
+        ''';
+      }
       final result = await db.rawQuery(query!);
       final results = <MediaModel>[];
       for (var item in result) {
