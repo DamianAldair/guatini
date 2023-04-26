@@ -49,21 +49,18 @@ abstract class SearchProvider {
   static Future<MainImageModel?> _getMainImage(
       Database db, int speciesId) async {
     final query = '''
-      SELECT 
-      [main].[media].[id], 
-      [main].[media].[path], 
-      [main].[media].[date_capture], 
-      [main].[media].[lat], 
-      [main].[media].[lon], 
-      [main].[author].[id] AS [authorId], 
-      [main].[license].[id] AS [licenseId]
-      FROM [main].[specie]
-      INNER JOIN [main].[media] ON [main].[specie].[id] = [main].[media].[fk_specie_]
-      INNER JOIN [main].[main_image] ON [main].[media].[id] = [main].[main_image].[fk_media_]
-      INNER JOIN [main].[media_author] ON [main].[media].[id] = [main].[media_author].[fk_media_]
-      INNER JOIN [main].[author] ON [main].[author].[id] = [main].[media_author].[fk_author_]
-      INNER JOIN [main].[license] ON [main].[license].[id] = [main].[media].[fk_license_]
-      where [main].[specie].[id] = $speciesId;
+      select 
+        [main].[main_image].[fk_media_] AS [id], 
+        [main].[media].[path], 
+        [main].[media].[date_capture], 
+        [main].[media].[lat], 
+        [main].[media].[lon], 
+        [main].[media_author].[fk_author_] AS [authorId], 
+        [main].[media].[fk_license_] AS [licenseId]
+      from [main].[media]
+        inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
+        inner join [main].[media_author] on [main].[media].[id] = [main].[media_author].[fk_media_]
+      where [main].[media].[fk_specie_] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     return result.isNotEmpty ? MainImageModel.fromMap(result.first) : null;
