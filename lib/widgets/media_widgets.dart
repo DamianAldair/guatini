@@ -544,19 +544,26 @@ class AudioCard extends StatelessWidget {
                     ? AppLocalizations.of(context).sound
                     : '${AppLocalizations.of(context).sound} ${i + 1}';
                 return GestureDetector(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0),
-                        child: Icon(
-                          Icons.audiotrack_rounded,
-                          size: 35.0,
+                  child: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          child: Icon(
+                            Icons.audiotrack_rounded,
+                            size: 35.0,
+                          ),
                         ),
-                      ),
-                      Text(title),
-                    ],
+                        Text(title),
+                      ],
+                    ),
                   ),
                   onTap: () {
                     showModalBottomSheet(
@@ -711,6 +718,9 @@ class _AudioViewerState extends State<AudioViewer> {
             ),
             Expanded(
               child: Slider(
+                thumbColor: fgColor,
+                activeColor: Colors.grey.withOpacity(0.5),
+                inactiveColor: Colors.grey.withOpacity(0.5),
                 value: position.inMilliseconds.toDouble(),
                 max: duration.inMilliseconds.toDouble(),
                 onChanged: (value) => setState(() {
