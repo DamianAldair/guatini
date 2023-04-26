@@ -319,10 +319,22 @@ class LicenseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const radius = 10.0;
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => LicenseDetailsPage(license)),
-      ),
+      onTap: license == null
+          ? () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context).unknownInfo,
+                  ),
+                ),
+              );
+            }
+          : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => LicenseDetailsPage(license)),
+              );
+            },
       child: Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15.0,

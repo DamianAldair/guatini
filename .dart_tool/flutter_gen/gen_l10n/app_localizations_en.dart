@@ -289,6 +289,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unknown => 'Unknown';
 
   @override
+  String get unknownInfo => 'Cannot be processed if the information is unknown';
+
+  @override
   String get version => 'Version';
 
   @override

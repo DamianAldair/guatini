@@ -646,6 +646,12 @@ abstract class AppLocalizations {
   /// **'Unknown'**
   String get unknown;
 
+  /// No description provided for @unknownInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot be processed if the information is unknown'**
+  String get unknownInfo;
+
   /// No description provided for @version.
   ///
   /// In en, this message translates to:

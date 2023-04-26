@@ -100,6 +100,7 @@
     "unavailable": "No disponible",
     "university": "Technological University of Havana",
     "unknown": "Unknown",
+    "unknownInfo": "Cannot be processed if the information is unknown",
     "version": "Version",
     "video": "Video",
     "vulnerable": "Vulnerable",
