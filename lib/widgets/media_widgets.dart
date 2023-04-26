@@ -246,11 +246,13 @@ class Thumbnail extends StatelessWidget {
 class ImageViewer extends StatefulWidget {
   final MediaModel media;
   final Object? speciesId;
+  final bool showInfo;
 
   ImageViewer(
     this.media, {
     Key? key,
     this.speciesId,
+    this.showInfo = true,
   })  : assert(media.mediaType.type == MediaType.image),
         super(key: key);
 
@@ -333,20 +335,21 @@ class _ImageViewerState extends State<ImageViewer>
                               ),
                             ),
                             const Expanded(child: SizedBox()),
-                            IconButton(
-                              icon: const Icon(Icons.info_outlined),
-                              color: Colors.white,
-                              tooltip: AppLocalizations.of(context).info,
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => MediaInfoPage(
-                                    widget.media,
-                                    heroTag: widget.speciesId,
+                            if (widget.showInfo)
+                              IconButton(
+                                icon: const Icon(Icons.info_outlined),
+                                color: Colors.white,
+                                tooltip: AppLocalizations.of(context).info,
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => MediaInfoPage(
+                                      widget.media,
+                                      heroTag: widget.speciesId,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -500,8 +503,6 @@ class _GalleryViewerState extends State<GalleryViewer>
   }
 }
 
-StreamController mediaStream = StreamController.broadcast();
-
 class AudioCard extends StatelessWidget {
   final List<MediaModel>? medias;
 
@@ -509,6 +510,8 @@ class AudioCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const radius = 10.0;
+
     List<MediaModel> list = [];
     if (medias != null) {
       for (MediaModel m in medias!) {
@@ -517,9 +520,6 @@ class AudioCard extends StatelessWidget {
         }
       }
     }
-
-    const radius = 10.0;
-
     return list.isEmpty
         ? const SizedBox.shrink()
         : Container(
@@ -532,160 +532,273 @@ class AudioCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(radius),
             ),
             width: double.infinity,
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(10.0),
+            child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 3 / (list.length < 3 ? list.length : 3),
+                  crossAxisCount: list.length < 3 ? list.length : 3),
+              itemCount: list.length,
+              itemBuilder: (_, int i) {
+                final title = list.length == 1
+                    ? AppLocalizations.of(context).sound
+                    : '${AppLocalizations.of(context).sound} ${i + 1}';
+                return GestureDetector(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.0),
+                        child: Icon(
+                          Icons.audiotrack_rounded,
+                          size: 35.0,
+                        ),
+                      ),
+                      Text(title),
+                    ],
                   ),
-                  alignment: Alignment.center,
-                  child: Text(
-                      '${AppLocalizations.of(context).sound}${list.length == 1 ? '' : 's'}'),
-                ),
-                for (MediaModel sound in list) _AudioItem(sound),
-              ],
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isDismissible: false,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20.0),
+                        ),
+                      ),
+                      builder: (_) => AudioViewer(
+                        list[i],
+                        title: title,
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           );
   }
 }
 
-class _AudioItem extends StatefulWidget {
-  final MediaModel sound;
+class AudioViewer extends StatefulWidget {
+  final MediaModel media;
+  final String? title;
+  final bool showInfo;
 
-  const _AudioItem(this.sound, {Key? key}) : super(key: key);
+  const AudioViewer(
+    this.media, {
+    Key? key,
+    this.title,
+    this.showInfo = true,
+  }) : super(key: key);
 
   @override
-  State<_AudioItem> createState() => __AudioItemState();
+  State<AudioViewer> createState() => _AudioViewerState();
 }
 
-class __AudioItemState extends State<_AudioItem>
-    with SingleTickerProviderStateMixin {
-  late Key key;
-  late AnimationController animationController;
+class _AudioViewerState extends State<AudioViewer> {
   late AudioPlayer player;
-  bool isPlaying = false;
   bool playable = false;
+  bool isPlaying = false;
   Duration position = const Duration();
   Duration duration = const Duration();
 
   @override
   void initState() {
-    key = Key(widget.sound.id.toString());
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    player = AudioPlayer(playerId: key.toString());
-    player.setSource(UrlSource(_audioPath));
-    player.onPositionChanged.listen((p) => setState(() => position = p));
-    player.onDurationChanged.listen((d) => setState(() => duration = d));
-    player.onPlayerComplete.listen((_) {
-      animationController.reverse();
-      setState(() {
-        isPlaying = false;
-        position = Duration.zero;
+    if (File(_audioPath).existsSync()) {
+      playable = true;
+      player = AudioPlayer();
+      player.setSource(UrlSource(_audioPath)).then((_) {
+        player.getDuration().then((d) {
+          setState(() => duration = d ?? Duration.zero);
+        });
       });
-    });
+      player.onPositionChanged.listen((p) => setState(() => position = p));
+      player.onDurationChanged.listen((d) => setState(() => duration = d));
+      player.onPlayerComplete.listen((_) {
+        setState(() {
+          isPlaying = false;
+          position = Duration.zero;
+        });
+      });
+    }
     super.initState();
   }
 
   @override
   void dispose() {
-    animationController.dispose();
-    player.dispose();
+    if (playable) {
+      player.dispose();
+    }
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // mediaStream.stream.listen((event) {
-    //   if (event != key) pause();
-    // });
-    super.didChangeDependencies();
   }
 
   String get _audioPath {
     final prefs = UserPreferences();
-    final path = p.join(prefs.dbPath, widget.sound.path);
-    playable = File(path).existsSync();
-    return path;
-  }
-
-  void play() {
-    if (playable) {
-      mediaStream.add(key);
-      animationController.forward();
-      isPlaying = true;
-      // player.play(UrlSource(_audioPath));
-      player.resume();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('text'),
-        ),
-      );
-    }
-  }
-
-  void pause() {
-    animationController.reverse();
-    isPlaying = false;
-    player.pause();
+    return p.join(prefs.dbPath, widget.media.path);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Row(
+    final dragger = Container(
+      margin: const EdgeInsets.only(top: 20.0),
+      height: 8.0,
+      width: 50.0,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(100.0),
+      ),
+    );
+    if (!playable) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          IconButton(
-            icon: AnimatedIcon(
-              icon: AnimatedIcons.play_pause,
-              progress: animationController,
+          dragger,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 50.0,
+              horizontal: 10.0,
             ),
-            onPressed: isPlaying ? pause : play,
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                Slider(
-                  value: position.inMilliseconds.toDouble(),
-                  max: duration.inMilliseconds.toDouble(),
-                  onChanged: (value) => setState(() {
-                    final d = Duration(milliseconds: value.toInt());
-                    player.seek(d);
-                    position = d;
-                  }),
-                ),
-                Row(
-                  children: [
-                    const SizedBox(width: 30.0),
-                    Text(parseDuration(position)),
-                    const Expanded(child: SizedBox()),
-                    Text(parseDuration(duration)),
-                    const SizedBox(width: 30.0),
-                  ],
-                ),
-              ],
+            child: Text(
+              AppLocalizations.of(context).errorObtainingInfo,
+              textAlign: TextAlign.center,
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.info_outline_rounded),
-            onPressed: () {},
           ),
         ],
-      ),
+      );
+    }
+    final bgColor = Theme.of(context).scaffoldBackgroundColor;
+    final fgColor = IconTheme.of(context).color;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        dragger,
+        if (widget.showInfo)
+          Row(
+            children: [
+              const Expanded(child: SizedBox.shrink()),
+              IconButton(
+                icon: const Icon(Icons.info_outlined),
+                color: Colors.white,
+                tooltip: AppLocalizations.of(context).info,
+                onPressed: () async {
+                  if (isPlaying) {}
+                  // ignore: use_build_context_synchronously
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (_) => MediaInfoPage(
+                  //       widget.media,
+                  //       heroTag: widget.media.id.toString(),
+                  //     ),
+                  //   ),
+                  // );
+                },
+              ),
+            ],
+          ),
+        const SizedBox(height: 20.0),
+        const Icon(
+          Icons.audiotrack_rounded,
+          size: 100.0,
+        ),
+        Text(widget.title ?? AppLocalizations.of(context).sound),
+        const SizedBox(height: 20.0),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Text(parseDuration(position)),
+            ),
+            Expanded(
+              child: Slider(
+                value: position.inMilliseconds.toDouble(),
+                max: duration.inMilliseconds.toDouble(),
+                onChanged: (value) => setState(() {
+                  final d = Duration(milliseconds: value.toInt());
+                  player.seek(d);
+                  position = d;
+                }),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Text(parseDuration(duration)),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10.0),
+        Row(
+          children: [
+            const Expanded(child: SizedBox()),
+            IconButton(
+              icon: const Icon(Icons.skip_previous_rounded),
+              tooltip: AppLocalizations.of(context).replay,
+              onPressed: () {
+                setState(() {
+                  isPlaying = true;
+                  position = Duration.zero;
+                });
+                player.seek(position).then((_) => player.resume());
+              },
+            ),
+            const SizedBox(width: 20.0),
+            Container(
+              decoration: BoxDecoration(
+                color: fgColor,
+                borderRadius: BorderRadius.circular(100.0),
+              ),
+              height: 50.0,
+              width: 50.0,
+              child: IconButton(
+                icon: Icon(
+                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                ),
+                color: bgColor,
+                tooltip: isPlaying
+                    ? AppLocalizations.of(context).pause
+                    : AppLocalizations.of(context).play,
+                onPressed: () {
+                  if (isPlaying) {
+                    setState(() => isPlaying = false);
+                    player.pause();
+                  } else {
+                    setState(() => isPlaying = true);
+                    player.resume();
+                  }
+                },
+              ),
+            ),
+            const SizedBox(width: 20.0),
+            IconButton(
+              icon: const Icon(Icons.stop_rounded),
+              tooltip: AppLocalizations.of(context).stop,
+              onPressed: () {
+                setState(() {
+                  isPlaying = false;
+                  position = Duration.zero;
+                });
+                player.pause().then((_) => player.seek(position));
+              },
+            ),
+            const Expanded(child: SizedBox()),
+          ],
+        ),
+        const SizedBox(height: 40.0),
+      ],
     );
   }
 }
 
 class VideoViewer extends StatefulWidget {
   final MediaModel media;
+  final bool showInfo;
 
-  const VideoViewer(this.media, {Key? key}) : super(key: key);
+  const VideoViewer(
+    this.media, {
+    Key? key,
+    this.showInfo = true,
+  }) : super(key: key);
 
   @override
   State<VideoViewer> createState() => _VideoViewerState();
@@ -793,26 +906,29 @@ class _VideoViewerState extends State<VideoViewer>
                                     ),
                                   ),
                                   const Expanded(child: SizedBox()),
-                                  IconButton(
-                                    icon: const Icon(Icons.info_outlined),
-                                    color: Colors.white,
-                                    tooltip: AppLocalizations.of(context).info,
-                                    onPressed: () async {
-                                      if (video.value.isPlaying) {
-                                        await video.pause();
-                                      }
-                                      // ignore: use_build_context_synchronously
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => MediaInfoPage(
-                                            widget.media,
-                                            heroTag: widget.media.id.toString(),
+                                  if (widget.showInfo)
+                                    IconButton(
+                                      icon: const Icon(Icons.info_outlined),
+                                      color: Colors.white,
+                                      tooltip:
+                                          AppLocalizations.of(context).info,
+                                      onPressed: () async {
+                                        if (video.value.isPlaying) {
+                                          await video.pause();
+                                        }
+                                        // ignore: use_build_context_synchronously
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => MediaInfoPage(
+                                              widget.media,
+                                              heroTag:
+                                                  widget.media.id.toString(),
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                        );
+                                      },
+                                    ),
                                 ],
                               ),
                             ),

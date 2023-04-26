@@ -163,22 +163,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get light => 'Claro';
 
   @override
-  String get moreAudiosOf => 'Más audios de';
+  String get moreOf => 'Más de';
 
   @override
-  String get morePhotosOf => 'Más fotos de';
-
-  @override
-  String get moreVideosOf => 'Más videos de';
-
-  @override
-  String get moreAudiosWith => 'Más audios con';
-
-  @override
-  String get morePhotosWith => 'Más photos con';
-
-  @override
-  String get moreVideosWith => 'Más videos con';
+  String get moreWith => 'Más con';
 
   @override
   String get nearThreataned => 'Casi amenazada';
@@ -229,7 +217,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get onlineUseText => 'Uso de información desde internet';
 
   @override
-  String get openQrReader => 'Abrir lector de códigos QR';
+  String get openQrReader => 'Abrir lector QR';
 
   @override
   String get pause => 'Pausa';

@@ -394,41 +394,17 @@ abstract class AppLocalizations {
   /// **'Light'**
   String get light;
 
-  /// No description provided for @moreAudiosOf.
+  /// No description provided for @moreOf.
   ///
   /// In en, this message translates to:
-  /// **'More audios of'**
-  String get moreAudiosOf;
+  /// **'More of'**
+  String get moreOf;
 
-  /// No description provided for @morePhotosOf.
+  /// No description provided for @moreWith.
   ///
   /// In en, this message translates to:
-  /// **'More photos of'**
-  String get morePhotosOf;
-
-  /// No description provided for @moreVideosOf.
-  ///
-  /// In en, this message translates to:
-  /// **'More videos of'**
-  String get moreVideosOf;
-
-  /// No description provided for @moreAudiosWith.
-  ///
-  /// In en, this message translates to:
-  /// **'More audios with'**
-  String get moreAudiosWith;
-
-  /// No description provided for @morePhotosWith.
-  ///
-  /// In en, this message translates to:
-  /// **'More photos with'**
-  String get morePhotosWith;
-
-  /// No description provided for @moreVideosWith.
-  ///
-  /// In en, this message translates to:
-  /// **'More videos with'**
-  String get moreVideosWith;
+  /// **'More with'**
+  String get moreWith;
 
   /// No description provided for @nearThreataned.
   ///

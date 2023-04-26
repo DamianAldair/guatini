@@ -436,4 +436,38 @@ abstract class SearchProvider {
       return [];
     }
   }
+
+  static Future<List<MediaModel>> moreMedia(
+    Database db, {
+    int? authorId,
+    int? licenseId,
+  }) async {
+    try {
+      String? query;
+      if (authorId != null) {
+        query = '''
+          select 
+            [main].[media].[id], 
+            [main].[media].[path], 
+            [main].[media].[lat], 
+            [main].[media].[lon], 
+            [main].[media].[date_capture], 
+            [main].[media].[fk_specie_], 
+            [main].[type].[type]
+          from [main].[media]
+            inner join [main].[media_author] on [main].[media].[id] = [main].[media_author].[fk_media_]
+            inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
+            where [main].[media_author].[fk_author_] = $authorId;
+        ''';
+      }
+      final result = await db.rawQuery(query!);
+      final results = <MediaModel>[];
+      for (var item in result) {
+        results.add(MediaModel.fromMore(item));
+      }
+      return results;
+    } catch (e) {
+      return [];
+    }
+  }
 }

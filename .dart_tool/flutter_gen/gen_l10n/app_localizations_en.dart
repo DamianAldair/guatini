@@ -163,22 +163,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get light => 'Light';
 
   @override
-  String get moreAudiosOf => 'More audios of';
+  String get moreOf => 'More of';
 
   @override
-  String get morePhotosOf => 'More photos of';
-
-  @override
-  String get moreVideosOf => 'More videos of';
-
-  @override
-  String get moreAudiosWith => 'More audios with';
-
-  @override
-  String get morePhotosWith => 'More photos with';
-
-  @override
-  String get moreVideosWith => 'More videos with';
+  String get moreWith => 'More with';
 
   @override
   String get nearThreataned => 'Near threataned';

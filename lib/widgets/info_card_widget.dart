@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/author_model.dart';
 import 'package:guatini/models/conservationstatus_model.dart';
 import 'package:guatini/models/license_model.dart';
+import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/pages/author_details_page.dart';
 import 'package:guatini/pages/license_details_page.dart';
 import 'package:selectable/selectable.dart';
@@ -593,8 +594,9 @@ class Description extends StatelessWidget {
 
 class AuthorCard extends StatelessWidget {
   final AuthorModel? author;
+  final MediaType type;
 
-  const AuthorCard(this.author, {Key? key}) : super(key: key);
+  const AuthorCard(this.author, this.type, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

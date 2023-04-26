@@ -160,7 +160,7 @@ class MediaInfoPage extends StatelessWidget {
                             style: const TextStyle(fontSize: 17.0),
                           ),
                         ),
-                        AuthorCard(author!),
+                        AuthorCard(author!, media.mediaType.type!),
                         LicenseCard(license),
                         //TODO: map with capture location
                       ],

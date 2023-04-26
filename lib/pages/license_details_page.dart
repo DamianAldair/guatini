@@ -55,7 +55,7 @@ class LicenseDetailsPage extends StatelessWidget {
               ),
             const SizedBox(height: 20.0),
             Text(
-              '${AppLocalizations.of(context).morePhotosWith} ${AppLocalizations.of(context).license}: ${license?.name ?? AppLocalizations.of(context).unknown}',
+              '${AppLocalizations.of(context).moreWith} ${AppLocalizations.of(context).license}: ${license?.name ?? AppLocalizations.of(context).unknown}',
               textAlign: TextAlign.center,
             ),
             //TODO: list of photos. Get all data with null license

@@ -1,7 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/author_model.dart';
+import 'package:guatini/models/media_model.dart';
+import 'package:guatini/models/mediatype_model.dart';
+import 'package:guatini/providers/db_provider.dart';
+import 'package:guatini/providers/search_provider.dart';
+import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:guatini/widgets/media_widgets.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart' as p;
 import 'package:selectable/selectable.dart';
+import 'package:sqflite/sqflite.dart';
 
 class AuthorDetailsPage extends StatelessWidget {
   final AuthorModel? author;
@@ -10,6 +21,9 @@ class AuthorDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = UserPreferences();
+    final dbPath = prefs.dbPath;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).author),
@@ -51,12 +65,80 @@ class AuthorDetailsPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20.0),
-            Text(
-              '${AppLocalizations.of(context).morePhotosOf} ${author?.name ?? AppLocalizations.of(context).unknown}',
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: Text(
+                '${AppLocalizations.of(context).moreOf} ${author?.name ?? AppLocalizations.of(context).unknown}',
+                textAlign: TextAlign.center,
+              ),
             ),
-            //TODO: list of photos
+            FutureBuilder(
+              future: DbProvider.database,
+              builder: (_, AsyncSnapshot<Database?> snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final db = snapshot.data as Database;
+                return FutureBuilder(
+                  future: SearchProvider.moreMedia(db, authorId: author!.id),
+                  builder: (_, AsyncSnapshot<List<MediaModel>> snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    final medias = snapshot.data;
+                    return GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3),
+                      itemCount: medias!.length,
+                      itemBuilder: (_, int i) {
+                        final file = File(p.join(dbPath, medias[i].path));
+                        if (!file.existsSync()) {
+                          return Image.asset(
+                            'assets/images/image_not_available.png',
+                            fit: BoxFit.cover,
+                          );
+                        }
+                        final media = medias[i];
+                        switch (media.type!.type) {
+                          case MediaType.audio:
+                            return const Icon(Icons.audio_file_rounded);
+                          case MediaType.image:
+                            return GestureDetector(
+                              child: Image.file(file, fit: BoxFit.cover),
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ImageViewer(
+                                          media,
+                                          speciesId: media.speciesId,
+                                          showInfo: false,
+                                        )),
+                              ),
+                            );
+                          case MediaType.video:
+                            return GestureDetector(
+                              child: Thumbnail(media),
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => VideoViewer(
+                                          media,
+                                          showInfo: false,
+                                        )),
+                              ),
+                            );
+                          default:
+                            return Container();
+                        }
+                      },
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),
