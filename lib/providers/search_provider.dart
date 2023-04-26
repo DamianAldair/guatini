@@ -482,4 +482,139 @@ abstract class SearchProvider {
       return [];
     }
   }
+
+  static Future<List<SpeciesModel>> moreSpeciesFromTaxonomy(
+    Database db,
+    dynamic taxonomyModel,
+  ) async {
+    try {
+      String sqlTable = '';
+      switch (taxonomyModel.runtimeType) {
+        case DomainModel:
+          sqlTable = 't_domain';
+          break;
+        case KindomModel:
+          sqlTable = 't_kindom';
+          break;
+        case PhylumModel:
+          sqlTable = 't_phylum';
+          break;
+        case ClassModel:
+          sqlTable = 't_class';
+          break;
+        case OrderModel:
+          sqlTable = 't_order';
+          break;
+        case FamilyModel:
+          sqlTable = 't_family';
+          break;
+        case GenusModel:
+          sqlTable = 't_genus';
+          break;
+      }
+      final query = '''
+        select 
+          [main].[specie].[id], 
+          [main].[common_name].[name], 
+          [main].[specie].[scientific_name], 
+          [main].[media].[path]
+        from [main].[specie]
+          inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+          inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
+          inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+          inner join [main].[t_genus] on [main].[t_genus].[id] = [main].[specie].[fk_t_genus_]
+          inner join [main].[t_family] on [main].[t_family].[id] = [main].[t_genus].[fk_t_family_]
+          inner join [main].[t_order] on [main].[t_order].[id] = [main].[t_family].[fk_t_order_]
+          inner join [main].[t_class] on [main].[t_class].[id] = [main].[t_order].[fk_t_class_]
+          inner join [main].[t_phylum] on [main].[t_phylum].[id] = [main].[t_class].[fk_t_phylum_]
+          inner join [main].[t_kindom] on [main].[t_kindom].[id] = [main].[t_phylum].[fk_t_kindom_]
+          inner join [main].[t_domain] on [main].[t_domain].[id] = [main].[t_kindom].[fk_t_domain_]
+        where [main].[$sqlTable].[id] = ${taxonomyModel.id};
+      ''';
+      final result = await db.rawQuery(query);
+      final results = <SpeciesModel>[];
+      for (var item in result) {
+        results.add(SpeciesModel.fromSimpleSearch(item));
+      }
+      return results;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  static Future<List<SpeciesModel>> moreSpeciesFromOther(
+    Database db,
+    dynamic model,
+  ) async {
+    try {
+      String prop = '';
+      switch (model.runtimeType) {
+        case ConservationStatusModel:
+          prop = 'fk_coservation_status_';
+          break;
+        case AbundanceModel:
+          prop = 'fk_abundance_';
+          break;
+        case EndemismModel:
+          prop = 'fk_endemism_';
+          break;
+      }
+      final String query;
+      if (prop.isNotEmpty) {
+        query = '''
+          select 
+            [main].[specie].[id], 
+            [main].[common_name].[name], 
+            [main].[specie].[scientific_name], 
+            [main].[media].[path]
+          from [main].[specie]
+            inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+            inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
+            inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+          where [main].[specie].[$prop] = ${model.id};
+        ''';
+      } else {
+        String join = '';
+        String where = '';
+        switch (model.runtimeType) {
+          case ActivityModel:
+            join =
+                'inner join [main].[specie_activity] on [main].[specie].[id] = [main].[specie_activity].[fk_specie_]';
+            where = '[main].[specie_activity].[fk_activity_]';
+            break;
+          case HabitatModel:
+            join =
+                ' inner join [main].[specie_habitat] on [main].[specie].[id] = [main].[specie_habitat].[fk_specie_]';
+            where = '[main].[specie_habitat].[fk_habitat_]';
+            break;
+          case DietModel:
+            join =
+                'inner join [main].[specie_diet] on [main].[specie].[id] = [main].[specie_diet].[fk_specie_]';
+            where = '[main].[specie_diet].[fk_diet_]';
+            break;
+        }
+        query = '''
+          select 
+            [main].[specie].[id], 
+            [main].[common_name].[name], 
+            [main].[specie].[scientific_name], 
+            [main].[media].[path]
+          from [main].[specie]
+            inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+            inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
+            inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+            $join
+          where $where = ${model.id};
+        ''';
+      }
+      final result = await db.rawQuery(query);
+      final results = <SpeciesModel>[];
+      for (var item in result) {
+        results.add(SpeciesModel.fromSimpleSearch(item));
+      }
+      return results;
+    } catch (e) {
+      return [];
+    }
+  }
 }

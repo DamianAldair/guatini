@@ -8,6 +8,11 @@ import 'package:guatini/models/genus_model.dart';
 import 'package:guatini/models/kindom_model.dart';
 import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
+import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/pages/species_details_page.dart';
+import 'package:guatini/providers/db_provider.dart';
+import 'package:guatini/providers/search_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class CharacteristicPage extends StatelessWidget {
   final String title;
@@ -21,15 +26,14 @@ class CharacteristicPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final desc = instance is DomainModel ||
-            instance is KindomModel ||
-            instance is PhylumModel ||
-            instance is ClassModel ||
-            instance is OrderModel ||
-            instance is FamilyModel ||
-            instance is GenusModel
-        ? instance.description
-        : null;
+    final isTaxonomy = instance is DomainModel ||
+        instance is KindomModel ||
+        instance is PhylumModel ||
+        instance is ClassModel ||
+        instance is OrderModel ||
+        instance is FamilyModel ||
+        instance is GenusModel;
+    final desc = isTaxonomy ? instance.description : null;
     final subtitle = instance is ConservationStatusModel
         ? instance.getConservationText(context)
         : instance.toString();
@@ -72,14 +76,63 @@ class CharacteristicPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: 20,
-              itemBuilder: (_, int i) {
-                return ListTile(
-                  title: Text('Tile $i'),
-                  subtitle: Text('Sub $i'),
+            FutureBuilder(
+              future: DbProvider.database,
+              builder: (_, AsyncSnapshot<Database?> snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final db = snapshot.data!;
+                return FutureBuilder<List<SpeciesModel>>(
+                  future: isTaxonomy
+                      ? SearchProvider.moreSpeciesFromTaxonomy(
+                          db,
+                          instance,
+                        )
+                      : SearchProvider.moreSpeciesFromOther(
+                          db,
+                          instance,
+                        ),
+                  builder: (_, AsyncSnapshot<List<SpeciesModel>> snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    final list = snapshot.data!;
+                    return list.isEmpty
+                        ? Text(
+                            AppLocalizations.of(context).noResults,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 20.0),
+                          )
+                        : ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: list.length,
+                            itemBuilder: (_, int i) {
+                              final species = list[i];
+                              return ListTile(
+                                leading: SizedBox(
+                                  height: 60.0,
+                                  width: 60.0,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    child: species.image,
+                                  ),
+                                ),
+                                title: Text(species.searchName.toString()),
+                                subtitle:
+                                    Text(species.scientificName.toString()),
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        SpeciesDetailsPage(species.id),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                  },
                 );
               },
             ),
