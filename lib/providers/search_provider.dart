@@ -389,7 +389,8 @@ abstract class SearchProvider {
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
           inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
           inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-          where [main].[common_name].[name] LIKE '%$search%' OR [main].[specie].[scientific_name] LIKE '%$search%';
+          where [main].[common_name].[name] LIKE '%$search%' OR [main].[specie].[scientific_name] LIKE '%$search%'
+          order by [main].[specie].[scientific_name];
       ''';
       final result = await db.rawQuery(query);
       final results = <SpeciesModel>[];
@@ -529,7 +530,8 @@ abstract class SearchProvider {
           inner join [main].[t_phylum] on [main].[t_phylum].[id] = [main].[t_class].[fk_t_phylum_]
           inner join [main].[t_kindom] on [main].[t_kindom].[id] = [main].[t_phylum].[fk_t_kindom_]
           inner join [main].[t_domain] on [main].[t_domain].[id] = [main].[t_kindom].[fk_t_domain_]
-        where [main].[$sqlTable].[id] = ${taxonomyModel.id};
+        where [main].[$sqlTable].[id] = ${taxonomyModel.id}
+        order by [main].[specie].[scientific_name];
       ''';
       final result = await db.rawQuery(query);
       final results = <SpeciesModel>[];
@@ -604,7 +606,8 @@ abstract class SearchProvider {
             inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
             inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
             $join
-          where $where = ${model.id};
+          where $where = ${model.id}
+          order by [main].[specie].[scientific_name];
         ''';
       }
       final result = await db.rawQuery(query);

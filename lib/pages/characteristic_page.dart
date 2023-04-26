@@ -12,6 +12,7 @@ import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/pages/species_details_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
+import 'package:guatini/util/parse.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CharacteristicPage extends StatelessWidget {
@@ -97,7 +98,7 @@ class CharacteristicPage extends StatelessWidget {
                     if (!snapshot.hasData) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    final list = snapshot.data!;
+                    final list = joinEquals(snapshot.data!);
                     return list.isEmpty
                         ? Text(
                             AppLocalizations.of(context).noResults,
@@ -119,9 +120,16 @@ class CharacteristicPage extends StatelessWidget {
                                     child: species.image,
                                   ),
                                 ),
-                                title: Text(species.searchName.toString()),
-                                subtitle:
-                                    Text(species.scientificName.toString()),
+                                title: Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: Text(species.searchName.toString()),
+                                ),
+                                subtitle: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                  child:
+                                      Text(species.scientificName.toString()),
+                                ),
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(

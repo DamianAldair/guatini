@@ -5,6 +5,7 @@ import 'package:guatini/pages/species_details_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:guatini/util/parse.dart';
 import 'package:guatini/widgets/text_widget.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -92,7 +93,7 @@ class SimpleSearch extends SearchDelegate {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
-            final results = snapshot.data as List<SpeciesModel>;
+            final results = joinEquals(snapshot.data as List<SpeciesModel>);
             return ListView.builder(
               itemCount: results.length,
               itemBuilder: (_, int i) => ListTile(
@@ -104,8 +105,14 @@ class SimpleSearch extends SearchDelegate {
                       child: results[i].image,
                     ),
                   ),
-                  title: getSearchedText(results[i].searchName!, query),
-                  subtitle: getSearchedText(results[i].scientificName!, query),
+                  title: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: getSearchedText(results[i].searchName!, query),
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5.0),
+                    child: getSearchedText(results[i].scientificName!, query),
+                  ),
                   onTap: () {
                     UserPreferences().newSearch(query);
                     close(context, null);
