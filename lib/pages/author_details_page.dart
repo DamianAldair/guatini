@@ -104,7 +104,30 @@ class AuthorDetailsPage extends StatelessWidget {
                         final media = medias[i];
                         switch (media.type!.type) {
                           case MediaType.audio:
-                            return const Icon(Icons.audio_file_rounded);
+                            return GestureDetector(
+                              child: Container(
+                                color: Colors.grey.withOpacity(0.5),
+                                child: const Icon(
+                                  Icons.audiotrack_rounded,
+                                  size: 50.0,
+                                ),
+                              ),
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isDismissible: false,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20.0),
+                                    ),
+                                  ),
+                                  builder: (_) => AudioViewer(
+                                    media,
+                                    showInfo: false,
+                                  ),
+                                );
+                              },
+                            );
                           case MediaType.image:
                             return GestureDetector(
                               child: Image.file(file, fit: BoxFit.cover),

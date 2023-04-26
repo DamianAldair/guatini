@@ -25,16 +25,7 @@ class MediaInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final path = p.join(UserPreferences().dbPath, media.path);
     final file = File(path);
-    final image = file.existsSync()
-        ? Image.file(
-            file,
-            fit: BoxFit.cover,
-          )
-        : Image.asset(
-            'assets/images/image_not_available.png',
-            fit: BoxFit.cover,
-          );
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size.width / 3;
 
     return Scaffold(
       appBar: AppBar(
@@ -67,16 +58,26 @@ class MediaInfoPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment:
+                              media.mediaType.type != MediaType.audio
+                                  ? MainAxisAlignment.start
+                                  : MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding: EdgeInsets.all(
+                                  media.mediaType.type != MediaType.audio
+                                      ? 20.0
+                                      : 0.0),
                               child: Hero(
                                 tag: heroTag.toString(),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(15.0),
                                   child: SizedBox(
-                                    height: size.width / 3,
-                                    width: size.width / 3,
+                                    height: size,
+                                    width:
+                                        media.mediaType.type != MediaType.audio
+                                            ? size
+                                            : 0.0,
                                     child: FutureBuilder(
                                       future: file.exists(),
                                       builder: (_, AsyncSnapshot snapshot) {

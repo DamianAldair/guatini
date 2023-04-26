@@ -682,17 +682,16 @@ class _AudioViewerState extends State<AudioViewer> {
                 color: Colors.white,
                 tooltip: AppLocalizations.of(context).info,
                 onPressed: () async {
-                  if (isPlaying) {}
-                  // ignore: use_build_context_synchronously
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (_) => MediaInfoPage(
-                  //       widget.media,
-                  //       heroTag: widget.media.id.toString(),
-                  //     ),
-                  //   ),
-                  // );
+                  if (isPlaying) {
+                    isPlaying = false;
+                    player.pause();
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MediaInfoPage(widget.media),
+                    ),
+                  );
                 },
               ),
             ],
