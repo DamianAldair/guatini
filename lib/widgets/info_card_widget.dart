@@ -6,6 +6,7 @@ import 'package:guatini/models/conservationstatus_model.dart';
 import 'package:guatini/models/license_model.dart';
 import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/pages/author_details_page.dart';
+import 'package:guatini/pages/characteristic_page.dart';
 import 'package:guatini/pages/license_details_page.dart';
 import 'package:selectable/selectable.dart';
 
@@ -49,9 +50,10 @@ class InfoCard<T> extends StatelessWidget {
 
     return GestureDetector(
       onTap: instances == null
-          ? () {}
+          ? () => viewDescription(context, title, instance)
           : () {
               if (instances!.length == 1) {
+                viewDescription(context, title, instances!.first);
               } else {
                 showDialog(
                   context: context,
@@ -76,6 +78,7 @@ class InfoCard<T> extends StatelessWidget {
                             GestureDetector(
                               onTap: () {
                                 Navigator.pop(context);
+                                viewDescription(context, title, i);
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(15.0),
@@ -142,6 +145,21 @@ class InfoCard<T> extends StatelessWidget {
       ),
     );
   }
+
+  Future viewDescription(
+    BuildContext context,
+    String title,
+    dynamic instance,
+  ) =>
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CharacteristicPage(
+            title: title,
+            instance: instance,
+          ),
+        ),
+      );
 }
 
 class ConservationStateCard extends StatelessWidget {
@@ -154,402 +172,45 @@ class ConservationStateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 15.0,
-        vertical: 7.0,
-      ),
-      width: double.infinity,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: Colors.black12,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Text(AppLocalizations.of(context).conservationStatus),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: _getConservationIcon(context, status!.status),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: Text(_getConservationText(context, status!.status)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _getConservationText(BuildContext context, int? index) {
-    String conservation = '';
-    switch (index) {
-      case 1:
-        conservation = AppLocalizations.of(context).extinct;
-        break;
-      case 2:
-        conservation = AppLocalizations.of(context).extinctInTheWild;
-        break;
-      case 3:
-        conservation = AppLocalizations.of(context).criticalEndangered;
-        break;
-      case 4:
-        conservation = AppLocalizations.of(context).endangered;
-        break;
-      case 5:
-        conservation = AppLocalizations.of(context).vulnerable;
-        break;
-      case 6:
-        conservation = AppLocalizations.of(context).nearThreataned;
-        break;
-      case 7:
-        conservation = AppLocalizations.of(context).leastConcern;
-        break;
-      case 8:
-        conservation = AppLocalizations.of(context).deficientData;
-        break;
-      case 9:
-        conservation = AppLocalizations.of(context).notEvaluated;
-        break;
-      default:
-        conservation = AppLocalizations.of(context).errorObtainingInfo;
-        break;
-    }
-    return conservation;
-  }
-
-  List<Widget> _getConservationIcon(BuildContext context, int? index) {
-    List<Widget> list = <Widget>[];
-    if (index! >= 1 && index <= 7) {
-      bool ex = false;
-      bool ew = false;
-      bool ce = false;
-      bool ed = false;
-      bool vu = false;
-      bool nt = false;
-      bool lc = false;
-      switch (index) {
-        case 1:
-          ex = true;
-          break;
-        case 2:
-          ew = true;
-          break;
-        case 3:
-          ce = true;
-          break;
-        case 4:
-          ed = true;
-          break;
-        case 5:
-          vu = true;
-          break;
-        case 6:
-          nt = true;
-          break;
-        case 7:
-          lc = true;
-          break;
-      }
-      list.add(_extinct(context, ex));
-      list.add(_extinctInTheWild(context, ew));
-      list.add(_criticalEndangered(context, ce));
-      list.add(_endangered(context, ed));
-      list.add(_vulnerable(context, vu));
-      list.add(_nearThreataned(context, nt));
-      list.add(_leastConcern(context, lc));
-    } else if (index == 8 || index == 9) {
-      bool dd = false;
-      bool ne = false;
-      switch (index) {
-        case 8:
-          dd = true;
-          break;
-        case 9:
-        default:
-          ne = true;
-          break;
-      }
-      list.add(_deficientData(context, dd));
-      list.add(_notEvaluated(context, ne));
-    }
-    return list;
-  }
-
-  Widget _extinct(BuildContext context, bool active) {
-    return Tooltip(
-      message: _getConservationText(context, 1),
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active
-              ? const Color.fromARGB(255, 0, 0, 0)
-              : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active
-                ? const Color.fromARGB(0, 0, 0, 0)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'EX',
-          style: TextStyle(
-            color: active
-                ? const Color.fromARGB(255, 207, 52, 52)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _extinctInTheWild(BuildContext context, bool active) {
-    return Tooltip(
-      message: _getConservationText(context, 2),
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active
-              ? const Color.fromARGB(255, 0, 0, 0)
-              : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active
-                ? const Color.fromARGB(0, 0, 0, 0)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'EW',
-          style: TextStyle(
-            color: active
-                ? const Color.fromARGB(255, 255, 255, 255)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _criticalEndangered(BuildContext context, bool active) {
-    return Tooltip(
-      message: _getConservationText(context, 3),
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active
-              ? const Color.fromARGB(255, 204, 51, 51)
-              : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active
-                ? const Color.fromARGB(0, 0, 0, 0)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'CE',
-          style: TextStyle(
-            color: active
-                ? const Color.fromARGB(255, 252, 193, 193)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _endangered(BuildContext context, bool active) {
-    return Tooltip(
-      message: _getConservationText(context, 4),
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active
-              ? const Color.fromARGB(255, 204, 102, 51)
-              : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active
-                ? const Color.fromARGB(0, 0, 0, 0)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'EN',
-          style: TextStyle(
-            color: active
-                ? const Color.fromARGB(255, 247, 188, 137)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _vulnerable(BuildContext context, bool active) {
-    return Tooltip(
-      message: _getConservationText(context, 5),
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active
-              ? const Color.fromARGB(255, 204, 159, 0)
-              : const Color.fromARGB(125, 240, 240, 240),
-          border: Border.all(
-            color: active
-                ? const Color.fromARGB(0, 0, 0, 0)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-          borderRadius: BorderRadius.circular(100.0),
-        ),
-        child: Text(
-          'VU',
-          style: TextStyle(
-            color: active
-                ? const Color.fromARGB(255, 255, 255, 255)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _nearThreataned(BuildContext context, bool active) {
-    return Tooltip(
-      message: _getConservationText(context, 6),
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active
-              ? const Color.fromARGB(255, 0, 102, 102)
-              : const Color.fromARGB(125, 240, 240, 240),
-          border: Border.all(
-            color: active
-                ? const Color.fromARGB(0, 0, 0, 0)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-          borderRadius: BorderRadius.circular(100.0),
-        ),
-        child: Text(
-          'NT',
-          style: TextStyle(
-            color: active
-                ? const Color.fromARGB(255, 113, 177, 140)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _leastConcern(BuildContext context, bool active) {
-    return Tooltip(
-      message: _getConservationText(context, 7),
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active
-              ? const Color.fromARGB(255, 0, 102, 102)
-              : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active
-                ? const Color.fromARGB(0, 0, 0, 0)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'LC',
-          style: TextStyle(
-            color: active
-                ? const Color.fromARGB(255, 255, 255, 255)
-                : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _deficientData(BuildContext context, bool active) {
-    return Expanded(
-      child: Tooltip(
-        message: _getConservationText(context, 8),
-        child: Container(
-          height: 35.0,
-          width: 35.0,
-          margin: const EdgeInsets.only(left: 15.0, right: 8.0),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? const Color.fromARGB(255, 55, 55, 135)
-                : const Color.fromARGB(125, 240, 240, 240),
-            borderRadius: BorderRadius.circular(100.0),
-            border: Border.all(
-              color: active
-                  ? const Color.fromARGB(0, 0, 0, 0)
-                  : const Color.fromARGB(125, 0, 0, 0),
+    final title = AppLocalizations.of(context).conservationStatus;
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => CharacteristicPage(
+              title: title,
+              instance: status,
             ),
           ),
-          child: Text(
-            'DD',
-            style: TextStyle(
-              color: active
-                  ? const Color.fromARGB(255, 255, 255, 255)
-                  : const Color.fromARGB(125, 0, 0, 0),
-            ),
-          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 15.0,
+          vertical: 7.0,
         ),
-      ),
-    );
-  }
-
-  Widget _notEvaluated(BuildContext context, bool active) {
-    return Expanded(
-      child: Tooltip(
-        message: _getConservationText(context, 9),
-        child: Container(
-          height: 35.0,
-          width: 35.0,
-          margin: const EdgeInsets.only(left: 8.0, right: 15.0),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active
-                ? const Color.fromARGB(255, 55, 55, 135)
-                : const Color.fromARGB(125, 240, 240, 240),
-            borderRadius: BorderRadius.circular(100.0),
-            border: Border.all(
-              color: active
-                  ? const Color.fromARGB(0, 0, 0, 0)
-                  : const Color.fromARGB(125, 0, 0, 0),
+        width: double.infinity,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.black12,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(title),
             ),
-          ),
-          child: Text(
-            'NE',
-            style: TextStyle(
-              color: active
-                  ? const Color.fromARGB(255, 255, 255, 255)
-                  : const Color.fromARGB(125, 0, 0, 0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: status!.getConservationIcon(context),
             ),
-          ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(status!.getConservationText(context)),
+            ),
+          ],
         ),
       ),
     );

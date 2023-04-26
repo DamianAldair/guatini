@@ -82,7 +82,8 @@ class SpeciesDetailsPage extends StatelessWidget {
                             instance: species.taxgenus,
                           ),
                           ConservationStateCard(
-                              status: species.conservationStatus),
+                            status: species.conservationStatus,
+                          ),
                           InfoCard(
                             title: AppLocalizations.of(context).endemism,
                             instance: species.endemism,
