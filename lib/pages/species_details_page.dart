@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/pages/wiki_search_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
+import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/widgets/info_card_widget.dart';
 import 'package:guatini/widgets/media_widgets.dart';
 import 'package:sqflite/sqflite.dart';
@@ -14,6 +17,8 @@ class SpeciesDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = UserPreferences();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).speciesDetails),
@@ -34,12 +39,6 @@ class SpeciesDetailsPage extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     }
                     final species = snapshot.data as SpeciesModel;
-                    final gallery = Gallery(
-                      species.medias,
-                      mainImageId: species.mainImage != null
-                          ? species.mainImage!.id
-                          : null,
-                    );
                     return SingleChildScrollView(
                       child: Column(
                         children: [
@@ -83,7 +82,8 @@ class SpeciesDetailsPage extends StatelessWidget {
                             instance: species.taxgenus,
                           ),
                           ConservationStateCard(
-                              status: species.conservationStatus),
+                            status: species.conservationStatus,
+                          ),
                           InfoCard(
                             title: AppLocalizations.of(context).endemism,
                             instance: species.endemism,
@@ -104,12 +104,28 @@ class SpeciesDetailsPage extends StatelessWidget {
                             title: AppLocalizations.of(context).diet,
                             instances: species.diets,
                           ),
-                          const InfoCard(
-                            title: 'sonido',
-                            instance: 'species.sound',
-                          ),
+                          AudioCard(species.medias),
                           Description(species.description.toString()),
-                          gallery,
+                          Gallery(
+                            species.medias,
+                            mainImageId: species.mainImage != null
+                                ? species.mainImage!.id
+                                : null,
+                          ),
+                          if (prefs.wikipediaOnline)
+                            const SizedBox(height: 20.0),
+                          if (prefs.wikipediaOnline)
+                            TextButton.icon(
+                              icon: const Icon(FontAwesomeIcons.wikipediaW),
+                              label:
+                                  Text(AppLocalizations.of(context).wikiSearch),
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        WikiSearchPage(species.scientificName)),
+                              ),
+                            ),
                           const SizedBox(height: 20.0),
                         ],
                       ),

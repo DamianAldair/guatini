@@ -49,21 +49,18 @@ abstract class SearchProvider {
   static Future<MainImageModel?> _getMainImage(
       Database db, int speciesId) async {
     final query = '''
-      SELECT 
-      [main].[media].[id], 
-      [main].[media].[path], 
-      [main].[media].[date_capture], 
-      [main].[media].[lat], 
-      [main].[media].[lon], 
-      [main].[author].[id] AS [authorId], 
-      [main].[license].[id] AS [licenseId]
-      FROM [main].[specie]
-      INNER JOIN [main].[media] ON [main].[specie].[id] = [main].[media].[fk_specie_]
-      INNER JOIN [main].[main_image] ON [main].[media].[id] = [main].[main_image].[fk_media_]
-      INNER JOIN [main].[media_author] ON [main].[media].[id] = [main].[media_author].[fk_media_]
-      INNER JOIN [main].[author] ON [main].[author].[id] = [main].[media_author].[fk_author_]
-      INNER JOIN [main].[license] ON [main].[license].[id] = [main].[media].[fk_license_]
-      where [main].[specie].[id] = $speciesId;
+      select 
+        [main].[main_image].[fk_media_] AS [id], 
+        [main].[media].[path], 
+        [main].[media].[date_capture], 
+        [main].[media].[lat], 
+        [main].[media].[lon], 
+        [main].[media_author].[fk_author_] AS [authorId], 
+        [main].[media].[fk_license_] AS [licenseId]
+      from [main].[media]
+        inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
+        inner join [main].[media_author] on [main].[media].[id] = [main].[media_author].[fk_media_]
+      where [main].[media].[fk_specie_] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     return result.isNotEmpty ? MainImageModel.fromMap(result.first) : null;
@@ -287,25 +284,26 @@ abstract class SearchProvider {
 
   static Future<List<MediaModel>> _getMedias(Database db, int speciesId) async {
     final query = '''
-        select
-        [main].[media].[id],
-        [main].[media].[path],
-        [main].[media].[date_capture],
-        [main].[media].[lat],
-        [main].[media].[lon],
+        SELECT 
+        [main].[media].[id], 
+        [main].[media].[path], 
+        [main].[media].[date_capture], 
+        [main].[media].[lat], 
+        [main].[media].[lon], 
+        [main].[author].[id] AS [authorId], 
+        [main].[media].[fk_license_] AS [licenseId], 
         [main].[media].[fk_type_]
-        from [main].[media]
-        inner join [main].[specie] on [main].[specie].[id] = [main].[media].[fk_specie_]
-        where [main].[specie].[id] = $speciesId;
+        FROM [main].[media]
+        INNER JOIN [main].[media_author] ON [main].[media].[id] = [main].[media_author].[fk_media_]
+        INNER JOIN [main].[author] ON [main].[author].[id] = [main].[media_author].[fk_author_]
+        INNER JOIN [main].[type] ON [main].[type].[id] = [main].[media].[fk_type_]
+        WHERE [main].[media].[fk_specie_] = $speciesId;
     ''';
     final result = await db.rawQuery(query);
     final medias = <MediaModel>[];
     for (Map<String, Object?> item in result) {
-      MediaTypeModel? type = await _getMediaType(
-        db,
-        MediaModel.fromMap(item).id,
-      );
       MediaModel media = MediaModel.fromMap(item);
+      MediaTypeModel? type = await _getMediaType(db, media.id);
       media.type = type;
       medias.add(media);
     }
@@ -425,6 +423,190 @@ abstract class SearchProvider {
           order by random()
           limit $max;
       ''';
+      final result = await db.rawQuery(query);
+      final results = <SpeciesModel>[];
+      for (var item in result) {
+        results.add(SpeciesModel.fromSimpleSearch(item));
+      }
+      return results;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  static Future<List<MediaModel>> moreMedia(
+    Database db, {
+    int? authorId,
+    int? licenseId,
+  }) async {
+    try {
+      String? query;
+      if (authorId != null) {
+        query = '''
+          select 
+            [main].[media].[id], 
+            [main].[media].[path], 
+            [main].[media].[lat], 
+            [main].[media].[lon], 
+            [main].[media].[date_capture], 
+            [main].[media].[fk_specie_], 
+            [main].[type].[type]
+          from [main].[media]
+            inner join [main].[media_author] on [main].[media].[id] = [main].[media_author].[fk_media_]
+            inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
+            where [main].[media_author].[fk_author_] = $authorId;
+        ''';
+      }
+      if (licenseId != null) {
+        query = '''
+          select 
+            [main].[media].[id], 
+            [main].[media].[path], 
+            [main].[media].[lat], 
+            [main].[media].[lon], 
+            [main].[media].[date_capture], 
+            [main].[media].[fk_specie_], 
+            [main].[type].[type]
+          from [main].[media]
+            inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
+          where [main].[media].[fk_license_] = $licenseId;
+        ''';
+      }
+      final result = await db.rawQuery(query!);
+      final results = <MediaModel>[];
+      for (var item in result) {
+        results.add(MediaModel.fromMore(item));
+      }
+      return results;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  static Future<List<SpeciesModel>> moreSpeciesFromTaxonomy(
+    Database db,
+    dynamic taxonomyModel,
+  ) async {
+    try {
+      String sqlTable = '';
+      switch (taxonomyModel.runtimeType) {
+        case DomainModel:
+          sqlTable = 't_domain';
+          break;
+        case KindomModel:
+          sqlTable = 't_kindom';
+          break;
+        case PhylumModel:
+          sqlTable = 't_phylum';
+          break;
+        case ClassModel:
+          sqlTable = 't_class';
+          break;
+        case OrderModel:
+          sqlTable = 't_order';
+          break;
+        case FamilyModel:
+          sqlTable = 't_family';
+          break;
+        case GenusModel:
+          sqlTable = 't_genus';
+          break;
+      }
+      final query = '''
+        select 
+          [main].[specie].[id], 
+          [main].[common_name].[name], 
+          [main].[specie].[scientific_name], 
+          [main].[media].[path]
+        from [main].[specie]
+          inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+          inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
+          inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+          inner join [main].[t_genus] on [main].[t_genus].[id] = [main].[specie].[fk_t_genus_]
+          inner join [main].[t_family] on [main].[t_family].[id] = [main].[t_genus].[fk_t_family_]
+          inner join [main].[t_order] on [main].[t_order].[id] = [main].[t_family].[fk_t_order_]
+          inner join [main].[t_class] on [main].[t_class].[id] = [main].[t_order].[fk_t_class_]
+          inner join [main].[t_phylum] on [main].[t_phylum].[id] = [main].[t_class].[fk_t_phylum_]
+          inner join [main].[t_kindom] on [main].[t_kindom].[id] = [main].[t_phylum].[fk_t_kindom_]
+          inner join [main].[t_domain] on [main].[t_domain].[id] = [main].[t_kindom].[fk_t_domain_]
+        where [main].[$sqlTable].[id] = ${taxonomyModel.id};
+      ''';
+      final result = await db.rawQuery(query);
+      final results = <SpeciesModel>[];
+      for (var item in result) {
+        results.add(SpeciesModel.fromSimpleSearch(item));
+      }
+      return results;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  static Future<List<SpeciesModel>> moreSpeciesFromOther(
+    Database db,
+    dynamic model,
+  ) async {
+    try {
+      String prop = '';
+      switch (model.runtimeType) {
+        case ConservationStatusModel:
+          prop = 'fk_coservation_status_';
+          break;
+        case AbundanceModel:
+          prop = 'fk_abundance_';
+          break;
+        case EndemismModel:
+          prop = 'fk_endemism_';
+          break;
+      }
+      final String query;
+      if (prop.isNotEmpty) {
+        query = '''
+          select 
+            [main].[specie].[id], 
+            [main].[common_name].[name], 
+            [main].[specie].[scientific_name], 
+            [main].[media].[path]
+          from [main].[specie]
+            inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+            inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
+            inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+          where [main].[specie].[$prop] = ${model.id};
+        ''';
+      } else {
+        String join = '';
+        String where = '';
+        switch (model.runtimeType) {
+          case ActivityModel:
+            join =
+                'inner join [main].[specie_activity] on [main].[specie].[id] = [main].[specie_activity].[fk_specie_]';
+            where = '[main].[specie_activity].[fk_activity_]';
+            break;
+          case HabitatModel:
+            join =
+                ' inner join [main].[specie_habitat] on [main].[specie].[id] = [main].[specie_habitat].[fk_specie_]';
+            where = '[main].[specie_habitat].[fk_habitat_]';
+            break;
+          case DietModel:
+            join =
+                'inner join [main].[specie_diet] on [main].[specie].[id] = [main].[specie_diet].[fk_specie_]';
+            where = '[main].[specie_diet].[fk_diet_]';
+            break;
+        }
+        query = '''
+          select 
+            [main].[specie].[id], 
+            [main].[common_name].[name], 
+            [main].[specie].[scientific_name], 
+            [main].[media].[path]
+          from [main].[specie]
+            inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+            inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
+            inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+            $join
+          where $where = ${model.id};
+        ''';
+      }
       final result = await db.rawQuery(query);
       final results = <SpeciesModel>[];
       for (var item in result) {

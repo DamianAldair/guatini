@@ -9,9 +9,10 @@ class MediaModel {
   final int? id;
   final String? path;
   final String? dateCapture;
-  final Float? latitude;
-  final Float? longitude;
+  final double? latitude;
+  final double? longitude;
   final SpeciesModel? species;
+  final int? speciesId;
   final int? authorId;
   final AuthorModel? author;
   final int? licenseId;
@@ -29,12 +30,22 @@ class MediaModel {
     this.licenseId,
     this.license,
     this.species,
+    this.speciesId,
   });
+
+  factory MediaModel.fromMore(Map<String, dynamic> json) => MediaModel(
+        id: json["id"],
+        path: json["path"],
+        latitude: json["lat"],
+        longitude: json["lon"],
+        dateCapture: json["date_capture"],
+        speciesId: json["fk_specie_"],
+      )..type = MediaTypeModel.fromMap({"type": json["type"]});
 
   factory MediaModel.fromMap(Map<String, dynamic> json) => MediaModel(
         id: json["id"],
         path: json["path"],
-        dateCapture: json["dateCapture"],
+        dateCapture: json["date_capture"],
         latitude: json["latitude"],
         longitude: json["longitude"],
         authorId: json["authorId"],
@@ -70,8 +81,8 @@ class MainImageModel extends MediaModel {
     required int? id,
     required String? path,
     required String? dateCapture,
-    required Float? latitude,
-    required Float? longitude,
+    required double? latitude,
+    required double? longitude,
     int? authorId,
     AuthorModel? author,
     int? licenseId,

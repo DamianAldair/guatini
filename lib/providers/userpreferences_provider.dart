@@ -134,4 +134,36 @@ class UserPreferences {
     }
     _prefs!.setString(_keyLocale, locale.languageCode);
   }
+
+  // Online Use
+  final String _keyWikipediaOnline = 'wikipediaOnline';
+
+  bool get wikipediaOnline => _prefs!.getBool(_keyWikipediaOnline) ?? true;
+
+  set wikipediaOnline(bool online) =>
+      _prefs!.setBool(_keyWikipediaOnline, online);
+
+  final String _keyImageOnline = 'imageOnline';
+
+  bool get imageOnline => _prefs!.getBool(_keyImageOnline) ?? true;
+
+  set imageOnline(bool online) => _prefs!.setBool(_keyImageOnline, online);
+
+  final String _keyAudioOnline = 'audioOnline';
+
+  bool get audioOnline => _prefs!.getBool(_keyAudioOnline) ?? true;
+
+  set audioOnline(bool online) => _prefs!.setBool(_keyAudioOnline, online);
+
+  final String _keyVideoOnline = 'videoOnline';
+
+  bool get videoOnline => _prefs!.getBool(_keyVideoOnline) ?? true;
+
+  set videoOnline(bool online) => _prefs!.setBool(_keyVideoOnline, online);
+
+  final String _keyOpenWeb = 'openWeb';
+
+  bool get openWeb => _prefs!.getBool(_keyOpenWeb) ?? true;
+
+  set openWeb(bool online) => _prefs!.setBool(_keyOpenWeb, online);
 }

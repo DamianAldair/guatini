@@ -38,7 +38,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get back => 'Volver';
 
   @override
-  String get chooseOne => 'Sellecione una opción';
+  String get chooseOne => 'Seleccione una opción';
 
   @override
   String get clear => 'Borrar todo';
@@ -163,6 +163,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get light => 'Claro';
 
   @override
+  String get moreOf => 'Más de';
+
+  @override
+  String get moreWith => 'Más con';
+
+  @override
   String get nearThreataned => 'Casi amenazada';
 
   @override
@@ -181,6 +187,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noRecentSearches => 'No hay búsquedas recientes';
 
   @override
+  String get noResults => 'No hay resultados';
+
+  @override
   String get notSelected => 'No seleccionada';
 
   @override
@@ -193,10 +202,37 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ok => 'Aceptar';
 
   @override
+  String get onlineAudio => 'Audio en línea';
+
+  @override
+  String get onlineImage => 'Imagen en línea';
+
+  @override
+  String get onlineUse => 'Uso en línea';
+
+  @override
+  String get onlineVideo => 'Video en línea';
+
+  @override
+  String get onlineUseText => 'Uso de información desde internet';
+
+  @override
+  String get openQrReader => 'Abrir lector QR';
+
+  @override
+  String get pause => 'Pausa';
+
+  @override
+  String get play => 'Reproducir';
+
+  @override
   String get previousFolder => 'Ir a la carpeta anterior';
 
   @override
   String get refresh => 'Refrescar';
+
+  @override
+  String get replay => 'Comenzar reproducción de nuevo';
 
   @override
   String get search => 'Buscar';
@@ -212,6 +248,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get speciesDetails => 'Detalles de la especie';
+
+  @override
+  String get stop => 'Parar reproducción';
 
   @override
   String get system => 'Según el sistema';
@@ -257,6 +296,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get vulnerable => 'Vulnerable';
+
+  @override
+  String get wikiSearch => 'Buscar en Wikipedia';
 
   @override
   String get yes => 'Sí';

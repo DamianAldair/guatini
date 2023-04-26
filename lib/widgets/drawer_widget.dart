@@ -79,6 +79,12 @@ class _Route {
 List<_Route> _drawerPagesRoutes(BuildContext context) => [
       _Route(
         isMainPage: false,
+        icon: Icons.qr_code_scanner_rounded,
+        title: AppLocalizations.of(context).openQrReader,
+        page: const SettingsPage(),
+      ),
+      _Route(
+        isMainPage: false,
         icon: Icons.settings_rounded,
         title: AppLocalizations.of(context).settings,
         page: const SettingsPage(),

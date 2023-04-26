@@ -22,3 +22,13 @@ String parseLanguageCode(String languageTag) {
       return 'Español';
   }
 }
+
+String parseDuration(Duration duration) {
+  final iH = duration.inHours;
+  final iM = duration.inMinutes % 60;
+  final iS = duration.inSeconds % 60;
+  final h = iH == 0 ? '' : '$iH:';
+  final m = iM < 10 && iH != 0 ? '0$iM' : iM;
+  final s = iS < 10 ? '0$iS' : iS;
+  return '$h$m:$s';
+}

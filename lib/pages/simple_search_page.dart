@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/specie_model.dart';
-import 'package:guatini/pages/spacies_details_page.dart';
+import 'package:guatini/pages/species_details_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';

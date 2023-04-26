@@ -163,6 +163,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get light => 'Light';
 
   @override
+  String get moreOf => 'More of';
+
+  @override
+  String get moreWith => 'More with';
+
+  @override
   String get nearThreataned => 'Near threataned';
 
   @override
@@ -181,6 +187,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noRecentSearches => 'There are no recent searches';
 
   @override
+  String get noResults => 'There are no results';
+
+  @override
   String get notSelected => 'Not selected';
 
   @override
@@ -193,10 +202,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ok => 'Ok';
 
   @override
+  String get onlineAudio => 'Online audio';
+
+  @override
+  String get onlineImage => 'Online image';
+
+  @override
+  String get onlineUse => 'Online use';
+
+  @override
+  String get onlineVideo => 'Online video';
+
+  @override
+  String get onlineUseText => 'Use of información from internet';
+
+  @override
+  String get openQrReader => 'Open QR reader';
+
+  @override
+  String get pause => 'Pause';
+
+  @override
+  String get play => 'Play';
+
+  @override
   String get previousFolder => 'Go to previous folder';
 
   @override
   String get refresh => 'Refresh';
+
+  @override
+  String get replay => 'Replay';
 
   @override
   String get search => 'Search';
@@ -212,6 +248,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get speciesDetails => 'Species Details';
+
+  @override
+  String get stop => 'Stop';
 
   @override
   String get system => 'System';
@@ -257,6 +296,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vulnerable => 'Vulnerable';
+
+  @override
+  String get wikiSearch => 'Search on Wikipedia';
 
   @override
   String get yes => 'Yes';

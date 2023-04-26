@@ -1,10 +1,12 @@
+import 'dart:ui';
+
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/pages/simple_search_page.dart';
-import 'package:guatini/pages/spacies_details_page.dart';
+import 'package:guatini/pages/species_details_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
@@ -71,31 +73,31 @@ class _MainPageState extends State<MainPage> {
                   );
                 }
                 return Swiper(
-                    loop: false,
-                    autoplay: true,
-                    autoplayDisableOnInteraction: true,
-                    autoplayDelay: 5000,
-                    duration: 1000,
-                    viewportFraction: 0.85,
-                    outer: true,
-                    indicatorLayout: PageIndicatorLayout.SCALE,
-                    controller: controller,
-                    pagination: const SwiperPagination(
-                      builder: DotSwiperPaginationBuilder(
-                        color: Color.fromARGB(255, 200, 200, 200),
-                        size: 7.0,
-                        activeSize: 7.0,
-                      ),
+                  loop: false,
+                  autoplay: true,
+                  autoplayDisableOnInteraction: true,
+                  autoplayDelay: 5000,
+                  duration: 1000,
+                  viewportFraction: 0.85,
+                  outer: true,
+                  indicatorLayout: PageIndicatorLayout.SCALE,
+                  controller: controller,
+                  pagination: const SwiperPagination(
+                    builder: DotSwiperPaginationBuilder(
+                      color: Color.fromARGB(255, 200, 200, 200),
+                      size: 7.0,
+                      activeSize: 7.0,
                     ),
-                    itemCount: list.length,
-                    itemBuilder: (_, int i) =>
-                        _suggestionCard(context, list[i]),
-                    onTap: (i) => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => SpeciesDetailsPage(list[i].id),
-                          ),
-                        ));
+                  ),
+                  itemCount: list.length,
+                  itemBuilder: (_, int i) => _suggestionCard(context, list[i]),
+                  onTap: (i) => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SpeciesDetailsPage(list[i].id),
+                    ),
+                  ),
+                );
               },
             );
           },
@@ -151,10 +153,13 @@ class _MainPageState extends State<MainPage> {
                       fit: StackFit.expand,
                       children: [
                         species.image,
-                        Container(
-                          color: isDark
-                              ? const Color.fromARGB(150, 0, 0, 0)
-                              : const Color.fromARGB(150, 255, 255, 255),
+                        BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                          child: Container(
+                            color: isDark
+                                ? const Color.fromARGB(150, 0, 0, 0)
+                                : const Color.fromARGB(150, 255, 255, 255),
+                          ),
                         ),
                       ],
                     ),

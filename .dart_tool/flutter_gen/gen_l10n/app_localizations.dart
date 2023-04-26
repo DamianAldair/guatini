@@ -394,6 +394,18 @@ abstract class AppLocalizations {
   /// **'Light'**
   String get light;
 
+  /// No description provided for @moreOf.
+  ///
+  /// In en, this message translates to:
+  /// **'More of'**
+  String get moreOf;
+
+  /// No description provided for @moreWith.
+  ///
+  /// In en, this message translates to:
+  /// **'More with'**
+  String get moreWith;
+
   /// No description provided for @nearThreataned.
   ///
   /// In en, this message translates to:
@@ -430,6 +442,12 @@ abstract class AppLocalizations {
   /// **'There are no recent searches'**
   String get noRecentSearches;
 
+  /// No description provided for @noResults.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no results'**
+  String get noResults;
+
   /// No description provided for @notSelected.
   ///
   /// In en, this message translates to:
@@ -454,6 +472,54 @@ abstract class AppLocalizations {
   /// **'Ok'**
   String get ok;
 
+  /// No description provided for @onlineAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Online audio'**
+  String get onlineAudio;
+
+  /// No description provided for @onlineImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Online image'**
+  String get onlineImage;
+
+  /// No description provided for @onlineUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Online use'**
+  String get onlineUse;
+
+  /// No description provided for @onlineVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Online video'**
+  String get onlineVideo;
+
+  /// No description provided for @onlineUseText.
+  ///
+  /// In en, this message translates to:
+  /// **'Use of información from internet'**
+  String get onlineUseText;
+
+  /// No description provided for @openQrReader.
+  ///
+  /// In en, this message translates to:
+  /// **'Open QR reader'**
+  String get openQrReader;
+
+  /// No description provided for @pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pause;
+
+  /// No description provided for @play.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get play;
+
   /// No description provided for @previousFolder.
   ///
   /// In en, this message translates to:
@@ -465,6 +531,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Refresh'**
   String get refresh;
+
+  /// No description provided for @replay.
+  ///
+  /// In en, this message translates to:
+  /// **'Replay'**
+  String get replay;
 
   /// No description provided for @search.
   ///
@@ -495,6 +567,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Species Details'**
   String get speciesDetails;
+
+  /// No description provided for @stop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get stop;
 
   /// No description provided for @system.
   ///
@@ -585,6 +663,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Vulnerable'**
   String get vulnerable;
+
+  /// No description provided for @wikiSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search on Wikipedia'**
+  String get wikiSearch;
 
   /// No description provided for @yes.
   ///

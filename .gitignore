@@ -48,5 +48,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Scholl documentation
+# School documentation
 docs/

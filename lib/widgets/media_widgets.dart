@@ -1,17 +1,22 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/media_model.dart';
 import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/pages/media_info_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:guatini/util/parse.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class MainImage extends StatelessWidget {
   final SpeciesModel species;
@@ -147,6 +152,11 @@ class Gallery extends StatelessWidget {
                       }
                       if (gallery[i].mediaType.type == MediaType.video) {
                         galleryStreamController.add(true);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => VideoViewer(gallery[i])),
+                        );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -190,10 +200,34 @@ class Thumbnail extends StatelessWidget {
     }
     if (media.mediaType.type == MediaType.video) {
       if (file.existsSync()) {
-        //TODO: Use video_thumbnail lib
-        return Image.asset(
-          'assets/images/video.png',
-          fit: BoxFit.cover,
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              color: Colors.black.withOpacity(0.6),
+            ),
+            FutureBuilder(
+              future: VideoThumbnail.thumbnailData(video: path),
+              builder: (_, AsyncSnapshot snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return Image.memory(
+                  snapshot.data,
+                  fit: BoxFit.cover,
+                );
+              },
+            ),
+            Container(
+              width: 45.0,
+              height: 45.0,
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.6),
+                borderRadius: BorderRadius.circular(100.0),
+              ),
+              child: const Icon(Icons.play_arrow_rounded),
+            ),
+          ],
         );
       } else {
         return Image.asset(
@@ -212,11 +246,13 @@ class Thumbnail extends StatelessWidget {
 class ImageViewer extends StatefulWidget {
   final MediaModel media;
   final Object? speciesId;
+  final bool showInfo;
 
   ImageViewer(
     this.media, {
     Key? key,
     this.speciesId,
+    this.showInfo = true,
   })  : assert(media.mediaType.type == MediaType.image),
         super(key: key);
 
@@ -299,20 +335,21 @@ class _ImageViewerState extends State<ImageViewer>
                               ),
                             ),
                             const Expanded(child: SizedBox()),
-                            IconButton(
-                              icon: const Icon(Icons.info_outlined),
-                              color: Colors.white,
-                              tooltip: AppLocalizations.of(context).info,
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => MediaInfoPage(
-                                    widget.media,
-                                    heroTag: widget.speciesId,
+                            if (widget.showInfo)
+                              IconButton(
+                                icon: const Icon(Icons.info_outlined),
+                                color: Colors.white,
+                                tooltip: AppLocalizations.of(context).info,
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => MediaInfoPage(
+                                      widget.media,
+                                      heroTag: widget.speciesId,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -343,6 +380,8 @@ class GalleryViewer extends StatefulWidget {
 class _GalleryViewerState extends State<GalleryViewer>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
+  List<MediaModel> list = [];
+  late PageController pageController;
   bool showAppBar = true;
 
   @override
@@ -351,18 +390,6 @@ class _GalleryViewerState extends State<GalleryViewer>
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    List<MediaModel> list = [];
     for (MediaModel m in widget.medias) {
       if (m.mediaType.type == MediaType.image) {
         list.add(m);
@@ -377,6 +404,19 @@ class _GalleryViewerState extends State<GalleryViewer>
         }
       }
     }
+    pageController = PageController(initialPage: page);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final paddingTop = MediaQuery.of(context).padding.top;
     return Scaffold(
       body: Stack(
@@ -384,7 +424,7 @@ class _GalleryViewerState extends State<GalleryViewer>
           GestureDetector(
             child: PhotoViewGallery.builder(
               itemCount: list.length,
-              pageController: PageController(initialPage: page),
+              pageController: pageController,
               builder: (_, int i) {
                 final media = list[i];
                 final path = p.join(UserPreferences().dbPath, media.path);
@@ -409,49 +449,621 @@ class _GalleryViewerState extends State<GalleryViewer>
           ),
           AnimatedBuilder(
             animation: controller,
-            builder: (_, __) {
-              return showAppBar
-                  ? Opacity(
-                      opacity: 1 - controller.value,
-                      child: Container(
-                        color: Colors.black.withOpacity(0.5),
-                        height: kToolbarHeight + paddingTop,
-                        padding: EdgeInsets.only(top: paddingTop),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.arrow_back),
+            builder: (_, __) => showAppBar
+                ? Opacity(
+                    opacity: 1 - controller.value,
+                    child: Container(
+                      color: Colors.black.withOpacity(0.5),
+                      height: kToolbarHeight + paddingTop,
+                      padding: EdgeInsets.only(top: paddingTop),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_back),
+                            color: Colors.white,
+                            padding:
+                                const EdgeInsets.only(left: 15.0, right: 33.0),
+                            tooltip: AppLocalizations.of(context).back,
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          Text(
+                            AppLocalizations.of(context).image,
+                            style: const TextStyle(
                               color: Colors.white,
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 33.0),
-                              tooltip: AppLocalizations.of(context).back,
-                              onPressed: () => Navigator.pop(context),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
                             ),
-                            Text(
-                              AppLocalizations.of(context).image,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0,
+                          ),
+                          const Expanded(child: SizedBox()),
+                          IconButton(
+                            icon: const Icon(Icons.info_outlined),
+                            color: Colors.white,
+                            tooltip: AppLocalizations.of(context).info,
+                            onPressed: () {
+                              final media = list[pageController.page!.round()];
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => MediaInfoPage(
+                                          media,
+                                          heroTag: media.id.toString(),
+                                        )),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AudioCard extends StatelessWidget {
+  final List<MediaModel>? medias;
+
+  const AudioCard(this.medias, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    const radius = 10.0;
+
+    List<MediaModel> list = [];
+    if (medias != null) {
+      for (MediaModel m in medias!) {
+        if (m.mediaType.type != null && m.mediaType.type! == MediaType.audio) {
+          list.add(m);
+        }
+      }
+    }
+    return list.isEmpty
+        ? const SizedBox.shrink()
+        : Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 15.0,
+              vertical: 7.0,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.black12,
+              borderRadius: BorderRadius.circular(radius),
+            ),
+            width: double.infinity,
+            child: GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 3 / (list.length < 3 ? list.length : 3),
+                  crossAxisCount: list.length < 3 ? list.length : 3),
+              itemCount: list.length,
+              itemBuilder: (_, int i) {
+                final title = list.length == 1
+                    ? AppLocalizations.of(context).sound
+                    : '${AppLocalizations.of(context).sound} ${i + 1}';
+                return GestureDetector(
+                  child: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          child: Icon(
+                            Icons.audiotrack_rounded,
+                            size: 35.0,
+                          ),
+                        ),
+                        Text(title),
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isDismissible: false,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20.0),
+                        ),
+                      ),
+                      builder: (_) => AudioViewer(
+                        list[i],
+                        title: title,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          );
+  }
+}
+
+class AudioViewer extends StatefulWidget {
+  final MediaModel media;
+  final String? title;
+  final bool showInfo;
+
+  const AudioViewer(
+    this.media, {
+    Key? key,
+    this.title,
+    this.showInfo = true,
+  }) : super(key: key);
+
+  @override
+  State<AudioViewer> createState() => _AudioViewerState();
+}
+
+class _AudioViewerState extends State<AudioViewer> {
+  late AudioPlayer player;
+  bool playable = false;
+  bool isPlaying = false;
+  Duration position = const Duration();
+  Duration duration = const Duration();
+
+  @override
+  void initState() {
+    if (File(_audioPath).existsSync()) {
+      playable = true;
+      player = AudioPlayer();
+      player.setSource(UrlSource(_audioPath)).then((_) {
+        player.getDuration().then((d) {
+          setState(() => duration = d ?? Duration.zero);
+        });
+      });
+      player.onPositionChanged.listen((p) => setState(() => position = p));
+      player.onDurationChanged.listen((d) => setState(() => duration = d));
+      player.onPlayerComplete.listen((_) {
+        setState(() {
+          isPlaying = false;
+          position = Duration.zero;
+        });
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (playable) {
+      player.dispose();
+    }
+    super.dispose();
+  }
+
+  String get _audioPath {
+    final prefs = UserPreferences();
+    return p.join(prefs.dbPath, widget.media.path);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final dragger = Container(
+      margin: const EdgeInsets.only(top: 20.0),
+      height: 8.0,
+      width: 50.0,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(100.0),
+      ),
+    );
+    if (!playable) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          dragger,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 50.0,
+              horizontal: 10.0,
+            ),
+            child: Text(
+              AppLocalizations.of(context).errorObtainingInfo,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
+    }
+    final bgColor = Theme.of(context).scaffoldBackgroundColor;
+    final fgColor = IconTheme.of(context).color;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        dragger,
+        if (widget.showInfo)
+          Row(
+            children: [
+              const Expanded(child: SizedBox.shrink()),
+              IconButton(
+                icon: const Icon(Icons.info_outlined),
+                color: Colors.white,
+                tooltip: AppLocalizations.of(context).info,
+                onPressed: () async {
+                  if (isPlaying) {
+                    isPlaying = false;
+                    player.pause();
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MediaInfoPage(widget.media),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        const SizedBox(height: 20.0),
+        const Icon(
+          Icons.audiotrack_rounded,
+          size: 100.0,
+        ),
+        Text(widget.title ?? AppLocalizations.of(context).sound),
+        const SizedBox(height: 20.0),
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Text(parseDuration(position)),
+            ),
+            Expanded(
+              child: Slider(
+                thumbColor: fgColor,
+                activeColor: Colors.grey.withOpacity(0.5),
+                inactiveColor: Colors.grey.withOpacity(0.5),
+                value: position.inMilliseconds.toDouble(),
+                max: duration.inMilliseconds.toDouble(),
+                onChanged: (value) => setState(() {
+                  final d = Duration(milliseconds: value.toInt());
+                  player.seek(d);
+                  position = d;
+                }),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Text(parseDuration(duration)),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10.0),
+        Row(
+          children: [
+            const Expanded(child: SizedBox()),
+            IconButton(
+              icon: const Icon(Icons.skip_previous_rounded),
+              tooltip: AppLocalizations.of(context).replay,
+              onPressed: () {
+                setState(() {
+                  isPlaying = true;
+                  position = Duration.zero;
+                });
+                player.seek(position).then((_) => player.resume());
+              },
+            ),
+            const SizedBox(width: 20.0),
+            Container(
+              decoration: BoxDecoration(
+                color: fgColor,
+                borderRadius: BorderRadius.circular(100.0),
+              ),
+              height: 50.0,
+              width: 50.0,
+              child: IconButton(
+                icon: Icon(
+                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                ),
+                color: bgColor,
+                tooltip: isPlaying
+                    ? AppLocalizations.of(context).pause
+                    : AppLocalizations.of(context).play,
+                onPressed: () {
+                  if (isPlaying) {
+                    setState(() => isPlaying = false);
+                    player.pause();
+                  } else {
+                    setState(() => isPlaying = true);
+                    player.resume();
+                  }
+                },
+              ),
+            ),
+            const SizedBox(width: 20.0),
+            IconButton(
+              icon: const Icon(Icons.stop_rounded),
+              tooltip: AppLocalizations.of(context).stop,
+              onPressed: () {
+                setState(() {
+                  isPlaying = false;
+                  position = Duration.zero;
+                });
+                player.pause().then((_) => player.seek(position));
+              },
+            ),
+            const Expanded(child: SizedBox()),
+          ],
+        ),
+        const SizedBox(height: 40.0),
+      ],
+    );
+  }
+}
+
+class VideoViewer extends StatefulWidget {
+  final MediaModel media;
+  final bool showInfo;
+
+  const VideoViewer(
+    this.media, {
+    Key? key,
+    this.showInfo = true,
+  }) : super(key: key);
+
+  @override
+  State<VideoViewer> createState() => _VideoViewerState();
+}
+
+class _VideoViewerState extends State<VideoViewer>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late VideoPlayerController video;
+  bool showAppBar = true;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 150),
+    );
+    final path = p.join(UserPreferences().dbPath, widget.media.path);
+    video = VideoPlayerController.file(File(path));
+    video.addListener(() => setState(() {}));
+    video.initialize().then((value) => setState(() {}));
+    video.setLooping(false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    video.dispose();
+    enabledSystemUIMode();
+    super.dispose();
+  }
+
+  Future<void> enabledSystemUIMode() async {
+    await SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: SystemUiOverlay.values,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom],
+    );
+    final paddingTop = MediaQuery.of(context).padding.top;
+    return WillPopScope(
+      onWillPop: () async {
+        await enabledSystemUIMode();
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Stack(
+          children: [
+            GestureDetector(
+              child: Center(
+                child: Hero(
+                  tag: widget.media.id.toString(),
+                  child: AspectRatio(
+                    aspectRatio: video.value.aspectRatio,
+                    child: VideoPlayer(video),
+                  ),
+                ),
+              ),
+              onTap: () {
+                if (showAppBar) {
+                  controller.forward(from: controller.value);
+                  showAppBar = false;
+                } else {
+                  controller.reverse(from: controller.value);
+                  showAppBar = true;
+                }
+              },
+            ),
+            AnimatedBuilder(
+              animation: controller,
+              builder: (_, __) {
+                return showAppBar
+                    ? Opacity(
+                        opacity: 1 - controller.value,
+                        child: Column(
+                          children: [
+                            Container(
+                              color: Colors.black.withOpacity(0.5),
+                              height: kToolbarHeight + paddingTop,
+                              padding: EdgeInsets.only(top: paddingTop),
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.arrow_back),
+                                    color: Colors.white,
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 33.0),
+                                    tooltip: AppLocalizations.of(context).back,
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context).video,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                  const Expanded(child: SizedBox()),
+                                  if (widget.showInfo)
+                                    IconButton(
+                                      icon: const Icon(Icons.info_outlined),
+                                      color: Colors.white,
+                                      tooltip:
+                                          AppLocalizations.of(context).info,
+                                      onPressed: () async {
+                                        if (video.value.isPlaying) {
+                                          await video.pause();
+                                        }
+                                        // ignore: use_build_context_synchronously
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => MediaInfoPage(
+                                              widget.media,
+                                              heroTag:
+                                                  widget.media.id.toString(),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                ],
                               ),
                             ),
                             const Expanded(child: SizedBox()),
-                            IconButton(
-                              icon: const Icon(Icons.info_outlined),
-                              color: Colors.white,
-                              tooltip: AppLocalizations.of(context).info,
-                              onPressed: () {
-                                //TODO: Image info
-                              },
+                            Container(
+                              color: Colors.black.withOpacity(0.5),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          video.value.position
+                                              .toString()
+                                              .split('.')[0],
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Slider(
+                                          activeColor: Colors.white,
+                                          inactiveColor: Colors.grey,
+                                          max: video
+                                              .value.duration.inMilliseconds
+                                              .toDouble(),
+                                          value: video
+                                              .value.position.inMilliseconds
+                                              .toDouble(),
+                                          onChanged: (value) {
+                                            video.seekTo(Duration(
+                                                milliseconds: value.toInt()));
+                                          },
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          video.value.duration
+                                              .toString()
+                                              .split('.')[0],
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Expanded(child: SizedBox()),
+                                      IconButton(
+                                        icon: const Icon(
+                                            Icons.skip_previous_rounded),
+                                        color: Colors.white,
+                                        tooltip:
+                                            AppLocalizations.of(context).replay,
+                                        onPressed: () {
+                                          setState(() {
+                                            video.seekTo(
+                                                const Duration(seconds: 0));
+                                            if (!video.value.isPlaying) {
+                                              video.play();
+                                            }
+                                          });
+                                        },
+                                      ),
+                                      const SizedBox(width: 20.0),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(100.0),
+                                        ),
+                                        height: 50.0,
+                                        width: 50.0,
+                                        child: IconButton(
+                                          icon: Icon(video.value.isPlaying
+                                              ? Icons.pause_rounded
+                                              : Icons.play_arrow_rounded),
+                                          color: Colors.black,
+                                          tooltip: video.value.isPlaying
+                                              ? AppLocalizations.of(context)
+                                                  .pause
+                                              : AppLocalizations.of(context)
+                                                  .play,
+                                          onPressed: () {
+                                            setState(() {
+                                              video.value.isPlaying
+                                                  ? video.pause()
+                                                  : video.play();
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      const SizedBox(width: 20.0),
+                                      IconButton(
+                                        icon: const Icon(Icons.stop_rounded),
+                                        color: Colors.white,
+                                        tooltip:
+                                            AppLocalizations.of(context).stop,
+                                        onPressed: () {
+                                          setState(() {
+                                            video.seekTo(
+                                                const Duration(seconds: 0));
+                                            if (video.value.isPlaying) {
+                                              video.pause();
+                                            }
+                                          });
+                                        },
+                                      ),
+                                      const Expanded(child: SizedBox()),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 15.0),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    )
-                  : const SizedBox.shrink();
-            },
-          ),
-        ],
+                      )
+                    : const SizedBox.shrink();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
