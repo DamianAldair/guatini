@@ -17,7 +17,9 @@ class DbProvider {
 
   static Future<Database?> get database async {
     if (_db != null) return _db;
-    return await initialize();
+    final db = await initialize();
+    if (db == null) return Future.error('No database');
+    return db;
   }
 
   static Future<bool> open(String path) async {

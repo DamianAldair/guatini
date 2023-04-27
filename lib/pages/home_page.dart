@@ -54,8 +54,12 @@ class _MainPageState extends State<MainPage> {
         body: FutureBuilder(
           future: DbProvider.database,
           builder: (_, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(AppLocalizations.of(context).noDatabases),
+              );
+            }
             if (!snapshot.hasData) {
-              Future.delayed(const Duration(seconds: 3));
               return const Center(child: CircularProgressIndicator());
             }
             final db = snapshot.data as Database;
