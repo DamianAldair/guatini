@@ -292,6 +292,18 @@ abstract class AppLocalizations {
   /// **'Endemism'**
   String get endemism;
 
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @errorReadingQr.
+  ///
+  /// In en, this message translates to:
+  /// **'No compatible information has been detected in the QR code.'**
+  String get errorReadingQr;
+
   /// No description provided for @errorObtainingInfo.
   ///
   /// In en, this message translates to:
@@ -412,6 +424,12 @@ abstract class AppLocalizations {
   /// **'Near threataned'**
   String get nearThreataned;
 
+  /// No description provided for @noCameraPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Guatiní has not permission to access to camera'**
+  String get noCameraPermission;
+
   /// No description provided for @noStoragePermission.
   ///
   /// In en, this message translates to:
@@ -525,6 +543,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to previous folder'**
   String get previousFolder;
+
+  /// No description provided for @qrReader.
+  ///
+  /// In en, this message translates to:
+  /// **'QR reader'**
+  String get qrReader;
 
   /// No description provided for @refresh.
   ///

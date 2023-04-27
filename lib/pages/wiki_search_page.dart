@@ -5,9 +5,10 @@ import 'package:guatini/models/wiki_models.dart';
 import 'package:guatini/providers/wikipedia_provider.dart';
 
 class WikiSearchPage extends StatelessWidget {
+  final String? lang;
   final String? query;
 
-  const WikiSearchPage(this.query, {Key? key}) : super(key: key);
+  const WikiSearchPage(this.lang, this.query, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class WikiSearchPage extends StatelessWidget {
       body: query == null
           ? Center(child: Text(AppLocalizations.of(context).errorObtainingInfo))
           : FutureBuilder(
-              future: WikipediaProvider.search(context, query!),
+              future: WikipediaProvider.search(context, lang, query!),
               builder: (_, AsyncSnapshot<WikiResults> snapshot) {
                 if (snapshot.hasError) {
                   return Center(

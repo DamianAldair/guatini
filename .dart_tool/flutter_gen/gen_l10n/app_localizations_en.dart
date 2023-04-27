@@ -112,6 +112,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get endemism => 'Endemism';
 
   @override
+  String get error => 'Error';
+
+  @override
+  String get errorReadingQr => 'No compatible information has been detected in the QR code.';
+
+  @override
   String get errorObtainingInfo => 'An error has occurred while obtaining the information';
 
   @override
@@ -172,6 +178,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nearThreataned => 'Near threataned';
 
   @override
+  String get noCameraPermission => 'Guatiní has not permission to access to camera';
+
+  @override
   String get noStoragePermission => 'Guatiní has not permission to access to storage';
 
   @override
@@ -227,6 +236,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get previousFolder => 'Go to previous folder';
+
+  @override
+  String get qrReader => 'QR reader';
 
   @override
   String get refresh => 'Refresh';

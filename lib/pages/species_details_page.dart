@@ -122,8 +122,10 @@ class SpeciesDetailsPage extends StatelessWidget {
                               onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) =>
-                                        WikiSearchPage(species.scientificName)),
+                                    builder: (_) => WikiSearchPage(
+                                          null,
+                                          species.scientificName,
+                                        )),
                               ),
                             ),
                           const SizedBox(height: 20.0),
