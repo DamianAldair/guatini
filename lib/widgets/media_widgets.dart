@@ -225,7 +225,10 @@ class Thumbnail extends StatelessWidget {
                 color: Colors.black.withOpacity(0.6),
                 borderRadius: BorderRadius.circular(100.0),
               ),
-              child: const Icon(Icons.play_arrow_rounded),
+              child: const Icon(
+                Icons.play_arrow_rounded,
+                color: Colors.white,
+              ),
             ),
           ],
         );
@@ -676,6 +679,7 @@ class _AudioViewerState extends State<AudioViewer> {
     }
     final bgColor = Theme.of(context).scaffoldBackgroundColor;
     final fgColor = IconTheme.of(context).color;
+    final portrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -686,7 +690,6 @@ class _AudioViewerState extends State<AudioViewer> {
               const Expanded(child: SizedBox.shrink()),
               IconButton(
                 icon: const Icon(Icons.info_outlined),
-                color: Colors.white,
                 tooltip: AppLocalizations.of(context).info,
                 onPressed: () async {
                   if (isPlaying) {
@@ -704,10 +707,11 @@ class _AudioViewerState extends State<AudioViewer> {
             ],
           ),
         const SizedBox(height: 20.0),
-        const Icon(
-          Icons.audiotrack_rounded,
-          size: 100.0,
-        ),
+        if (portrait)
+          const Icon(
+            Icons.audiotrack_rounded,
+            size: 100.0,
+          ),
         Text(widget.title ?? AppLocalizations.of(context).sound),
         const SizedBox(height: 20.0),
         Row(
@@ -719,7 +723,7 @@ class _AudioViewerState extends State<AudioViewer> {
             Expanded(
               child: Slider(
                 thumbColor: fgColor,
-                activeColor: Colors.grey.withOpacity(0.5),
+                activeColor: fgColor?.withOpacity(0.8),
                 inactiveColor: Colors.grey.withOpacity(0.5),
                 value: position.inMilliseconds.toDouble(),
                 max: duration.inMilliseconds.toDouble(),
@@ -793,7 +797,7 @@ class _AudioViewerState extends State<AudioViewer> {
             const Expanded(child: SizedBox()),
           ],
         ),
-        const SizedBox(height: 40.0),
+        SizedBox(height: portrait ? 40.0 : 10.0),
       ],
     );
   }
