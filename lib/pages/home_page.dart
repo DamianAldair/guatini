@@ -51,61 +51,66 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
         drawer: const MyDrawer(),
-        body: FutureBuilder(
-          future: DbProvider.database,
-          builder: (_, AsyncSnapshot snapshot) {
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(AppLocalizations.of(context).noDatabases),
-              );
-            }
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            final db = snapshot.data as Database;
-            final max = UserPreferences().suggestions;
-            return FutureBuilder(
-              future: SearchProvider.homeSuggestion(db, max),
-              builder: (_, AsyncSnapshot<List<SpeciesModel>> snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                final list = snapshot.data!;
-                if (list.isEmpty) {
-                  return Center(
-                    child: Text(AppLocalizations.of(context).noDatabases),
+        body: StreamBuilder(
+            stream: UserPreferences().dbPathStream,
+            builder: (_, __) {
+              return FutureBuilder(
+                future: DbProvider.database,
+                builder: (_, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(AppLocalizations.of(context).noDatabases),
+                    );
+                  }
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  final db = snapshot.data as Database;
+                  final max = UserPreferences().suggestions;
+                  return FutureBuilder(
+                    future: SearchProvider.homeSuggestion(db, max),
+                    builder: (_, AsyncSnapshot<List<SpeciesModel>> snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      final list = snapshot.data!;
+                      if (list.isEmpty) {
+                        return Center(
+                          child: Text(AppLocalizations.of(context).noDatabases),
+                        );
+                      }
+                      return Swiper(
+                        loop: false,
+                        autoplay: true,
+                        autoplayDisableOnInteraction: true,
+                        autoplayDelay: 5000,
+                        duration: 1000,
+                        viewportFraction: 0.85,
+                        outer: true,
+                        indicatorLayout: PageIndicatorLayout.SCALE,
+                        controller: controller,
+                        pagination: const SwiperPagination(
+                          builder: DotSwiperPaginationBuilder(
+                            color: Color.fromARGB(255, 200, 200, 200),
+                            size: 7.0,
+                            activeSize: 7.0,
+                          ),
+                        ),
+                        itemCount: list.length,
+                        itemBuilder: (_, int i) =>
+                            _suggestionCard(context, list[i]),
+                        onTap: (i) => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => SpeciesDetailsPage(list[i].id),
+                          ),
+                        ),
+                      );
+                    },
                   );
-                }
-                return Swiper(
-                  loop: false,
-                  autoplay: true,
-                  autoplayDisableOnInteraction: true,
-                  autoplayDelay: 5000,
-                  duration: 1000,
-                  viewportFraction: 0.85,
-                  outer: true,
-                  indicatorLayout: PageIndicatorLayout.SCALE,
-                  controller: controller,
-                  pagination: const SwiperPagination(
-                    builder: DotSwiperPaginationBuilder(
-                      color: Color.fromARGB(255, 200, 200, 200),
-                      size: 7.0,
-                      activeSize: 7.0,
-                    ),
-                  ),
-                  itemCount: list.length,
-                  itemBuilder: (_, int i) => _suggestionCard(context, list[i]),
-                  onTap: (i) => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => SpeciesDetailsPage(list[i].id),
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-        ),
+                },
+              );
+            }),
         floatingActionButton: FloatingActionButton(
           tooltip: AppLocalizations.of(context).refresh,
           child: const Icon(Icons.refresh_rounded),

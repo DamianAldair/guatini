@@ -1,4 +1,3 @@
-// ignore: depend_on_referenced_packages
 import 'dart:io';
 
 import 'package:guatini/providers/userpreferences_provider.dart';
