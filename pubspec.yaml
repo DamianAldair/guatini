@@ -56,6 +56,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/map_resources/
 
 app_dev_config:
   launcher_name: Guatiní

@@ -169,6 +169,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get light => 'Claro';
 
   @override
+  String get map => 'Mapa';
+
+  @override
   String get moreOf => 'Más de';
 
   @override

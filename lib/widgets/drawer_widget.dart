@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/pages/about_page.dart';
+import 'package:guatini/pages/map_page.dart';
 import 'package:guatini/pages/qr_scanner_page.dart';
 import 'package:guatini/pages/settings_page.dart';
 import 'package:guatini/providers/appinfo_provider.dart';
@@ -83,6 +84,12 @@ List<_Route> _drawerPagesRoutes(BuildContext context) => [
         icon: Icons.qr_code_scanner_rounded,
         title: AppLocalizations.of(context).openQrReader,
         page: const QrScannerPage(),
+      ),
+      _Route(
+        isMainPage: false,
+        icon: Icons.map_rounded,
+        title: AppLocalizations.of(context).map,
+        page: MapPage(),
       ),
       _Route(
         isMainPage: false,

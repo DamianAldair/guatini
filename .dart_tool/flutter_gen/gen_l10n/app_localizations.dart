@@ -169,7 +169,7 @@ abstract class AppLocalizations {
   /// No description provided for @college.
   ///
   /// In en, this message translates to:
-  /// **'College of Computer Engineering'**
+  /// **'School of Computer Engineering'**
   String get college;
 
   /// No description provided for @conservationStatus.
@@ -405,6 +405,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Light'**
   String get light;
+
+  /// No description provided for @map.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get map;
 
   /// No description provided for @moreOf.
   ///

@@ -44,7 +44,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clear => 'Clear';
 
   @override
-  String get college => 'College of Computer Engineering';
+  String get college => 'School of Computer Engineering';
 
   @override
   String get conservationStatus => 'Conservation status';
@@ -167,6 +167,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get light => 'Light';
+
+  @override
+  String get map => 'Map';
 
   @override
   String get moreOf => 'More of';
