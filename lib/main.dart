@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:guatini/pages/home_page.dart';
+import 'package:guatini/pages/onboarding_screen.dart';
 import 'package:guatini/providers/appinfo_provider.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           theme: light,
           darkTheme: dark,
           title: 'Guatiní',
-          home: const MainPage(),
+          home: prefs.firstTime ? const OnboardingScreen() : const MainPage(),
         );
       },
     );

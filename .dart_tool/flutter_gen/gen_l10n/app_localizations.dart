@@ -280,6 +280,18 @@ abstract class AppLocalizations {
   /// **'Diet'**
   String get diet;
 
+  /// No description provided for @encyclopedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Encyclopedia'**
+  String get encyclopedia;
+
+  /// No description provided for @encyclopediaExp.
+  ///
+  /// In en, this message translates to:
+  /// **'Encyclopedia where you can search for species and consult their characteristics'**
+  String get encyclopediaExp;
+
   /// No description provided for @endangered.
   ///
   /// In en, this message translates to:
@@ -291,6 +303,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Endemism'**
   String get endemism;
+
+  /// No description provided for @environment.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment'**
+  String get environment;
+
+  /// No description provided for @environmentExp.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s take care of it. It is our home'**
+  String get environmentExp;
 
   /// No description provided for @error.
   ///
@@ -346,11 +370,29 @@ abstract class AppLocalizations {
   /// **'Gallery'**
   String get gallery;
 
+  /// No description provided for @go.
+  ///
+  /// In en, this message translates to:
+  /// **'Go'**
+  String get go;
+
   /// No description provided for @grantPermissionManually.
   ///
   /// In en, this message translates to:
   /// **'Grant required app permissions manually'**
   String get grantPermissionManually;
+
+  /// No description provided for @guatini.
+  ///
+  /// In en, this message translates to:
+  /// **'Guatiní'**
+  String get guatini;
+
+  /// No description provided for @guatiniExp.
+  ///
+  /// In en, this message translates to:
+  /// **'An extensionist project dedicated to enhance the development of general and environmental culture'**
+  String get guatiniExp;
 
   /// No description provided for @habitat.
   ///
@@ -429,6 +471,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Near threataned'**
   String get nearThreataned;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
 
   /// No description provided for @noCameraPermission.
   ///
@@ -585,6 +633,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
 
   /// No description provided for @sound.
   ///

@@ -106,10 +106,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get diet => 'Dieta';
 
   @override
+  String get encyclopedia => 'Enciclopedia';
+
+  @override
+  String get encyclopediaExp => 'Enciclopedia en la que puedes buscar especies y consultar sus características';
+
+  @override
   String get endangered => 'En peligro';
 
   @override
   String get endemism => 'Endemismo';
+
+  @override
+  String get environment => 'Medio ambiente';
+
+  @override
+  String get environmentExp => 'Cuidémoslo. Es nuestro hogar';
 
   @override
   String get error => 'Error';
@@ -139,7 +151,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gallery => 'Galería';
 
   @override
+  String get go => 'Comenzacemos';
+
+  @override
   String get grantPermissionManually => 'Conceda los permisos requeridos de la aplicación manualmente';
+
+  @override
+  String get guatini => 'Guatiní';
+
+  @override
+  String get guatiniExp => 'Proyecto extensionista dedicado a elevar el desarrollo de la cultura general y medioambiental';
 
   @override
   String get habitat => 'Hábitat';
@@ -179,6 +200,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get nearThreataned => 'Casi amenazada';
+
+  @override
+  String get next => 'Next';
 
   @override
   String get noCameraPermission => 'Guatiní no tiene permiso para acceder a la cámara';
@@ -257,6 +281,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settings => 'Configuración';
+
+  @override
+  String get skip => 'Omitir';
 
   @override
   String get sound => 'Sonido';
