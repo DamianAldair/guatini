@@ -46,8 +46,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? AuthorModel.fromMap(result.first) : null;
   }
 
-  static Future<MainImageModel?> _getMainImage(
-      Database db, int speciesId) async {
+  static Future<MainImageModel?> _getMainImage(Database db, int speciesId) async {
     final query = '''
       select 
         [main].[main_image].[fk_media_] AS [id], 
@@ -66,8 +65,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? MainImageModel.fromMap(result.first) : null;
   }
 
-  static Future<List<CommonNameModel>> _getCommonNames(
-      Database db, int speciesId) async {
+  static Future<List<CommonNameModel>> _getCommonNames(Database db, int speciesId) async {
     final query = '''
         select
         [main].[common_name].[id],
@@ -182,8 +180,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? DomainModel.fromMap(result.first) : null;
   }
 
-  static Future<ConservationStatusModel?> _getConservationStatus(
-      Database db, int? speciesId) async {
+  static Future<ConservationStatusModel?> _getConservationStatus(Database db, int? speciesId) async {
     final query = '''
         select
         [main].[coservation_status].[id],
@@ -193,13 +190,10 @@ abstract class SearchProvider {
         where [main].[specie].[id] = $speciesId;
     ''';
     final result = speciesId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty
-        ? ConservationStatusModel.fromMap(result.first)
-        : null;
+    return result.isNotEmpty ? ConservationStatusModel.fromMap(result.first) : null;
   }
 
-  static Future<EndemismModel?> _getEndemism(
-      Database db, int? speciesId) async {
+  static Future<EndemismModel?> _getEndemism(Database db, int? speciesId) async {
     final query = '''
         select
         [main].[endemism].[id],
@@ -212,8 +206,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? EndemismModel.fromMap(result.first) : null;
   }
 
-  static Future<AbundanceModel?> _getAbundance(
-      Database db, int? speciesId) async {
+  static Future<AbundanceModel?> _getAbundance(Database db, int? speciesId) async {
     final query = '''
         select
         [main].[abundance].[id],
@@ -226,8 +219,7 @@ abstract class SearchProvider {
     return result.isNotEmpty ? AbundanceModel.fromMap(result.first) : null;
   }
 
-  static Future<List<ActivityModel>> _getActivities(
-      Database db, int speciesId) async {
+  static Future<List<ActivityModel>> _getActivities(Database db, int speciesId) async {
     final query = '''
         select
         [main].[activity].[id],
@@ -245,8 +237,7 @@ abstract class SearchProvider {
     return activities;
   }
 
-  static Future<List<HabitatModel>> _getHabitats(
-      Database db, int speciesId) async {
+  static Future<List<HabitatModel>> _getHabitats(Database db, int speciesId) async {
     final query = '''
         select
         [main].[habitat].[id],
@@ -310,8 +301,7 @@ abstract class SearchProvider {
     return medias;
   }
 
-  static Future<MediaTypeModel?> _getMediaType(
-      Database db, int? mediaId) async {
+  static Future<MediaTypeModel?> _getMediaType(Database db, int? mediaId) async {
     final query = '''
         select
         [main].[type].[id],
@@ -376,8 +366,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<List<SpeciesModel>> searchSpecie(
-      Database db, String search) async {
+  static Future<List<SpeciesModel>> searchSpecie(Database db, String search) async {
     try {
       final query = '''
           select
@@ -585,13 +574,11 @@ abstract class SearchProvider {
             where = '[main].[specie_activity].[fk_activity_]';
             break;
           case HabitatModel:
-            join =
-                ' inner join [main].[specie_habitat] on [main].[specie].[id] = [main].[specie_habitat].[fk_specie_]';
+            join = ' inner join [main].[specie_habitat] on [main].[specie].[id] = [main].[specie_habitat].[fk_specie_]';
             where = '[main].[specie_habitat].[fk_habitat_]';
             break;
           case DietModel:
-            join =
-                'inner join [main].[specie_diet] on [main].[specie].[id] = [main].[specie_diet].[fk_specie_]';
+            join = 'inner join [main].[specie_diet] on [main].[specie].[id] = [main].[specie_diet].[fk_specie_]';
             where = '[main].[specie_diet].[fk_diet_]';
             break;
         }
@@ -618,6 +605,232 @@ abstract class SearchProvider {
       return results;
     } catch (e) {
       return [];
+    }
+  }
+
+  static Future<int> getIdFromScientificName(Database db, String scientificName) async {
+    try {
+      final query = '''
+          select [main].[specie].[id]
+          from   [main].[specie]
+          where  lower([main].[specie].[scientific_name]) = lower('$scientificName');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return 0;
+      return result.first["id"] as int;
+    } catch (e) {
+      return -1;
+    }
+  }
+
+  static Future<GenusModel?> getGenusByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+               [main].[t_genus].[id], 
+               [main].[t_genus].[name], 
+               [main].[t_genus].[description]
+        from   [main].[t_genus]
+        where  lower([main].[t_genus].[name]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return GenusModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<FamilyModel?> getFamilyByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+               [main].[t_family].[id], 
+               [main].[t_family].[name], 
+               [main].[t_family].[description]
+        from   [main].[t_family]
+        where  lower([main].[t_family].[name]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return FamilyModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<OrderModel?> getOrderByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+               [main].[t_order].[id], 
+               [main].[t_order].[name], 
+               [main].[t_order].[description]
+        from   [main].[t_order]
+        where  lower([main].[t_order].[name]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return OrderModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<ClassModel?> getClassByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+               [main].[t_class].[id], 
+               [main].[t_class].[name], 
+               [main].[t_class].[description]
+        from   [main].[t_class]
+        where  lower([main].[t_class].[name]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return ClassModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<PhylumModel?> getPhyumByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+               [main].[t_phylum].[id], 
+               [main].[t_phylum].[name], 
+               [main].[t_phylum].[description]
+        from   [main].[t_phylum]
+        where  lower([main].[t_phylum].[name]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return PhylumModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<KindomModel?> getKingdomByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+               [main].[t_kindom].[id], 
+               [main].[t_kindom].[name], 
+               [main].[t_kindom].[description]
+        from   [main].[t_kindom]
+        where  lower([main].[t_kindom].[name]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return KindomModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<DomainModel?> getDomainByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+               [main].[t_domain].[id], 
+               [main].[t_domain].[name], 
+               [main].[t_domain].[description]
+        from   [main].[t_domain]
+        where  lower([main].[t_domain].[name]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return DomainModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<EndemismModel?> getEndemismByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+          [main].[endemism].[id], 
+          [main].[endemism].[zone]
+        from   [main].[endemism]
+        where  lower([main].[endemism].[zone]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return EndemismModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<AbundanceModel?> getAbundanceByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+          [main].[abundance].[id], 
+          [main].[abundance].[abundance]
+        from   [main].[abundance]
+        where  lower([main].[abundance].[abundance]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return AbundanceModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<ActivityModel?> getActivityByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+          [main].[activity].[id], 
+          [main].[activity].[activity]
+        from   [main].[activity]
+        where  lower([main].[activity].[activity]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return ActivityModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<HabitatModel?> getHabitatByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+          [main].[habitat].[id], 
+          [main].[habitat].[habitat]
+        from   [main].[habitat]
+        where  lower([main].[habitat].[habitat]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return HabitatModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
+
+  static Future<DietModel?> getDietByName(Database db, String name) async {
+    try {
+      final query = '''
+        select 
+          [main].[diet].[id], 
+          [main].[diet].[diet]
+        from   [main].[diet]
+        where  lower([main].[diet].[diet]) = lower('$name');
+      ''';
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return Future.value(null);
+      return DietModel.fromMap(result.first);
+    } catch (e) {
+      return Future.value(null);
     }
   }
 }

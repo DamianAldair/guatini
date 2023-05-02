@@ -1,19 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/author_model.dart';
-import 'package:guatini/models/media_model.dart';
-import 'package:guatini/models/mediatype_model.dart';
-import 'package:guatini/providers/db_provider.dart';
-import 'package:guatini/providers/search_provider.dart';
-import 'package:guatini/providers/userpreferences_provider.dart';
-import 'package:guatini/widgets/media_widgets.dart';
 import 'package:guatini/widgets/more_media_widget.dart';
-// ignore: depend_on_referenced_packages
-import 'package:path/path.dart' as p;
 import 'package:selectable/selectable.dart';
-import 'package:sqflite/sqflite.dart';
 
 class AuthorDetailsPage extends StatelessWidget {
   final AuthorModel? author;

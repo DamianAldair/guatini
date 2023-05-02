@@ -208,6 +208,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noCameraPermission => 'Guatiní has not permission to access to camera';
 
   @override
+  String noInDb(String info) {
+    return 'The information \"$info\" is not in the database';
+  }
+
+  @override
   String get noStoragePermission => 'Guatiní has not permission to access to storage';
 
   @override

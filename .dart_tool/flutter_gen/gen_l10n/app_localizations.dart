@@ -484,6 +484,12 @@ abstract class AppLocalizations {
   /// **'Guatiní has not permission to access to camera'**
   String get noCameraPermission;
 
+  /// It is not in the database
+  ///
+  /// In en, this message translates to:
+  /// **'The information \"{info}\" is not in the database'**
+  String noInDb(String info);
+
   /// No description provided for @noStoragePermission.
   ///
   /// In en, this message translates to:

@@ -73,6 +73,16 @@
     "nearThreataned": "Casi amenazada",
     "next": "Next",
     "noCameraPermission": "Guatiní no tiene permiso para acceder a la cámara",
+    "noInDb": "La información \"{info}\" no está en la base de datos",
+    "@noInDb": {
+        "description": "No está en la base de datos",
+        "placeholders": {
+            "info": {
+                "type": "String",
+                "example": "bird"
+            }
+        }
+    },
     "noStoragePermission": "Guatiní no tiene permiso para acceder al almacenamiento",
     "notEvaluated": "No evaluado",
     "no": "No",

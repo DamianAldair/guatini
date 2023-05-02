@@ -51,10 +51,8 @@ class _QrScannerPageState extends State<QrScannerPage> {
 
   Widget get _qrView {
     final color = Theme.of(context).primaryColor;
-    final scanArea = (MediaQuery.of(context).size.width < 400 ||
-            MediaQuery.of(context).size.height < 400)
-        ? 150.0
-        : 300.0;
+    final scanArea =
+        (MediaQuery.of(context).size.width < 400 || MediaQuery.of(context).size.height < 400) ? 150.0 : 300.0;
     return QRView(
       key: qrKey,
       overlay: QrScannerOverlayShape(
@@ -79,8 +77,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
           controller.resumeCamera();
         });
         controller.scannedDataStream.listen((scanData) {
-          if (scanData.format == BarcodeFormat.qrcode &&
-              scanData.code != null) {
+          if (scanData.format == BarcodeFormat.qrcode && scanData.code != null) {
             controller.pauseCamera();
             _open(scanData.code!);
           }
@@ -106,9 +103,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
             padding: const EdgeInsets.only(bottom: 30.0),
             child: FloatingActionButton(
               elevation: 0.0,
-              child: Icon(snapshot.data!
-                  ? Icons.flashlight_off_rounded
-                  : Icons.flashlight_on_rounded),
+              child: Icon(snapshot.data! ? Icons.flashlight_off_rounded : Icons.flashlight_on_rounded),
               onPressed: () async {
                 await controller?.toggleFlash();
                 setState(() {});
@@ -122,31 +117,15 @@ class _QrScannerPageState extends State<QrScannerPage> {
 
   _open(String scanData) {
     const key = 'guatini_qr_data';
-    void dialog() {
+    void dialog([String? text]) {
       showDialog(
         context: context,
         builder: (_) => infoDialog(
           context,
-          Text(AppLocalizations.of(context).errorReadingQr),
+          Text(text ?? AppLocalizations.of(context).errorReadingQr),
         ),
       );
       controller?.resumeCamera();
-    }
-
-    void execute(QrResult? result) {
-      if (result == null) {
-        dialog.call();
-      } else {
-        Navigator.pop(context);
-        switch (result.runtimeType) {
-          case QrLink:
-            (result as QrLink).launchUrl();
-            break;
-          case QrWikipedia:
-            (result as QrWikipedia).executeSearch(context);
-            break;
-        }
-      }
     }
 
     try {
@@ -158,24 +137,21 @@ class _QrScannerPageState extends State<QrScannerPage> {
         if (data.keys.isEmpty) {
           dialog.call();
         } else {
-          QrResult? result;
-          final mode = data.keys.first;
+          final mode = data.keys.first.toLowerCase();
           switch (mode) {
             case 'link':
-              result = QrLink(url: data[mode]);
+              QrLink(url: data[mode]).launchUrl();
               break;
             case 'wikipedia':
-              try {
-                result = QrWikipedia.fromJson(context, data[mode]);
-              } catch (_) {
-                dialog.call();
-              }
+              QrWikipedia.fromJson(context, data[mode]).executeSearch(context).onError((e, _) => dialog.call());
               break;
             case 'offline':
-              // TODO: QrOffline
+              QrOffline.fromJson(data[mode]).executeSearch(context).onError((e, _) => dialog.call());
+              break;
+            default:
+              dialog.call();
               break;
           }
-          execute(result);
         }
       }
     } catch (_) {

@@ -89,7 +89,7 @@ List<_Route> _drawerPagesRoutes(BuildContext context) => [
         isMainPage: false,
         icon: Icons.map_rounded,
         title: AppLocalizations.of(context).map,
-        page: MapPage(),
+        page: const MapPage(),
       ),
       _Route(
         isMainPage: false,
