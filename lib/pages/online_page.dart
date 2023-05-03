@@ -25,21 +25,21 @@ class _OnlineUsePageState extends State<OnlineUsePage> {
             value: prefs.wikipediaOnline,
             onChanged: (value) => setState(() => prefs.wikipediaOnline = value),
           ),
-          SwitchListTile(
-            title: Text(AppLocalizations.of(context).onlineImage),
-            value: prefs.imageOnline,
-            onChanged: (value) => setState(() => prefs.imageOnline = value),
-          ),
-          SwitchListTile(
-            title: Text(AppLocalizations.of(context).onlineAudio),
-            value: prefs.audioOnline,
-            onChanged: (value) => setState(() => prefs.audioOnline = value),
-          ),
-          SwitchListTile(
-            title: Text(AppLocalizations.of(context).onlineVideo),
-            value: prefs.videoOnline,
-            onChanged: (value) => setState(() => prefs.videoOnline = value),
-          ),
+          // SwitchListTile(
+          //   title: Text(AppLocalizations.of(context).onlineImage),
+          //   value: prefs.imageOnline,
+          //   onChanged: (value) => setState(() => prefs.imageOnline = value),
+          // ),
+          // SwitchListTile(
+          //   title: Text(AppLocalizations.of(context).onlineAudio),
+          //   value: prefs.audioOnline,
+          //   onChanged: (value) => setState(() => prefs.audioOnline = value),
+          // ),
+          // SwitchListTile(
+          //   title: Text(AppLocalizations.of(context).onlineVideo),
+          //   value: prefs.videoOnline,
+          //   onChanged: (value) => setState(() => prefs.videoOnline = value),
+          // ),
         ],
       ),
     );
