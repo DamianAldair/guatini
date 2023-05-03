@@ -41,11 +41,17 @@ class DbProvider {
     final path = prefs.dbPath;
     final db = p.join(path, DbProvider.relativeDbPath);
     if (!File(db).existsSync()) return null;
-    _db = await openDatabase(
-      db,
-      version: 1,
-      onCreate: (_, __) async {},
-    );
+    try {
+      _db = await openDatabase(
+        db,
+        version: 1,
+        onCreate: (_, __) async {},
+      );
+    } catch (_) {
+      //TODO: Arreglar error de que la base de datos no se abre en android 11.
+      // Se podra copiar el archivo en la carpeta de la app (en el sistema) y acceder desde ahí ?????
+      return null;
+    }
     return _db;
   }
 }

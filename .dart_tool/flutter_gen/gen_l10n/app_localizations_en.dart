@@ -154,6 +154,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get findDatabase => 'Find database';
 
   @override
+  String get fileNotFound => 'File not found';
+
+  @override
   String get gallery => 'Gallery';
 
   @override

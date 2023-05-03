@@ -1,10 +1,17 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:mapsforge_flutter/core.dart';
 import 'package:mapsforge_flutter/maps.dart';
 import 'package:mapsforge_flutter/marker.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart' as p;
+
+Position? position;
 
 class MapPage extends StatefulWidget {
   final dynamic location;
@@ -25,10 +32,28 @@ class _MapPageState extends State<MapPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).map),
       ),
-      body: MapviewWidget(
-        displayModel: displayModel,
-        createMapModel: _createMapModel,
-        createViewModel: _createViewModel,
+      body: FutureBuilder(
+        future: File(p.join(UserPreferences().dbPath, 'maps/map.map')).exists(),
+        builder: (_, AsyncSnapshot<bool> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final exists = snapshot.data!;
+          if (!exists) {
+            return Center(child: Text(AppLocalizations.of(context).fileNotFound));
+          }
+          return MapviewWidget(
+            displayModel: displayModel,
+            createMapModel: _createMapModel,
+            createViewModel: _createViewModel,
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.my_location_outlined),
+        onPressed: () {
+          setState(() {});
+        },
       ),
     );
   }
@@ -38,7 +63,7 @@ class _MapPageState extends State<MapPage> {
   final markerDataStore = MarkerDataStore();
 
   Future<MapModel> _createMapModel() async {
-    final file = File('/storage/emulated/0/DB/maps/cuba.map');
+    final file = File(p.join(UserPreferences().dbPath, 'maps/map.map'));
     final mapFile = await MapFile.using(
       (await file.readAsBytes()),
       null,
@@ -63,7 +88,11 @@ class _MapPageState extends State<MapPage> {
   Future<ViewModel> _createViewModel() async {
     ViewModel viewModel = ViewModel(displayModel: displayModel);
     // set the initial position
-    viewModel.setMapViewPosition(23.168054, -82.281476);
+    print('view');
+    viewModel.setMapViewPosition(
+      position?.latitude ?? 23.053847,
+      position?.longitude ?? -82.417690,
+    );
     // set the initial zoomlevel
     viewModel.setZoomLevel(16);
     // bonus feature: listen for long taps and add/remove a marker at the tap-positon
@@ -98,9 +127,7 @@ class _MarkerOverlay extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() {
-    return _MarkerOverlayState();
-  }
+  State<StatefulWidget> createState() => _MarkerOverlayState();
 }
 
 class _MarkerOverlayState extends State {
@@ -111,20 +138,25 @@ class _MarkerOverlayState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<TapEvent>(
-        stream: widget.viewModel.observeLongTap,
-        builder: (BuildContext context, AsyncSnapshot<TapEvent> snapshot) {
+    return StreamBuilder(
+        stream: Geolocator.getPositionStream(locationSettings: const LocationSettings()),
+        builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
           if (snapshot.data == null) return const SizedBox();
           if (_marker != null) {
             widget.markerDataStore.removeMarker(_marker!);
           }
 
+          position = snapshot.data!;
+
           _marker = PoiMarker(
             displayModel: widget.displayModel,
             src: 'assets/map_resources/marker.svg',
-            height: 64,
-            width: 48,
-            latLong: snapshot.data!,
+            height: 32,
+            width: 24,
+            latLong: LatLong(
+              position!.latitude,
+              position!.longitude,
+            ),
             // position: Position.ABOVE,
           );
 

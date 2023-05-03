@@ -376,6 +376,12 @@ abstract class AppLocalizations {
   /// **'Find database'**
   String get findDatabase;
 
+  /// No description provided for @fileNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'File not found'**
+  String get fileNotFound;
+
   /// No description provided for @gallery.
   ///
   /// In en, this message translates to:
