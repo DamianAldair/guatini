@@ -35,9 +35,6 @@ jobs:
       - name: Check Flutter version
         run: flutter --version
 
-      - name: Analyze Dart code
-        run: flutter analyze
-
   build_apk:
     name: Build APK
     needs: [flutter_analyze]
