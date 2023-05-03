@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/pages/about_page.dart';
+import 'package:guatini/pages/games_page.dart';
 import 'package:guatini/pages/map_page.dart';
 import 'package:guatini/pages/qr_scanner_page.dart';
 import 'package:guatini/pages/settings_page.dart';
@@ -90,6 +91,12 @@ List<_Route> _drawerPagesRoutes(BuildContext context) => [
         icon: Icons.map_rounded,
         title: AppLocalizations.of(context).map,
         page: const MapPage(),
+      ),
+      _Route(
+        isMainPage: false,
+        icon: Icons.gamepad_rounded,
+        title: AppLocalizations.of(context).games,
+        page: const GamesPage(),
       ),
       _Route(
         isMainPage: false,

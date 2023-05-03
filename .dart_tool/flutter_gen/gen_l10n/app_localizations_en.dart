@@ -29,6 +29,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alreadyAdded => 'This database is already added';
 
   @override
+  String get attempts => 'attempts';
+
+  @override
   String get audio => 'Audio';
 
   @override
@@ -51,6 +54,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get criticalEndangered => 'Critical endangered';
+
+  @override
+  String get correct => 'Correct';
 
   @override
   String get current => 'Current';
@@ -151,6 +157,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gallery => 'Gallery';
 
   @override
+  String get game => 'Game';
+
+  @override
+  String get games => 'Games';
+
+  @override
+  String get gameSelectSNameFromCName => 'Select the scientific name from the common name';
+
+  @override
+  String get gameSelectImageFromCName => 'Select the image from the common name';
+
+  @override
+  String get gameSelectCNameFromSound => 'Select the common name from the sound';
+
+  @override
   String get go => 'Go';
 
   @override
@@ -166,13 +187,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitat => 'Habitat';
 
   @override
+  String get hits => 'hits';
+
+  @override
   String get home => 'Home';
 
   @override
   String get image => 'Image';
 
   @override
+  String inARow(int hits) {
+    return '$hits in a row';
+  }
+
+  @override
+  String get incorrect => 'Incorrect';
+
+  @override
   String get info => 'Info';
+
+  @override
+  String get itIs => 'It is';
+
+  @override
+  String get itIsNot => 'It is not';
 
   @override
   String get language => 'Language';
@@ -238,6 +276,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get numberSeggestions => 'Number of suggestions on Home';
+
+  @override
+  String get ofde => 'of';
 
   @override
   String get ok => 'Ok';

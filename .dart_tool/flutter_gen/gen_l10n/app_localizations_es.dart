@@ -29,6 +29,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get alreadyAdded => 'Esta base de datos ya está añadida';
 
   @override
+  String get attempts => 'intentos';
+
+  @override
   String get audio => 'Audio';
 
   @override
@@ -51,6 +54,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get criticalEndangered => 'En peligro crítico';
+
+  @override
+  String get correct => 'Correcto';
 
   @override
   String get current => 'Actual';
@@ -151,6 +157,21 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gallery => 'Galería';
 
   @override
+  String get game => 'Juego';
+
+  @override
+  String get games => 'Juegos';
+
+  @override
+  String get gameSelectSNameFromCName => 'Selecciona el nombre científico dado el nombre común';
+
+  @override
+  String get gameSelectImageFromCName => 'Selecciona la imagen dado el nombre común';
+
+  @override
+  String get gameSelectCNameFromSound => 'Selecciona el nombre común dado el sonido';
+
+  @override
   String get go => 'Comenzacemos';
 
   @override
@@ -166,13 +187,30 @@ class AppLocalizationsEs extends AppLocalizations {
   String get habitat => 'Hábitat';
 
   @override
+  String get hits => 'aciertos';
+
+  @override
   String get home => 'Inicio';
 
   @override
   String get image => 'Imagen';
 
   @override
+  String inARow(int hits) {
+    return '$hits aciertos seguidos';
+  }
+
+  @override
+  String get incorrect => 'Incorrecto';
+
+  @override
   String get info => 'Información';
+
+  @override
+  String get itIs => 'Es';
+
+  @override
+  String get itIsNot => 'No es';
 
   @override
   String get language => 'Idioma';
@@ -202,7 +240,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get nearThreataned => 'Casi amenazada';
 
   @override
-  String get next => 'Next';
+  String get next => 'Siguiente';
 
   @override
   String get noCameraPermission => 'Guatiní no tiene permiso para acceder a la cámara';
@@ -238,6 +276,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get numberSeggestions => 'Cantidad de sugerencias en Inicio';
+
+  @override
+  String get ofde => 'de';
 
   @override
   String get ok => 'Aceptar';

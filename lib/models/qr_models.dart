@@ -12,28 +12,6 @@ import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
-// enum QrResultMode {
-//   offline('offline'),
-//   wikipedia('wikipedia'),
-//   link('link'),
-//   invalid('invalid');
-
-//   final String mode;
-//   const QrResultMode(this.mode);
-//   factory QrResultMode.fromString(String mode) {
-//     switch (mode) {
-//       case 'link':
-//         return QrResultMode.link;
-//       case 'wikipedia':
-//         return QrResultMode.wikipedia;
-//       case 'offline':
-//         return QrResultMode.offline;
-//       default:
-//         return QrResultMode.invalid;
-//     }
-//   }
-// }
-
 abstract class QrResult {}
 
 /// Example of JSON:
@@ -84,6 +62,14 @@ class QrWikipedia extends QrResult {
       );
 }
 
+/// Expample of JSON:
+/// {
+///   "guatini_qr_data": {
+///     "offline": {
+///       "species": "Priotelus temnurus"
+///     }
+///   }
+/// }
 class QrOffline extends QrResult {
   final String? species;
   final String? taxGenus;

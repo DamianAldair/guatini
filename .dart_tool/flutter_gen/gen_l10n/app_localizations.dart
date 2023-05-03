@@ -136,6 +136,12 @@ abstract class AppLocalizations {
   /// **'This database is already added'**
   String get alreadyAdded;
 
+  /// No description provided for @attempts.
+  ///
+  /// In en, this message translates to:
+  /// **'attempts'**
+  String get attempts;
+
   /// No description provided for @audio.
   ///
   /// In en, this message translates to:
@@ -183,6 +189,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Critical endangered'**
   String get criticalEndangered;
+
+  /// No description provided for @correct.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get correct;
 
   /// No description provided for @current.
   ///
@@ -370,6 +382,36 @@ abstract class AppLocalizations {
   /// **'Gallery'**
   String get gallery;
 
+  /// No description provided for @game.
+  ///
+  /// In en, this message translates to:
+  /// **'Game'**
+  String get game;
+
+  /// No description provided for @games.
+  ///
+  /// In en, this message translates to:
+  /// **'Games'**
+  String get games;
+
+  /// No description provided for @gameSelectSNameFromCName.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the scientific name from the common name'**
+  String get gameSelectSNameFromCName;
+
+  /// No description provided for @gameSelectImageFromCName.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the image from the common name'**
+  String get gameSelectImageFromCName;
+
+  /// No description provided for @gameSelectCNameFromSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the common name from the sound'**
+  String get gameSelectCNameFromSound;
+
   /// No description provided for @go.
   ///
   /// In en, this message translates to:
@@ -400,6 +442,12 @@ abstract class AppLocalizations {
   /// **'Habitat'**
   String get habitat;
 
+  /// No description provided for @hits.
+  ///
+  /// In en, this message translates to:
+  /// **'hits'**
+  String get hits;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
@@ -412,11 +460,35 @@ abstract class AppLocalizations {
   /// **'Image'**
   String get image;
 
+  /// Hits in a row
+  ///
+  /// In en, this message translates to:
+  /// **'{hits} in a row'**
+  String inARow(int hits);
+
+  /// No description provided for @incorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect'**
+  String get incorrect;
+
   /// No description provided for @info.
   ///
   /// In en, this message translates to:
   /// **'Info'**
   String get info;
+
+  /// No description provided for @itIs.
+  ///
+  /// In en, this message translates to:
+  /// **'It is'**
+  String get itIs;
+
+  /// No description provided for @itIsNot.
+  ///
+  /// In en, this message translates to:
+  /// **'It is not'**
+  String get itIsNot;
 
   /// No description provided for @language.
   ///
@@ -543,6 +615,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Number of suggestions on Home'**
   String get numberSeggestions;
+
+  /// No description provided for @ofde.
+  ///
+  /// In en, this message translates to:
+  /// **'of'**
+  String get ofde;
 
   /// No description provided for @ok.
   ///

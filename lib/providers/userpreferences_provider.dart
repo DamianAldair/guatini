@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
+import 'package:guatini/models/game_models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
@@ -11,11 +13,13 @@ class UserPreferences {
   SharedPreferences? _prefs;
   StreamController<String>? _dbPathStreamController;
   StreamController<List<String>>? _databasesStreamController;
+  StreamController<List<GameModel>>? _gamesStreamController;
 
   Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
     _dbPathStreamController = StreamController<String>.broadcast();
     _databasesStreamController = StreamController<List<String>>.broadcast();
+    _gamesStreamController = StreamController<List<GameModel>>.broadcast();
   }
 
   // If the app is opened for the forst time
@@ -45,8 +49,7 @@ class UserPreferences {
 
   List<String> get databases => _prefs!.getStringList(_keyDatabases) ?? [];
 
-  Stream<List<String>> get databasesStream =>
-      _databasesStreamController!.stream;
+  Stream<List<String>> get databasesStream => _databasesStreamController!.stream;
 
   void newDatabase(String path) {
     List<String> list = databases;
@@ -66,11 +69,9 @@ class UserPreferences {
   final String _keyNumberOfLastSearches = 'numberOfLastSearches';
   static const int defaultNumberOfLastSearches = 5;
 
-  int get numberOfLastSearches =>
-      _prefs!.getInt(_keyNumberOfLastSearches) ?? defaultNumberOfLastSearches;
+  int get numberOfLastSearches => _prefs!.getInt(_keyNumberOfLastSearches) ?? defaultNumberOfLastSearches;
 
-  set numberOfLastSearches(int number) =>
-      _prefs!.setInt(_keyNumberOfLastSearches, number);
+  set numberOfLastSearches(int number) => _prefs!.setInt(_keyNumberOfLastSearches, number);
 
   // Searches to show in search log
   final String _keyLastSearches = 'lastSearches';
@@ -107,8 +108,7 @@ class UserPreferences {
   final String _keySeggestions = 'suggestions';
   static const int defaultNumberOfSeggestions = 5;
 
-  int get suggestions =>
-      _prefs!.getInt(_keySeggestions) ?? defaultNumberOfSeggestions;
+  int get suggestions => _prefs!.getInt(_keySeggestions) ?? defaultNumberOfSeggestions;
 
   set suggestions(int number) => _prefs!.setInt(_keySeggestions, number);
 
@@ -140,8 +140,7 @@ class UserPreferences {
 
   bool get wikipediaOnline => _prefs!.getBool(_keyWikipediaOnline) ?? true;
 
-  set wikipediaOnline(bool online) =>
-      _prefs!.setBool(_keyWikipediaOnline, online);
+  set wikipediaOnline(bool online) => _prefs!.setBool(_keyWikipediaOnline, online);
 
   final String _keyImageOnline = 'imageOnline';
 
@@ -166,4 +165,41 @@ class UserPreferences {
   bool get openWeb => _prefs!.getBool(_keyOpenWeb) ?? true;
 
   set openWeb(bool online) => _prefs!.setBool(_keyOpenWeb, online);
+
+  // Games
+  final String _keyGames = 'games';
+
+  List<GameModel> get games {
+    final temp = _prefs!.getStringList(_keyGames) ?? [];
+    final list = <GameModel>[];
+    for (String s in temp) {
+      list.add(GameModel.fromJson(json.decode(s)));
+    }
+    return list;
+  }
+
+  void addGame(GameModel game) {
+    final strings = <String>[];
+    final list = games;
+    if (!list.any((e) => e.id == game.id)) {
+      list.add(game);
+      for (GameModel g in list) {
+        strings.add(json.encode(g.toJson()));
+      }
+      _prefs!.setStringList(_keyGames, strings).then((_) => _gamesStreamController!.add(list));
+    }
+  }
+
+  void updateGame(GameModel game) {
+    final strings = <String>[];
+    final list = games;
+    list.removeWhere((e) => e.id == game.id);
+    list.add(game);
+    for (GameModel g in list) {
+      strings.add(json.encode(g.toJson()));
+    }
+    _prefs!.setStringList(_keyGames, strings).then((_) => _gamesStreamController!.add(list));
+  }
+
+  Stream<List<GameModel>> get gamesStream => _gamesStreamController!.stream;
 }

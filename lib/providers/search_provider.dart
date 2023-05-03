@@ -8,6 +8,7 @@ import 'package:guatini/models/diet_model.dart';
 import 'package:guatini/models/domain_model.dart';
 import 'package:guatini/models/endemism_model.dart';
 import 'package:guatini/models/family_model.dart';
+import 'package:guatini/models/game_models.dart';
 import 'package:guatini/models/genus_model.dart';
 import 'package:guatini/models/habitat_model.dart';
 import 'package:guatini/models/kindom_model.dart';
@@ -831,6 +832,35 @@ abstract class SearchProvider {
       return DietModel.fromMap(result.first);
     } catch (e) {
       return Future.value(null);
+    }
+  }
+
+  static Future<List<Game1Option>> getGame1Options(Database db) async {
+    try {
+      const query = '''
+        SELECT DISTINCT
+              [main].[specie].[id], 
+              [main].[specie].[scientific_name], 
+              [main].[common_name].[name], 
+              [main].[media].[path]
+        FROM  [main].[media]
+              INNER JOIN [main].[specie] ON [main].[specie].[id] = [main].[media].[fk_specie_]
+              INNER JOIN [main].[common_name] ON [main].[specie].[id] = [main].[common_name].[fk_specie_]
+              INNER JOIN [main].[type] ON [main].[type].[id] = [main].[media].[fk_type_]
+        WHERE (LOWER([main].[type].[type]) = LOWER('image') OR LOWER([main].[type].[type]) = LOWER('imagen'))
+        AND NOT ([main].[media].[path] LIKE '%://%')
+        GROUP BY [main].[specie].[id]
+        ORDER BY RANDOM()
+        LIMIT 4;
+      ''';
+      final result = await db.rawQuery(query);
+      final results = <Game1Option>[];
+      for (var item in result) {
+        results.add(Game1Option.fromJson(item));
+      }
+      return results;
+    } catch (e) {
+      return [];
     }
   }
 }
