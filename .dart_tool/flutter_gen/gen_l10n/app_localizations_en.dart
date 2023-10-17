@@ -1,6 +1,5 @@
-
-
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 /// The translations for English (`en`).
@@ -41,6 +40,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get back => 'Back';
 
   @override
+  String get cannotOpenSettings => 'Cannot open the app settings.\nThe requested permission cannot be granted.\nYou need grant the permission manually in the app settings.';
+
+  @override
   String get chooseOne => 'Choose one';
 
   @override
@@ -60,6 +62,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get current => 'Current';
+
+  @override
+  String get customLocationMode => 'Custom location mode';
+
+  @override
+  String get customLocationModeString => 'Tap on the map to select a location';
 
   @override
   String get database => 'Databases';
@@ -175,6 +183,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get go => 'Go';
 
   @override
+  String get gpsMode => 'GPS mode';
+
+  @override
   String get grantPermissionManually => 'Grant required app permissions manually';
 
   @override
@@ -228,6 +239,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get light => 'Light';
 
   @override
+  String get locationMode => 'Location mode';
+
+  @override
   String get map => 'Map';
 
   @override
@@ -249,6 +263,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String noInDb(String info) {
     return 'The information \"$info\" is not in the database';
   }
+
+  @override
+  String get noLocationEnabled => 'You must turn on location';
+
+  @override
+  String get noLocationPermission => 'Guatiní has not permission to access to location';
 
   @override
   String get noStoragePermission => 'Guatiní has not permission to access to storage';
@@ -324,6 +344,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchSpecies => 'Search Species';
+
+  @override
+  String get selectLocationMode => 'Please, select location mode';
+
+  @override
+  String get selectMode => 'Select mode';
 
   @override
   String get settings => 'Settings';

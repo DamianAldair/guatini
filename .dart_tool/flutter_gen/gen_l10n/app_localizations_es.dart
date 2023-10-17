@@ -1,6 +1,5 @@
-
-
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 /// The translations for Spanish Castilian (`es`).
@@ -41,6 +40,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get back => 'Volver';
 
   @override
+  String get cannotOpenSettings => 'No se puede abrir la pantalla de permisos de la apliación.\nNo se puede conceder el permiso solicitado.\nNecesita conceder el permiso manualmente en la pantalla de permisos de la aplicación.';
+
+  @override
   String get chooseOne => 'Seleccione una opción';
 
   @override
@@ -60,6 +62,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get current => 'Actual';
+
+  @override
+  String get customLocationMode => 'Ubicación personalizada';
+
+  @override
+  String get customLocationModeString => 'Toque sobre el mapa para seleccionar una ubicación';
 
   @override
   String get database => 'Base de datos';
@@ -172,7 +180,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gameSelectCNameFromSound => 'Selecciona el nombre común dado el sonido';
 
   @override
-  String get go => 'Comenzacemos';
+  String get go => 'Comencemos';
+
+  @override
+  String get gpsMode => 'Utilizar GPS';
 
   @override
   String get grantPermissionManually => 'Conceda los permisos requeridos de la aplicación manualmente';
@@ -228,6 +239,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get light => 'Claro';
 
   @override
+  String get locationMode => 'Modo de ubicación';
+
+  @override
   String get map => 'Mapa';
 
   @override
@@ -249,6 +263,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String noInDb(String info) {
     return 'La información \"$info\" no está en la base de datos';
   }
+
+  @override
+  String get noLocationEnabled => 'Se necesita activar la ubicación de su dispositivo';
+
+  @override
+  String get noLocationPermission => 'Guatiní no tiene permiso para utilizar la ubicación';
 
   @override
   String get noStoragePermission => 'Guatiní no tiene permiso para acceder al almacenamiento';
@@ -324,6 +344,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get searchSpecies => 'Buscar especie';
+
+  @override
+  String get selectLocationMode => 'Por favor, seleccione un modo de ubicación';
+
+  @override
+  String get selectMode => 'Seleccionar modo';
 
   @override
   String get settings => 'Configuración';

@@ -24,8 +24,7 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // ignore: library_private_types_in_public_api
-  static _MyAppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -39,8 +38,21 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveTheme(
-      light: ThemeData.light().copyWith(useMaterial3: true),
-      dark: ThemeData.dark().copyWith(useMaterial3: true),
+      debugShowFloatingThemeButton: true,
+      light: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blueAccent,
+          brightness: Brightness.light,
+        ),
+        useMaterial3: true,
+      ),
+      dark: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.lightBlue,
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
       initial: AdaptiveThemeMode.system,
       builder: (ThemeData light, ThemeData dark) {
         return MaterialApp(
