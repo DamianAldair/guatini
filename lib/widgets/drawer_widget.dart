@@ -86,12 +86,12 @@ List<_Route> _drawerPagesRoutes(BuildContext context) => [
         title: AppLocalizations.of(context).openQrReader,
         page: const QrScannerPage(),
       ),
-      // _Route(
-      //   isMainPage: false,
-      //   icon: Icons.map_rounded,
-      //   title: AppLocalizations.of(context).map,
-      //   page: const MapPage(),
-      // ),
+      _Route(
+        isMainPage: false,
+        icon: Icons.map_rounded,
+        title: AppLocalizations.of(context).map,
+        page: const MapPage(),
+      ),
       _Route(
         isMainPage: false,
         icon: Icons.gamepad_rounded,
