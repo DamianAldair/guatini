@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -9,14 +8,14 @@ import 'package:intl/intl.dart' as intl;
 import 'app_localizations_en.dart';
 import 'app_localizations_es.dart';
 
-/// Callers can lookup localized strings with an instance of AppLocalizations returned
-/// by `AppLocalizations.of(context)`.
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
 ///
 /// Applications need to include `AppLocalizations.delegate()` in their app's
-/// localizationDelegates list, and the locales they support in the app's
-/// supportedLocales list. For example:
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
 ///
-/// ```
+/// ```dart
 /// import 'gen_l10n/app_localizations.dart';
 ///
 /// return MaterialApp(
@@ -31,14 +30,14 @@ import 'app_localizations_es.dart';
 /// Please make sure to update your pubspec.yaml to include the following
 /// packages:
 ///
-/// ```
+/// ```yaml
 /// dependencies:
 ///   # Internationalization support.
 ///   flutter_localizations:
 ///     sdk: flutter
 ///   intl: any # Use the pinned version from flutter_localizations
 ///
-///   # rest of dependencies
+///   # Rest of dependencies
 /// ```
 ///
 /// ## iOS Applications
@@ -160,6 +159,12 @@ abstract class AppLocalizations {
   /// **'Back'**
   String get back;
 
+  /// No description provided for @cannotOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot open the app settings.\nThe requested permission cannot be granted.\nYou need grant the permission manually in the app settings.'**
+  String get cannotOpenSettings;
+
   /// No description provided for @chooseOne.
   ///
   /// In en, this message translates to:
@@ -201,6 +206,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Current'**
   String get current;
+
+  /// No description provided for @customLocationMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom location mode'**
+  String get customLocationMode;
+
+  /// No description provided for @customLocationModeString.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap on the map to select a location'**
+  String get customLocationModeString;
 
   /// No description provided for @database.
   ///
@@ -424,6 +441,12 @@ abstract class AppLocalizations {
   /// **'Go'**
   String get go;
 
+  /// No description provided for @gpsMode.
+  ///
+  /// In en, this message translates to:
+  /// **'GPS mode'**
+  String get gpsMode;
+
   /// No description provided for @grantPermissionManually.
   ///
   /// In en, this message translates to:
@@ -526,6 +549,12 @@ abstract class AppLocalizations {
   /// **'Light'**
   String get light;
 
+  /// No description provided for @locationMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Location mode'**
+  String get locationMode;
+
   /// No description provided for @map.
   ///
   /// In en, this message translates to:
@@ -567,6 +596,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The information \"{info}\" is not in the database'**
   String noInDb(String info);
+
+  /// No description provided for @noLocationEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'You must turn on location'**
+  String get noLocationEnabled;
+
+  /// No description provided for @noLocationPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Guatiní has not permission to access to location'**
+  String get noLocationPermission;
 
   /// No description provided for @noStoragePermission.
   ///
@@ -717,6 +758,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search Species'**
   String get searchSpecies;
+
+  /// No description provided for @selectLocationMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Please, select location mode'**
+  String get selectLocationMode;
+
+  /// No description provided for @selectMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Select mode'**
+  String get selectMode;
 
   /// No description provided for @settings.
   ///

@@ -1,171 +1,243 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:guatini/providers/userpreferences_provider.dart';
-import 'package:mapsforge_flutter/core.dart';
-import 'package:mapsforge_flutter/maps.dart';
-import 'package:mapsforge_flutter/marker.dart';
-// ignore: depend_on_referenced_packages
-import 'package:path/path.dart' as p;
-
-Position? position;
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 class MapPage extends StatefulWidget {
-  final dynamic location;
+  final MapLatLng? location;
+  final List<List<MapLatLng>>? polygons;
+  final bool search;
 
   const MapPage({
     Key? key,
     this.location,
-  }) : super(key: key);
+    this.polygons,
+    this.search = false,
+  })  : assert(
+          location == null || polygons == null,
+          'Cannot provide both a location and polygons',
+        ),
+        super(key: key);
 
   @override
   State<MapPage> createState() => _MapPageState();
 }
 
 class _MapPageState extends State<MapPage> {
+  StreamSubscription<Position>? _positionStreamSubscription;
+  MapShapeLayerController? _mapController;
+  MapZoomPanBehavior? _zoomPan;
+
+  bool? useGps;
+  final List<MapLatLng> _currentPosition = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _mapController = MapShapeLayerController();
+    _zoomPan = MapZoomPanBehavior(
+      enableDoubleTapZooming: true,
+      maxZoomLevel: 100.0,
+    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showPositionOptions();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _positionStreamSubscription?.cancel();
+    _mapController?.dispose();
+    _currentPosition.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).map),
+        actions: [
+          IconButton(
+            tooltip: AppLocalizations.of(context).locationMode,
+            icon: const FaIcon(FontAwesomeIcons.mapLocationDot),
+            onPressed: showPositionOptions,
+          ),
+        ],
       ),
       body: FutureBuilder(
-        future: File(p.join(UserPreferences().dbPath, 'maps/map.map')).exists(),
-        builder: (_, AsyncSnapshot<bool> snapshot) {
+        future: Future.wait([
+          rootBundle.load('assets/map/world_map.json'),
+        ]),
+        builder: (_, AsyncSnapshot<List<ByteData>> snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
-          final exists = snapshot.data!;
-          if (!exists) {
-            return Center(child: Text(AppLocalizations.of(context).fileNotFound));
-          }
-          return MapviewWidget(
-            displayModel: displayModel,
-            createMapModel: _createMapModel,
-            createViewModel: _createViewModel,
+          final bytesWorld = snapshot.data![0].buffer.asUint8List();
+          final isDark = AdaptiveTheme.of(context).brightness == Brightness.dark;
+          return Stack(
+            children: [
+              SfMaps(
+                layers: [
+                  MapShapeLayer(
+                    controller: _mapController,
+                    loadingBuilder: (_) => const Center(child: CircularProgressIndicator()),
+                    source: MapShapeSource.memory(bytesWorld),
+                    strokeColor: isDark ? Colors.white : Colors.black,
+                    color: isDark ? Colors.white.withOpacity(0.5) : null,
+                    zoomPanBehavior: _zoomPan,
+                    // sublayers: [
+                    // MapShapeSublayer(source: MapShapeSource.memory(bytesCuba!)),
+                    // MapPolygonLayer(
+                    //   polygons: List.generate(
+                    //     polygons!.length,
+                    //     (i) => MapPolygon(
+                    //       points: polygons![i],
+                    //       strokeWidth: 0.0,
+                    //       color: Colors.blue.withOpacity(0.5),
+                    //     ),
+                    //   ).toSet(),
+                    // ),
+                    // ],
+                    initialMarkersCount: _currentPosition.length,
+                    markerBuilder: (_, i) => MapMarker(
+                      latitude: _currentPosition[i].latitude,
+                      longitude: _currentPosition[i].longitude,
+                      alignment: Alignment.bottomCenter,
+                      child: Icon(
+                        Icons.location_on_rounded,
+                        color: switch (useGps) {
+                          null => null,
+                          true => Colors.blue,
+                          false => Colors.red,
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              GestureDetector(
+                onDoubleTap: () {},
+                onTapUp: useGps == null || useGps!
+                    ? null
+                    : (details) {
+                        if (_mapController != null) {
+                          final p = _mapController?.pixelToLatLng(details.localPosition);
+                          _currentPosition.clear();
+                          _mapController?.clearMarkers();
+                          if (p != null) {
+                            _currentPosition.add(MapLatLng(p.latitude, p.longitude));
+                            _mapController?.insertMarker(0);
+                          }
+                        }
+                      },
+              ),
+            ],
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.my_location_outlined),
-        onPressed: () {
-          setState(() {});
-        },
+        onPressed: getPosition,
+        child: const Icon(Icons.gps_fixed_rounded),
       ),
     );
   }
 
-  final displayModel = DisplayModel(deviceScaleFactor: 2);
-  final symbolCache = FileSymbolCache();
-  final markerDataStore = MarkerDataStore();
-
-  Future<MapModel> _createMapModel() async {
-    final file = File(p.join(UserPreferences().dbPath, 'maps/map.map'));
-    final mapFile = await MapFile.using(
-      (await file.readAsBytes()),
-      null,
-      null,
-    );
-    final renderTheme = await RenderThemeBuilder.create(
-      displayModel,
-      'assets/map_resources/render.xml',
-    );
-
-    return MapModel(
-      displayModel: displayModel,
-      renderer: MapDataStoreRenderer(
-        mapFile,
-        renderTheme,
-        symbolCache,
-        true,
-      ),
-    )..markerDataStores.add(markerDataStore);
-  }
-
-  Future<ViewModel> _createViewModel() async {
-    ViewModel viewModel = ViewModel(displayModel: displayModel);
-    // set the initial position
-    print('view');
-    viewModel.setMapViewPosition(
-      position?.latitude ?? 23.053847,
-      position?.longitude ?? -82.417690,
-    );
-    // set the initial zoomlevel
-    viewModel.setZoomLevel(16);
-    // bonus feature: listen for long taps and add/remove a marker at the tap-positon
-    viewModel.addOverlay(_MarkerOverlay(
-      displayModel: displayModel,
-      symbolCache: symbolCache,
-      viewModel: viewModel,
-      markerDataStore: markerDataStore,
-    ));
-    return viewModel;
-  }
-}
-
-/// An overlay is just a normal widget which will be drawn on top of the map. In this case we do not
-/// draw anything but just receive long tap events and add/remove a marker to the datastore. Take note
-/// that the marker needs to be initialized (async) and afterwards added to the datastore and the
-/// setRepaint() method is called to inform the datastore about changes so that it gets repainted
-class _MarkerOverlay extends StatefulWidget {
-  final MarkerDataStore markerDataStore;
-
-  final ViewModel viewModel;
-
-  final SymbolCache symbolCache;
-
-  final DisplayModel displayModel;
-
-  const _MarkerOverlay({
-    required this.viewModel,
-    required this.markerDataStore,
-    required this.symbolCache,
-    required this.displayModel,
-  });
-
-  @override
-  State<StatefulWidget> createState() => _MarkerOverlayState();
-}
-
-class _MarkerOverlayState extends State {
-  @override
-  _MarkerOverlay get widget => super.widget as _MarkerOverlay;
-
-  PoiMarker? _marker;
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: Geolocator.getPositionStream(locationSettings: const LocationSettings()),
-        builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
-          if (snapshot.data == null) return const SizedBox();
-          if (_marker != null) {
-            widget.markerDataStore.removeMarker(_marker!);
-          }
-
-          position = snapshot.data!;
-
-          _marker = PoiMarker(
-            displayModel: widget.displayModel,
-            src: 'assets/map_resources/marker.svg',
-            height: 32,
-            width: 24,
-            latLong: LatLong(
-              position!.latitude,
-              position!.longitude,
-            ),
-            // position: Position.ABOVE,
+  showPositionOptions() => showModalBottomSheet(
+        context: context,
+        showDragHandle: true,
+        isScrollControlled: true,
+        builder: (_) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.gps_fixed_rounded),
+                title: Text(AppLocalizations.of(context).gpsMode),
+                trailing: Icon(useGps != null && useGps! ? Icons.radio_button_on : Icons.radio_button_off),
+                onTap: () {
+                  Navigator.pop(context);
+                  if (useGps == null || !useGps!) {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    _currentPosition.clear();
+                    _mapController?.clearMarkers();
+                    setState(() => useGps = true);
+                    getPosition();
+                  }
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.edit_location_alt_rounded),
+                title: Text(AppLocalizations.of(context).customLocationMode),
+                trailing: Icon(useGps != null && !useGps! ? Icons.radio_button_on : Icons.radio_button_off),
+                onTap: () {
+                  Navigator.pop(context);
+                  if (useGps == null || useGps!) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(AppLocalizations.of(context).customLocationModeString),
+                      ),
+                    );
+                    _currentPosition.clear();
+                    _mapController?.clearMarkers();
+                    setState(() => useGps = false);
+                    _positionStreamSubscription?.cancel();
+                  }
+                },
+              ),
+            ],
           );
+        },
+      );
 
-          _marker!.initResources(widget.symbolCache).then((value) {
-            widget.markerDataStore.addMarker(_marker!);
-            widget.markerDataStore.setRepaint();
-          });
-
-          return const SizedBox();
-        });
+  void getPosition() {
+    Geolocator.isLocationServiceEnabled().then((enabled) {
+      if (!enabled) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context).noLocationEnabled),
+          ),
+        );
+        return;
+      }
+      Geolocator.requestPermission().then((lp) {
+        final hasPermission = lp == LocationPermission.always || lp == LocationPermission.whileInUse;
+        if (!hasPermission) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context).noLocationPermission),
+            ),
+          );
+          return;
+        }
+        if (_currentPosition.isNotEmpty) {
+          _zoomPan?.focalLatLng = _currentPosition[0];
+        } else {
+          if (useGps == null) {
+            showPositionOptions();
+          } else {
+            if (useGps!) {
+              Geolocator.getCurrentPosition().then((position) {
+                _currentPosition.clear();
+                _mapController?.clearMarkers();
+                _currentPosition.add(MapLatLng(position.latitude, position.longitude));
+                _mapController?.insertMarker(0);
+              });
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppLocalizations.of(context).customLocationModeString),
+                ),
+              );
+            }
+          }
+        }
+      });
+    });
   }
 }

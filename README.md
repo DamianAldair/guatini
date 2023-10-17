@@ -1,11 +1,16 @@
-# Guatiní
+# guatini
 
-App for Guatini Project
+A new Flutter project.
 
-## Abstract
+## Getting Started
 
-The “Guatiní” project arose as an extension project, with the purpose of instilling in the new generations, above all, knowledge about the cuban birds and the importance of caring for the environment.
+This project is a starting point for a Flutter application.
 
-After several exercises of professional practices and diploma thesis of students of “Universidad Tecnológica de La Habana José Antonio Echeverría, CUJAE”, applications have been developed to serve as “multimedia” about cuban endemic birds.
+A few resources to get you started if this is your first Flutter project:
 
-The main objective is to increase the scope of the project, removing the current limit of having only endemic birds of Cuba and giving the possibility of including information of all species.
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

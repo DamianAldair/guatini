@@ -1,10 +1,10 @@
 name: guatini
 description: App for Guatini Project
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 3.0.0+2
+version: 3.0.0+3
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: '>=3.0.2 <4.0.0'
 
 dependencies:
   flutter:
@@ -12,36 +12,39 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
-  cupertino_icons: ^1.0.2
-  font_awesome_flutter: ^10.3.0
-  flutter_native_splash: ^2.2.8
-  adaptive_theme: ^3.2.0
+  cupertino_icons: ^1.0.5
+  font_awesome_flutter: ^10.4.0
+  flutter_native_splash: ^2.2.16
+  adaptive_theme: ^3.2.1
   card_swiper: ^2.0.4
   smooth_page_indicator: ^1.1.0
-  selectable: ^0.2.9
-  provider: ^6.0.3
-  path_provider: ^2.0.11
-  external_path: ^1.0.1
+  selectable: ^0.3.0
+  provider: ^6.0.5
+  path_provider: ^2.0.15
+  external_path: ^1.0.3
   permission_handler: ^9.2.0
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.1.1
   flutter_secure_storage: ^8.0.0
-  sqflite: ^2.0.3+1
+  sqflite: ^2.2.8+4
   photo_view:
     path: packages/photo_view
-  audioplayers: ^1.0.1
-  video_player: ^2.4.6
-  video_thumbnail: ^0.5.2
+  audioplayers:
+   path: packages/audioplayers
+  video_player: ^2.6.1
+  video_thumbnail: ^0.5.3
   geolocator: ^9.0.2
-  mapsforge_flutter: ^2.0.2
-  flutter_map: ^2.2.0
+  # mapsforge_flutter: ^2.0.2
+  # flutter_map: ^2.2.0
+  syncfusion_flutter_maps: ^23.1.36
   qr_code_scanner: ^1.0.1
   url_launcher: any
   pdf: ^3.8.4
   dio: ^4.0.6
   version: ^3.0.2
-  device_info_plus: ^8.1.0
-  package_info_plus: ^3.0.3
-  share_plus: ^6.3.1
+  device_info_plus: ^8.2.2
+  package_info_plus:
+    path: packages/package_info_plus
+  share_plus: ^6.3.4
 
 dev_dependencies:
   flutter_test:
@@ -56,7 +59,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
-    - assets/map_resources/
+    - assets/map/
 
 flutter_icons:
   image_path: "assets/icons/android_icon.png"
@@ -71,5 +74,7 @@ flutter_native_splash:
   color: "#FFFFFF"
   color_dark: "#000000"
   image: "assets/icons/android_icon.png"
-  android: true
   ios: true
+  android: true
+  android_12:
+    image: "assets/icons/android_icon.png"

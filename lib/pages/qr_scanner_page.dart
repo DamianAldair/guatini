@@ -51,8 +51,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
 
   Widget get _qrView {
     final color = Theme.of(context).primaryColor;
-    final scanArea =
-        (MediaQuery.of(context).size.width < 400 || MediaQuery.of(context).size.height < 400) ? 150.0 : 300.0;
+    final scanArea = MediaQuery.of(context).size.width * 2 / 3;
     return QRView(
       key: qrKey,
       overlay: QrScannerOverlayShape(
