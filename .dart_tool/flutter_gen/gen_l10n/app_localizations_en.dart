@@ -245,6 +245,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get info => 'Info';
 
   @override
+  String get internalStorage => 'Internal storage';
+
+  @override
   String get itIs => 'It is';
 
   @override
@@ -364,6 +367,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get play => 'Play';
 
   @override
+  String get players => 'Players';
+
+  @override
   String get previousFolder => 'Go to previous folder';
 
   @override
@@ -374,6 +380,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get replay => 'Replay';
+
+  @override
+  String get sdCard => 'SD card';
 
   @override
   String get search => 'Search';
@@ -398,6 +407,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sound => 'Sound';
+
+  @override
+  String get sourceOfInfo => 'Source of information';
 
   @override
   String get speciesDetails => 'Species Details';
@@ -431,6 +443,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get theme => 'Theme';
+
+  @override
+  String get ui => 'User interface';
 
   @override
   String get unavailable => 'No disponible';

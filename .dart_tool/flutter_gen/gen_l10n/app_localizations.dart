@@ -555,6 +555,12 @@ abstract class AppLocalizations {
   /// **'Info'**
   String get info;
 
+  /// No description provided for @internalStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal storage'**
+  String get internalStorage;
+
   /// No description provided for @itIs.
   ///
   /// In en, this message translates to:
@@ -789,6 +795,12 @@ abstract class AppLocalizations {
   /// **'Play'**
   String get play;
 
+  /// No description provided for @players.
+  ///
+  /// In en, this message translates to:
+  /// **'Players'**
+  String get players;
+
   /// No description provided for @previousFolder.
   ///
   /// In en, this message translates to:
@@ -812,6 +824,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Replay'**
   String get replay;
+
+  /// No description provided for @sdCard.
+  ///
+  /// In en, this message translates to:
+  /// **'SD card'**
+  String get sdCard;
 
   /// No description provided for @search.
   ///
@@ -860,6 +878,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sound'**
   String get sound;
+
+  /// No description provided for @sourceOfInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Source of information'**
+  String get sourceOfInfo;
 
   /// No description provided for @speciesDetails.
   ///
@@ -926,6 +950,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Theme'**
   String get theme;
+
+  /// No description provided for @ui.
+  ///
+  /// In en, this message translates to:
+  /// **'User interface'**
+  String get ui;
 
   /// No description provided for @unavailable.
   ///

@@ -114,7 +114,7 @@ class _FindDatabasePageState extends State<FindDatabasePage> {
                       final storage = storages[i];
                       return ListTile(
                         leading: CircleAvatar(child: icon(storage)),
-                        title: Text(storageName(storage)),
+                        title: Text(storageName(context, storage)),
                         subtitle: Text(storage),
                         trailing: const Icon(Icons.chevron_right_rounded),
                         onTap: () => setState(() => path = storage),
@@ -186,12 +186,12 @@ class _FindDatabasePageState extends State<FindDatabasePage> {
     return const Icon(Icons.folder_rounded);
   }
 
-  String storageName(String storage) {
+  String storageName(BuildContext context, String storage) {
     if (storage == '/storage/emulated/0') {
-      return 'Almacenamiento interno';
+      return AppLocalizations.of(context).internalStorage;
     }
     if (storage.startsWith('/storage/') && storage.split('/').length == 3) {
-      return 'Tarjeta SD';
+      return AppLocalizations.of(context).sdCard;
     }
     return '';
   }
