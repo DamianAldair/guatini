@@ -526,10 +526,12 @@ class AudioCard extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 3 / (list.length < 3 ? list.length : 3),
-                  crossAxisCount: list.length < 3 ? list.length : 3),
+                crossAxisCount: list.length.clamp(1, 2),
+                childAspectRatio: list.length == 1 ? 3.0 : 1.0,
+              ),
               itemCount: list.length,
-              itemBuilder: (_, int i) {
+              itemBuilder: (_, int ind) {
+                const i = 0;
                 final title = list.length == 1
                     ? AppLocalizations.of(context).sound
                     : '${AppLocalizations.of(context).sound} ${i + 1}';
@@ -570,7 +572,10 @@ class AudioCard extends StatelessWidget {
                               size: 35.0,
                             ),
                           ),
-                          Text(title),
+                          Text(
+                            title,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ],
                       ),
                     ),
