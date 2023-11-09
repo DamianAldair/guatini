@@ -66,57 +66,60 @@ class InfoCard<T> extends StatelessWidget {
                     barrierColor: Colors.black.withOpacity(0.7),
                     builder: (_) {
                       return Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Text(
-                                '${AppLocalizations.of(context).chooseOne}:',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Text(
+                                  '${AppLocalizations.of(context).chooseOne}:',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            for (T i in instances!)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 25.0,
-                                  vertical: 5.0,
-                                ),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                      viewDescription(context, title, i);
-                                    },
-                                    child: Ink(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        color: AdaptiveTheme.of(context).mode.isDark
-                                            ? const Color.fromARGB(255, 50, 50, 50)
-                                            : const Color.fromARGB(255, 220, 220, 220),
-                                        borderRadius: BorderRadius.circular(15.0),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15.0),
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            i.toString(),
-                                            textAlign: TextAlign.center,
+                              for (T i in instances!)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 25.0,
+                                    vertical: 5.0,
+                                  ),
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        viewDescription(context, title, i);
+                                      },
+                                      child: Ink(
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: AdaptiveTheme.of(context).mode.isDark
+                                              ? const Color.fromARGB(255, 50, 50, 50)
+                                              : const Color.fromARGB(255, 220, 220, 220),
+                                          borderRadius: BorderRadius.circular(15.0),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(15.0),
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              i.toString(),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                          ],
+                              const SizedBox.square(dimension: 20.0),
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -221,11 +224,11 @@ class ConservationStateCard extends StatelessWidget {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: status!.getConservationIcon(context),
+                children: status?.getConservationIconList(context) ?? [],
               ),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(status!.status!),
+                child: Text(status?.status ?? AppLocalizations.of(context).errorObtainingInfo),
               ),
             ],
           ),
