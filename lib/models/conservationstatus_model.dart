@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 
 class ConservationStatusModel {
@@ -56,283 +57,61 @@ class ConservationStatusModel {
   //   return conservation;
   // }
 
-  List<Widget> getConservationIcon(BuildContext context) {
-    List<Widget> list = <Widget>[];
-    if (id! >= 1 && id! <= 7) {
-      bool ex = false;
-      bool ew = false;
-      bool ce = false;
-      bool ed = false;
-      bool vu = false;
-      bool nt = false;
-      bool lc = false;
-      switch (id) {
-        case 1:
-          ex = true;
-          break;
-        case 2:
-          ew = true;
-          break;
-        case 3:
-          ce = true;
-          break;
-        case 4:
-          ed = true;
-          break;
-        case 5:
-          vu = true;
-          break;
-        case 6:
-          nt = true;
-          break;
-        case 7:
-          lc = true;
-          break;
-      }
-      list.add(_extinct(ex));
-      list.add(_extinctInTheWild(ew));
-      list.add(_criticalEndangered(ce));
-      list.add(_endangered(ed));
-      list.add(_vulnerable(vu));
-      list.add(_nearThreataned(nt));
-      list.add(_leastConcern(lc));
-    } else if (id == 8 || id == 9) {
-      bool dd = false;
-      bool ne = false;
-      switch (id) {
-        case 8:
-          dd = true;
-          break;
-        case 9:
-        default:
-          ne = true;
-          break;
-      }
-      list.add(_deficientData(dd));
-      list.add(_notEvaluated(ne));
-    }
-    return list;
-  }
+  List<Widget> getConservationIconList(BuildContext context) {
+    final isDark = AdaptiveTheme.of(context).brightness == Brightness.dark;
+    final iconSize = MediaQuery.of(context).size.width / 10;
+    const defaultBgColor = Color.fromARGB(125, 240, 240, 240);
+    const defaultFgColor = Color.fromARGB(125, 0, 0, 0);
 
-  Widget _extinct(bool active) {
-    return Tooltip(
-      message: status,
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'EX',
-          style: TextStyle(
-            color: active ? const Color.fromARGB(255, 207, 52, 52) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
+    final alias = <int, String>{
+      1: 'EX',
+      2: 'EW',
+      3: 'CE',
+      4: 'EN',
+      5: 'VU',
+      6: 'NT',
+      7: 'LC',
+      8: 'DD',
+    };
+    final bgColors = <int, Color>{
+      1: isDark ? const Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 0, 0, 0),
+      2: isDark ? const Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(255, 0, 0, 0),
+      3: const Color.fromARGB(255, 204, 51, 51),
+      4: const Color.fromARGB(255, 204, 102, 51),
+      5: const Color.fromARGB(255, 204, 159, 0),
+      6: const Color.fromARGB(255, 0, 102, 102),
+      7: const Color.fromARGB(255, 0, 102, 102),
+    };
+    final fgColors = <int, Color>{
+      1: const Color.fromARGB(255, 207, 52, 52),
+      2: isDark ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(255, 255, 255, 255),
+      3: const Color.fromARGB(255, 252, 193, 193),
+      4: const Color.fromARGB(255, 247, 188, 137),
+      5: const Color.fromARGB(255, 255, 255, 255),
+      6: const Color.fromARGB(255, 113, 177, 140),
+      7: const Color.fromARGB(255, 255, 255, 255),
+    };
 
-  Widget _extinctInTheWild(bool active) {
-    return Tooltip(
-      message: status,
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active ? const Color.fromARGB(255, 0, 0, 0) : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'EW',
-          style: TextStyle(
-            color: active ? const Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _criticalEndangered(bool active) {
-    return Tooltip(
-      message: status,
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active ? const Color.fromARGB(255, 204, 51, 51) : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'CE',
-          style: TextStyle(
-            color: active ? const Color.fromARGB(255, 252, 193, 193) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _endangered(bool active) {
-    return Tooltip(
-      message: status,
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active ? const Color.fromARGB(255, 204, 102, 51) : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'EN',
-          style: TextStyle(
-            color: active ? const Color.fromARGB(255, 247, 188, 137) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _vulnerable(bool active) {
-    return Tooltip(
-      message: status,
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active ? const Color.fromARGB(255, 204, 159, 0) : const Color.fromARGB(125, 240, 240, 240),
-          border: Border.all(
-            color: active ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-          borderRadius: BorderRadius.circular(100.0),
-        ),
-        child: Text(
-          'VU',
-          style: TextStyle(
-            color: active ? const Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _nearThreataned(bool active) {
-    return Tooltip(
-      message: status,
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active ? const Color.fromARGB(255, 0, 102, 102) : const Color.fromARGB(125, 240, 240, 240),
-          border: Border.all(
-            color: active ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-          borderRadius: BorderRadius.circular(100.0),
-        ),
-        child: Text(
-          'NT',
-          style: TextStyle(
-            color: active ? const Color.fromARGB(255, 113, 177, 140) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _leastConcern(bool active) {
-    return Tooltip(
-      message: status,
-      child: Container(
-        height: 35.0,
-        width: 35.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: active ? const Color.fromARGB(255, 0, 102, 102) : const Color.fromARGB(125, 240, 240, 240),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: active ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-        child: Text(
-          'LC',
-          style: TextStyle(
-            color: active ? const Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(125, 0, 0, 0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _deficientData(bool active) {
-    return Expanded(
-      child: Tooltip(
-        message: status,
+    return List.generate((id! < 1 || id! > 7) ? 2 : 7, (index) {
+      final i = index + ((id! < 1 || id! > 7) ? 8 : 1);
+      final active = id! == i;
+      return Opacity(
+        opacity: active ? 1.0 : 0.4,
         child: Container(
-          height: 35.0,
-          width: 35.0,
-          margin: const EdgeInsets.only(left: 15.0, right: 8.0),
+          height: iconSize,
+          width: iconSize,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: active ? const Color.fromARGB(255, 55, 55, 135) : const Color.fromARGB(125, 240, 240, 240),
-            borderRadius: BorderRadius.circular(100.0),
-            border: Border.all(
-              color: active ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(125, 0, 0, 0),
-            ),
+            color: active ? bgColors[i] ?? const Color.fromARGB(255, 55, 55, 135) : defaultBgColor,
+            borderRadius: BorderRadius.circular(iconSize),
+            border: active ? null : Border.all(color: defaultFgColor),
           ),
           child: Text(
-            'DD',
-            style: TextStyle(
-              color: active ? const Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(125, 0, 0, 0),
-            ),
+            alias[i] ?? 'NE',
+            style: TextStyle(color: active ? fgColors[i] ?? const Color.fromARGB(255, 255, 255, 255) : defaultFgColor),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _notEvaluated(bool active) {
-    return Expanded(
-      child: Tooltip(
-        message: status,
-        child: Container(
-          height: 35.0,
-          width: 35.0,
-          margin: const EdgeInsets.only(left: 8.0, right: 15.0),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: active ? const Color.fromARGB(255, 55, 55, 135) : const Color.fromARGB(125, 240, 240, 240),
-            borderRadius: BorderRadius.circular(100.0),
-            border: Border.all(
-              color: active ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(125, 0, 0, 0),
-            ),
-          ),
-          child: Text(
-            'NE',
-            style: TextStyle(
-              color: active ? const Color.fromARGB(255, 255, 255, 255) : const Color.fromARGB(125, 0, 0, 0),
-            ),
-          ),
-        ),
-      ),
-    );
+      );
+    });
   }
 }
