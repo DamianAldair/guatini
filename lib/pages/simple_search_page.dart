@@ -52,27 +52,33 @@ class SimpleSearch extends SearchDelegate {
           child: Text(AppLocalizations.of(context).noRecentSearches),
         );
       }
-      return Column(
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: lastSearches.length,
-            itemBuilder: (_, int i) => ListTile(
-              leading: const Icon(Icons.access_time_rounded),
-              title: Text(lastSearches[i]),
-              onTap: () => query = lastSearches[i],
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: lastSearches.length,
+              itemBuilder: (_, int i) => ListTile(
+                leading: const Icon(Icons.access_time_rounded),
+                title: Text(lastSearches[i]),
+                onTap: () => query = lastSearches[i],
+              ),
             ),
-          ),
-          const Divider(),
-          TextButton(
-            child: Text(AppLocalizations.of(context).deleteList),
-            onPressed: () {
-              final prefs = UserPreferences();
-              prefs.cleanLastSearches();
-              Navigator.pop(context);
-            },
-          ),
-        ],
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextButton(
+                child: Text(AppLocalizations.of(context).deleteList),
+                onPressed: () {
+                  final prefs = UserPreferences();
+                  prefs.cleanLastSearches();
+                  query = '';
+                },
+              ),
+            ),
+          ],
+        ),
       );
     }
     if (!DbProvider.isOpen()) {
@@ -118,8 +124,7 @@ class SimpleSearch extends SearchDelegate {
                     close(context, null);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (_) => SpeciesDetailsPage(results[i].id)),
+                      MaterialPageRoute(builder: (_) => SpeciesDetailsPage(results[i].id)),
                     );
                   }),
             );

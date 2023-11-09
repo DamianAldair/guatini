@@ -378,9 +378,10 @@ abstract class SearchProvider {
           [main].[media].[path]
           from [main].[specie]
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-          inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
           inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-          where [main].[common_name].[name] LIKE '%$search%' OR [main].[specie].[scientific_name] LIKE '%$search%'
+          where [main].[media].[fk_type_] = 1 AND
+            ([main].[common_name].[name] LIKE '%$search%' OR [main].[specie].[scientific_name] LIKE '%$search%')
+          group by [main].[specie].[scientific_name]
           order by [main].[specie].[scientific_name];
       ''';
       final result = await db.rawQuery(query);

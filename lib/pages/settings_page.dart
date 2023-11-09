@@ -54,6 +54,27 @@ class _SettingsPageState extends State<SettingsPage> {
               MaterialPageRoute(builder: (_) => const OnlineUsePage()),
             ),
           ),
+          ListTile(
+            leading: const Icon(Icons.manage_search_outlined),
+            title: Text(AppLocalizations.of(context).searchHistotySize),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove_rounded),
+                  onPressed: () => setState(() => prefs.numberOfLastSearches--),
+                ),
+                Text(
+                  prefs.numberOfLastSearches.toString(),
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add_rounded),
+                  onPressed: () => setState(() => prefs.numberOfLastSearches++),
+                ),
+              ],
+            ),
+          ),
           SwitchListTile(
             secondary: const Icon(Icons.play_arrow_rounded),
             title: Text(AppLocalizations.of(context).autoplayAudio),

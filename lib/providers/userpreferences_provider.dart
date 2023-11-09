@@ -64,36 +64,38 @@ class UserPreferences {
 
   int get numberOfLastSearches => _prefs!.getInt(_keyNumberOfLastSearches) ?? 5;
 
-  set numberOfLastSearches(int number) => _prefs!.setInt(_keyNumberOfLastSearches, number);
+  set numberOfLastSearches(int number) {
+    if (number < 5 || number > 20) return;
+    _prefs!.setInt(_keyNumberOfLastSearches, number);
+  }
 
   // Searches to show in search log
   final String _keyLastSearches = 'lastSearches';
 
   List<String> get lastSearches {
-    final list = _prefs!.getStringList(_keyLastSearches);
-    if (list == null) {
-      return [];
-    } else {
-      final searches = numberOfLastSearches;
-      if (list.length > searches) {
-        return list.sublist(0, searches);
-      } else {
-        return list;
-      }
+    List<String> list = _prefs!.getStringList(_keyLastSearches) ?? [];
+    if (list.length > numberOfLastSearches) {
+      list = list.reversed.toList();
+      list = list.sublist(0, numberOfLastSearches);
+      list = list.reversed.toList();
     }
+    _prefs!.setStringList(_keyLastSearches, list);
+    return list;
   }
 
   void cleanLastSearches() => _prefs!.setStringList(_keyLastSearches, []);
 
   void newSearch(String search) {
     List<String> list = lastSearches;
-    if (list.contains(search)) {
-      list.remove(search);
+    final s = search.trim().toLowerCase();
+    if (list.contains(s)) {
+      list.remove(s);
     }
-    list.add(search);
-    final searches = numberOfLastSearches;
-    if (list.length > searches) {
-      list.removeRange(list.length - searches, list.length);
+    list.add(s);
+    if (list.length > numberOfLastSearches) {
+      list = list.reversed.toList();
+      list = list.sublist(0, numberOfLastSearches);
+      list = list.reversed.toList();
     }
     _prefs!.setStringList(_keyLastSearches, list);
   }

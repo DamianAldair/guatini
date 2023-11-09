@@ -813,6 +813,12 @@ abstract class AppLocalizations {
   /// **'Search'**
   String get search;
 
+  /// No description provided for @searchHistotySize.
+  ///
+  /// In en, this message translates to:
+  /// **'Search history size'**
+  String get searchHistotySize;
+
   /// No description provided for @searchSpecies.
   ///
   /// In en, this message translates to:

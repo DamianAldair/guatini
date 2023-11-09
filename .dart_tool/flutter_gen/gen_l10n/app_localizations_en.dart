@@ -376,6 +376,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search => 'Search';
 
   @override
+  String get searchHistotySize => 'Search history size';
+
+  @override
   String get searchSpecies => 'Search Species';
 
   @override
