@@ -23,7 +23,7 @@ class MediaInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final path = p.join(UserPreferences().dbPath, media.path);
+    final path = p.join(UserPreferences().dbPathNotifier.value!, media.path);
     final file = File(path);
     final size = MediaQuery.of(context).size.width / 3;
 
@@ -40,12 +40,8 @@ class MediaInfoPage extends StatelessWidget {
             final db = snapshot.data as Database;
             return FutureBuilder(
                 future: Future.wait([
-                  media.authorId == null
-                      ? Future.value(null)
-                      : SearchProvider.getAuthor(db, media.authorId!),
-                  media.licenseId == null
-                      ? Future.value(null)
-                      : SearchProvider.getLicense(db, media.licenseId!),
+                  media.authorId == null ? Future.value(null) : SearchProvider.getAuthor(db, media.authorId!),
+                  media.licenseId == null ? Future.value(null) : SearchProvider.getLicense(db, media.licenseId!),
                 ]),
                 builder: (_, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
@@ -58,26 +54,19 @@ class MediaInfoPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment:
-                              media.mediaType.type != MediaType.audio
-                                  ? MainAxisAlignment.start
-                                  : MainAxisAlignment.center,
+                          mainAxisAlignment: media.mediaType.type != MediaType.audio
+                              ? MainAxisAlignment.start
+                              : MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(
-                                  media.mediaType.type != MediaType.audio
-                                      ? 20.0
-                                      : 0.0),
+                              padding: EdgeInsets.all(media.mediaType.type != MediaType.audio ? 20.0 : 0.0),
                               child: Hero(
                                 tag: heroTag.toString(),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(15.0),
                                   child: SizedBox(
                                     height: size,
-                                    width:
-                                        media.mediaType.type != MediaType.audio
-                                            ? size
-                                            : 0.0,
+                                    width: media.mediaType.type != MediaType.audio ? size : 0.0,
                                     child: FutureBuilder(
                                       future: file.exists(),
                                       builder: (_, AsyncSnapshot snapshot) {
@@ -86,8 +75,7 @@ class MediaInfoPage extends StatelessWidget {
                                             child: CircularProgressIndicator(),
                                           );
                                         }
-                                        if (media.mediaType.type ==
-                                            MediaType.image) {
+                                        if (media.mediaType.type == MediaType.image) {
                                           return snapshot.data
                                               ? Image.file(
                                                   file,
@@ -97,26 +85,20 @@ class MediaInfoPage extends StatelessWidget {
                                                   'assets/images/image_not_available.png',
                                                   fit: BoxFit.cover,
                                                 );
-                                        } else if (media.mediaType.type ==
-                                            MediaType.video) {
+                                        } else if (media.mediaType.type == MediaType.video) {
                                           return FutureBuilder(
-                                            future:
-                                                VideoThumbnail.thumbnailData(
-                                                    video: path),
-                                            builder:
-                                                (_, AsyncSnapshot snapshot) {
+                                            future: VideoThumbnail.thumbnailData(video: path),
+                                            builder: (_, AsyncSnapshot snapshot) {
                                               if (!snapshot.hasData) {
                                                 return const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
+                                                  child: CircularProgressIndicator(),
                                                 );
                                               }
                                               return Stack(
                                                 alignment: Alignment.center,
                                                 children: [
                                                   Container(
-                                                    color: Colors.black
-                                                        .withOpacity(0.6),
+                                                    color: Colors.black.withOpacity(0.6),
                                                   ),
                                                   Image.memory(
                                                     snapshot.data,
@@ -126,14 +108,10 @@ class MediaInfoPage extends StatelessWidget {
                                                     width: 45.0,
                                                     height: 45.0,
                                                     decoration: BoxDecoration(
-                                                      color: Colors.black
-                                                          .withOpacity(0.6),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100.0),
+                                                      color: Colors.black.withOpacity(0.6),
+                                                      borderRadius: BorderRadius.circular(100.0),
                                                     ),
-                                                    child: const Icon(Icons
-                                                        .play_arrow_rounded),
+                                                    child: const Icon(Icons.play_arrow_rounded),
                                                   ),
                                                 ],
                                               );
@@ -157,7 +135,7 @@ class MediaInfoPage extends StatelessWidget {
                             vertical: 15.0,
                           ),
                           child: Text(
-                            AppLocalizations.of(context).date(media.date!),
+                            AppLocalizations.of(context).date(media.dateCapture!),
                             style: const TextStyle(fontSize: 17.0),
                           ),
                         ),

@@ -65,7 +65,7 @@ class _Game1PageState extends State<Game1Page> {
               options ??= snapshot.data!;
               final correctIndex = Random().nextInt(options!.length - 1);
               correctOption ??= options![correctIndex];
-              final image = File(p.join(prefs.dbPath, correctOption!.imagePath));
+              final image = File(p.join(prefs.dbPathNotifier.value!, correctOption!.imagePath));
               return Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -93,7 +93,7 @@ class _Game1PageState extends State<Game1Page> {
                                           MediaModel(
                                             id: 0,
                                             path: image.path,
-                                            dateCapture: '19999999',
+                                            dateCapture: DateTime.now(),
                                             latitude: 0,
                                             longitude: 0,
                                           )..type = const MediaTypeModel(id: 0, type: MediaType.image),

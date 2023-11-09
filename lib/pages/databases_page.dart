@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:guatini/pages/find_database_pege.dart';
+import 'package:guatini/pages/find_database_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/permissions_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
@@ -19,7 +19,6 @@ class _DatabasesPageState extends State<DatabasesPage> {
   @override
   Widget build(BuildContext context) {
     final prefs = UserPreferences();
-    final currentDb = prefs.dbPath;
 
     return Scaffold(
       appBar: AppBar(
@@ -40,31 +39,33 @@ class _DatabasesPageState extends State<DatabasesPage> {
           ),
         ],
       ),
-      body: StreamBuilder(
-        stream: prefs.databasesStream,
-        builder: (_, AsyncSnapshot<List<String>> snapshot) {
-          List<String> databases;
-          if (!snapshot.hasData) {
-            databases = prefs.databases;
-          } else {
-            databases = snapshot.data!;
-          }
-          databases.sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+      body: ValueListenableBuilder(
+        valueListenable: prefs.databasesNotifier,
+        builder: (_, List<String> list, ___) {
+          final databases = list..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
           return databases.isEmpty
-              ? Center(child: Text(AppLocalizations.of(context).noDatabases))
+              ? Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(AppLocalizations.of(context).noDatabases),
+                      Text(AppLocalizations.of(context).addOneDatabase),
+                    ],
+                  ),
+                )
               : ListView.builder(
                   itemCount: databases.length,
                   itemBuilder: (_, int i) {
                     final db = databases[i];
                     return ListTile(
-                      leading: db == currentDb
+                      leading: db == prefs.dbPathNotifier.value
                           ? const Icon(Icons.radio_button_checked_rounded)
                           : const Icon(Icons.radio_button_off_rounded),
                       title: Text(db),
                       trailing: PopupMenuButton(
                         itemBuilder: (_) {
                           void deleteDb() {
-                            if (db == currentDb) {
+                            if (db == prefs.dbPathNotifier.value) {
                               DbProvider.close();
                             }
                             prefs.deleteDatabase(db);
@@ -78,8 +79,7 @@ class _DatabasesPageState extends State<DatabasesPage> {
                                     padding: EdgeInsets.only(right: 10.0),
                                     child: Icon(Icons.close_rounded),
                                   ),
-                                  Text(AppLocalizations.of(context)
-                                      .deleteFromList),
+                                  Text(AppLocalizations.of(context).deleteFromList),
                                 ],
                               ),
                               onTap: () => Future.delayed(
@@ -101,8 +101,7 @@ class _DatabasesPageState extends State<DatabasesPage> {
                                     padding: EdgeInsets.only(right: 10.0),
                                     child: Icon(Icons.delete_forever_rounded),
                                   ),
-                                  Text(AppLocalizations.of(context)
-                                      .deletePermanently),
+                                  Text(AppLocalizations.of(context).deletePermanently),
                                 ],
                               ),
                               onTap: () => Future.delayed(
@@ -116,14 +115,11 @@ class _DatabasesPageState extends State<DatabasesPage> {
                                       deleteDb();
                                       final dir = Directory(db);
                                       dir.deleteSync(recursive: true);
-                                      ScaffoldMessenger.of(context)
-                                          .hideCurrentSnackBar();
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
                                           content: Text(
-                                            AppLocalizations.of(context)
-                                                .deletedDatabase,
+                                            AppLocalizations.of(context).deletedDatabase,
                                           ),
                                         ),
                                       );
@@ -145,7 +141,7 @@ class _DatabasesPageState extends State<DatabasesPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+        onPressed: () {
           PermissionsHandler.requestStoragePermission(
             context,
             () {

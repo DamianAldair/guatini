@@ -105,20 +105,17 @@ class SpeciesDetailsPage extends StatelessWidget {
                             instances: species.diets,
                           ),
                           AudioCard(species.medias),
+                          Dimorphism(species.dimorphism),
                           Description(species.description.toString()),
                           Gallery(
                             species.medias,
-                            mainImageId: species.mainImage != null
-                                ? species.mainImage!.id
-                                : null,
+                            mainImageId: species.mainImage != null ? species.mainImage!.id : null,
                           ),
-                          if (prefs.wikipediaOnline)
-                            const SizedBox(height: 20.0),
+                          if (prefs.wikipediaOnline) const SizedBox(height: 20.0),
                           if (prefs.wikipediaOnline)
                             TextButton.icon(
                               icon: const Icon(FontAwesomeIcons.wikipediaW),
-                              label:
-                                  Text(AppLocalizations.of(context).wikiSearch),
+                              label: Text(AppLocalizations.of(context).wikiSearch),
                               onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(

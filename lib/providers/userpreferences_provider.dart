@@ -11,14 +11,14 @@ class UserPreferences {
   factory UserPreferences() => _instance;
 
   SharedPreferences? _prefs;
-  StreamController<String>? _dbPathStreamController;
-  StreamController<List<String>>? _databasesStreamController;
+  final dbPathNotifier = ValueNotifier<String?>(null);
+  final databasesNotifier = ValueNotifier<List<String>>([]);
   StreamController<List<GameModel>>? _gamesStreamController;
 
   Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
-    _dbPathStreamController = StreamController<String>.broadcast();
-    _databasesStreamController = StreamController<List<String>>.broadcast();
+    dbPathNotifier.value = _prefs?.getString(_keyDbPath);
+    databasesNotifier.value = _prefs?.getStringList(_keyDatabases) ?? [];
     _gamesStreamController = StreamController<List<GameModel>>.broadcast();
   }
 
@@ -32,44 +32,37 @@ class UserPreferences {
   // Path of Database
   final String _keyDbPath = 'dbPath';
 
-  Stream<String> get dbPathStream => _dbPathStreamController!.stream;
-
-  String get dbPath => _prefs!.getString(_keyDbPath) ?? '';
-
   set dbPath(String? path) {
     if (path == null) {
-      throw ArgumentError('Path can not be null');
+      _prefs!.remove(_keyDbPath);
+      dbPathNotifier.value = null;
+    } else {
+      _prefs!.setString(_keyDbPath, path);
+      dbPathNotifier.value = path;
     }
-    _prefs!.setString(_keyDbPath, path);
-    _dbPathStreamController!.add(path);
   }
 
   // Registered databases
   final String _keyDatabases = 'databases';
 
-  List<String> get databases => _prefs!.getStringList(_keyDatabases) ?? [];
-
-  Stream<List<String>> get databasesStream => _databasesStreamController!.stream;
-
   void newDatabase(String path) {
-    List<String> list = databases;
+    List<String> list = databasesNotifier.value;
     if (!list.contains(path)) list.add(path);
     _prefs!.setStringList(_keyDatabases, list);
-    _databasesStreamController!.add(list);
+    databasesNotifier.value = list;
   }
 
   void deleteDatabase(String path) {
-    List<String> list = databases;
+    List<String> list = databasesNotifier.value;
     if (list.contains(path)) list.remove(path);
     _prefs!.setStringList(_keyDatabases, list);
-    _databasesStreamController!.add(list);
+    databasesNotifier.value = list;
   }
 
   // Number of searches to show in search log
   final String _keyNumberOfLastSearches = 'numberOfLastSearches';
-  static const int defaultNumberOfLastSearches = 5;
 
-  int get numberOfLastSearches => _prefs!.getInt(_keyNumberOfLastSearches) ?? defaultNumberOfLastSearches;
+  int get numberOfLastSearches => _prefs!.getInt(_keyNumberOfLastSearches) ?? 5;
 
   set numberOfLastSearches(int number) => _prefs!.setInt(_keyNumberOfLastSearches, number);
 
@@ -166,6 +159,19 @@ class UserPreferences {
   bool get openWeb => _prefs!.getBool(_keyOpenWeb) ?? true;
 
   set openWeb(bool online) => _prefs!.setBool(_keyOpenWeb, online);
+
+  // Auto play
+  final String _keyAutoplayAudio = 'autoplayAudio';
+
+  bool get autoplayAudio => _prefs!.getBool(_keyAutoplayAudio) ?? false;
+
+  set autoplayAudio(bool autoplay) => _prefs!.setBool(_keyAutoplayAudio, autoplay);
+
+  final String _keyAutoplayVideo = 'autoplayVideo';
+
+  bool get autoplayVideo => _prefs!.getBool(_keyAutoplayVideo) ?? false;
+
+  set autoplayVideo(bool autoplay) => _prefs!.setBool(_keyAutoplayVideo, autoplay);
 
   // Games
   final String _keyGames = 'games';

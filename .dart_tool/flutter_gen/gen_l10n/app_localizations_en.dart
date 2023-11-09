@@ -19,6 +19,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addDatabase => 'Add database from storage';
 
   @override
+  String get addOneDatabase => 'Add one';
+
+  @override
   String get added => 'Added';
 
   @override
@@ -37,6 +40,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get author => 'Author';
 
   @override
+  String get autoplayAudio => 'Play audio automatically';
+
+  @override
+  String get autoplayAudioInfo => 'Play audio automatically when open the player';
+
+  @override
+  String get autoplayVideo => 'Play video automatically';
+
+  @override
+  String get autoplayVideoInfo => 'Play video automatically when open the player';
+
+  @override
   String get back => 'Back';
 
   @override
@@ -49,6 +64,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clear => 'Clear';
 
   @override
+  String get closeExplorer => 'Close explorer';
+
+  @override
   String get college => 'School of Computer Engineering';
 
   @override
@@ -56,6 +74,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get criticalEndangered => 'Critical endangered';
+
+  @override
+  String get copy => 'Copy';
 
   @override
   String get correct => 'Correct';
@@ -236,6 +257,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leastConcern => 'Least concern';
 
   @override
+  String get levelUp => 'Level up';
+
+  @override
   String get license => 'License';
 
   @override
@@ -263,6 +287,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noCameraPermission => 'Guatiní has not permission to access to camera';
 
   @override
+  String get noFolders => 'No folders';
+
+  @override
   String noInDb(String info) {
     return 'The information \"$info\" is not in the database';
   }
@@ -272,6 +299,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noLocationPermission => 'Guatiní has not permission to access to location';
+
+  @override
+  String get noSelectedDatabase => 'There is not a selected database';
 
   @override
   String get noStoragePermission => 'Guatiní has not permission to access to storage';
@@ -419,6 +449,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wikiSearch => 'Search on Wikipedia';
+
+  @override
+  String get withDimorphism => 'There may be appreciable differences between the female and the male of this species';
+
+  @override
+  String get withoutDimorphism => 'There are no appreciable differences between the female and the male of this species';
 
   @override
   String get yes => 'Yes';

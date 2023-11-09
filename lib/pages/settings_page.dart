@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:guatini/pages/databases_page.dart';
 import 'package:guatini/pages/language_page.dart';
 import 'package:guatini/pages/online_page.dart';
@@ -7,11 +8,17 @@ import 'package:guatini/pages/themes_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/util/parse.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  @override
   Widget build(BuildContext context) {
+    final prefs = UserPreferences();
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).settings),
@@ -19,19 +26,13 @@ class SettingsPage extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
-            leading: const Icon(Icons.library_books_rounded),
+            leading: const FaIcon(FontAwesomeIcons.database),
             title: Text(AppLocalizations.of(context).database),
-            subtitle: StreamBuilder(
-              stream: UserPreferences().dbPathStream,
-              builder: (_, AsyncSnapshot<String> snapshot) {
-                final String path;
-                if (!snapshot.hasData) {
-                  path = UserPreferences().dbPath;
-                } else {
-                  path = snapshot.data!;
-                }
+            subtitle: ValueListenableBuilder(
+              valueListenable: prefs.dbPathNotifier,
+              builder: (_, String? path, __) {
                 return Text(
-                  path.isEmpty
+                  path == null
                       ? AppLocalizations.of(context).notSelected
                       : '${AppLocalizations.of(context).current}: $path',
                 );
@@ -52,6 +53,20 @@ class SettingsPage extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (_) => const OnlineUsePage()),
             ),
+          ),
+          SwitchListTile(
+            secondary: const Icon(Icons.play_arrow_rounded),
+            title: Text(AppLocalizations.of(context).autoplayAudio),
+            subtitle: Text(AppLocalizations.of(context).autoplayAudioInfo),
+            value: prefs.autoplayAudio,
+            onChanged: (bool value) => setState(() => prefs.autoplayAudio = value),
+          ),
+          SwitchListTile(
+            secondary: const Icon(Icons.ondemand_video_rounded),
+            title: Text(AppLocalizations.of(context).autoplayVideo),
+            subtitle: Text(AppLocalizations.of(context).autoplayVideoInfo),
+            value: prefs.autoplayVideo,
+            onChanged: (bool value) => setState(() => prefs.autoplayVideo = value),
           ),
           ListTile(
             leading: const Icon(Icons.brightness_6_rounded),

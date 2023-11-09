@@ -6,7 +6,7 @@ import 'package:guatini/models/specie_model.dart';
 class MediaModel {
   final int? id;
   final String? path;
-  final String? dateCapture;
+  final DateTime? dateCapture;
   final double? latitude;
   final double? longitude;
   final SpeciesModel? species;
@@ -36,16 +36,16 @@ class MediaModel {
         path: json["path"],
         latitude: json["lat"],
         longitude: json["lon"],
-        dateCapture: json["date_capture"],
+        dateCapture: DateTime.fromMillisecondsSinceEpoch(Duration(seconds: json["date_capture"]).inMilliseconds),
         speciesId: json["fk_specie_"],
       )..type = MediaTypeModel.fromMap({"type": json["type"]});
 
   factory MediaModel.fromMap(Map<String, dynamic> json) => MediaModel(
         id: json["id"],
         path: json["path"],
-        dateCapture: json["date_capture"],
-        latitude: json["latitude"],
-        longitude: json["longitude"],
+        dateCapture: DateTime.fromMillisecondsSinceEpoch(Duration(seconds: json["date_capture"]).inMilliseconds),
+        latitude: json["lat"],
+        longitude: json["lon"],
         authorId: json["authorId"],
         licenseId: json["licenseId"],
       );
@@ -65,20 +65,20 @@ class MediaModel {
 
   MediaTypeModel get mediaType => type!;
 
-  DateTime? get date => dateCapture == null
-      ? null
-      : DateTime(
-          int.parse(dateCapture!.substring(0, 4)),
-          int.parse(dateCapture!.substring(4, 6)),
-          int.parse(dateCapture!.substring(6)),
-        );
+  // DateTime? get date => dateCapture == null
+  //     ? null
+  //     : DateTime(
+  //         int.parse(dateCapture!.substring(0, 4)),
+  //         int.parse(dateCapture!.substring(4, 6)),
+  //         int.parse(dateCapture!.substring(6)),
+  //       );
 }
 
 class MainImageModel extends MediaModel {
   MainImageModel({
     required int? id,
     required String? path,
-    required String? dateCapture,
+    required DateTime? dateCapture,
     required double? latitude,
     required double? longitude,
     int? authorId,

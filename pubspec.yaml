@@ -20,6 +20,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   selectable: ^0.3.0
   provider: ^6.0.5
+  path: any
   path_provider: ^2.0.15
   external_path: ^1.0.3
   permission_handler: ^9.2.0
@@ -33,8 +34,6 @@ dependencies:
   video_player: ^2.6.1
   video_thumbnail: ^0.5.3
   geolocator: ^9.0.2
-  # mapsforge_flutter: ^2.0.2
-  # flutter_map: ^2.2.0
   syncfusion_flutter_maps: ^23.1.36
   qr_code_scanner: ^1.0.1
   url_launcher: any

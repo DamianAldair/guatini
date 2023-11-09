@@ -286,7 +286,7 @@ class QrOffline extends QrResult {
             title: AppLocalizations.of(context).conservationStatus,
             instance: ConservationStatusModel(
               id: conservationStatus,
-              status: conservationStatus,
+              status: null,
             ),
           ),
         ),

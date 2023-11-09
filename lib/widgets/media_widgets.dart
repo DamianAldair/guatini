@@ -26,26 +26,15 @@ class MainImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final prefs = UserPreferences();
-    final db = prefs.dbPath;
+    final db = prefs.dbPathNotifier.value!;
     final mainImage = species.mainImage
       ?..mediaType = const MediaTypeModel(
         id: null,
         type: MediaType.image,
       );
-    Image? image;
-    if (mainImage != null) {
-      final file = File(p.join(db, mainImage.path));
-      if (file.existsSync()) {
-        image = Image.file(
-          file,
-          fit: BoxFit.cover,
-        );
-      }
-    }
-    image ??= Image.asset(
-      'assets/images/image_not_available.png',
-      fit: BoxFit.cover,
-    );
+    if (mainImage == null) return const SizedBox.shrink();
+    final file = File(p.join(db, mainImage.path).replaceAll('\\', '/'));
+    if (!file.existsSync()) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: GestureDetector(
@@ -53,7 +42,10 @@ class MainImage extends StatelessWidget {
           tag: species.id.toString(),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15.0),
-            child: image,
+            child: Image.file(
+              file,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         onTap: () {
@@ -62,10 +54,11 @@ class MainImage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (_) => ImageViewer(
-                        media,
-                        speciesId: species.id.toString(),
-                      )),
+                builder: (_) => ImageViewer(
+                  media,
+                  speciesId: species.id.toString(),
+                ),
+              ),
             );
           }
         },
@@ -88,7 +81,7 @@ class Gallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (medias == null) return Container();
+    if (medias == null) return const SizedBox.shrink();
     List<MediaModel> gallery = [];
     for (MediaModel m in medias!) {
       if (m.mediaType.type != MediaType.audio) {
@@ -99,7 +92,7 @@ class Gallery extends StatelessWidget {
         }
       }
     }
-    if (gallery.isEmpty) return Container();
+    if (gallery.isEmpty) return const SizedBox.shrink();
     return Column(
       children: [
         Padding(
@@ -134,8 +127,8 @@ class Gallery extends StatelessWidget {
                   ),
                   onTap: () {
                     final path = p.join(
-                      UserPreferences().dbPath,
-                      gallery[i].path,
+                      UserPreferences().dbPathNotifier.value!,
+                      gallery[i].path?.replaceAll('\\', '/'),
                     );
                     final file = File(path);
                     if (file.existsSync()) {
@@ -154,15 +147,13 @@ class Gallery extends StatelessWidget {
                         galleryStreamController.add(true);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (_) => VideoViewer(gallery[i])),
+                          MaterialPageRoute(builder: (_) => VideoViewer(gallery[i])),
                         );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
-                              AppLocalizations.of(context).errorObtainingInfo),
+                          content: Text(AppLocalizations.of(context).errorObtainingInfo),
                         ),
                       );
                     }
@@ -183,7 +174,7 @@ class Thumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final path = p.join(UserPreferences().dbPath, media.path);
+    final path = p.join(UserPreferences().dbPathNotifier.value!, media.path).replaceAll('\\', '/');
     final file = File(path);
     if (media.mediaType.type == MediaType.image) {
       if (file.existsSync()) {
@@ -263,8 +254,7 @@ class ImageViewer extends StatefulWidget {
   State<ImageViewer> createState() => _ImageViewerState();
 }
 
-class _ImageViewerState extends State<ImageViewer>
-    with SingleTickerProviderStateMixin {
+class _ImageViewerState extends State<ImageViewer> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   bool showAppBar = true;
 
@@ -285,7 +275,7 @@ class _ImageViewerState extends State<ImageViewer>
 
   @override
   Widget build(BuildContext context) {
-    final path = p.join(UserPreferences().dbPath, widget.media.path);
+    final path = p.join(UserPreferences().dbPathNotifier.value!, widget.media.path);
     final imageProvider = FileImage(File(path));
     final paddingTop = MediaQuery.of(context).padding.top;
     return Scaffold(
@@ -293,8 +283,7 @@ class _ImageViewerState extends State<ImageViewer>
         children: [
           GestureDetector(
             child: PhotoView(
-              heroAttributes:
-                  PhotoViewHeroAttributes(tag: widget.speciesId.toString()),
+              heroAttributes: PhotoViewHeroAttributes(tag: widget.speciesId.toString()),
               imageProvider: imageProvider,
               minScale: PhotoViewComputedScale.contained,
               maxScale: 10.0,
@@ -324,8 +313,7 @@ class _ImageViewerState extends State<ImageViewer>
                             IconButton(
                               icon: const Icon(Icons.arrow_back),
                               color: Colors.white,
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 33.0),
+                              padding: const EdgeInsets.only(left: 15.0, right: 33.0),
                               tooltip: AppLocalizations.of(context).back,
                               onPressed: () => Navigator.pop(context),
                             ),
@@ -380,8 +368,7 @@ class GalleryViewer extends StatefulWidget {
   State<GalleryViewer> createState() => _GalleryViewerState();
 }
 
-class _GalleryViewerState extends State<GalleryViewer>
-    with SingleTickerProviderStateMixin {
+class _GalleryViewerState extends State<GalleryViewer> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   List<MediaModel> list = [];
   late PageController pageController;
@@ -430,7 +417,7 @@ class _GalleryViewerState extends State<GalleryViewer>
               pageController: pageController,
               builder: (_, int i) {
                 final media = list[i];
-                final path = p.join(UserPreferences().dbPath, media.path);
+                final path = p.join(UserPreferences().dbPathNotifier.value!, media.path).replaceAll('\\', '/');
                 final imageProvider = FileImage(File(path));
                 return PhotoViewGalleryPageOptions(
                   heroAttributes: PhotoViewHeroAttributes(tag: media.id!),
@@ -464,8 +451,7 @@ class _GalleryViewerState extends State<GalleryViewer>
                           IconButton(
                             icon: const Icon(Icons.arrow_back),
                             color: Colors.white,
-                            padding:
-                                const EdgeInsets.only(left: 15.0, right: 33.0),
+                            padding: const EdgeInsets.only(left: 15.0, right: 33.0),
                             tooltip: AppLocalizations.of(context).back,
                             onPressed: () => Navigator.pop(context),
                           ),
@@ -487,10 +473,11 @@ class _GalleryViewerState extends State<GalleryViewer>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => MediaInfoPage(
-                                          media,
-                                          heroTag: media.id.toString(),
-                                        )),
+                                  builder: (_) => MediaInfoPage(
+                                    media,
+                                    heroTag: media.id.toString(),
+                                  ),
+                                ),
                               );
                             },
                           ),
@@ -546,43 +533,48 @@ class AudioCard extends StatelessWidget {
                 final title = list.length == 1
                     ? AppLocalizations.of(context).sound
                     : '${AppLocalizations.of(context).sound} ${i + 1}';
-                return GestureDetector(
-                  child: Container(
-                    margin: const EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Icon(
-                            Icons.audiotrack_rounded,
-                            size: 35.0,
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(5.0),
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isDismissible: false,
+                        showDragHandle: true,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20.0),
                           ),
                         ),
-                        Text(title),
-                      ],
+                        builder: (_) => AudioViewer(
+                          list[i],
+                          title: title,
+                        ),
+                      );
+                    },
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            child: Icon(
+                              Icons.audiotrack_rounded,
+                              size: 35.0,
+                            ),
+                          ),
+                          Text(title),
+                        ],
+                      ),
                     ),
                   ),
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isDismissible: false,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(20.0),
-                        ),
-                      ),
-                      builder: (_) => AudioViewer(
-                        list[i],
-                        title: title,
-                      ),
-                    );
-                  },
                 );
               },
             ),
@@ -607,6 +599,7 @@ class AudioViewer extends StatefulWidget {
 }
 
 class _AudioViewerState extends State<AudioViewer> {
+  final prefs = UserPreferences();
   late AudioPlayer player;
   bool playable = false;
   bool isPlaying = false;
@@ -623,15 +616,31 @@ class _AudioViewerState extends State<AudioViewer> {
           setState(() => duration = d ?? Duration.zero);
         });
       });
-      player.onPositionChanged.listen((p) => setState(() => position = p));
-      player.onDurationChanged.listen((d) => setState(() => duration = d));
+      player.onPositionChanged.listen((p) {
+        if (mounted) {
+          setState(() => position = p);
+        }
+      });
+      player.onDurationChanged.listen((d) {
+        if (mounted) {
+          setState(() => duration = d);
+        }
+      });
       player.onPlayerComplete.listen((_) {
-        setState(() {
-          isPlaying = false;
-          position = Duration.zero;
-        });
+        if (mounted) {
+          setState(() {
+            isPlaying = false;
+            position = Duration.zero;
+          });
+        }
       });
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (prefs.autoplayAudio) {
+        setState(() => isPlaying = true);
+        player.resume();
+      }
+    });
     super.initState();
   }
 
@@ -643,38 +652,20 @@ class _AudioViewerState extends State<AudioViewer> {
     super.dispose();
   }
 
-  String get _audioPath {
-    final prefs = UserPreferences();
-    return p.join(prefs.dbPath, widget.media.path);
-  }
+  String get _audioPath => p.join(prefs.dbPathNotifier.value!, widget.media.path).replaceAll('\\', '/');
 
   @override
   Widget build(BuildContext context) {
-    final dragger = Container(
-      margin: const EdgeInsets.only(top: 20.0),
-      height: 8.0,
-      width: 50.0,
-      decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(100.0),
-      ),
-    );
     if (!playable) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          dragger,
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 50.0,
-              horizontal: 10.0,
-            ),
-            child: Text(
-              AppLocalizations.of(context).errorObtainingInfo,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
+      return Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 50.0,
+          horizontal: 10.0,
+        ),
+        child: Text(
+          AppLocalizations.of(context).errorObtainingInfo,
+          textAlign: TextAlign.center,
+        ),
       );
     }
     final bgColor = Theme.of(context).scaffoldBackgroundColor;
@@ -683,11 +674,10 @@ class _AudioViewerState extends State<AudioViewer> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        dragger,
         if (widget.showInfo)
           Row(
             children: [
-              const Expanded(child: SizedBox.shrink()),
+              const Spacer(),
               IconButton(
                 icon: const Icon(Icons.info_outlined),
                 tooltip: AppLocalizations.of(context).info,
@@ -768,9 +758,7 @@ class _AudioViewerState extends State<AudioViewer> {
                   isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
                 ),
                 color: bgColor,
-                tooltip: isPlaying
-                    ? AppLocalizations.of(context).pause
-                    : AppLocalizations.of(context).play,
+                tooltip: isPlaying ? AppLocalizations.of(context).pause : AppLocalizations.of(context).play,
                 onPressed: () {
                   if (isPlaying) {
                     setState(() => isPlaying = false);
@@ -817,8 +805,8 @@ class VideoViewer extends StatefulWidget {
   State<VideoViewer> createState() => _VideoViewerState();
 }
 
-class _VideoViewerState extends State<VideoViewer>
-    with SingleTickerProviderStateMixin {
+class _VideoViewerState extends State<VideoViewer> with SingleTickerProviderStateMixin {
+  final prefs = UserPreferences();
   late AnimationController controller;
   late VideoPlayerController video;
   bool showAppBar = true;
@@ -829,11 +817,21 @@ class _VideoViewerState extends State<VideoViewer>
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    final path = p.join(UserPreferences().dbPath, widget.media.path);
+    final path = p.join(prefs.dbPathNotifier.value!, widget.media.path).replaceAll('\\', '/');
     video = VideoPlayerController.file(File(path));
-    video.addListener(() => setState(() {}));
+    video.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
     video.initialize().then((value) => setState(() {}));
     video.setLooping(false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (prefs.autoplayVideo) {
+        video.play();
+        setState(() {});
+      }
+    });
     super.initState();
   }
 
@@ -905,8 +903,7 @@ class _VideoViewerState extends State<VideoViewer>
                                   IconButton(
                                     icon: const Icon(Icons.arrow_back),
                                     color: Colors.white,
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 33.0),
+                                    padding: const EdgeInsets.only(left: 15.0, right: 33.0),
                                     tooltip: AppLocalizations.of(context).back,
                                     onPressed: () => Navigator.pop(context),
                                   ),
@@ -923,8 +920,7 @@ class _VideoViewerState extends State<VideoViewer>
                                     IconButton(
                                       icon: const Icon(Icons.info_outlined),
                                       color: Colors.white,
-                                      tooltip:
-                                          AppLocalizations.of(context).info,
+                                      tooltip: AppLocalizations.of(context).info,
                                       onPressed: () async {
                                         if (video.value.isPlaying) {
                                           await video.pause();
@@ -935,8 +931,7 @@ class _VideoViewerState extends State<VideoViewer>
                                           MaterialPageRoute(
                                             builder: (_) => MediaInfoPage(
                                               widget.media,
-                                              heroTag:
-                                                  widget.media.id.toString(),
+                                              heroTag: widget.media.id.toString(),
                                             ),
                                           ),
                                         );
@@ -955,37 +950,26 @@ class _VideoViewerState extends State<VideoViewer>
                                       Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: Text(
-                                          video.value.position
-                                              .toString()
-                                              .split('.')[0],
-                                          style: const TextStyle(
-                                              color: Colors.white),
+                                          video.value.position.toString().split('.')[0],
+                                          style: const TextStyle(color: Colors.white),
                                         ),
                                       ),
                                       Expanded(
                                         child: Slider(
                                           activeColor: Colors.white,
                                           inactiveColor: Colors.grey,
-                                          max: video
-                                              .value.duration.inMilliseconds
-                                              .toDouble(),
-                                          value: video
-                                              .value.position.inMilliseconds
-                                              .toDouble(),
+                                          max: video.value.duration.inMilliseconds.toDouble(),
+                                          value: video.value.position.inMilliseconds.toDouble(),
                                           onChanged: (value) {
-                                            video.seekTo(Duration(
-                                                milliseconds: value.toInt()));
+                                            video.seekTo(Duration(milliseconds: value.toInt()));
                                           },
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: Text(
-                                          video.value.duration
-                                              .toString()
-                                              .split('.')[0],
-                                          style: const TextStyle(
-                                              color: Colors.white),
+                                          video.value.duration.toString().split('.')[0],
+                                          style: const TextStyle(color: Colors.white),
                                         ),
                                       ),
                                     ],
@@ -994,15 +978,12 @@ class _VideoViewerState extends State<VideoViewer>
                                     children: [
                                       const Expanded(child: SizedBox()),
                                       IconButton(
-                                        icon: const Icon(
-                                            Icons.skip_previous_rounded),
+                                        icon: const Icon(Icons.skip_previous_rounded),
                                         color: Colors.white,
-                                        tooltip:
-                                            AppLocalizations.of(context).replay,
+                                        tooltip: AppLocalizations.of(context).replay,
                                         onPressed: () {
                                           setState(() {
-                                            video.seekTo(
-                                                const Duration(seconds: 0));
+                                            video.seekTo(const Duration(seconds: 0));
                                             if (!video.value.isPlaying) {
                                               video.play();
                                             }
@@ -1013,26 +994,20 @@ class _VideoViewerState extends State<VideoViewer>
                                       Container(
                                         decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(100.0),
+                                          borderRadius: BorderRadius.circular(100.0),
                                         ),
                                         height: 50.0,
                                         width: 50.0,
                                         child: IconButton(
-                                          icon: Icon(video.value.isPlaying
-                                              ? Icons.pause_rounded
-                                              : Icons.play_arrow_rounded),
+                                          icon: Icon(
+                                              video.value.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded),
                                           color: Colors.black,
                                           tooltip: video.value.isPlaying
-                                              ? AppLocalizations.of(context)
-                                                  .pause
-                                              : AppLocalizations.of(context)
-                                                  .play,
+                                              ? AppLocalizations.of(context).pause
+                                              : AppLocalizations.of(context).play,
                                           onPressed: () {
                                             setState(() {
-                                              video.value.isPlaying
-                                                  ? video.pause()
-                                                  : video.play();
+                                              video.value.isPlaying ? video.pause() : video.play();
                                             });
                                           },
                                         ),
@@ -1041,12 +1016,10 @@ class _VideoViewerState extends State<VideoViewer>
                                       IconButton(
                                         icon: const Icon(Icons.stop_rounded),
                                         color: Colors.white,
-                                        tooltip:
-                                            AppLocalizations.of(context).stop,
+                                        tooltip: AppLocalizations.of(context).stop,
                                         onPressed: () {
                                           setState(() {
-                                            video.seekTo(
-                                                const Duration(seconds: 0));
+                                            video.seekTo(const Duration(seconds: 0));
                                             if (video.value.isPlaying) {
                                               video.pause();
                                             }

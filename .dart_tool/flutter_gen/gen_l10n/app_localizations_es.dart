@@ -19,6 +19,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addDatabase => 'Añadir base de datos desde el almacenamiento';
 
   @override
+  String get addOneDatabase => 'Añada una';
+
+  @override
   String get added => 'Añadida';
 
   @override
@@ -37,6 +40,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get author => 'Autor';
 
   @override
+  String get autoplayAudio => 'Reproducir audio automáticamente';
+
+  @override
+  String get autoplayAudioInfo => 'Comenzar reproducción de audio automáticamente al abrir el reproductor';
+
+  @override
+  String get autoplayVideo => 'Reproducir video automáticamente';
+
+  @override
+  String get autoplayVideoInfo => 'Comenzar reproducción de video automáticamente al abrir el reproductor';
+
+  @override
   String get back => 'Volver';
 
   @override
@@ -49,6 +64,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get clear => 'Borrar todo';
 
   @override
+  String get closeExplorer => 'Cerrar explorador';
+
+  @override
   String get college => 'Facultad de Ingeniería informática';
 
   @override
@@ -56,6 +74,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get criticalEndangered => 'En peligro crítico';
+
+  @override
+  String get copy => 'Copiar';
 
   @override
   String get correct => 'Correcto';
@@ -236,6 +257,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get leastConcern => 'Preocupación menor';
 
   @override
+  String get levelUp => 'Carpeta anterior';
+
+  @override
   String get license => 'Licencia';
 
   @override
@@ -263,6 +287,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noCameraPermission => 'Guatiní no tiene permiso para acceder a la cámara';
 
   @override
+  String get noFolders => 'No hay directorios';
+
+  @override
   String noInDb(String info) {
     return 'La información \"$info\" no está en la base de datos';
   }
@@ -272,6 +299,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noLocationPermission => 'Guatiní no tiene permiso para utilizar la ubicación';
+
+  @override
+  String get noSelectedDatabase => 'No hay una base de datos seleccionada';
 
   @override
   String get noStoragePermission => 'Guatiní no tiene permiso para acceder al almacenamiento';
@@ -419,6 +449,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get wikiSearch => 'Buscar en Wikipedia';
+
+  @override
+  String get withDimorphism => 'Pueden existir diferencias apreciables entre la hembra y el macho de esta especie';
+
+  @override
+  String get withoutDimorphism => 'No hay diferencias apreciables entre la hembra y el macho de esta especie';
 
   @override
   String get yes => 'Sí';

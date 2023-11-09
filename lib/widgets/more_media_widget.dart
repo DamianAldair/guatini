@@ -47,12 +47,10 @@ class MoreMedia extends StatelessWidget {
             return GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
               itemCount: medias!.length,
               itemBuilder: (_, int i) {
-                final file =
-                    File(p.join(UserPreferences().dbPath, medias[i].path));
+                final file = File(p.join(UserPreferences().dbPathNotifier.value!, medias[i].path));
                 if (!file.existsSync()) {
                   return Image.asset(
                     'assets/images/image_not_available.png',

@@ -117,6 +117,12 @@ abstract class AppLocalizations {
   /// **'Add database from storage'**
   String get addDatabase;
 
+  /// No description provided for @addOneDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Add one'**
+  String get addOneDatabase;
+
   /// No description provided for @added.
   ///
   /// In en, this message translates to:
@@ -153,6 +159,30 @@ abstract class AppLocalizations {
   /// **'Author'**
   String get author;
 
+  /// No description provided for @autoplayAudio.
+  ///
+  /// In en, this message translates to:
+  /// **'Play audio automatically'**
+  String get autoplayAudio;
+
+  /// No description provided for @autoplayAudioInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Play audio automatically when open the player'**
+  String get autoplayAudioInfo;
+
+  /// No description provided for @autoplayVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Play video automatically'**
+  String get autoplayVideo;
+
+  /// No description provided for @autoplayVideoInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Play video automatically when open the player'**
+  String get autoplayVideoInfo;
+
   /// No description provided for @back.
   ///
   /// In en, this message translates to:
@@ -177,6 +207,12 @@ abstract class AppLocalizations {
   /// **'Clear'**
   String get clear;
 
+  /// No description provided for @closeExplorer.
+  ///
+  /// In en, this message translates to:
+  /// **'Close explorer'**
+  String get closeExplorer;
+
   /// No description provided for @college.
   ///
   /// In en, this message translates to:
@@ -194,6 +230,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Critical endangered'**
   String get criticalEndangered;
+
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
 
   /// No description provided for @correct.
   ///
@@ -537,6 +579,12 @@ abstract class AppLocalizations {
   /// **'Least concern'**
   String get leastConcern;
 
+  /// No description provided for @levelUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Level up'**
+  String get levelUp;
+
   /// No description provided for @license.
   ///
   /// In en, this message translates to:
@@ -591,6 +639,12 @@ abstract class AppLocalizations {
   /// **'Guatiní has not permission to access to camera'**
   String get noCameraPermission;
 
+  /// No description provided for @noFolders.
+  ///
+  /// In en, this message translates to:
+  /// **'No folders'**
+  String get noFolders;
+
   /// It is not in the database
   ///
   /// In en, this message translates to:
@@ -608,6 +662,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Guatiní has not permission to access to location'**
   String get noLocationPermission;
+
+  /// No description provided for @noSelectedDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'There is not a selected database'**
+  String get noSelectedDatabase;
 
   /// No description provided for @noStoragePermission.
   ///
@@ -902,6 +962,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search on Wikipedia'**
   String get wikiSearch;
+
+  /// No description provided for @withDimorphism.
+  ///
+  /// In en, this message translates to:
+  /// **'There may be appreciable differences between the female and the male of this species'**
+  String get withDimorphism;
+
+  /// No description provided for @withoutDimorphism.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no appreciable differences between the female and the male of this species'**
+  String get withoutDimorphism;
 
   /// No description provided for @yes.
   ///

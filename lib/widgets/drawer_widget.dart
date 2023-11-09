@@ -46,10 +46,7 @@ class MyDrawer extends StatelessWidget {
     for (_Route pageRoute in _drawerPagesRoutes(context)) {
       list.add(
         ListTile(
-          leading: Icon(
-            pageRoute.icon,
-            // color:  AdaptiveTheme.of(context).theme Theme.of(context).primaryColor,
-          ),
+          leading: Icon(pageRoute.icon),
           title: Text(pageRoute.title),
           onTap: () {
             Navigator.pop(context);

@@ -48,98 +48,113 @@ class InfoCard<T> extends StatelessWidget {
       text = instance.toString();
     }
 
-    return GestureDetector(
-      onTap: instances == null
-          ? () => viewDescription(context, title, instance)
-          : () {
-              if (instances!.length == 1) {
-                viewDescription(context, title, instances!.first);
-              } else {
-                showDialog(
-                  context: context,
-                  barrierColor: Colors.black.withOpacity(0.7),
-                  builder: (_) {
-                    return Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text(
-                              '${AppLocalizations.of(context).chooseOne}:',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15.0,
+        vertical: 7.0,
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: instances == null
+            ? () => viewDescription(context, title, instance)
+            : () {
+                if (instances!.length == 1) {
+                  viewDescription(context, title, instances!.first);
+                } else {
+                  showDialog(
+                    context: context,
+                    barrierColor: Colors.black.withOpacity(0.7),
+                    builder: (_) {
+                      return Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                                '${AppLocalizations.of(context).chooseOne}:',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                          for (T i in instances!)
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                                viewDescription(context, title, i);
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(15.0),
-                                margin: const EdgeInsets.symmetric(
+                            for (T i in instances!)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
                                   horizontal: 25.0,
                                   vertical: 5.0,
                                 ),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: AdaptiveTheme.of(context).mode.isDark
-                                      ? const Color.fromARGB(255, 50, 50, 50)
-                                      : const Color.fromARGB(
-                                          255, 220, 220, 220),
-                                  borderRadius: BorderRadius.circular(15.0),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      viewDescription(context, title, i);
+                                    },
+                                    child: Ink(
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: AdaptiveTheme.of(context).mode.isDark
+                                            ? const Color.fromARGB(255, 50, 50, 50)
+                                            : const Color.fromARGB(255, 220, 220, 220),
+                                        borderRadius: BorderRadius.circular(15.0),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            i.toString(),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                alignment: Alignment.center,
-                                child: Text(i.toString()),
                               ),
-                            ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              }
-            },
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 15.0,
-          vertical: 7.0,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.black12,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        width: double.infinity,
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(10.0),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+        child: Ink(
+          decoration: BoxDecoration(
+            color: Colors.black12,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          width: double.infinity,
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(title),
                   ),
-                  alignment: Alignment.center,
-                  child: Text(title),
                 ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  alignment: Alignment.center,
-                  child: Text(text, textAlign: TextAlign.center),
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    padding: const EdgeInsets.all(10.0),
+                    alignment: Alignment.center,
+                    child: Text(text, textAlign: TextAlign.center),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -173,45 +188,67 @@ class ConservationStateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = AppLocalizations.of(context).conservationStatus;
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => CharacteristicPage(
-              title: title,
-              instance: status,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15.0,
+        vertical: 7.0,
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => CharacteristicPage(
+                title: title,
+                instance: status,
+              ),
             ),
+          );
+        },
+        child: Ink(
+          width: double.infinity,
+          // alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.black12,
+            borderRadius: BorderRadius.circular(10.0),
           ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 15.0,
-          vertical: 7.0,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(title),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: status!.getConservationIcon(context),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(status!.status!),
+              ),
+            ],
+          ),
         ),
-        width: double.infinity,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: Colors.black12,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(title),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: status!.getConservationIcon(context),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(status!.getConservationText(context)),
-            ),
-          ],
-        ),
+      ),
+    );
+  }
+}
+
+class Dimorphism extends StatelessWidget {
+  final bool? present;
+
+  const Dimorphism(this.present, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (present == null) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Text(
+        present! ? AppLocalizations.of(context).withDimorphism : AppLocalizations.of(context).withoutDimorphism,
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
     );
   }
@@ -240,7 +277,11 @@ class Description extends StatelessWidget {
           ),
           Selectable(
             popupMenuItems: [
-              SelectableMenuItem(type: SelectableMenuItemType.copy),
+              SelectableMenuItem(
+                icon: Icons.copy_rounded,
+                title: AppLocalizations.of(context).copy,
+                type: SelectableMenuItemType.copy,
+              ),
             ],
             child: Text(
               description,

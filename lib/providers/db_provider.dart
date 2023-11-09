@@ -6,7 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 class DbProvider {
-  static final String relativeDbPath = p.join('db', 'db_guatini.db');
+  static final String relativeDbPath = p.join('guatini.db');
 
   static final DbProvider _instance = DbProvider._();
   DbProvider._();
@@ -30,7 +30,7 @@ class DbProvider {
 
   static void close() {
     final prefs = UserPreferences();
-    prefs.dbPath = '';
+    prefs.dbPath = null;
     _db = null;
   }
 
@@ -38,7 +38,8 @@ class DbProvider {
 
   static Future<Database?> initialize() async {
     final prefs = UserPreferences();
-    final path = prefs.dbPath;
+    final path = prefs.dbPathNotifier.value;
+    if (path == null) return null;
     final db = p.join(path, DbProvider.relativeDbPath);
     if (!File(db).existsSync()) return null;
     try {
@@ -48,8 +49,6 @@ class DbProvider {
         onCreate: (_, __) async {},
       );
     } catch (_) {
-      //TODO: Arreglar error de que la base de datos no se abre en android 11.
-      // Se podra copiar el archivo en la carpeta de la app (en el sistema) y acceder desde ahí ?????
       return null;
     }
     return _db;

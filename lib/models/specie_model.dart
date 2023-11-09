@@ -40,6 +40,7 @@ class SpeciesModel {
   final List<ActivityModel>? activities;
   final List<HabitatModel>? habitats;
   final List<DietModel>? diets;
+  final bool? dimorphism;
   final String? description;
   final List<MediaModel>? medias;
 
@@ -63,6 +64,7 @@ class SpeciesModel {
     this.activities,
     this.habitats,
     this.diets,
+    this.dimorphism,
     this.description,
     this.medias,
   });
@@ -104,6 +106,11 @@ class SpeciesModel {
         activities: activities,
         habitats: habitats,
         diets: diets,
+        dimorphism: json["dimorphism"].runtimeType == bool
+            ? json["dimorphism"]
+            : json["dimorphism"].runtimeType == int
+                ? json["dimorphism"] == 1
+                : false,
         description: json["description"],
         medias: medias,
       );
@@ -126,15 +133,16 @@ class SpeciesModel {
   }
 
   Image get image {
-    assert(imagePath != null);
+    final placeholder = Image.asset(
+      'assets/images/image_not_available.png',
+      fit: BoxFit.cover,
+    );
+    if (imagePath == null) return placeholder;
     final prefs = UserPreferences();
-    final db = prefs.dbPath;
-    final file = File(p.join(db, imagePath));
-    return file.existsSync()
-        ? Image.file(file, fit: BoxFit.cover)
-        : Image.asset(
-            'assets/images/image_not_available.png',
-            fit: BoxFit.cover,
-          );
+    final db = prefs.dbPathNotifier.value;
+    if (db == null) return placeholder;
+    final file = File(p.join(db, imagePath).replaceAll('\\', '/'));
+    if (!file.existsSync()) return placeholder;
+    return Image.file(file, fit: BoxFit.cover);
   }
 }

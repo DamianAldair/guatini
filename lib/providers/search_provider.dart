@@ -184,10 +184,10 @@ abstract class SearchProvider {
   static Future<ConservationStatusModel?> _getConservationStatus(Database db, int? speciesId) async {
     final query = '''
         select
-        [main].[coservation_status].[id],
-        [main].[coservation_status].[status]
-        from [main].[specie]
-        inner join [main].[coservation_status] on [main].[coservation_status].[id] = [main].[specie].[fk_coservation_status_]
+        [main].[conservation_status].[id], 
+        [main].[conservation_status].[status]
+        from   [main].[specie]
+        inner join [main].[conservation_status] on [main].[conservation_status].[id] = [main].[specie].[fk_coservation_status_]
         where [main].[specie].[id] = $speciesId;
     ''';
     final result = speciesId != null ? await db.rawQuery(query) : [];
@@ -321,6 +321,7 @@ abstract class SearchProvider {
           select
           [main].[specie].[id],
           [main].[specie].[scientific_name],
+          [main].[specie].[dimorphism],
           [main].[specie].[description]
           from [main].[specie]
           where [main].[specie].[id] = $speciesId;
@@ -398,15 +399,16 @@ abstract class SearchProvider {
       final query = '''
           select * from (
             select * from (
-              select
-              [main].[specie].[id],
-              [main].[common_name].[name],
-              [main].[specie].[scientific_name],
+              select distinct
+              [main].[specie].[id], 
+              [main].[common_name].[name], 
+              [main].[specie].[scientific_name], 
               [main].[media].[path]
               from [main].[specie]
               inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
               inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-              inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
+              inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
+              where [main].[type].[type] = 'Imagen'
               order by random()
             )
             group by id
@@ -504,24 +506,27 @@ abstract class SearchProvider {
           break;
       }
       final query = '''
-        select 
-          [main].[specie].[id], 
-          [main].[common_name].[name], 
-          [main].[specie].[scientific_name], 
-          [main].[media].[path]
-        from [main].[specie]
-          inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-          inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
-          inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-          inner join [main].[t_genus] on [main].[t_genus].[id] = [main].[specie].[fk_t_genus_]
-          inner join [main].[t_family] on [main].[t_family].[id] = [main].[t_genus].[fk_t_family_]
-          inner join [main].[t_order] on [main].[t_order].[id] = [main].[t_family].[fk_t_order_]
-          inner join [main].[t_class] on [main].[t_class].[id] = [main].[t_order].[fk_t_class_]
-          inner join [main].[t_phylum] on [main].[t_phylum].[id] = [main].[t_class].[fk_t_phylum_]
-          inner join [main].[t_kindom] on [main].[t_kindom].[id] = [main].[t_phylum].[fk_t_kindom_]
-          inner join [main].[t_domain] on [main].[t_domain].[id] = [main].[t_kindom].[fk_t_domain_]
-        where [main].[$sqlTable].[id] = ${taxonomyModel.id}
-        order by [main].[specie].[scientific_name];
+        select * from (
+          select 
+            [main].[specie].[id], 
+            [main].[common_name].[name], 
+            [main].[specie].[scientific_name], 
+            [main].[media].[path],
+            [main].[$sqlTable].[id] as sqlTable
+          from [main].[specie]
+            inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+            inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+            inner join [main].[t_genus] on [main].[t_genus].[id] = [main].[specie].[fk_t_genus_]
+            inner join [main].[t_family] on [main].[t_family].[id] = [main].[t_genus].[fk_t_family_]
+            inner join [main].[t_order] on [main].[t_order].[id] = [main].[t_family].[fk_t_order_]
+            inner join [main].[t_class] on [main].[t_class].[id] = [main].[t_order].[fk_t_class_]
+            inner join [main].[t_phylum] on [main].[t_phylum].[id] = [main].[t_class].[fk_t_phylum_]
+            inner join [main].[t_kindom] on [main].[t_kindom].[id] = [main].[t_phylum].[fk_t_kindom_]
+            inner join [main].[t_domain] on [main].[t_domain].[id] = [main].[t_kindom].[fk_t_domain_]
+          where [main].[media].[fk_type_] = 1
+          group by [main].[specie].[scientific_name]
+          order by [main].[common_name].[name]
+      ) where sqlTable = ${taxonomyModel.id};
       ''';
       final result = await db.rawQuery(query);
       final results = <SpeciesModel>[];
@@ -558,12 +563,14 @@ abstract class SearchProvider {
             [main].[specie].[id], 
             [main].[common_name].[name], 
             [main].[specie].[scientific_name], 
-            [main].[media].[path]
+            [main].[media].[path],
+            [main].[media].[fk_type_] as type
           from [main].[specie]
             inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-            inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
             inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-          where [main].[specie].[$prop] = ${model.id};
+          where [main].[specie].[$prop] = ${model.id}
+          group by [main].[specie].[scientific_name]
+          order by [main].[common_name].[name];
         ''';
       } else {
         String join = '';
@@ -575,7 +582,7 @@ abstract class SearchProvider {
             where = '[main].[specie_activity].[fk_activity_]';
             break;
           case HabitatModel:
-            join = ' inner join [main].[specie_habitat] on [main].[specie].[id] = [main].[specie_habitat].[fk_specie_]';
+            join = 'inner join [main].[specie_habitat] on [main].[specie].[id] = [main].[specie_habitat].[fk_specie_]';
             where = '[main].[specie_habitat].[fk_habitat_]';
             break;
           case DietModel:
@@ -588,20 +595,23 @@ abstract class SearchProvider {
             [main].[specie].[id], 
             [main].[common_name].[name], 
             [main].[specie].[scientific_name], 
-            [main].[media].[path]
+            [main].[media].[path],
+            [main].[media].[fk_type_] as type
           from [main].[specie]
             inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-            inner join [main].[main_image] on [main].[media].[id] = [main].[main_image].[fk_media_]
             inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
             $join
           where $where = ${model.id}
+          group by [main].[specie].[scientific_name]
           order by [main].[specie].[scientific_name];
         ''';
       }
       final result = await db.rawQuery(query);
       final results = <SpeciesModel>[];
       for (var item in result) {
-        results.add(SpeciesModel.fromSimpleSearch(item));
+        if (item['type'] == 1) {
+          results.add(SpeciesModel.fromSimpleSearch(item));
+        }
       }
       return results;
     } catch (e) {

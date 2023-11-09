@@ -4,10 +4,13 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/pages/databases_page.dart';
 import 'package:guatini/pages/simple_search_page.dart';
 import 'package:guatini/pages/species_details_page.dart';
 import 'package:guatini/providers/db_provider.dart';
+import 'package:guatini/providers/permissions_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/widgets/dialogs.dart';
@@ -38,47 +41,78 @@ class _MainPageState extends State<MainPage> {
         appBar: AppBar(
           title: Text(AppLocalizations.of(context).home),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.search_rounded),
-              tooltip: AppLocalizations.of(context).search,
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: SimpleSearch(context),
+            ValueListenableBuilder(
+              valueListenable: UserPreferences().dbPathNotifier,
+              builder: (_, path, ___) {
+                if (path == null) return const SizedBox.shrink();
+                return IconButton(
+                  icon: const Icon(Icons.search_rounded),
+                  tooltip: AppLocalizations.of(context).search,
+                  onPressed: () {
+                    showSearch(
+                      context: context,
+                      delegate: SimpleSearch(context),
+                    );
+                  },
                 );
               },
             ),
           ],
         ),
         drawer: const MyDrawer(),
-        body: StreamBuilder(
-            stream: UserPreferences().dbPathStream,
-            builder: (_, __) {
+        body: ValueListenableBuilder(
+            valueListenable: UserPreferences().dbPathNotifier,
+            builder: (_, __, ___) {
+              final loading = Center(
+                child: Text(AppLocalizations.of(context).noDatabases),
+              );
+              final noDb = Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FaIcon(
+                      FontAwesomeIcons.database,
+                      color: Colors.grey.withOpacity(0.5),
+                      size: MediaQuery.of(context).size.width / 4,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        AppLocalizations.of(context).noSelectedDatabase,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    ElevatedButton(
+                      child: Text(AppLocalizations.of(context).findDatabase),
+                      onPressed: () {
+                        PermissionsHandler.requestStoragePermission(
+                          context,
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => const DatabasesPage()),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              );
               return FutureBuilder(
                 future: DbProvider.database,
                 builder: (_, AsyncSnapshot snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text(AppLocalizations.of(context).noDatabases),
-                    );
-                  }
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+                  if (snapshot.hasError) return noDb;
+                  if (!snapshot.hasData) return loading;
                   final db = snapshot.data as Database;
                   final max = UserPreferences().suggestions;
                   return FutureBuilder(
                     future: SearchProvider.homeSuggestion(db, max),
                     builder: (_, AsyncSnapshot<List<SpeciesModel>> snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                      if (!snapshot.hasData) return loading;
                       final list = snapshot.data!;
-                      if (list.isEmpty) {
-                        return Center(
-                          child: Text(AppLocalizations.of(context).noDatabases),
-                        );
-                      }
+                      if (list.isEmpty) return noDb;
                       return Swiper(
                         loop: false,
                         autoplay: true,
@@ -97,8 +131,7 @@ class _MainPageState extends State<MainPage> {
                           ),
                         ),
                         itemCount: list.length,
-                        itemBuilder: (_, int i) =>
-                            _suggestionCard(context, list[i]),
+                        itemBuilder: (_, int i) => _suggestionCard(context, list[i]),
                         onTap: (i) => Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -111,12 +144,18 @@ class _MainPageState extends State<MainPage> {
                 },
               );
             }),
-        floatingActionButton: FloatingActionButton(
-          tooltip: AppLocalizations.of(context).refresh,
-          child: const Icon(Icons.refresh_rounded),
-          onPressed: () {
-            setState(() {});
-            controller.move(0);
+        floatingActionButton: ValueListenableBuilder(
+          valueListenable: UserPreferences().dbPathNotifier,
+          builder: (_, String? path, ___) {
+            if (path == null) return const SizedBox.shrink();
+            return FloatingActionButton(
+              tooltip: AppLocalizations.of(context).refresh,
+              child: const Icon(Icons.refresh_rounded),
+              onPressed: () {
+                setState(() {});
+                controller.move(0);
+              },
+            );
           },
         ),
       ),
@@ -135,9 +174,7 @@ class _MainPageState extends State<MainPage> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius),
-        color: isDark
-            ? const Color.fromARGB(255, 50, 50, 50)
-            : const Color.fromARGB(255, 220, 220, 220),
+        color: isDark ? const Color.fromARGB(255, 50, 50, 50) : const Color.fromARGB(255, 220, 220, 220),
         boxShadow: const [
           BoxShadow(
             color: Color.fromARGB(65, 0, 0, 0),
@@ -165,9 +202,7 @@ class _MainPageState extends State<MainPage> {
                         BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                           child: Container(
-                            color: isDark
-                                ? const Color.fromARGB(150, 0, 0, 0)
-                                : const Color.fromARGB(150, 255, 255, 255),
+                            color: isDark ? Colors.black : const Color.fromARGB(150, 255, 255, 255),
                           ),
                         ),
                       ],
