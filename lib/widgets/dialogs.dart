@@ -42,6 +42,7 @@ AlertDialog deleteDatabaseDialog({
     title: Text(permanently
         ? AppLocalizations.of(context).deletePermanentlyText
         : AppLocalizations.of(context).deleteFromListText),
+    content: !permanently ? null : Text(AppLocalizations.of(context).deletePermanentlyTWarning),
     actions: [
       TextButton(
         child: Text(AppLocalizations.of(context).no),

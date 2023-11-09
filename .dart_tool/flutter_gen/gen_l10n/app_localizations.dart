@@ -333,6 +333,12 @@ abstract class AppLocalizations {
   /// **'Delete permanently?'**
   String get deletePermanentlyText;
 
+  /// No description provided for @deletePermanentlyTWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning: This action will also delete it from your device\'s storage.'**
+  String get deletePermanentlyTWarning;
+
   /// No description provided for @description.
   ///
   /// In en, this message translates to:

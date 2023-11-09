@@ -132,6 +132,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deletePermanentlyText => 'Delete permanently?';
 
   @override
+  String get deletePermanentlyTWarning => 'Warning: This action will also delete it from your device\'s storage.';
+
+  @override
   String get description => 'Description';
 
   @override

@@ -29,6 +29,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = UserPreferences();
     return WillPopScope(
       onWillPop: () async {
         showDialog(
@@ -42,7 +43,7 @@ class _MainPageState extends State<MainPage> {
           title: Text(AppLocalizations.of(context).home),
           actions: [
             ValueListenableBuilder(
-              valueListenable: UserPreferences().dbPathNotifier,
+              valueListenable: prefs.dbPathNotifier,
               builder: (_, path, ___) {
                 if (path == null) return const SizedBox.shrink();
                 return IconButton(
@@ -61,7 +62,7 @@ class _MainPageState extends State<MainPage> {
         ),
         drawer: const MyDrawer(),
         body: ValueListenableBuilder(
-            valueListenable: UserPreferences().dbPathNotifier,
+            valueListenable: prefs.dbPathNotifier,
             builder: (_, __, ___) {
               final loading = Center(
                 child: Text(AppLocalizations.of(context).noDatabases),
@@ -106,9 +107,8 @@ class _MainPageState extends State<MainPage> {
                   if (snapshot.hasError) return noDb;
                   if (!snapshot.hasData) return loading;
                   final db = snapshot.data as Database;
-                  final max = UserPreferences().suggestions;
                   return FutureBuilder(
-                    future: SearchProvider.homeSuggestion(db, max),
+                    future: SearchProvider.homeSuggestion(db, prefs.suggestions),
                     builder: (_, AsyncSnapshot<List<SpeciesModel>> snapshot) {
                       if (!snapshot.hasData) return loading;
                       final list = snapshot.data!;
@@ -145,7 +145,7 @@ class _MainPageState extends State<MainPage> {
               );
             }),
         floatingActionButton: ValueListenableBuilder(
-          valueListenable: UserPreferences().dbPathNotifier,
+          valueListenable: prefs.dbPathNotifier,
           builder: (_, String? path, ___) {
             if (path == null) return const SizedBox.shrink();
             return FloatingActionButton(

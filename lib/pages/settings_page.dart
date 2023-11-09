@@ -55,6 +55,27 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.home_rounded),
+            title: Text(AppLocalizations.of(context).numberSeggestions),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove_rounded),
+                  onPressed: () => setState(() => prefs.suggestions--),
+                ),
+                Text(
+                  prefs.suggestions.toString(),
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add_rounded),
+                  onPressed: () => setState(() => prefs.suggestions++),
+                ),
+              ],
+            ),
+          ),
+          ListTile(
             leading: const Icon(Icons.manage_search_outlined),
             title: Text(AppLocalizations.of(context).searchHistotySize),
             trailing: Row(

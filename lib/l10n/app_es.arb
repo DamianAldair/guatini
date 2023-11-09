@@ -28,7 +28,7 @@
     "customLocationMode": "Ubicación personalizada",
     "customLocationModeString": "Toque sobre el mapa para seleccionar una ubicación",
     "database": "Base de datos",
-    "databaseSelectedInfo": "El lenguae de la bases de datos no depende de la aplicación",
+    "databaseSelectedInfo": "El lenguaje de la bases de datos no depende de la aplicación",
     "date": "Fecha: {date}",
     "@date": {
         "description": "Fecha",
@@ -48,6 +48,7 @@
     "deleteListText": "¿Está seguro que desea borrar la lista?",
     "deletePermanently": "Borrar permanentemente",
     "deletePermanentlyText": "¿Borrar permanentemente?",
+    "deletePermanentlyTWarning": "Atención: Con esta acción también se borrará del almacenamiento de su dispositivo.",
     "description": "Descripción",
     "developedBy": "Desarrollado por",
     "diet": "Dieta",

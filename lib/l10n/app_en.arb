@@ -48,6 +48,7 @@
     "deleteListText": "Are you sure you want to delete the list?",
     "deletePermanently": "Delete permanently",
     "deletePermanentlyText": "Delete permanently?",
+    "deletePermanentlyTWarning": "Warning: This action will also delete it from your device's storage.",
     "description": "Description",
     "developedBy": "Developed by",
     "diet": "Diet",

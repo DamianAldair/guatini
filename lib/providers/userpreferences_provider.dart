@@ -50,6 +50,8 @@ class UserPreferences {
     if (!list.contains(path)) list.add(path);
     _prefs!.setStringList(_keyDatabases, list);
     databasesNotifier.value = list;
+    // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
+    databasesNotifier.notifyListeners();
   }
 
   void deleteDatabase(String path) {
@@ -105,7 +107,13 @@ class UserPreferences {
 
   int get suggestions => _prefs!.getInt(_keySeggestions) ?? defaultNumberOfSeggestions;
 
-  set suggestions(int number) => _prefs!.setInt(_keySeggestions, number);
+  set suggestions(int number) {
+    if (number < 3 || number > 10) return;
+    _prefs!.setInt(_keySeggestions, number).then((_) {
+      // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+      dbPathNotifier.notifyListeners();
+    });
+  }
 
   // If headset is connected or not
   final String _keyOnlyHeadset = 'onlyHeadset';

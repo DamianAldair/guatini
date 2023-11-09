@@ -94,7 +94,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get database => 'Base de datos';
 
   @override
-  String get databaseSelectedInfo => 'El lenguae de la bases de datos no depende de la aplicación';
+  String get databaseSelectedInfo => 'El lenguaje de la bases de datos no depende de la aplicación';
 
   @override
   String date(DateTime date) {
@@ -130,6 +130,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get deletePermanentlyText => '¿Borrar permanentemente?';
+
+  @override
+  String get deletePermanentlyTWarning => 'Atención: Con esta acción también se borrará del almacenamiento de su dispositivo.';
 
   @override
   String get description => 'Descripción';
