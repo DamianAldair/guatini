@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 AlertDialog infoDialog(BuildContext context, Widget content) {
@@ -27,7 +28,7 @@ AlertDialog exitDialog(BuildContext context) {
       ),
       TextButton(
         child: Text(AppLocalizations.of(context).yes),
-        onPressed: () => exit(0),
+        onPressed: () => SystemNavigator.pop(),
       ),
     ],
   );
