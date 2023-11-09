@@ -391,6 +391,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get searchHistotySize => 'Tamaño del historial de búsqueda';
 
   @override
+  String get searchOnEcured => 'Buscar en Ecured';
+
+  @override
+  String get searchOnWikipedia => 'Buscar en Wikipedia';
+
+  @override
   String get searchSpecies => 'Buscar especie';
 
   @override
@@ -401,6 +407,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settings => 'Configuración';
+
+  @override
+  String get showSearchOnEcured => 'Mostrar botón \"Buscar en Ecured\"';
+
+  @override
+  String get showSearchOnWikipedia => 'Mostrar botón \"Buscar en Wikipedia\"';
 
   @override
   String get skip => 'Omitir';
@@ -460,6 +472,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get unknownInfo => 'No se puede procesar si la información es desconocida';
 
   @override
+  String get useExternalBrowser => 'Utilizar navegador externo en vez del incorporado en la aplicación';
+
+  @override
   String get version => 'Versión';
 
   @override
@@ -467,9 +482,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get vulnerable => 'Vulnerable';
-
-  @override
-  String get wikiSearch => 'Buscar en Wikipedia';
 
   @override
   String get withDimorphism => 'Pueden existir diferencias apreciables entre la hembra y el macho de esta especie';

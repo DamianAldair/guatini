@@ -21,10 +21,21 @@ class _OnlineUsePageState extends State<OnlineUsePage> {
       body: ListView(
         children: [
           SwitchListTile(
-            title: Text(AppLocalizations.of(context).wikiSearch),
+            title: Text(AppLocalizations.of(context).showSearchOnWikipedia),
             value: prefs.wikipediaOnline,
             onChanged: (value) => setState(() => prefs.wikipediaOnline = value),
           ),
+          SwitchListTile(
+            title: Text(AppLocalizations.of(context).showSearchOnEcured),
+            value: prefs.ecuredOnline,
+            onChanged: (value) => setState(() => prefs.ecuredOnline = value),
+          ),
+          if (prefs.wikipediaOnline || prefs.ecuredOnline)
+            SwitchListTile(
+              title: Text(AppLocalizations.of(context).useExternalBrowser),
+              value: prefs.externalBrowser,
+              onChanged: (value) => setState(() => prefs.externalBrowser = value),
+            ),
           SwitchListTile(
             title: Text(AppLocalizations.of(context).onlineImage),
             value: prefs.imageOnline,

@@ -6,6 +6,7 @@ import 'package:guatini/pages/wiki_search_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:guatini/providers/wikipedia_provider.dart';
 import 'package:guatini/widgets/info_card_widget.dart';
 import 'package:guatini/widgets/media_widgets.dart';
 import 'package:sqflite/sqflite.dart';
@@ -111,18 +112,31 @@ class SpeciesDetailsPage extends StatelessWidget {
                             species.medias,
                             mainImageId: species.mainImage != null ? species.mainImage!.id : null,
                           ),
-                          if (prefs.wikipediaOnline) const SizedBox(height: 20.0),
+                          const SizedBox(height: 20.0),
                           if (prefs.wikipediaOnline)
-                            TextButton.icon(
-                              icon: const Icon(FontAwesomeIcons.wikipediaW),
-                              label: Text(AppLocalizations.of(context).wikiSearch),
+                            OutlinedButton(
+                              child: Text(AppLocalizations.of(context).searchOnWikipedia),
                               onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) => WikiSearchPage(
-                                          null,
-                                          species.scientificName,
-                                        )),
+                                  builder: (_) => MediawikiSearchPage(
+                                    source: MediawikiSearch.wikipedia,
+                                    query: species.scientificName,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (prefs.ecuredOnline)
+                            OutlinedButton(
+                              child: Text(AppLocalizations.of(context).searchOnEcured),
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => MediawikiSearchPage(
+                                    source: MediawikiSearch.ecured,
+                                    query: species.scientificName,
+                                  ),
+                                ),
                               ),
                             ),
                           const SizedBox(height: 20.0),

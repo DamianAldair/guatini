@@ -843,6 +843,18 @@ abstract class AppLocalizations {
   /// **'Search history size'**
   String get searchHistotySize;
 
+  /// No description provided for @searchOnEcured.
+  ///
+  /// In en, this message translates to:
+  /// **'Search on Ecured'**
+  String get searchOnEcured;
+
+  /// No description provided for @searchOnWikipedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Search on Wikipedia'**
+  String get searchOnWikipedia;
+
   /// No description provided for @searchSpecies.
   ///
   /// In en, this message translates to:
@@ -866,6 +878,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// No description provided for @showSearchOnEcured.
+  ///
+  /// In en, this message translates to:
+  /// **'Show \"Search on Ecured\"'**
+  String get showSearchOnEcured;
+
+  /// No description provided for @showSearchOnWikipedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Show \"Search on Wikipedia\"'**
+  String get showSearchOnWikipedia;
 
   /// No description provided for @skip.
   ///
@@ -981,6 +1005,12 @@ abstract class AppLocalizations {
   /// **'Cannot be processed if the information is unknown'**
   String get unknownInfo;
 
+  /// No description provided for @useExternalBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Use external browser instead in-app browser'**
+  String get useExternalBrowser;
+
   /// No description provided for @version.
   ///
   /// In en, this message translates to:
@@ -998,12 +1028,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Vulnerable'**
   String get vulnerable;
-
-  /// No description provided for @wikiSearch.
-  ///
-  /// In en, this message translates to:
-  /// **'Search on Wikipedia'**
-  String get wikiSearch;
 
   /// No description provided for @withDimorphism.
   ///

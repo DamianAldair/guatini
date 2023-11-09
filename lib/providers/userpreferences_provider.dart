@@ -145,6 +145,18 @@ class UserPreferences {
 
   set wikipediaOnline(bool online) => _prefs!.setBool(_keyWikipediaOnline, online);
 
+  final String _keyEcuredOnline = 'ecuredOnline';
+
+  bool get ecuredOnline => _prefs!.getBool(_keyEcuredOnline) ?? true;
+
+  set ecuredOnline(bool online) => _prefs!.setBool(_keyEcuredOnline, online);
+
+  final String _keyExternalBrowser = 'externalBrowser';
+
+  bool get externalBrowser => _prefs!.getBool(_keyExternalBrowser) ?? false;
+
+  set externalBrowser(bool online) => _prefs!.setBool(_keyExternalBrowser, online);
+
   final String _keyImageOnline = 'imageOnline';
 
   // bool get imageOnline => _prefs!.getBool(_keyImageOnline) ?? true;

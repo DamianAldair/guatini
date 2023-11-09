@@ -34,5 +34,6 @@ class WikiResult {
     required this.url,
   });
 
-  Future<bool> launchUrl() => url_launcher.launchUrl(url);
+  // ignore: deprecated_member_use
+  Future<bool> launchUrl(bool inApp) => inApp ? url_launcher.launchUrl(url) : url_launcher.launch(url.toString());
 }
