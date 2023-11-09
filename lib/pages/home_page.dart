@@ -164,7 +164,8 @@ class _MainPageState extends State<MainPage> {
 
   Widget _suggestionCard(BuildContext context, SpeciesModel species) {
     const radius = 25.0;
-    final isDark = AdaptiveTheme.of(context).mode.isDark;
+    final isDark = AdaptiveTheme.of(context).brightness == Brightness.dark;
+
     return Container(
       margin: const EdgeInsets.only(
         top: 20.0,
@@ -183,61 +184,75 @@ class _MainPageState extends State<MainPage> {
           )
         ],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(radius),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(radius),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        species.image,
-                        BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                          child: Container(
-                            color: isDark ? Colors.black : const Color.fromARGB(150, 255, 255, 255),
+      child: OrientationBuilder(
+        builder: (_, Orientation orientation) {
+          final portrait = orientation == Orientation.portrait;
+          final children = [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(radius),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(radius),
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          species.image,
+                          BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                            child: Container(
+                              color: isDark ? Colors.black : const Color.fromARGB(150, 255, 255, 255),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    ),
+                    Hero(
+                      tag: species.id.toString(),
+                      child: species.image,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(25.0),
+              width: portrait ? null : MediaQuery.of(context).size.width / 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    species.searchName!,
+                    overflow: portrait ? TextOverflow.ellipsis : null,
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Hero(
-                    tag: species.id.toString(),
-                    child: species.image,
+                  const SizedBox(height: 10.0),
+                  Text(
+                    species.scientificName!,
+                    overflow: portrait ? TextOverflow.ellipsis : null,
                   ),
                 ],
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  species.searchName!,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Text(
-                  species.scientificName!,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-        ],
+          ];
+
+          return portrait
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
+                );
+        },
       ),
     );
   }

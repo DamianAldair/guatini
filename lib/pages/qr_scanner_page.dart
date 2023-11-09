@@ -37,21 +37,25 @@ class _QrScannerPageState extends State<QrScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          _qrView,
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: _interface,
-          ),
-        ],
-      ),
+      body: OrientationBuilder(builder: (_, Orientation orientation) {
+        final portrait = orientation == Orientation.portrait;
+        return Stack(
+          children: [
+            getQrView(portrait),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: getInterface(portrait),
+            ),
+          ],
+        );
+      }),
     );
   }
 
-  Widget get _qrView {
+  Widget getQrView(bool isPortrait) {
     final color = Theme.of(context).primaryColor;
-    final scanArea = MediaQuery.of(context).size.width * 2 / 3;
+    final size = MediaQuery.of(context).size;
+    final scanArea = isPortrait ? size.width * 2 / 3 : size.height * 2 / 3;
     return QRView(
       key: qrKey,
       overlay: QrScannerOverlayShape(
@@ -85,10 +89,10 @@ class _QrScannerPageState extends State<QrScannerPage> {
     );
   }
 
-  List<Widget> get _interface {
+  List<Widget> getInterface(bool isPortrait) {
     return [
       AppBar(
-        title: Text(AppLocalizations.of(context).qrReader),
+        title: isPortrait ? Text(AppLocalizations.of(context).qrReader) : null,
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
       ),
@@ -98,16 +102,21 @@ class _QrScannerPageState extends State<QrScannerPage> {
           if (snapshot.hasError || !snapshot.hasData) {
             return const SizedBox.shrink();
           }
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 30.0),
-            child: FloatingActionButton(
-              elevation: 0.0,
-              child: Icon(snapshot.data! ? Icons.flashlight_off_rounded : Icons.flashlight_on_rounded),
-              onPressed: () async {
-                await controller?.toggleFlash();
-                setState(() {});
-              },
-            ),
+          return Row(
+            mainAxisAlignment: isPortrait ? MainAxisAlignment.center : MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: FloatingActionButton(
+                  elevation: 0.0,
+                  child: Icon(snapshot.data! ? Icons.flashlight_off_rounded : Icons.flashlight_on_rounded),
+                  onPressed: () async {
+                    await controller?.toggleFlash();
+                    setState(() {});
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),

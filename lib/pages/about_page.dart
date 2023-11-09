@@ -100,6 +100,7 @@ class AboutPage extends StatelessWidget {
             color: Color.fromARGB(150, 255, 255, 255),
           ),
         ),
+        const SizedBox.square(dimension: 20.0),
       ],
     );
   }
