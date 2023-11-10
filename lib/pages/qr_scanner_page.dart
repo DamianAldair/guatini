@@ -138,34 +138,24 @@ class _QrScannerPageState extends State<QrScannerPage> {
 
     try {
       final decoded = json.decode(scanData) as Map<String, dynamic>;
-      if (!decoded.containsKey(key)) {
-        dialog.call();
-      } else {
-        final data = decoded[key] as Map<String, dynamic>;
-        if (data.keys.isEmpty) {
-          dialog.call();
-        } else {
-          final mode = data.keys.first.toLowerCase();
-          Navigator.pop(context);
-          switch (mode) {
-            case 'link':
-              QrLink(url: data[mode]).launchUrl();
-              break;
-            case 'wikipedia':
-              QrWikipedia.fromJson(context, data[mode]).executeSearch(context).onError((e, _) => dialog.call());
-              break;
-            case 'ecured':
-              QrEcured.fromJson(data[mode]).executeSearch(context).onError((e, _) => dialog.call());
-              break;
-            case 'offline':
-              QrOffline.fromJson(data[mode]).executeSearch(context).onError((e, _) => dialog.call());
-              break;
-            default:
-              dialog.call();
-              break;
-          }
-        }
+      final data = decoded[key] as Map<String, dynamic>;
+      final mode = data.keys.first.toLowerCase();
+      QrResult? qrResult;
+      if (mode == 'link') {
+        qrResult = QrLink(url: data[mode]);
+      } else if (mode == 'wikipedia') {
+        qrResult = QrWikipedia.fromJson(context, data[mode]);
+      } else if (mode == 'ecured') {
+        qrResult = QrEcured.fromJson(data[mode]);
+      } else if (mode == 'offline') {
+        qrResult = QrOffline.fromJson(data[mode]);
       }
+      if (qrResult == null) {
+        dialog.call();
+        return;
+      }
+      Navigator.pop(context);
+      qrResult.launch(context);
     } catch (_) {
       dialog.call();
     }

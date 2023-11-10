@@ -13,7 +13,9 @@ import 'package:guatini/providers/wikipedia_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
-abstract class QrResult {}
+abstract class QrResult {
+  Future<dynamic> launch(BuildContext context);
+}
 
 /// Example of JSON:
 /// {
@@ -28,7 +30,8 @@ class QrLink extends QrResult {
 
   Uri get uri => Uri.parse(url);
 
-  Future<bool> launchUrl() =>
+  @override
+  Future<bool> launch(BuildContext context) =>
       // ignore: deprecated_member_use
       !UserPreferences().externalBrowser ? url_launcher.launchUrl(uri) : url_launcher.launch(url.toString());
 }
@@ -59,7 +62,8 @@ class QrWikipedia extends QrResult {
     );
   }
 
-  Future executeSearch(BuildContext context) => Navigator.push(
+  @override
+  Future launch(BuildContext context) => Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => MediawikiSearchPage(
@@ -88,7 +92,8 @@ class QrEcured extends QrResult {
 
   factory QrEcured.fromJson(Map<String, dynamic> json) => QrEcured(query: json["query"]!);
 
-  Future executeSearch(BuildContext context) => Navigator.push(
+  @override
+  Future launch(BuildContext context) => Navigator.push(
         context,
         MaterialPageRoute(
           builder: (_) => MediawikiSearchPage(
@@ -188,7 +193,8 @@ class QrOffline extends QrResult {
     );
   }
 
-  Future<void> executeSearch(BuildContext context) async {
+  @override
+  Future launch(BuildContext context) async {
     final Database db = (await DbProvider.database)!;
     String errorText = '';
     if (species != null) {
