@@ -70,6 +70,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get college => 'Facultad de Ingeniería informática';
 
   @override
+  String get commonName => 'Nombre común';
+
+  @override
   String get conservationStatus => 'Estado de conservación';
 
   @override
@@ -144,6 +147,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get diet => 'Dieta';
 
   @override
+  String get docGeneratedBy => 'Documento generado con';
+
+  @override
   String get encyclopedia => 'Enciclopedia';
 
   @override
@@ -175,6 +181,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exitText => '¿Realmente desea salir de la aplicación?';
+
+  @override
+  String get exportPdf => 'Exportar como documento PDF';
+
+  @override
+  String get exportPdfText => '(Se exportará la información de esta especie como documento PDF y se guardará en la carpeta de Descargas de su dispositivo)';
+
+  @override
+  String get exportPdfDone => 'Documento PDF exportado satisfactoriamente';
 
   @override
   String get extinct => 'Extinta';
@@ -380,6 +395,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get replay => 'Comenzar reproducción de nuevo';
+
+  @override
+  String get scientificName => 'Nombre científico';
 
   @override
   String get sdCard => 'Tarjeta SD';

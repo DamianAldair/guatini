@@ -18,10 +18,25 @@ class SpeciesDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final prefs = UserPreferences();
+    SpeciesModel? species;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).speciesDetails),
+        // actions: [
+        // IconButton(
+        //   tooltip: AppLocalizations.of(context).exportPdf,
+        //   icon: const Icon(Icons.picture_as_pdf_rounded),
+        //   onPressed: () {
+        //     if (species != null) {
+        //       showDialog(
+        //         context: context,
+        //         builder: (_) => savePdfDialog(context, species!),
+        //       );
+        //     }
+        //   },
+        // ),
+        // ],
       ),
       body: speciesId == null
           ? Center(child: Text(AppLocalizations.of(context).errorObtainingInfo))
@@ -38,78 +53,78 @@ class SpeciesDetailsPage extends StatelessWidget {
                     if (!snapshot.hasData) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    final species = snapshot.data as SpeciesModel;
+                    species = snapshot.data as SpeciesModel;
                     return SingleChildScrollView(
                       child: Column(
                         children: [
-                          MainImage(species),
+                          MainImage(species!),
                           Text(
-                            species.commonNamesAsString,
+                            species!.commonNamesAsString,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 20.0,
                             ),
                           ),
                           const SizedBox(height: 20.0),
-                          Text(species.scientificName.toString()),
+                          Text(species!.scientificName.toString()),
                           const SizedBox(height: 10.0),
                           InfoCard(
                             title: AppLocalizations.of(context).taxDomain,
-                            instance: species.taxdomain,
+                            instance: species!.taxdomain,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).taxKingdom,
-                            instance: species.taxkindom,
+                            instance: species!.taxkindom,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).taxPhylum,
-                            instance: species.taxphylum,
+                            instance: species!.taxphylum,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).taxClass,
-                            instance: species.taxclass,
+                            instance: species!.taxclass,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).taxOrder,
-                            instance: species.taxorder,
+                            instance: species!.taxorder,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).taxFamily,
-                            instance: species.taxfamily,
+                            instance: species!.taxfamily,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).taxGenus,
-                            instance: species.taxgenus,
+                            instance: species!.taxgenus,
                           ),
                           ConservationStateCard(
-                            status: species.conservationStatus,
+                            status: species!.conservationStatus,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).endemism,
-                            instance: species.endemism,
+                            instance: species!.endemism,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).abundance,
-                            instance: species.abundance,
+                            instance: species!.abundance,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).activity,
-                            instances: species.activities,
+                            instances: species!.activities,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).habitat,
-                            instances: species.habitats,
+                            instances: species!.habitats,
                           ),
                           InfoCard(
                             title: AppLocalizations.of(context).diet,
-                            instances: species.diets,
+                            instances: species!.diets,
                           ),
-                          AudioCard(species.medias),
-                          Dimorphism(species.dimorphism),
-                          Description(species.description.toString()),
+                          AudioCard(species!.medias),
+                          Dimorphism(species!.dimorphism),
+                          Description(species!.description.toString()),
                           Gallery(
-                            species.medias,
-                            mainImageId: species.mainImage != null ? species.mainImage!.id : null,
+                            species!.medias,
+                            mainImageId: species!.mainImage != null ? species!.mainImage!.id : null,
                           ),
                           const SizedBox(height: 20.0),
                           if (prefs.wikipediaOnline)
@@ -120,7 +135,7 @@ class SpeciesDetailsPage extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (_) => MediawikiSearchPage(
                                     source: MediawikiSearch.wikipedia,
-                                    query: species.scientificName,
+                                    query: species!.scientificName,
                                   ),
                                 ),
                               ),
@@ -133,7 +148,7 @@ class SpeciesDetailsPage extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder: (_) => MediawikiSearchPage(
                                     source: MediawikiSearch.ecured,
-                                    query: species.scientificName,
+                                    query: species!.scientificName,
                                   ),
                                 ),
                               ),

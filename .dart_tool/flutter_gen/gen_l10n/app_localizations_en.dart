@@ -70,6 +70,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get college => 'School of Computer Engineering';
 
   @override
+  String get commonName => 'Common name';
+
+  @override
   String get conservationStatus => 'Conservation status';
 
   @override
@@ -144,6 +147,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get diet => 'Diet';
 
   @override
+  String get docGeneratedBy => 'Document generated with';
+
+  @override
   String get encyclopedia => 'Encyclopedia';
 
   @override
@@ -175,6 +181,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exitText => 'Do you really want to exit the application?';
+
+  @override
+  String get exportPdf => 'Export as PDF document';
+
+  @override
+  String get exportPdfText => '(The information for this species will be exported as a PDF document and saved in the Downloads folde on your device)';
+
+  @override
+  String get exportPdfDone => 'PDF document exported successfully';
 
   @override
   String get extinct => 'Extinct';
@@ -380,6 +395,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get replay => 'Replay';
+
+  @override
+  String get scientificName => 'Scientific name';
 
   @override
   String get sdCard => 'SD card';

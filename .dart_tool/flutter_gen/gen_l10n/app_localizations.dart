@@ -219,6 +219,12 @@ abstract class AppLocalizations {
   /// **'School of Computer Engineering'**
   String get college;
 
+  /// No description provided for @commonName.
+  ///
+  /// In en, this message translates to:
+  /// **'Common name'**
+  String get commonName;
+
   /// No description provided for @conservationStatus.
   ///
   /// In en, this message translates to:
@@ -357,6 +363,12 @@ abstract class AppLocalizations {
   /// **'Diet'**
   String get diet;
 
+  /// No description provided for @docGeneratedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Document generated with'**
+  String get docGeneratedBy;
+
   /// No description provided for @encyclopedia.
   ///
   /// In en, this message translates to:
@@ -422,6 +434,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Do you really want to exit the application?'**
   String get exitText;
+
+  /// No description provided for @exportPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as PDF document'**
+  String get exportPdf;
+
+  /// No description provided for @exportPdfText.
+  ///
+  /// In en, this message translates to:
+  /// **'(The information for this species will be exported as a PDF document and saved in the Downloads folde on your device)'**
+  String get exportPdfText;
+
+  /// No description provided for @exportPdfDone.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF document exported successfully'**
+  String get exportPdfDone;
 
   /// No description provided for @extinct.
   ///
@@ -824,6 +854,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Replay'**
   String get replay;
+
+  /// No description provided for @scientificName.
+  ///
+  /// In en, this message translates to:
+  /// **'Scientific name'**
+  String get scientificName;
 
   /// No description provided for @sdCard.
   ///

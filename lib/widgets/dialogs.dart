@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/providers/pdf_provider.dart';
 
 AlertDialog infoDialog(BuildContext context, Widget content) {
   return AlertDialog(
@@ -81,6 +83,33 @@ AlertDialog inputDialog({
         },
         child: Text(AppLocalizations.of(context).ok),
       )
+    ],
+  );
+}
+
+AlertDialog savePdfDialog(BuildContext context, SpeciesModel species) {
+  return AlertDialog(
+    title: Text(AppLocalizations.of(context).exportPdf),
+    content: Text(AppLocalizations.of(context).exportPdfText),
+    actions: [
+      TextButton(
+        child: Text(AppLocalizations.of(context).no),
+        onPressed: () => Navigator.pop(context),
+      ),
+      TextButton(
+        child: Text(AppLocalizations.of(context).yes),
+        onPressed: () {
+          Navigator.pop(context);
+          PdfProvider.exportSpecies(context, species).then((value) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(AppLocalizations.of(context).exportPdfDone),
+              ),
+            );
+          });
+        },
+      ),
     ],
   );
 }
