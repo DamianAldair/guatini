@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/pages/wiki_search_page.dart';
 import 'package:guatini/providers/db_provider.dart';

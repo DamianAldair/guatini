@@ -28,7 +28,9 @@ class QrLink extends QrResult {
 
   Uri get uri => Uri.parse(url);
 
-  Future<bool> launchUrl() => url_launcher.launchUrl(uri);
+  Future<bool> launchUrl() =>
+      // ignore: deprecated_member_use
+      !UserPreferences().externalBrowser ? url_launcher.launchUrl(uri) : url_launcher.launch(url.toString());
 }
 
 /// Expample of JSON:
@@ -64,6 +66,34 @@ class QrWikipedia extends QrResult {
             source: MediawikiSearch.wikipedia,
             query: query,
             lang: language,
+          ),
+        ),
+      );
+}
+
+/// Expample of JSON:
+/// {
+///   "guatini_qr_data": {
+///     "ecured": {
+///       "query": "xyz"
+///     }
+///   }
+/// }
+class QrEcured extends QrResult {
+  final String query;
+
+  QrEcured({
+    required this.query,
+  });
+
+  factory QrEcured.fromJson(Map<String, dynamic> json) => QrEcured(query: json["query"]!);
+
+  Future executeSearch(BuildContext context) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => MediawikiSearchPage(
+            source: MediawikiSearch.ecured,
+            query: query,
           ),
         ),
       );

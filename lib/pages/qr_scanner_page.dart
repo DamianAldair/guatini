@@ -146,12 +146,16 @@ class _QrScannerPageState extends State<QrScannerPage> {
           dialog.call();
         } else {
           final mode = data.keys.first.toLowerCase();
+          Navigator.pop(context);
           switch (mode) {
             case 'link':
               QrLink(url: data[mode]).launchUrl();
               break;
             case 'wikipedia':
               QrWikipedia.fromJson(context, data[mode]).executeSearch(context).onError((e, _) => dialog.call());
+              break;
+            case 'ecured':
+              QrEcured.fromJson(data[mode]).executeSearch(context).onError((e, _) => dialog.call());
               break;
             case 'offline':
               QrOffline.fromJson(data[mode]).executeSearch(context).onError((e, _) => dialog.call());
