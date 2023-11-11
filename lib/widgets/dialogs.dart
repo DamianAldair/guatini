@@ -184,9 +184,14 @@ Widget adDialog(BuildContext context, AdModel ad) {
                           ),
                           child: content,
                         ),
-                        Text(
-                          ad.description,
-                          textAlign: TextAlign.justify,
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.3,
+                          ),
+                          child: Text(
+                            ad.description,
+                            textAlign: TextAlign.justify,
+                          ),
                         ),
                       ],
                     ),
