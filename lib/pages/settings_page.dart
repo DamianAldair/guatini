@@ -135,6 +135,13 @@ class _SettingsPageState extends State<SettingsPage> {
             onChanged: (bool value) => setState(() => prefs.autoplayVideo = value),
           ),
           TitleDivider(AppLocalizations.of(context).others),
+          SwitchListTile(
+            secondary: const Icon(FontAwesomeIcons.rectangleAd),
+            title: Text(AppLocalizations.of(context).showAds),
+            subtitle: Text(AppLocalizations.of(context).showAdsText),
+            value: prefs.showAds,
+            onChanged: (bool value) => setState(() => prefs.showAds = value),
+          ),
           ListTile(
             leading: const Icon(Icons.replay_rounded),
             title: Text(AppLocalizations.of(context).wizardAgain),

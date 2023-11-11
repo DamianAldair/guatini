@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:guatini/models/ad_model.dart';
 import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/providers/ads_provider.dart';
 import 'package:guatini/providers/pdf_provider.dart';
+import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:path/path.dart' as p;
+import 'package:url_launcher/url_launcher.dart';
 
 AlertDialog infoDialog(BuildContext context, Widget content) {
   return AlertDialog(
@@ -111,5 +118,85 @@ AlertDialog savePdfDialog(BuildContext context, SpeciesModel species) {
         },
       ),
     ],
+  );
+}
+
+Widget adDialog(BuildContext context, AdModel ad) {
+  final adType = AdModelType.fromText(ad.type);
+
+  final content = Padding(
+    padding: adType == AdModelType.text ? EdgeInsets.zero : const EdgeInsets.only(bottom: 20.0),
+    child: switch (adType) {
+      AdModelType.text => const SizedBox.shrink(),
+      AdModelType.link => TextButton(
+          onPressed: ad.path == null ? null : () => launchUrl(Uri.parse(ad.path!)),
+          child: Text(ad.path ?? AppLocalizations.of(AdsProvider.context!).link),
+        ),
+      AdModelType.image => Image.file(
+          File(p.join(UserPreferences().dbPathNotifier.value!, ad.path).replaceAll('\\', '/')),
+        ),
+    },
+  );
+
+  return Material(
+    color: Colors.transparent,
+    child: Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.9,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalizations.of(AdsProvider.context!).ad,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
+                  ),
+                  const Spacer(),
+                  IconButton.filledTonal(
+                    icon: const Icon(Icons.close_rounded),
+                    onPressed: () => Navigator.pop(AdsProvider.context!),
+                  ),
+                ],
+              ),
+            ),
+            AlertDialog(
+              scrollable: true,
+              title: Text(ad.name),
+              content: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.6,
+                ),
+                child: Scrollbar(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height * 0.3,
+                          ),
+                          child: content,
+                        ),
+                        Text(
+                          ad.description,
+                          textAlign: TextAlign.justify,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
   );
 }

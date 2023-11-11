@@ -1,14 +1,16 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 // ignore: depend_on_referenced_packages, unused_import
 import 'package:dcdg/dcdg.dart';
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:guatini/pages/home_page.dart';
 import 'package:guatini/pages/onboarding_screen.dart';
+import 'package:guatini/providers/ads_provider.dart';
 import 'package:guatini/providers/appinfo_provider.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:guatini/widgets/dialogs.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -55,15 +57,33 @@ class _MyAppState extends State<MyApp> {
       ),
       initial: AdaptiveThemeMode.system,
       builder: (ThemeData light, ThemeData dark) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: prefs.locale,
-          theme: light,
-          darkTheme: dark,
-          title: 'Guatiní',
-          home: const OnboardingScreen(home: MainPage()),
+        return Listener(
+          onPointerDown: (_) {
+            if (prefs.showAds) {
+              AdsProvider.incrementCounter();
+              if (AdsProvider.show) {
+                final ad = AdsProvider.nextAd;
+                if (ad != null) {
+                  Future.delayed(const Duration(seconds: 3)).then((_) {
+                    showDialog(
+                      context: AdsProvider.context!,
+                      builder: (_) => adDialog(context, ad),
+                    );
+                  });
+                }
+              }
+            }
+          },
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: prefs.locale,
+            theme: light,
+            darkTheme: dark,
+            title: 'Guatiní',
+            home: const OnboardingScreen(home: MainPage()),
+          ),
         );
       },
     );

@@ -16,6 +16,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get activity => 'Actividad';
 
   @override
+  String get ad => 'Anuncio';
+
+  @override
   String get addDatabase => 'Añadir fuente de datos desde el almacenamiento';
 
   @override
@@ -293,6 +296,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get light => 'Claro';
 
   @override
+  String get link => 'Enlace';
+
+  @override
   String get locationMode => 'Modo de ubicación';
 
   @override
@@ -434,6 +440,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get settings => 'Configuración';
+
+  @override
+  String get showAds => 'Mostrar anuncios';
+
+  @override
+  String get showAdsText => 'Ventanas flotantes con datos curiosos e interesantes';
 
   @override
   String get showSearchOnEcured => 'Mostrar botón \"Buscar en Ecured\"';

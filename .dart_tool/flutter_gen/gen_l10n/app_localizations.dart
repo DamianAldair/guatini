@@ -108,8 +108,14 @@ abstract class AppLocalizations {
   /// No description provided for @activity.
   ///
   /// In en, this message translates to:
-  /// **'Activity'**
+  /// **'Actividad'**
   String get activity;
+
+  /// No description provided for @ad.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad'**
+  String get ad;
 
   /// No description provided for @addDatabase.
   ///
@@ -651,6 +657,12 @@ abstract class AppLocalizations {
   /// **'Light'**
   String get light;
 
+  /// No description provided for @link.
+  ///
+  /// In en, this message translates to:
+  /// **'Link'**
+  String get link;
+
   /// No description provided for @locationMode.
   ///
   /// In en, this message translates to:
@@ -932,6 +944,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// No description provided for @showAds.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Ads'**
+  String get showAds;
+
+  /// No description provided for @showAdsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Popups with curious and interesting facts'**
+  String get showAdsText;
 
   /// No description provided for @showSearchOnEcured.
   ///

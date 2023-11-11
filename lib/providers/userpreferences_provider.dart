@@ -231,4 +231,17 @@ class UserPreferences {
   }
 
   Stream<List<GameModel>> get gamesStream => _gamesStreamController!.stream;
+
+  //ADS
+  final String _keyShowAds = 'showAds';
+
+  bool get showAds => _prefs!.getBool(_keyShowAds) ?? true;
+
+  set showAds(bool show) => _prefs!.setBool(_keyShowAds, show);
+
+  final String _keyLastAdId = 'lastAdId';
+
+  int get lastAdId => _prefs!.getInt(_keyLastAdId) ?? -1;
+
+  set lastAdId(int lastId) => _prefs!.setInt(_keyLastAdId, lastId);
 }

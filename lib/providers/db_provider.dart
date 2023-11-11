@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:guatini/models/sql_table_model.dart';
+import 'package:guatini/providers/ads_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 // ignore: depend_on_referenced_packages
@@ -53,6 +54,9 @@ class DbProvider {
         version: 1,
         onCreate: (_, __) async {},
       );
+      if (_db != null) {
+        AdsProvider.ads = await SearchProvider.getAds(_db!);
+      }
     } catch (_) {
       return null;
     }

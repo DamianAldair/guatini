@@ -13,7 +13,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get abundance => 'Abundance';
 
   @override
-  String get activity => 'Activity';
+  String get activity => 'Actividad';
+
+  @override
+  String get ad => 'Ad';
 
   @override
   String get addDatabase => 'Add data source from storage';
@@ -293,6 +296,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get light => 'Light';
 
   @override
+  String get link => 'Link';
+
+  @override
   String get locationMode => 'Location mode';
 
   @override
@@ -434,6 +440,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings => 'Settings';
+
+  @override
+  String get showAds => 'Show Ads';
+
+  @override
+  String get showAdsText => 'Popups with curious and interesting facts';
 
   @override
   String get showSearchOnEcured => 'Show \"Search on Ecured\"';

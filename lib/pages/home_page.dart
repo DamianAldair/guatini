@@ -9,6 +9,7 @@ import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/pages/databases_page.dart';
 import 'package:guatini/pages/simple_search_page.dart';
 import 'package:guatini/pages/species_details_page.dart';
+import 'package:guatini/providers/ads_provider.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/permissions_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
@@ -29,6 +30,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    AdsProvider.context = context;
     final prefs = UserPreferences();
     return WillPopScope(
       onWillPop: () async {

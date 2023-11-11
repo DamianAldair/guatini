@@ -1,5 +1,6 @@
 import 'package:guatini/models/abundance_model.dart';
 import 'package:guatini/models/activity_model.dart';
+import 'package:guatini/models/ad_model.dart';
 import 'package:guatini/models/author_model.dart';
 import 'package:guatini/models/class_model.dart';
 import 'package:guatini/models/commonmane_model.dart';
@@ -22,6 +23,17 @@ import 'package:guatini/models/sql_table_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class SearchProvider {
+  static Future<List<AdModel>> getAds(Database db) async {
+    const query = 'select [ads].* from [main].[ads] order by [main].[ads].[id];';
+    final result = await db.rawQuery(query);
+    if (result.isEmpty) return [];
+    try {
+      return result.map((map) => AdModel.fromMap(map)).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
   static Future<List<SqlTableModel>> getTables(Database db) async {
     const query = '''
       SELECT name, (
