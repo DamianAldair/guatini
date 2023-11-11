@@ -147,6 +147,7 @@
     "onlineUse": "Online use",
     "onlineVideo": "Online video",
     "onlineUseText": "Use of información from internet",
+    "others": "Others",
     "openQrReader": "Open QR reader",
     "pause": "Pause",
     "play": "Play",
@@ -192,5 +193,6 @@
     "vulnerable": "Vulnerable",
     "withDimorphism": "There may be appreciable differences between the female and the male of this species",
     "withoutDimorphism": "There are no appreciable differences between the female and the male of this species",
+    "wizardAgain": "Go back to see the wizard",
     "yes": "Yes"
 }

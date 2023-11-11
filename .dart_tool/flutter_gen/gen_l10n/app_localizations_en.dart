@@ -379,6 +379,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onlineUseText => 'Use of información from internet';
 
   @override
+  String get others => 'Others';
+
+  @override
   String get openQrReader => 'Open QR reader';
 
   @override
@@ -512,6 +515,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get withoutDimorphism => 'There are no appreciable differences between the female and the male of this species';
+
+  @override
+  String get wizardAgain => 'Go back to see the wizard';
 
   @override
   String get yes => 'Yes';

@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
           theme: light,
           darkTheme: dark,
           title: 'Guatiní',
-          home: prefs.firstTime ? const OnboardingScreen() : const MainPage(),
+          home: const OnboardingScreen(home: MainPage()),
         );
       },
     );

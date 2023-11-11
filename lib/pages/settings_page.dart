@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:guatini/pages/databases_page.dart';
 import 'package:guatini/pages/language_page.dart';
+import 'package:guatini/pages/onboarding_screen.dart';
 import 'package:guatini/pages/online_page.dart';
 import 'package:guatini/pages/themes_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
@@ -132,6 +133,15 @@ class _SettingsPageState extends State<SettingsPage> {
             subtitle: Text(AppLocalizations.of(context).autoplayVideoInfo),
             value: prefs.autoplayVideo,
             onChanged: (bool value) => setState(() => prefs.autoplayVideo = value),
+          ),
+          TitleDivider(AppLocalizations.of(context).others),
+          ListTile(
+            leading: const Icon(Icons.replay_rounded),
+            title: Text(AppLocalizations.of(context).wizardAgain),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+            ),
           ),
         ],
       ),

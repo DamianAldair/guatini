@@ -6,7 +6,12 @@ import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+  final Widget? home;
+
+  const OnboardingScreen({
+    Key? key,
+    this.home,
+  }) : super(key: key);
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -25,6 +30,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = UserPreferences();
+
+    if (widget.home != null && !prefs.firstTime) return widget.home!;
+
     const duration = Duration(milliseconds: 500);
     const curve = Curves.easeIn;
 
@@ -93,16 +102,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             TextButton(
               onPressed: () {
-                if (isLastPage) {
-                  UserPreferences().firstTime = false;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const MainPage()),
-                  );
-                } else {
+                if (!isLastPage) {
                   controller.nextPage(
                     duration: duration,
                     curve: curve,
+                  );
+                } else if (widget.home == null) {
+                  Navigator.pop(context);
+                } else {
+                  prefs.firstTime = false;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const MainPage()),
                   );
                 }
               },
@@ -157,10 +168,13 @@ class _Page extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: flex0 ? 50.0 : 25.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: flex0 ? 35.0 : 25.0),
+                  ),
                 ),
                 if (subtitle != null)
                   Padding(

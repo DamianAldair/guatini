@@ -819,6 +819,12 @@ abstract class AppLocalizations {
   /// **'Use of información from internet'**
   String get onlineUseText;
 
+  /// No description provided for @others.
+  ///
+  /// In en, this message translates to:
+  /// **'Others'**
+  String get others;
+
   /// No description provided for @openQrReader.
   ///
   /// In en, this message translates to:
@@ -1088,6 +1094,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There are no appreciable differences between the female and the male of this species'**
   String get withoutDimorphism;
+
+  /// No description provided for @wizardAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back to see the wizard'**
+  String get wizardAgain;
 
   /// No description provided for @yes.
   ///
