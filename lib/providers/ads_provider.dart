@@ -9,7 +9,7 @@ abstract class AdsProvider {
 
   static void incrementCounter() => _counter++;
 
-  static bool get show => _counter % 1 == 0;
+  static bool get show => _counter % 20 == 0;
 
   static set ads(List<AdModel> list) => _ads = list;
 
