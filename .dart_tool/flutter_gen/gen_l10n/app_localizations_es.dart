@@ -16,7 +16,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get activity => 'Actividad';
 
   @override
-  String get addDatabase => 'Añadir base de datos desde el almacenamiento';
+  String get addDatabase => 'Añadir fuente de datos desde el almacenamiento';
 
   @override
   String get addOneDatabase => 'Añada una';
@@ -25,10 +25,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get added => 'Añadida';
 
   @override
-  String get addedDatabase => 'Base de datos añadida';
+  String get addedDatabase => 'Fuente de datos añadida';
 
   @override
-  String get alreadyAdded => 'Esta base de datos ya está añadida';
+  String get alreadyAdded => 'Esta fuente de datos ya está añadida';
 
   @override
   String get attempts => 'intentos';
@@ -94,10 +94,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get customLocationModeString => 'Toque sobre el mapa para seleccionar una ubicación';
 
   @override
-  String get database => 'Base de datos';
+  String get database => 'Fuente de datos';
 
   @override
-  String get databaseSelectedInfo => 'El lenguaje de la bases de datos no depende de la aplicación';
+  String get databaseSelectedInfo => 'El lenguaje de la fuente de datos no depende de la aplicación';
 
   @override
   String date(DateTime date) {
@@ -111,13 +111,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dark => 'Oscuro';
 
   @override
-  String get dbStructureNoCorrect => 'La estructura de la base de datos no es correcta';
+  String get dbStructureNoCorrect => 'La estructura de la fuente de datos no es correcta';
 
   @override
   String get deficientData => 'Datos deficientes';
 
   @override
-  String get deletedDatabase => 'Base de datos borrada permanentemente';
+  String get deletedDatabase => 'Fuente de datos borrada permanentemente';
 
   @override
   String get deleteFromList => 'Borrar de la lista';
@@ -174,7 +174,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get error => 'Error';
 
   @override
-  String get errorAnalyzingDb => 'Ha ocurrido un error al analizar la estrutura de la base de datos';
+  String get errorAnalyzingDb => 'Ha ocurrido un error al analizar la estrutura de la fuente de datos';
 
   @override
   String get errorReadingQr => 'No se ha detectado información compatible en el código QR';
@@ -204,7 +204,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get extinctInTheWild => 'Extinta en estado silvestre';
 
   @override
-  String get findDatabase => 'Buscar base de datos';
+  String get findDatabase => 'Buscar fuente de datos';
 
   @override
   String get fileNotFound => 'Archivo no encontrado';
@@ -318,7 +318,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String noInDb(String info) {
-    return 'La información \"$info\" no está en la base de datos';
+    return 'La información \"$info\" no está en la fuente de datos';
   }
 
   @override
@@ -328,7 +328,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noLocationPermission => 'Guatiní no tiene permiso para utilizar la ubicación';
 
   @override
-  String get noSelectedDatabase => 'No hay una base de datos seleccionada';
+  String get noSelectedDatabase => 'No hay una fuente de datos seleccionada';
 
   @override
   String get noStoragePermission => 'Guatiní no tiene permiso para acceder al almacenamiento';
@@ -340,7 +340,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get no => 'No';
 
   @override
-  String get noDatabases => 'No hay bases de datos';
+  String get noDatabases => 'No hay fuentes de datos';
 
   @override
   String get noRecentSearches => 'No hay búsquedas recientes';

@@ -114,7 +114,7 @@ abstract class AppLocalizations {
   /// No description provided for @addDatabase.
   ///
   /// In en, this message translates to:
-  /// **'Add database from storage'**
+  /// **'Add data source from storage'**
   String get addDatabase;
 
   /// No description provided for @addOneDatabase.
@@ -132,13 +132,13 @@ abstract class AppLocalizations {
   /// No description provided for @addedDatabase.
   ///
   /// In en, this message translates to:
-  /// **'Added database'**
+  /// **'Added data source'**
   String get addedDatabase;
 
   /// No description provided for @alreadyAdded.
   ///
   /// In en, this message translates to:
-  /// **'This database is already added'**
+  /// **'This data source is already added'**
   String get alreadyAdded;
 
   /// No description provided for @attempts.
@@ -270,13 +270,13 @@ abstract class AppLocalizations {
   /// No description provided for @database.
   ///
   /// In en, this message translates to:
-  /// **'Databases'**
+  /// **'Data source'**
   String get database;
 
   /// No description provided for @databaseSelectedInfo.
   ///
   /// In en, this message translates to:
-  /// **'The database language does not depend on the app language'**
+  /// **'The data source language does not depend on the app language'**
   String get databaseSelectedInfo;
 
   /// Date
@@ -294,7 +294,7 @@ abstract class AppLocalizations {
   /// No description provided for @dbStructureNoCorrect.
   ///
   /// In en, this message translates to:
-  /// **'The database structure is not correct'**
+  /// **'The data source structure is not correct'**
   String get dbStructureNoCorrect;
 
   /// No description provided for @deficientData.
@@ -306,7 +306,7 @@ abstract class AppLocalizations {
   /// No description provided for @deletedDatabase.
   ///
   /// In en, this message translates to:
-  /// **'Database permanently deleted'**
+  /// **'Data source permanently deleted'**
   String get deletedDatabase;
 
   /// No description provided for @deleteFromList.
@@ -420,7 +420,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorAnalyzingDb.
   ///
   /// In en, this message translates to:
-  /// **'An error has occurred while analyzing the database structure'**
+  /// **'An error has occurred while analyzing the data source structure'**
   String get errorAnalyzingDb;
 
   /// No description provided for @errorReadingQr.
@@ -480,7 +480,7 @@ abstract class AppLocalizations {
   /// No description provided for @findDatabase.
   ///
   /// In en, this message translates to:
-  /// **'Find database'**
+  /// **'Find data source'**
   String get findDatabase;
 
   /// No description provided for @fileNotFound.
@@ -699,10 +699,10 @@ abstract class AppLocalizations {
   /// **'No folders'**
   String get noFolders;
 
-  /// It is not in the database
+  /// It is not in the data source
   ///
   /// In en, this message translates to:
-  /// **'The information \"{info}\" is not in the database'**
+  /// **'The information \"{info}\" is not in the data source'**
   String noInDb(String info);
 
   /// No description provided for @noLocationEnabled.
@@ -720,7 +720,7 @@ abstract class AppLocalizations {
   /// No description provided for @noSelectedDatabase.
   ///
   /// In en, this message translates to:
-  /// **'There is not a selected database'**
+  /// **'There is not a selected data source'**
   String get noSelectedDatabase;
 
   /// No description provided for @noStoragePermission.
@@ -744,7 +744,7 @@ abstract class AppLocalizations {
   /// No description provided for @noDatabases.
   ///
   /// In en, this message translates to:
-  /// **'No databases'**
+  /// **'No data sources'**
   String get noDatabases;
 
   /// No description provided for @noRecentSearches.

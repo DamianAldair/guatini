@@ -16,7 +16,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get activity => 'Activity';
 
   @override
-  String get addDatabase => 'Add database from storage';
+  String get addDatabase => 'Add data source from storage';
 
   @override
   String get addOneDatabase => 'Add one';
@@ -25,10 +25,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get added => 'Added';
 
   @override
-  String get addedDatabase => 'Added database';
+  String get addedDatabase => 'Added data source';
 
   @override
-  String get alreadyAdded => 'This database is already added';
+  String get alreadyAdded => 'This data source is already added';
 
   @override
   String get attempts => 'attempts';
@@ -94,10 +94,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get customLocationModeString => 'Tap on the map to select a location';
 
   @override
-  String get database => 'Databases';
+  String get database => 'Data source';
 
   @override
-  String get databaseSelectedInfo => 'The database language does not depend on the app language';
+  String get databaseSelectedInfo => 'The data source language does not depend on the app language';
 
   @override
   String date(DateTime date) {
@@ -111,13 +111,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dark => 'Dark';
 
   @override
-  String get dbStructureNoCorrect => 'The database structure is not correct';
+  String get dbStructureNoCorrect => 'The data source structure is not correct';
 
   @override
   String get deficientData => 'Deficient data';
 
   @override
-  String get deletedDatabase => 'Database permanently deleted';
+  String get deletedDatabase => 'Data source permanently deleted';
 
   @override
   String get deleteFromList => 'Delete from list';
@@ -174,7 +174,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error => 'Error';
 
   @override
-  String get errorAnalyzingDb => 'An error has occurred while analyzing the database structure';
+  String get errorAnalyzingDb => 'An error has occurred while analyzing the data source structure';
 
   @override
   String get errorReadingQr => 'No compatible information has been detected in the QR code.';
@@ -204,7 +204,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get extinctInTheWild => 'Extinct in the wild';
 
   @override
-  String get findDatabase => 'Find database';
+  String get findDatabase => 'Find data source';
 
   @override
   String get fileNotFound => 'File not found';
@@ -318,7 +318,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String noInDb(String info) {
-    return 'The information \"$info\" is not in the database';
+    return 'The information \"$info\" is not in the data source';
   }
 
   @override
@@ -328,7 +328,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noLocationPermission => 'Guatiní has not permission to access to location';
 
   @override
-  String get noSelectedDatabase => 'There is not a selected database';
+  String get noSelectedDatabase => 'There is not a selected data source';
 
   @override
   String get noStoragePermission => 'Guatiní has not permission to access to storage';
@@ -340,7 +340,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get no => 'No';
 
   @override
-  String get noDatabases => 'No databases';
+  String get noDatabases => 'No data sources';
 
   @override
   String get noRecentSearches => 'There are no recent searches';
