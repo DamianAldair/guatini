@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/pages/similars_page.dart';
 import 'package:guatini/pages/wiki_search_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
@@ -127,6 +128,34 @@ class SpeciesDetailsPage extends StatelessWidget {
                             mainImageId: species!.mainImage != null ? species!.mainImage!.id : null,
                           ),
                           const SizedBox(height: 20.0),
+                          FutureBuilder(
+                            future: SearchProvider.getSimilarSpecies(db, species!.id!),
+                            builder: (_, AsyncSnapshot<List<SpeciesModel>> snapshot) {
+                              if (!snapshot.hasData) {
+                                return const SizedBox.shrink();
+                              }
+                              final length = snapshot.data!.length;
+                              if (length == 0) {
+                                return const SizedBox.shrink();
+                              }
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 5.0,
+                                  left: 20.0,
+                                  right: 20.0,
+                                  bottom: 20.0,
+                                ),
+                                child: ElevatedButton.icon(
+                                  icon: const Icon(Icons.search_rounded),
+                                  label: Text('${AppLocalizations.of(context).seeSimilarSpacies} ($length)'),
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => SimilarsPage(species!)),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                           if (prefs.wikipediaOnline)
                             OutlinedButton(
                               child: Text(AppLocalizations.of(context).searchOnWikipedia),

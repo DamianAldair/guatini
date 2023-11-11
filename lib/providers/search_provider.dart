@@ -395,6 +395,29 @@ abstract class SearchProvider {
     }
   }
 
+  static Future<List<SpeciesModel>> getSimilarSpecies(Database db, int speciesId) async {
+    try {
+      final query = '''
+        select 
+          [main].[specie].[id], 
+          [main].[common_name].[name], 
+          [main].[specie].[scientific_name],
+          [main].[media].[path]
+        from [main].[specie]
+          inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+          inner join [main].[specie_similar] on [main].[specie].[id] = [main].[specie_similar].[id_similar]
+          inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+        where [main].[media].[fk_type_] = 1 AND [main].[specie_similar].[fk_specie_] = $speciesId
+        group by [main].[specie].[id]
+        order by [main].[specie].[id];
+      ''';
+      final result = await db.rawQuery(query);
+      return result.map((r) => SpeciesModel.fromSimpleSearch(r)).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
   static Future<List<SpeciesModel>> searchSpecie(Database db, String search) async {
     try {
       final query = '''

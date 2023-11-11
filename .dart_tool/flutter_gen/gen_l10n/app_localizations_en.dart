@@ -433,6 +433,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchSpecies => 'Search Species';
 
   @override
+  String get seeSimilarSpacies => 'See similar species';
+
+  @override
   String get selectLocationMode => 'Please, select location mode';
 
   @override
@@ -452,6 +455,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showSearchOnWikipedia => 'Show \"Search on Wikipedia\"';
+
+  @override
+  String get similarTo => 'Similar to';
 
   @override
   String get skip => 'Skip';

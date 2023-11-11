@@ -927,6 +927,12 @@ abstract class AppLocalizations {
   /// **'Search Species'**
   String get searchSpecies;
 
+  /// No description provided for @seeSimilarSpacies.
+  ///
+  /// In en, this message translates to:
+  /// **'See similar species'**
+  String get seeSimilarSpacies;
+
   /// No description provided for @selectLocationMode.
   ///
   /// In en, this message translates to:
@@ -968,6 +974,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show \"Search on Wikipedia\"'**
   String get showSearchOnWikipedia;
+
+  /// No description provided for @similarTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar to'**
+  String get similarTo;
 
   /// No description provided for @skip.
   ///
