@@ -1,0 +1,118 @@
+[
+    {
+        "name": "abundance",
+        "columns": "id/abundance"
+    },
+    {
+        "name": "activity",
+        "columns": "id/activity"
+    },
+    {
+        "name": "ads",
+        "columns": "id/name/type/description/path"
+    },
+    {
+        "name": "author",
+        "columns": "id/name/description"
+    },
+    {
+        "name": "common_name",
+        "columns": "id/name/fk_specie_"
+    },
+    {
+        "name": "conservation_status",
+        "columns": "id/status"
+    },
+    {
+        "name": "diet",
+        "columns": "id/diet/icono"
+    },
+    {
+        "name": "distribution",
+        "columns": "id/polygon/description"
+    },
+    {
+        "name": "endemism",
+        "columns": "id/zone"
+    },
+    {
+        "name": "habitat",
+        "columns": "id/habitat/icono"
+    },
+    {
+        "name": "license",
+        "columns": "id/name/description"
+    },
+    {
+        "name": "main_image",
+        "columns": "fk_media_"
+    },
+    {
+        "name": "media",
+        "columns": "id/path/date_capture/lat/lon/fk_specie_/fk_license_/fk_type_"
+    },
+    {
+        "name": "media_author",
+        "columns": "fk_media_/fk_author_"
+    },
+    {
+        "name": "specie",
+        "columns": "id/scientific_name/description/fk_t_genus_/fk_coservation_status_/fk_abundance_/fk_endemism_/dimorphism"
+    },
+    {
+        "name": "specie_activity",
+        "columns": "fk_specie_/fk_activity_"
+    },
+    {
+        "name": "specie_diet",
+        "columns": "fk_specie_/fk_diet_"
+    },
+    {
+        "name": "specie_distribution",
+        "columns": "fk_specie_/fk_distribution_"
+    },
+    {
+        "name": "specie_habitat",
+        "columns": "fk_specie_/fk_habitat_"
+    },
+    {
+        "name": "specie_similar",
+        "columns": "fk_specie_/id_similar"
+    },
+    {
+        "name": "t_class",
+        "columns": "id/name/description/fk_t_phylum_"
+    },
+    {
+        "name": "t_domain",
+        "columns": "id/name/description"
+    },
+    {
+        "name": "t_family",
+        "columns": "id/name/description/fk_t_order_"
+    },
+    {
+        "name": "t_genus",
+        "columns": "id/name/description/fk_t_family_"
+    },
+    {
+        "name": "t_phylum",
+        "columns": "id/name/description/fk_t_kindom_"
+    },
+    {
+        "name": "t_order",
+        "columns": "id/name/description/fk_t_class_"
+    },
+    {
+        "name": "t_kindom",
+        "columns": "id/name/description/fk_t_domain_"
+    },
+    {
+        "name": "type",
+        "columns": "id/type"
+    },
+    {
+        "name": "android_metadata",
+        "columns": "locale"
+    }
+]

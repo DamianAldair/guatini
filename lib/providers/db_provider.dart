@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
+import 'package:guatini/models/sql_table_model.dart';
+import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
@@ -28,9 +32,10 @@ class DbProvider {
     return db != null;
   }
 
-  static void close() {
+  static Future<void> close() async {
     final prefs = UserPreferences();
     prefs.dbPath = null;
+    await _db?.close();
     _db = null;
   }
 
@@ -40,7 +45,7 @@ class DbProvider {
     final prefs = UserPreferences();
     final path = prefs.dbPathNotifier.value;
     if (path == null) return null;
-    final db = p.join(path, DbProvider.relativeDbPath);
+    final db = p.join(path, relativeDbPath);
     if (!File(db).existsSync()) return null;
     try {
       _db = await openDatabase(
@@ -52,5 +57,29 @@ class DbProvider {
       return null;
     }
     return _db;
+  }
+
+  /// Return:
+  ///  - null: Problems to access to DB.
+  ///  - false: DB schema is not correct.
+  ///  - true: DB schema is correct.
+  static Future<bool?> check(String folderPath) async {
+    final dbPath = p.join(folderPath, relativeDbPath);
+    if (!await File(dbPath).exists()) return null;
+    try {
+      final db = await openDatabase(
+        dbPath,
+        version: 1,
+        onCreate: (_, __) async {},
+      );
+      final templatesJson = json.decode(await rootBundle.loadString('assets/res/tables_scheme.json'));
+      final templates = templatesJson.map((map) => SqlTableModel.fromMap(map)).toList();
+      final tables = await SearchProvider.getTables(db);
+      final correct = templates.every((t) => tables.contains(t));
+      await db.close();
+      return correct;
+    } catch (_) {
+      return null;
+    }
   }
 }

@@ -59,6 +59,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/map/
+    - assets/res/
 
 flutter_icons:
   image_path: "assets/icons/android_icon.png"

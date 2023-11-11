@@ -41,6 +41,7 @@
         }
     },
     "dark": "Dark",
+    "dbStructureNoCorrect": "The database structure is not correct",
     "deficientData": "Deficient data",
     "deletedDatabase": "Database permanently deleted",
     "deleteFromList": "Delete from list",
@@ -61,6 +62,7 @@
     "environment": "Environment",
     "environmentExp": "Let's take care of it. It is our home",
     "error": "Error",
+    "errorAnalyzingDb": "An error has occurred while analyzing the database structure",
     "errorReadingQr": "No compatible information has been detected in the QR code.",
     "errorObtainingInfo": "An error has occurred while obtaining the information",
     "exit": "Exit the app?",

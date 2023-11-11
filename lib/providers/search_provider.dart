@@ -18,9 +18,24 @@ import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
 import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/models/sql_table_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class SearchProvider {
+  static Future<List<SqlTableModel>> getTables(Database db) async {
+    const query = '''
+      SELECT name, (
+        SELECT group_concat(name,'/')
+        FROM PRAGMA_TABLE_INFO(m.name)
+      ) as columns
+      FROM sqlite_master AS m
+      WHERE type='table';
+    ''';
+    final result = await db.rawQuery(query);
+    if (result.isEmpty) return [];
+    return result.map((map) => SqlTableModel.fromMap(map)).toList();
+  }
+
   static Future<LicenseModel?> getLicense(Database db, int id) async {
     final query = '''
       SELECT 

@@ -41,6 +41,7 @@
         }
     },
     "dark": "Oscuro",
+    "dbStructureNoCorrect": "La estructura de la base de datos no es correcta",
     "deficientData": "Datos deficientes",
     "deletedDatabase": "Base de datos borrada permanentemente",
     "deleteFromList": "Borrar de la lista",
@@ -61,6 +62,7 @@
     "environment": "Medio ambiente",
     "environmentExp": "Cuidémoslo. Es nuestro hogar",
     "error": "Error",
+    "errorAnalyzingDb": "Ha ocurrido un error al analizar la estrutura de la base de datos",
     "errorReadingQr": "No se ha detectado información compatible en el código QR",
     "errorObtainingInfo": "Ha ocurrido un error al obtener la información",
     "exit": "¿Salir?",

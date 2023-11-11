@@ -6,6 +6,7 @@ import 'package:external_path/external_path.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:guatini/widgets/dialogs.dart';
 import 'package:path/path.dart' as p;
 
 class FindDatabasePage extends StatefulWidget {
@@ -157,15 +158,33 @@ class _FindDatabasePageState extends State<FindDatabasePage> {
                                       ),
                                     );
                                   } else {
-                                    setState(() {
-                                      prefs.newDatabase(dir.path);
+                                    DbProvider.check(dir.path).then((bool? correct) {
+                                      if (correct == null) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => infoDialog(
+                                            context,
+                                            Text(AppLocalizations.of(context).errorAnalyzingDb),
+                                          ),
+                                        );
+                                      } else if (!correct) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => infoDialog(
+                                            context,
+                                            Text(AppLocalizations.of(context).dbStructureNoCorrect),
+                                          ),
+                                        );
+                                      } else {
+                                        setState(() => prefs.newDatabase(dir.path));
+                                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(AppLocalizations.of(context).addDatabase),
+                                          ),
+                                        );
+                                      }
                                     });
-                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(AppLocalizations.of(context).addDatabase),
-                                      ),
-                                    );
                                   }
                                 },
                         );

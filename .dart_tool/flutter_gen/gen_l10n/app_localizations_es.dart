@@ -111,6 +111,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dark => 'Oscuro';
 
   @override
+  String get dbStructureNoCorrect => 'La estructura de la base de datos no es correcta';
+
+  @override
   String get deficientData => 'Datos deficientes';
 
   @override
@@ -169,6 +172,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get error => 'Error';
+
+  @override
+  String get errorAnalyzingDb => 'Ha ocurrido un error al analizar la estrutura de la base de datos';
 
   @override
   String get errorReadingQr => 'No se ha detectado información compatible en el código QR';

@@ -291,6 +291,12 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get dark;
 
+  /// No description provided for @dbStructureNoCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'The database structure is not correct'**
+  String get dbStructureNoCorrect;
+
   /// No description provided for @deficientData.
   ///
   /// In en, this message translates to:
@@ -410,6 +416,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error'**
   String get error;
+
+  /// No description provided for @errorAnalyzingDb.
+  ///
+  /// In en, this message translates to:
+  /// **'An error has occurred while analyzing the database structure'**
+  String get errorAnalyzingDb;
 
   /// No description provided for @errorReadingQr.
   ///
