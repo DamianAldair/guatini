@@ -37,6 +37,7 @@ class DbProvider {
     final prefs = UserPreferences();
     prefs.dbPath = null;
     await _db?.close();
+    AdsProvider.ads = [];
     _db = null;
   }
 
