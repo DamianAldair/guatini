@@ -231,41 +231,73 @@ class Thumbnail extends StatelessWidget {
               );
       }
     } else {
-      return FutureBuilder(
-        future: http.get(Uri.parse(media.path!)),
-        builder: (_, AsyncSnapshot<http.Response> snapshot) {
-          final Widget child;
-          if (snapshot.hasError) {
-            child = const Icon(Icons.wifi_off_rounded);
-          } else if (snapshot.connectionState != ConnectionState.done ||
-              (snapshot.connectionState == ConnectionState.done && !snapshot.hasData)) {
-            child = const CircularProgressIndicator();
-          } else {
-            child = Image.memory(
-              snapshot.data!.bodyBytes,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const Icon(Icons.image_not_supported_rounded),
-            );
-          }
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(color: Colors.grey.withOpacity(0.3)),
-              child,
-              const Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Icon(
-                    Icons.language_rounded,
-                    color: Colors.white,
+      if (media.mediaType.type == MediaType.image) {
+        return FutureBuilder(
+          future: http.get(Uri.parse(media.path!)),
+          builder: (_, AsyncSnapshot<http.Response> snapshot) {
+            const ph = Icon(Icons.broken_image_rounded);
+            final Widget child;
+            if (snapshot.hasError) {
+              child = ph;
+            } else if (snapshot.connectionState != ConnectionState.done ||
+                (snapshot.connectionState == ConnectionState.done && !snapshot.hasData)) {
+              child = const CircularProgressIndicator();
+            } else {
+              child = Image.memory(
+                snapshot.data!.bodyBytes,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => ph,
+              );
+            }
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(color: Colors.grey.withOpacity(0.3)),
+                child,
+                const Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Icon(
+                      Icons.language_rounded,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+              ],
+            );
+          },
+        );
+      } else if (media.mediaType.type == MediaType.video) {
+        return Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(color: Colors.grey.withOpacity(0.3)),
+            Container(
+              width: 45.0,
+              height: 45.0,
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.6),
+                borderRadius: BorderRadius.circular(100.0),
               ),
-            ],
-          );
-        },
-      );
+              child: const Icon(
+                Icons.play_arrow_rounded,
+                color: Colors.white,
+              ),
+            ),
+            const Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Icon(
+                  Icons.language_rounded,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        );
+      }
     }
     return placeholder;
   }
@@ -872,15 +904,19 @@ class _VideoViewerState extends State<VideoViewer> with SingleTickerProviderStat
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    final path = p.join(prefs.dbPathNotifier.value!, widget.media.path).replaceAll('\\', '/');
-    video = VideoPlayerController.file(File(path));
+    if (widget.media.isOffline) {
+      final path = p.join(prefs.dbPathNotifier.value!, widget.media.path).replaceAll('\\', '/');
+      video = VideoPlayerController.file(File(path));
+    } else {
+      video = VideoPlayerController.network(widget.media.path!);
+    }
     video.addListener(() {
       if (mounted) {
         setState(() {});
       }
     });
-    video.initialize().then((value) => setState(() {}));
     video.setLooping(false);
+    video.initialize().then((_) => setState(() {}));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (prefs.autoplayVideo) {
         video.play();
@@ -977,19 +1013,29 @@ class _VideoViewerState extends State<VideoViewer> with SingleTickerProviderStat
                                       color: Colors.white,
                                       tooltip: AppLocalizations.of(context).info,
                                       onPressed: () async {
-                                        if (video.value.isPlaying) {
-                                          await video.pause();
-                                        }
-                                        // ignore: use_build_context_synchronously
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (_) => MediaInfoPage(
-                                              widget.media,
-                                              heroTag: widget.media.id.toString(),
+                                        if (widget.media.isOnline) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                widget.media.path ?? AppLocalizations.of(context).errorObtainingInfo,
+                                              ),
                                             ),
-                                          ),
-                                        );
+                                          );
+                                        } else {
+                                          if (video.value.isPlaying) {
+                                            await video.pause();
+                                          }
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => MediaInfoPage(
+                                                widget.media,
+                                                heroTag: widget.media.id.toString(),
+                                              ),
+                                            ),
+                                          );
+                                        }
                                       },
                                     ),
                                 ],
@@ -1010,14 +1056,14 @@ class _VideoViewerState extends State<VideoViewer> with SingleTickerProviderStat
                                         ),
                                       ),
                                       Expanded(
-                                        child: Slider(
-                                          activeColor: Colors.white,
-                                          inactiveColor: Colors.grey,
-                                          max: video.value.duration.inMilliseconds.toDouble(),
-                                          value: video.value.position.inMilliseconds.toDouble(),
-                                          onChanged: (value) {
-                                            video.seekTo(Duration(milliseconds: value.toInt()));
-                                          },
+                                        child: VideoProgressIndicator(
+                                          video,
+                                          allowScrubbing: true,
+                                          colors: VideoProgressColors(
+                                            playedColor: Colors.white,
+                                            bufferedColor: Colors.white.withOpacity(0.4),
+                                            backgroundColor: Colors.white.withOpacity(0.2),
+                                          ),
                                         ),
                                       ),
                                       Padding(
