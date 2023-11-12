@@ -68,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.language_rounded),
+            leading: const Icon(FontAwesomeIcons.language),
             title: Text(AppLocalizations.of(context).language),
             subtitle: Text(AppLocalizations.of(context).languageName),
             trailing: const Icon(Icons.chevron_right_rounded),

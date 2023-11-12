@@ -17,6 +17,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:http/http.dart' as http;
 
 class MainImage extends StatelessWidget {
   final SpeciesModel species;
@@ -82,13 +83,16 @@ class Gallery extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (medias == null) return const SizedBox.shrink();
+    final prefs = UserPreferences();
     List<MediaModel> gallery = [];
     for (MediaModel m in medias!) {
       if (m.mediaType.type != MediaType.audio) {
-        if (mainImageId == null) {
-          gallery.add(m);
-        } else if (m.id != mainImageId) {
-          gallery.add(m);
+        if (mainImageId == null || m.id != mainImageId) {
+          if (m.isOffline ||
+              (m.mediaType.type == MediaType.image && prefs.imageOnline) ||
+              (m.mediaType.type == MediaType.video && prefs.videoOnline)) {
+            gallery.add(m);
+          }
         }
       }
     }
@@ -131,7 +135,7 @@ class Gallery extends StatelessWidget {
                       gallery[i].path?.replaceAll('\\', '/'),
                     );
                     final file = File(path);
-                    if (file.existsSync()) {
+                    if (gallery[i].isOnline || file.existsSync()) {
                       if (gallery[i].mediaType.type == MediaType.image) {
                         Navigator.push(
                           context,
@@ -170,70 +174,100 @@ class Gallery extends StatelessWidget {
 
 class Thumbnail extends StatelessWidget {
   final MediaModel media;
+
   const Thumbnail(this.media, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final path = p.join(UserPreferences().dbPathNotifier.value!, media.path).replaceAll('\\', '/');
-    final file = File(path);
-    if (media.mediaType.type == MediaType.image) {
-      if (file.existsSync()) {
-        return Image.file(
-          file,
-          fit: BoxFit.cover,
-        );
-      } else {
-        return Image.asset(
-          'assets/images/image_not_available.png',
-          fit: BoxFit.cover,
-        );
-      }
-    }
-    if (media.mediaType.type == MediaType.video) {
-      if (file.existsSync()) {
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              color: Colors.black.withOpacity(0.6),
-            ),
-            FutureBuilder(
-              future: VideoThumbnail.thumbnailData(video: path),
-              builder: (_, AsyncSnapshot snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return Image.memory(
-                  snapshot.data,
-                  fit: BoxFit.cover,
-                );
-              },
-            ),
-            Container(
-              width: 45.0,
-              height: 45.0,
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
-                borderRadius: BorderRadius.circular(100.0),
-              ),
-              child: const Icon(
-                Icons.play_arrow_rounded,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        );
-      } else {
-        return Image.asset(
-          'assets/images/video_not_available.png',
-          fit: BoxFit.cover,
-        );
-      }
-    }
-    return Image.asset(
+    final placeholder = Image.asset(
       'assets/images/image_not_available.png',
       fit: BoxFit.cover,
     );
+    if (media.path == null) return placeholder;
+    if (media.isOffline) {
+      final path = p.join(UserPreferences().dbPathNotifier.value!, media.path).replaceAll('\\', '/');
+      final file = File(path);
+      if (media.mediaType.type == MediaType.image) {
+        return !file.existsSync()
+            ? placeholder
+            : Image.file(
+                file,
+                fit: BoxFit.cover,
+              );
+      } else if (media.mediaType.type == MediaType.video) {
+        return !file.existsSync()
+            ? placeholder
+            : Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+                  FutureBuilder(
+                    future: VideoThumbnail.thumbnailData(video: path),
+                    builder: (_, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return Image.memory(
+                        snapshot.data,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
+                  Container(
+                    width: 45.0,
+                    height: 45.0,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.6),
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    child: const Icon(
+                      Icons.play_arrow_rounded,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              );
+      }
+    } else {
+      return FutureBuilder(
+        future: http.get(Uri.parse(media.path!)),
+        builder: (_, AsyncSnapshot<http.Response> snapshot) {
+          final Widget child;
+          if (snapshot.hasError) {
+            child = const Icon(Icons.wifi_off_rounded);
+          } else if (snapshot.connectionState != ConnectionState.done ||
+              (snapshot.connectionState == ConnectionState.done && !snapshot.hasData)) {
+            child = const CircularProgressIndicator();
+          } else {
+            child = Image.memory(
+              snapshot.data!.bodyBytes,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => const Icon(Icons.image_not_supported_rounded),
+            );
+          }
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(color: Colors.grey.withOpacity(0.3)),
+              child,
+              const Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Icon(
+                    Icons.language_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+    return placeholder;
   }
 }
 
@@ -417,8 +451,16 @@ class _GalleryViewerState extends State<GalleryViewer> with SingleTickerProvider
               pageController: pageController,
               builder: (_, int i) {
                 final media = list[i];
-                final path = p.join(UserPreferences().dbPathNotifier.value!, media.path).replaceAll('\\', '/');
-                final imageProvider = FileImage(File(path));
+                final imageProvider = media.isOffline
+                    ? FileImage(
+                        File(p
+                            .join(
+                              UserPreferences().dbPathNotifier.value!,
+                              media.path,
+                            )
+                            .replaceAll('\\', '/')),
+                      )
+                    : NetworkImage(media.path!) as ImageProvider;
                 return PhotoViewGalleryPageOptions(
                   heroAttributes: PhotoViewHeroAttributes(tag: media.id!),
                   imageProvider: imageProvider,
@@ -463,22 +505,30 @@ class _GalleryViewerState extends State<GalleryViewer> with SingleTickerProvider
                               fontSize: 20.0,
                             ),
                           ),
-                          const Expanded(child: SizedBox()),
+                          const Spacer(),
                           IconButton(
                             icon: const Icon(Icons.info_outlined),
                             color: Colors.white,
                             tooltip: AppLocalizations.of(context).info,
                             onPressed: () {
                               final media = list[pageController.page!.round()];
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => MediaInfoPage(
-                                    media,
-                                    heroTag: media.id.toString(),
+                              if (media.isOnline) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(media.path ?? AppLocalizations.of(context).errorObtainingInfo),
                                   ),
-                                ),
-                              );
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => MediaInfoPage(
+                                      media,
+                                      heroTag: media.id.toString(),
+                                    ),
+                                  ),
+                                );
+                              }
                             },
                           ),
                         ],

@@ -20,9 +20,15 @@ import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
 import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/models/sql_table_model.dart';
+import 'package:guatini/util/util_data.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class SearchProvider {
+  static String _excludeOnline(String column) {
+    final wheres = protocols.map((p) => '$column NOT LIKE \'%$p://%\'');
+    return wheres.join(' AND ');
+  }
+
   static Future<List<AdModel>> getAds(Database db) async {
     const query = 'select [ads].* from [main].[ads] order by [main].[ads].[id];';
     final result = await db.rawQuery(query);
@@ -430,6 +436,7 @@ abstract class SearchProvider {
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
           inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
           where [main].[media].[fk_type_] = 1 AND
+            ${_excludeOnline('[main].[media].[path]')} AND
             ([main].[common_name].[name] LIKE '%$search%' OR [main].[specie].[scientific_name] LIKE '%$search%')
           group by [main].[specie].[scientific_name]
           order by [main].[specie].[scientific_name];
@@ -451,15 +458,16 @@ abstract class SearchProvider {
           select * from (
             select * from (
               select distinct
-              [main].[specie].[id], 
-              [main].[common_name].[name], 
-              [main].[specie].[scientific_name], 
-              [main].[media].[path]
+                [main].[specie].[id], 
+                [main].[common_name].[name], 
+                [main].[specie].[scientific_name], 
+                [main].[media].[path]
               from [main].[specie]
-              inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-              inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-              inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
-              where [main].[type].[type] = 'Imagen'
+                inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+                inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+                inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
+              where ${_excludeOnline('[main].[media].[path]')} AND
+                [main].[media].[fk_type_] = 1
               order by random()
             )
             group by id
@@ -498,7 +506,8 @@ abstract class SearchProvider {
           from [main].[media]
             inner join [main].[media_author] on [main].[media].[id] = [main].[media_author].[fk_media_]
             inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
-            where [main].[media_author].[fk_author_] = $authorId;
+          where${_excludeOnline('[main].[media].[path]')} AND
+            [main].[media_author].[fk_author_] = $authorId;
         ''';
       }
       if (licenseId != null) {
@@ -513,7 +522,8 @@ abstract class SearchProvider {
             [main].[type].[type]
           from [main].[media]
             inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
-          where [main].[media].[fk_license_] = $licenseId;
+          where ${_excludeOnline('[main].[media].[path]')} AND
+            [main].[media].[fk_license_] = $licenseId;
         ''';
       }
       final result = await db.rawQuery(query!);

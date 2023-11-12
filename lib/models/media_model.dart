@@ -2,6 +2,7 @@ import 'package:guatini/models/author_model.dart';
 import 'package:guatini/models/license_model.dart';
 import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/util/util_data.dart';
 
 class MediaModel {
   final int? id;
@@ -34,18 +35,22 @@ class MediaModel {
   factory MediaModel.fromMore(Map<String, dynamic> json) => MediaModel(
         id: json["id"],
         path: (json["path"] as String).replaceAll('\\', '/'),
-        latitude: json["lat"],
-        longitude: json["lon"],
-        dateCapture: DateTime.fromMillisecondsSinceEpoch(Duration(seconds: json["date_capture"]).inMilliseconds),
+        dateCapture: json["date_capture"] == null || json["date_capture"] == ''
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(Duration(milliseconds: json["date_capture"]).inMilliseconds),
+        latitude: json["lat"] == null || json["lat"] == '' ? null : json["lat"],
+        longitude: json["lon"] == null || json["lon"] == '' ? null : json["lon"],
         speciesId: json["fk_specie_"],
       )..type = MediaTypeModel.fromMap({"type": json["type"]});
 
   factory MediaModel.fromMap(Map<String, dynamic> json) => MediaModel(
         id: json["id"],
         path: (json["path"] as String).replaceAll('\\', '/'),
-        dateCapture: DateTime.fromMillisecondsSinceEpoch(Duration(milliseconds: json["date_capture"]).inMilliseconds),
-        latitude: json["lat"],
-        longitude: json["lon"],
+        dateCapture: json["date_capture"] == null || json["date_capture"] == ''
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(Duration(milliseconds: json["date_capture"]).inMilliseconds),
+        latitude: json["lat"] == null || json["lat"] == '' ? null : json["lat"],
+        longitude: json["lon"] == null || json["lon"] == '' ? null : json["lon"],
         authorId: json["authorId"],
         licenseId: json["licenseId"],
       );
@@ -64,6 +69,14 @@ class MediaModel {
   set mediaType(MediaTypeModel type) => this.type = type;
 
   MediaTypeModel get mediaType => type!;
+
+  bool get isOnline {
+    if (path == null) return false;
+    final protocol = protocols.firstWhere((p) => path!.startsWith('$p://'), orElse: () => '');
+    return protocol.isNotEmpty;
+  }
+
+  bool get isOffline => !isOnline;
 }
 
 class MainImageModel extends MediaModel {
