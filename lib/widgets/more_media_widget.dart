@@ -50,7 +50,8 @@ class MoreMedia extends StatelessWidget {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
               itemCount: medias!.length,
               itemBuilder: (_, int i) {
-                final file = File(p.join(UserPreferences().dbPathNotifier.value!, medias[i].path));
+                final path = p.join(UserPreferences().dbPathNotifier.value!, medias[i].path).replaceAll('\\', '/');
+                final file = File(path);
                 if (!file.existsSync()) {
                   return Image.asset(
                     'assets/images/image_not_available.png',

@@ -19,11 +19,15 @@ class MediaInfoPage extends StatelessWidget {
   final MediaModel media;
   final Object? heroTag;
 
-  const MediaInfoPage(this.media, {this.heroTag, Key? key}) : super(key: key);
+  const MediaInfoPage(
+    this.media, {
+    this.heroTag,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final path = p.join(UserPreferences().dbPathNotifier.value!, media.path);
+    final path = p.join(UserPreferences().dbPathNotifier.value!, media.path).replaceAll('\\', '/');
     final file = File(path);
     final size = MediaQuery.of(context).size.width / 3;
 

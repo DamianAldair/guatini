@@ -32,10 +32,14 @@ class LicenseDetailsPage extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            if (license != null)
+            if (license?.description != null)
               Selectable(
                 popupMenuItems: [
-                  SelectableMenuItem(type: SelectableMenuItemType.copy),
+                  SelectableMenuItem(
+                    type: SelectableMenuItemType.copy,
+                    icon: Icons.copy_rounded,
+                    title: AppLocalizations.of(context).copy,
+                  ),
                 ],
                 child: Container(
                   width: double.infinity,
@@ -49,8 +53,7 @@ class LicenseDetailsPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Text(
-                    license?.description ??
-                        AppLocalizations.of(context).unknown,
+                    license!.description!,
                     textAlign: TextAlign.justify,
                   ),
                 ),

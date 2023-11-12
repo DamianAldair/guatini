@@ -306,48 +306,51 @@ class AuthorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = 10.0;
-    return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => AuthorDetailsPage(author)),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15.0,
+        vertical: 7.0,
       ),
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 15.0,
-          vertical: 7.0,
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => AuthorDetailsPage(author)),
         ),
-        decoration: BoxDecoration(
-          color: Colors.black12,
-          borderRadius: BorderRadius.circular(radius),
-        ),
-        width: double.infinity,
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(radius),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: Colors.black12,
+            borderRadius: BorderRadius.circular(radius),
+          ),
+          width: double.infinity,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.person_rounded),
+                    const SizedBox(width: 5.0),
+                    Text(AppLocalizations.of(context).author),
+                  ],
+                ),
               ),
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.person_rounded),
-                  const SizedBox(width: 5.0),
-                  Text(AppLocalizations.of(context).author),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  author?.name ?? AppLocalizations.of(context).unknown,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(
-                author?.name ?? AppLocalizations.of(context).unknown,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -362,60 +365,63 @@ class LicenseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = 10.0;
-    return GestureDetector(
-      onTap: license == null
-          ? () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    AppLocalizations.of(context).unknownInfo,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15.0,
+        vertical: 7.0,
+      ),
+      child: InkWell(
+        onTap: license == null
+            ? () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context).unknownInfo,
+                    ),
                   ),
+                );
+              }
+            : () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => LicenseDetailsPage(license)),
+                );
+              },
+        borderRadius: BorderRadius.circular(radius),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: Colors.black12,
+            borderRadius: BorderRadius.circular(radius),
+          ),
+          width: double.infinity,
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-              );
-            }
-          : () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => LicenseDetailsPage(license)),
-              );
-            },
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 15.0,
-          vertical: 7.0,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.black12,
-          borderRadius: BorderRadius.circular(radius),
-        ),
-        width: double.infinity,
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.circular(10.0),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.text_snippet_rounded),
+                    const SizedBox(width: 5.0),
+                    Text(AppLocalizations.of(context).license),
+                  ],
+                ),
               ),
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.text_snippet_rounded),
-                  const SizedBox(width: 5.0),
-                  Text(AppLocalizations.of(context).license),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  license?.name ?? AppLocalizations.of(context).unknown,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Text(
-                license?.name ?? AppLocalizations.of(context).unknown,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

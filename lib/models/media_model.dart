@@ -33,7 +33,7 @@ class MediaModel {
 
   factory MediaModel.fromMore(Map<String, dynamic> json) => MediaModel(
         id: json["id"],
-        path: json["path"],
+        path: (json["path"] as String).replaceAll('\\', '/'),
         latitude: json["lat"],
         longitude: json["lon"],
         dateCapture: DateTime.fromMillisecondsSinceEpoch(Duration(seconds: json["date_capture"]).inMilliseconds),
@@ -42,8 +42,8 @@ class MediaModel {
 
   factory MediaModel.fromMap(Map<String, dynamic> json) => MediaModel(
         id: json["id"],
-        path: json["path"],
-        dateCapture: DateTime.fromMillisecondsSinceEpoch(Duration(seconds: json["date_capture"]).inMilliseconds),
+        path: (json["path"] as String).replaceAll('\\', '/'),
+        dateCapture: DateTime.fromMillisecondsSinceEpoch(Duration(milliseconds: json["date_capture"]).inMilliseconds),
         latitude: json["lat"],
         longitude: json["lon"],
         authorId: json["authorId"],
@@ -64,14 +64,6 @@ class MediaModel {
   set mediaType(MediaTypeModel type) => this.type = type;
 
   MediaTypeModel get mediaType => type!;
-
-  // DateTime? get date => dateCapture == null
-  //     ? null
-  //     : DateTime(
-  //         int.parse(dateCapture!.substring(0, 4)),
-  //         int.parse(dateCapture!.substring(4, 6)),
-  //         int.parse(dateCapture!.substring(6)),
-  //       );
 }
 
 class MainImageModel extends MediaModel {
