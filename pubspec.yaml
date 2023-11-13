@@ -29,8 +29,6 @@ dependencies:
   sqflite: ^2.2.8+4
   photo_view:
     path: packages/photo_view
-  audioplayers:
-   path: packages/audioplayers
   video_player: ^2.6.1
   video_thumbnail: ^0.5.3
   geolocator: ^9.0.2

@@ -10,7 +10,6 @@ import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/widgets/info_card_widget.dart';
-// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';

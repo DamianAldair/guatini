@@ -17,7 +17,6 @@ import 'package:guatini/models/media_model.dart';
 import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
-// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 
 class SpeciesModel {

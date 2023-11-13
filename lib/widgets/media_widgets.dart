@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,7 +10,6 @@ import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/pages/media_info_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/util/parse.dart';
-// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -612,8 +610,7 @@ class AudioCard extends StatelessWidget {
                 childAspectRatio: list.length == 1 ? 3.0 : 1.0,
               ),
               itemCount: list.length,
-              itemBuilder: (_, int ind) {
-                const i = 0;
+              itemBuilder: (_, int i) {
                 final title = list.length == 1
                     ? AppLocalizations.of(context).sound
                     : '${AppLocalizations.of(context).sound} ${i + 1}';
@@ -687,45 +684,27 @@ class AudioViewer extends StatefulWidget {
 
 class _AudioViewerState extends State<AudioViewer> {
   final prefs = UserPreferences();
-  late AudioPlayer player;
-  bool playable = false;
-  bool isPlaying = false;
-  Duration position = const Duration();
-  Duration duration = const Duration();
+  late VideoPlayerController audio;
 
   @override
   void initState() {
-    if (File(_audioPath).existsSync()) {
-      playable = true;
-      player = AudioPlayer();
-      player.setSource(UrlSource(_audioPath)).then((_) {
-        player.getDuration().then((d) {
-          setState(() => duration = d ?? Duration.zero);
-        });
-      });
-      player.onPositionChanged.listen((p) {
-        if (mounted) {
-          setState(() => position = p);
-        }
-      });
-      player.onDurationChanged.listen((d) {
-        if (mounted) {
-          setState(() => duration = d);
-        }
-      });
-      player.onPlayerComplete.listen((_) {
-        if (mounted) {
-          setState(() {
-            isPlaying = false;
-            position = Duration.zero;
-          });
-        }
-      });
+    if (widget.media.isOffline) {
+      final path = p.join(prefs.dbPathNotifier.value!, widget.media.path).replaceAll('\\', '/');
+      audio = VideoPlayerController.file(File(path));
+    } else {
+      audio = VideoPlayerController.network(widget.media.path!);
     }
+    audio.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    audio.setLooping(false);
+    audio.initialize().then((_) => setState(() {}));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (prefs.autoplayAudio) {
-        setState(() => isPlaying = true);
-        player.resume();
+      if (prefs.autoplayVideo) {
+        audio.play();
+        setState(() {});
       }
     });
     super.initState();
@@ -733,30 +712,13 @@ class _AudioViewerState extends State<AudioViewer> {
 
   @override
   void dispose() {
-    if (playable) {
-      player.dispose();
-    }
+    audio.dispose();
     super.dispose();
   }
 
-  String get _audioPath => p.join(prefs.dbPathNotifier.value!, widget.media.path).replaceAll('\\', '/');
-
   @override
   Widget build(BuildContext context) {
-    if (!playable) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 50.0,
-          horizontal: 10.0,
-        ),
-        child: Text(
-          AppLocalizations.of(context).errorObtainingInfo,
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-    final bgColor = Theme.of(context).scaffoldBackgroundColor;
-    final fgColor = IconTheme.of(context).color;
+    final theme = Theme.of(context);
     final portrait = MediaQuery.of(context).orientation == Orientation.portrait;
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -769,25 +731,34 @@ class _AudioViewerState extends State<AudioViewer> {
                 icon: const Icon(Icons.info_outlined),
                 tooltip: AppLocalizations.of(context).info,
                 onPressed: () async {
-                  if (isPlaying) {
-                    isPlaying = false;
-                    player.pause();
+                  if (widget.media.isOnline) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          widget.media.path ?? AppLocalizations.of(context).errorObtainingInfo,
+                        ),
+                      ),
+                    );
+                  } else {
+                    if (audio.value.isPlaying) {
+                      await audio.pause();
+                    }
+                    // ignore: use_build_context_synchronously
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MediaInfoPage(widget.media),
+                      ),
+                    );
                   }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => MediaInfoPage(widget.media),
-                    ),
-                  );
                 },
               ),
             ],
           ),
-        const SizedBox(height: 20.0),
         if (portrait)
-          const Icon(
+          Icon(
             Icons.audiotrack_rounded,
-            size: 100.0,
+            size: MediaQuery.of(context).size.width / 4,
           ),
         Text(widget.title ?? AppLocalizations.of(context).sound),
         const SizedBox(height: 20.0),
@@ -795,81 +766,67 @@ class _AudioViewerState extends State<AudioViewer> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Text(parseDuration(position)),
+              child: Text(parseDuration(audio.value.position)),
             ),
             Expanded(
-              child: Slider(
-                thumbColor: fgColor,
-                activeColor: fgColor?.withOpacity(0.8),
-                inactiveColor: Colors.grey.withOpacity(0.5),
-                value: position.inMilliseconds.toDouble(),
-                max: duration.inMilliseconds.toDouble(),
-                onChanged: (value) => setState(() {
-                  final d = Duration(milliseconds: value.toInt());
-                  player.seek(d);
-                  position = d;
-                }),
+              child: VideoProgressIndicator(
+                audio,
+                allowScrubbing: true,
+                colors: VideoProgressColors(
+                  playedColor: theme.iconTheme.color!,
+                  bufferedColor: theme.iconTheme.color!.withOpacity(0.25),
+                  backgroundColor: theme.iconTheme.color!.withOpacity(0.2),
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Text(parseDuration(duration)),
+              child: Text(parseDuration(audio.value.duration)),
             ),
           ],
         ),
         const SizedBox(height: 10.0),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Expanded(child: SizedBox()),
             IconButton(
               icon: const Icon(Icons.skip_previous_rounded),
               tooltip: AppLocalizations.of(context).replay,
-              onPressed: () {
-                setState(() {
-                  isPlaying = true;
-                  position = Duration.zero;
-                });
-                player.seek(position).then((_) => player.resume());
+              onPressed: () async {
+                await audio.seekTo(Duration.zero);
+                await audio.play();
+                setState(() {});
               },
             ),
-            const SizedBox(width: 20.0),
             Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15.0),
               decoration: BoxDecoration(
-                color: fgColor,
+                color: theme.iconTheme.color,
                 borderRadius: BorderRadius.circular(100.0),
               ),
               height: 50.0,
               width: 50.0,
               child: IconButton(
                 icon: Icon(
-                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                  audio.value.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
                 ),
-                color: bgColor,
-                tooltip: isPlaying ? AppLocalizations.of(context).pause : AppLocalizations.of(context).play,
-                onPressed: () {
-                  if (isPlaying) {
-                    setState(() => isPlaying = false);
-                    player.pause();
-                  } else {
-                    setState(() => isPlaying = true);
-                    player.resume();
-                  }
+                color: theme.colorScheme.background,
+                tooltip: audio.value.isPlaying ? AppLocalizations.of(context).pause : AppLocalizations.of(context).play,
+                onPressed: () async {
+                  audio.value.isPlaying ? await audio.pause() : await audio.play();
+                  setState(() {});
                 },
               ),
             ),
-            const SizedBox(width: 20.0),
             IconButton(
               icon: const Icon(Icons.stop_rounded),
               tooltip: AppLocalizations.of(context).stop,
-              onPressed: () {
-                setState(() {
-                  isPlaying = false;
-                  position = Duration.zero;
-                });
-                player.pause().then((_) => player.seek(position));
+              onPressed: () async {
+                await audio.seekTo(Duration.zero);
+                await audio.pause();
+                setState(() {});
               },
             ),
-            const Expanded(child: SizedBox()),
           ],
         ),
         SizedBox(height: portrait ? 40.0 : 10.0),
@@ -1106,10 +1063,9 @@ class _VideoViewerState extends State<VideoViewer> with SingleTickerProviderStat
                                           tooltip: video.value.isPlaying
                                               ? AppLocalizations.of(context).pause
                                               : AppLocalizations.of(context).play,
-                                          onPressed: () {
-                                            setState(() {
-                                              video.value.isPlaying ? video.pause() : video.play();
-                                            });
+                                          onPressed: () async {
+                                            video.value.isPlaying ? await video.pause() : await video.play();
+                                            setState(() {});
                                           },
                                         ),
                                       ),

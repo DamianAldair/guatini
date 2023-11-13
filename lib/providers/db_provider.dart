@@ -6,7 +6,6 @@ import 'package:guatini/models/sql_table_model.dart';
 import 'package:guatini/providers/ads_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
-// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
