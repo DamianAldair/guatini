@@ -271,6 +271,13 @@ class Thumbnail extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Container(color: Colors.grey.withOpacity(0.3)),
+            const Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Icon(Icons.ondemand_video_rounded),
+              ),
+            ),
             Container(
               width: 45.0,
               height: 45.0,
@@ -287,10 +294,7 @@ class Thumbnail extends StatelessWidget {
               alignment: Alignment.topRight,
               child: Padding(
                 padding: EdgeInsets.all(10.0),
-                child: Icon(
-                  Icons.language_rounded,
-                  color: Colors.white,
-                ),
+                child: Icon(Icons.language_rounded),
               ),
             ),
           ],
