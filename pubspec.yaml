@@ -27,8 +27,7 @@ dependencies:
   shared_preferences: ^2.1.1
   flutter_secure_storage: ^8.0.0
   sqflite: ^2.2.8+4
-  photo_view:
-    path: packages/photo_view
+  photo_view: ^0.14.0
   video_player: ^2.6.1
   video_thumbnail: ^0.5.3
   geolocator: ^9.0.2

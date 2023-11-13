@@ -638,9 +638,9 @@ packages:
   photo_view:
     dependency: "direct main"
     description:
-      path: "packages/photo_view"
-      relative: true
-    source: path
+      name: photo_view
+      url: "https://pub.dev"
+    source: hosted
     version: "0.14.0"
   platform:
     dependency: transitive
