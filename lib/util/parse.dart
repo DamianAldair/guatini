@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/specie_model.dart';
 
@@ -46,8 +49,7 @@ List<SpeciesModel> joinEquals(List<SpeciesModel> list) {
     if (sname == s.scientificName) {
       cname += '${s.searchName}\n';
     }
-    if ((i + 1 < list.length && sname != list[i + 1].scientificName) ||
-        i + 1 >= list.length) {
+    if ((i + 1 < list.length && sname != list[i + 1].scientificName) || i + 1 >= list.length) {
       final json = {
         "id": s.id,
         "name": cname.substring(0, cname.length - 1),
@@ -59,4 +61,18 @@ List<SpeciesModel> joinEquals(List<SpeciesModel> list) {
     }
   }
   return result;
+}
+
+Future<Uint8List> deleteCountries(String assetGeoJsonMap, {List<String> toDelete = const []}) async {
+  final mapString = await rootBundle.loadString(assetGeoJsonMap);
+  if (toDelete.isEmpty) return Uint8List.fromList(utf8.encode(mapString));
+  final map = json.decode(mapString) as Map<String, dynamic>;
+  final countries = map['features'] as List;
+  final without = countries.where((c) {
+    final cMap = (c as Map<String, dynamic>)['properties'] as Map<String, dynamic>;
+    return !toDelete.contains((cMap['admin'] as String).toLowerCase()) &&
+        !toDelete.contains((cMap['name'] as String).toLowerCase());
+  }).toList();
+  map.update('features', (_) => without);
+  return Uint8List.fromList(utf8.encode(json.encode(map)));
 }

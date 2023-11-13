@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:guatini/util/parse.dart';
+import 'package:path/path.dart' as p;
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 class MapPage extends StatefulWidget {
@@ -45,7 +49,8 @@ class _MapPageState extends State<MapPage> {
       maxZoomLevel: 100.0,
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      showPositionOptions();
+      final asPopup = widget.location != null || widget.polygons != null;
+      if (!asPopup) showPositionOptions();
     });
   }
 
@@ -59,92 +64,120 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    final asPopup = widget.location != null || widget.polygons != null;
+    final isDark = AdaptiveTheme.of(context).brightness == Brightness.dark;
+    final prefs = UserPreferences();
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).map),
         actions: [
-          IconButton(
-            tooltip: AppLocalizations.of(context).locationMode,
-            icon: const FaIcon(FontAwesomeIcons.mapLocationDot),
-            onPressed: showPositionOptions,
-          ),
+          if (!asPopup)
+            IconButton(
+              tooltip: AppLocalizations.of(context).locationMode,
+              icon: const FaIcon(FontAwesomeIcons.mapLocationDot),
+              onPressed: showPositionOptions,
+            ),
         ],
       ),
       body: FutureBuilder(
-        future: Future.wait([
-          rootBundle.load('assets/map/world_map.json'),
-        ]),
-        builder: (_, AsyncSnapshot<List<ByteData>> snapshot) {
-          if (!snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          final bytesWorld = snapshot.data![0].buffer.asUint8List();
-          final isDark = AdaptiveTheme.of(context).brightness == Brightness.dark;
-          return Stack(
-            children: [
-              SfMaps(
-                layers: [
-                  MapShapeLayer(
-                    controller: _mapController,
-                    loadingBuilder: (_) => const Center(child: CircularProgressIndicator()),
-                    source: MapShapeSource.memory(bytesWorld),
-                    strokeColor: isDark ? Colors.white : Colors.black,
-                    color: isDark ? Colors.white.withOpacity(0.5) : null,
-                    zoomPanBehavior: _zoomPan,
-                    // sublayers: [
-                    // MapShapeSublayer(source: MapShapeSource.memory(bytesCuba!)),
-                    // MapPolygonLayer(
-                    //   polygons: List.generate(
-                    //     polygons!.length,
-                    //     (i) => MapPolygon(
-                    //       points: polygons![i],
-                    //       strokeWidth: 0.0,
-                    //       color: Colors.blue.withOpacity(0.5),
-                    //     ),
-                    //   ).toSet(),
-                    // ),
-                    // ],
-                    initialMarkersCount: _currentPosition.length,
-                    markerBuilder: (_, i) => MapMarker(
-                      latitude: _currentPosition[i].latitude,
-                      longitude: _currentPosition[i].longitude,
-                      alignment: Alignment.bottomCenter,
-                      child: Icon(
-                        Icons.location_on_rounded,
-                        color: switch (useGps) {
-                          null => null,
-                          true => Colors.blue,
-                          false => Colors.red,
-                        },
+        future: Directory(p.join(prefs.dbPathNotifier.value!, 'map')).list().toList(),
+        builder: (_, AsyncSnapshot<List<FileSystemEntity>> snapshot) {
+          const placeholder = Center(child: CircularProgressIndicator());
+          if (!snapshot.hasData) return placeholder;
+          final files = snapshot.data!.whereType<File>();
+          return FutureBuilder(
+            future: deleteCountries(
+              'assets/map/world_map.json',
+              toDelete: files.map((f) => p.basenameWithoutExtension(f.path)).toList(),
+            ),
+            builder: (_, AsyncSnapshot<Uint8List> snapshot) {
+              if (!snapshot.hasData) return placeholder;
+              final bytesWorld = snapshot.data!;
+              return FutureBuilder(
+                future: Future.wait([for (final f in files) f.readAsBytes()]),
+                builder: (_, AsyncSnapshot<List<Uint8List>> snapshot) {
+                  final subLayers = <Uint8List>[];
+                  if (snapshot.hasData) {
+                    subLayers.addAll(snapshot.data!);
+                  }
+                  final strokeColor = isDark ? Colors.white : Colors.black;
+                  final color = isDark ? Colors.white.withOpacity(0.5) : null;
+                  return Stack(
+                    children: [
+                      SfMaps(
+                        layers: [
+                          MapShapeLayer(
+                            controller: _mapController,
+                            loadingBuilder: (_) => placeholder,
+                            source: MapShapeSource.memory(bytesWorld),
+                            strokeColor: strokeColor,
+                            color: color,
+                            zoomPanBehavior: _zoomPan,
+                            sublayers: [
+                              for (final sl in subLayers)
+                                MapShapeSublayer(
+                                  source: MapShapeSource.memory(sl),
+                                  strokeColor: strokeColor,
+                                  color: color,
+                                ),
+                              // MapPolygonLayer(
+                              //   polygons: List.generate(
+                              //     polygons!.length,
+                              //     (i) => MapPolygon(
+                              //       points: polygons![i],
+                              //       strokeWidth: 0.0,
+                              //       color: Colors.blue.withOpacity(0.5),
+                              //     ),
+                              //   ).toSet(),
+                              // ),
+                            ],
+                            initialMarkersCount: _currentPosition.length,
+                            markerBuilder: (_, i) => MapMarker(
+                              latitude: _currentPosition[i].latitude,
+                              longitude: _currentPosition[i].longitude,
+                              alignment: Alignment.bottomCenter,
+                              child: Icon(
+                                Icons.location_on_rounded,
+                                color: switch (useGps) {
+                                  null => null,
+                                  true => Colors.blue,
+                                  false => Colors.red,
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              GestureDetector(
-                onDoubleTap: () {},
-                onTapUp: useGps == null || useGps!
-                    ? null
-                    : (details) {
-                        if (_mapController != null) {
-                          final p = _mapController?.pixelToLatLng(details.localPosition);
-                          _currentPosition.clear();
-                          _mapController?.clearMarkers();
-                          if (p != null) {
-                            _currentPosition.add(MapLatLng(p.latitude, p.longitude));
-                            _mapController?.insertMarker(0);
-                          }
-                        }
-                      },
-              ),
-            ],
+                      GestureDetector(
+                        onDoubleTap: () {},
+                        onTapUp: useGps == null || useGps!
+                            ? null
+                            : (details) {
+                                if (_mapController != null) {
+                                  final p = _mapController?.pixelToLatLng(details.localPosition);
+                                  _currentPosition.clear();
+                                  _mapController?.clearMarkers();
+                                  if (p != null) {
+                                    _currentPosition.add(MapLatLng(p.latitude, p.longitude));
+                                    _mapController?.insertMarker(0);
+                                  }
+                                }
+                              },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: getPosition,
-        child: const Icon(Icons.gps_fixed_rounded),
-      ),
+      floatingActionButton: asPopup
+          ? null
+          : FloatingActionButton(
+              onPressed: getPosition,
+              child: const Icon(Icons.gps_fixed_rounded),
+            ),
     );
   }
 
