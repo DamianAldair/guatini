@@ -6,6 +6,8 @@
 // - github.com/chromium/chromium/src/base/file_version_info_win.cc
 // - github.com/timsneath/win32/example/filever.dart
 
+// ignore_for_file: sdk_version_since
+
 part of package_info_plus_windows;
 
 class _LANGANDCODEPAGE extends Struct {
@@ -18,8 +20,7 @@ class _LANGANDCODEPAGE extends Struct {
 
 final _kernel32 = DynamicLibrary.open('kernel32.dll');
 // ignore: non_constant_identifier_names
-final _GetUserDefaultLangID = _kernel32
-    .lookupFunction<Uint16 Function(), int Function()>('GetUserDefaultLangID');
+final _GetUserDefaultLangID = _kernel32.lookupFunction<Uint16 Function(), int Function()>('GetUserDefaultLangID');
 
 class _FileVersionInfoData {
   _FileVersionInfoData({this.lpBlock, this.lpLang});
@@ -68,8 +69,7 @@ class _FileVersionInfo {
       final lang = toHex4(langCodepage[0]);
       final codepage = toHex4(langCodepage[1]);
       final lpSubBlock = TEXT('\\StringFileInfo\\$lang$codepage\\$name');
-      final res =
-          VerQueryValue(_data.lpBlock!, lpSubBlock, lplpBuffer.cast(), puLen);
+      final res = VerQueryValue(_data.lpBlock!, lpSubBlock, lplpBuffer.cast(), puLen);
       calloc.free(lpSubBlock);
 
       if (res != 0 && lplpBuffer.value != 0 && puLen.value > 0) {
@@ -94,8 +94,7 @@ class _FileVersionInfo {
     }
     final lpSubBlock = TEXT(r'\VarFileInfo\Translation');
     final lpTranslate = calloc<IntPtr>();
-    if (VerQueryValue(lpBlock, lpSubBlock, lpTranslate.cast(), lpdwDummy) ==
-        0) {
+    if (VerQueryValue(lpBlock, lpSubBlock, lpTranslate.cast(), lpdwDummy) == 0) {
       throw WindowsException(HRESULT_FROM_WIN32(GetLastError()));
     }
     final data = _FileVersionInfoData(
