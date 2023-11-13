@@ -442,7 +442,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seeLocation => 'See location on the map';
 
   @override
-  String get seeSimilarSpacies => 'See similar species';
+  String get seeSimilarSpecies => 'See similar species';
+
+  @override
+  String get seeSpeciesDistribution => 'See distribution of the species on the map';
 
   @override
   String get selectLocationMode => 'Please, select location mode';

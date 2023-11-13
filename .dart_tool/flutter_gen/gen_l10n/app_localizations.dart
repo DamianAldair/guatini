@@ -945,11 +945,17 @@ abstract class AppLocalizations {
   /// **'See location on the map'**
   String get seeLocation;
 
-  /// No description provided for @seeSimilarSpacies.
+  /// No description provided for @seeSimilarSpecies.
   ///
   /// In en, this message translates to:
   /// **'See similar species'**
-  String get seeSimilarSpacies;
+  String get seeSimilarSpecies;
+
+  /// No description provided for @seeSpeciesDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'See distribution of the species on the map'**
+  String get seeSpeciesDistribution;
 
   /// No description provided for @selectLocationMode.
   ///

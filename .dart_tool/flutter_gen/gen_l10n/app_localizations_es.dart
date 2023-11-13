@@ -442,7 +442,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get seeLocation => 'Ver ubicación en el mapa';
 
   @override
-  String get seeSimilarSpacies => 'Ver especies similares';
+  String get seeSimilarSpecies => 'Ver especies similares';
+
+  @override
+  String get seeSpeciesDistribution => 'Ver distribución de la especie en el mapa';
 
   @override
   String get selectLocationMode => 'Por favor, seleccione un modo de ubicación';

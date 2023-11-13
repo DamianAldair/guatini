@@ -123,16 +123,17 @@ class _MapPageState extends State<MapPage> {
                                   strokeColor: strokeColor,
                                   color: color,
                                 ),
-                              // MapPolygonLayer(
-                              //   polygons: List.generate(
-                              //     polygons!.length,
-                              //     (i) => MapPolygon(
-                              //       points: polygons![i],
-                              //       strokeWidth: 0.0,
-                              //       color: Colors.blue.withOpacity(0.5),
-                              //     ),
-                              //   ).toSet(),
-                              // ),
+                              if (widget.polygons != null)
+                                MapPolygonLayer(
+                                  polygons: List.generate(
+                                    widget.polygons!.length,
+                                    (i) => MapPolygon(
+                                      points: widget.polygons![i],
+                                      strokeWidth: 0.0,
+                                      color: Colors.blue.withOpacity(0.5),
+                                    ),
+                                  ).toSet(),
+                                ),
                             ],
                             initialMarkersCount: _currentPosition.length,
                             markerBuilder: (_, i) => MapMarker(

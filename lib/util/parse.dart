@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/specie_model.dart';
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 String parseTheme(BuildContext context) {
   final mode = AdaptiveTheme.of(context).mode;
@@ -75,4 +76,24 @@ Future<Uint8List> deleteCountries(String assetGeoJsonMap, {List<String> toDelete
   }).toList();
   map.update('features', (_) => without);
   return Uint8List.fromList(utf8.encode(json.encode(map)));
+}
+
+List<List<MapLatLng>> toPolygons(String raw) {
+  final rawPolygons = raw.toUpperCase().replaceFirst('MULTIPOLYGON', '').trim().split('), (');
+  final polygons = <List<MapLatLng>>[];
+  for (final raw in rawPolygons) {
+    final polygon = <MapLatLng>[];
+    final rawPoints = raw.replaceAll('(', '').replaceAll(')', '').split(',');
+    for (final p in rawPoints) {
+      final coord = p.trim().split(' ');
+      polygon.add(
+        MapLatLng(
+          double.parse(coord.last),
+          double.parse(coord.first),
+        ),
+      );
+    }
+    polygons.add(polygon);
+  }
+  return polygons;
 }

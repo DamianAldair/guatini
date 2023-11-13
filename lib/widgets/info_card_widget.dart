@@ -8,9 +8,7 @@ import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/pages/author_details_page.dart';
 import 'package:guatini/pages/characteristic_page.dart';
 import 'package:guatini/pages/license_details_page.dart';
-import 'package:guatini/pages/map_page.dart';
 import 'package:selectable/selectable.dart';
-import 'package:syncfusion_flutter_maps/maps.dart';
 
 class InfoCard<T> extends StatelessWidget {
   final String title;

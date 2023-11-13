@@ -20,8 +20,10 @@ import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
 import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/models/sql_table_model.dart';
+import 'package:guatini/util/parse.dart';
 import 'package:guatini/util/util_data.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 abstract class SearchProvider {
   static String _excludeOnline(String column) {
@@ -903,6 +905,28 @@ abstract class SearchProvider {
       return DietModel.fromMap(result.first);
     } catch (e) {
       return Future.value(null);
+    }
+  }
+
+  static Future<List<List<MapLatLng>>> getDistribution(Database db, int speciesId) async {
+    try {
+      final query = '''
+      select 
+        [main].[distribution].[id], 
+        [main].[distribution].[polygon], 
+        [main].[distribution].[description]
+      from [main].[distribution]
+        inner join [main].[specie_distribution] on [main].[distribution].[id] = [main].[specie_distribution].[fk_distribution_]
+      where [main].[specie_distribution].[fk_specie_] = $speciesId;
+      ''';
+      final result = await db.rawQuery(query);
+      final polygons = <List<MapLatLng>>[];
+      for (final r in result) {
+        polygons.addAll(toPolygons(r['polygon'] as String));
+      }
+      return polygons;
+    } catch (_) {
+      return [];
     }
   }
 
