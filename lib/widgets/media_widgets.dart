@@ -586,7 +586,11 @@ class AudioCard extends StatelessWidget {
     if (medias != null) {
       for (MediaModel m in medias!) {
         if (m.mediaType.type != null && m.mediaType.type! == MediaType.audio) {
-          list.add(m);
+          if (m.isOffline) {
+            list.add(m);
+          } else if (UserPreferences().audioOnline) {
+            list.add(m);
+          }
         }
       }
     }
@@ -732,11 +736,19 @@ class _AudioViewerState extends State<AudioViewer> {
                 tooltip: AppLocalizations.of(context).info,
                 onPressed: () async {
                   if (widget.media.isOnline) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: Text(AppLocalizations.of(context).link),
                         content: Text(
                           widget.media.path ?? AppLocalizations.of(context).errorObtainingInfo,
                         ),
+                        actions: [
+                          TextButton(
+                            child: Text(AppLocalizations.of(context).ok),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
                       ),
                     );
                   } else {
