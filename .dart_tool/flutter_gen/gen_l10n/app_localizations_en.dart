@@ -299,6 +299,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get link => 'Link';
 
   @override
+  String get location => 'Location';
+
+  @override
   String get locationMode => 'Location mode';
 
   @override
@@ -431,6 +434,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchSpecies => 'Search Species';
+
+  @override
+  String get seeMediaLocation => 'See location where the media was taken';
+
+  @override
+  String get seeLocation => 'See location on the map';
 
   @override
   String get seeSimilarSpacies => 'See similar species';

@@ -663,6 +663,12 @@ abstract class AppLocalizations {
   /// **'Link'**
   String get link;
 
+  /// No description provided for @location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
   /// No description provided for @locationMode.
   ///
   /// In en, this message translates to:
@@ -926,6 +932,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search Species'**
   String get searchSpecies;
+
+  /// No description provided for @seeMediaLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'See location where the media was taken'**
+  String get seeMediaLocation;
+
+  /// No description provided for @seeLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'See location on the map'**
+  String get seeLocation;
 
   /// No description provided for @seeSimilarSpacies.
   ///

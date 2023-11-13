@@ -6,12 +6,14 @@ import 'package:guatini/models/author_model.dart';
 import 'package:guatini/models/license_model.dart';
 import 'package:guatini/models/media_model.dart';
 import 'package:guatini/models/mediatype_model.dart';
+import 'package:guatini/pages/map_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/widgets/info_card_widget.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
+import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class MediaInfoPage extends StatelessWidget {
@@ -144,7 +146,26 @@ class MediaInfoPage extends StatelessWidget {
                         ),
                         AuthorCard(author!, media.mediaType.type!),
                         LicenseCard(license),
-                        //TODO: map with capture location
+                        if (media.latitude != null && media.longitude != null)
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: OutlinedButton.icon(
+                              icon: const Icon(Icons.location_pin),
+                              label: Text(
+                                AppLocalizations.of(context).seeMediaLocation,
+                                textAlign: TextAlign.center,
+                              ),
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => MapPage(
+                                    location: MapLatLng(media.latitude!, media.longitude!),
+                                    customTitle: AppLocalizations.of(context).seeMediaLocation,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   );

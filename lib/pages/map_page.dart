@@ -16,12 +16,14 @@ class MapPage extends StatefulWidget {
   final MapLatLng? location;
   final List<List<MapLatLng>>? polygons;
   final bool search;
+  final String? customTitle;
 
   const MapPage({
     Key? key,
     this.location,
     this.polygons,
     this.search = false,
+    this.customTitle,
   })  : assert(
           location == null || polygons == null,
           'Cannot provide both a location and polygons',
@@ -48,6 +50,7 @@ class _MapPageState extends State<MapPage> {
       enableDoubleTapZooming: true,
       maxZoomLevel: 100.0,
     );
+    if (widget.location != null) _currentPosition.add(widget.location!);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final asPopup = widget.location != null || widget.polygons != null;
       if (!asPopup) showPositionOptions();
@@ -64,14 +67,14 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    final asPopup = widget.location != null || widget.polygons != null;
+    final onlySee = widget.location != null || widget.polygons != null;
     final isDark = AdaptiveTheme.of(context).brightness == Brightness.dark;
     final prefs = UserPreferences();
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).map),
+        title: Text(widget.customTitle ?? AppLocalizations.of(context).map),
         actions: [
-          if (!asPopup)
+          if (!onlySee)
             IconButton(
               tooltip: AppLocalizations.of(context).locationMode,
               icon: const FaIcon(FontAwesomeIcons.mapLocationDot),
@@ -139,7 +142,7 @@ class _MapPageState extends State<MapPage> {
                               child: Icon(
                                 Icons.location_on_rounded,
                                 color: switch (useGps) {
-                                  null => null,
+                                  null => Colors.green,
                                   true => Colors.blue,
                                   false => Colors.red,
                                 },
@@ -172,7 +175,7 @@ class _MapPageState extends State<MapPage> {
           );
         },
       ),
-      floatingActionButton: asPopup
+      floatingActionButton: onlySee
           ? null
           : FloatingActionButton(
               onPressed: getPosition,
