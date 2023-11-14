@@ -6,6 +6,7 @@ import 'package:guatini/pages/map_page.dart';
 import 'package:guatini/pages/qr_scanner_page.dart';
 import 'package:guatini/pages/settings_page.dart';
 import 'package:guatini/providers/appinfo_provider.dart';
+import 'package:guatini/providers/userpreferences_provider.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -77,24 +78,27 @@ class _Route {
 }
 
 List<_Route> _drawerPagesRoutes(BuildContext context) => [
-      _Route(
-        isMainPage: false,
-        icon: Icons.qr_code_scanner_rounded,
-        title: AppLocalizations.of(context).openQrReader,
-        page: const QrScannerPage(),
-      ),
-      _Route(
-        isMainPage: false,
-        icon: Icons.map_rounded,
-        title: AppLocalizations.of(context).map,
-        page: const MapPage(),
-      ),
-      _Route(
-        isMainPage: false,
-        icon: Icons.gamepad_rounded,
-        title: AppLocalizations.of(context).games,
-        page: const GamesPage(),
-      ),
+      if (UserPreferences().dbPathNotifier.value != null)
+        _Route(
+          isMainPage: false,
+          icon: Icons.qr_code_scanner_rounded,
+          title: AppLocalizations.of(context).openQrReader,
+          page: const QrScannerPage(),
+        ),
+      if (UserPreferences().dbPathNotifier.value != null)
+        _Route(
+          isMainPage: false,
+          icon: Icons.map_rounded,
+          title: AppLocalizations.of(context).map,
+          page: const MapPage(),
+        ),
+      if (UserPreferences().dbPathNotifier.value != null)
+        _Route(
+          isMainPage: false,
+          icon: Icons.gamepad_rounded,
+          title: AppLocalizations.of(context).games,
+          page: const GamesPage(),
+        ),
       _Route(
         isMainPage: false,
         icon: Icons.settings_rounded,
