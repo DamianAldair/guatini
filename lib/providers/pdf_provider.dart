@@ -166,7 +166,7 @@ abstract class PdfProvider {
             ),
           ),
         ),
-        //TODO: IMAGES
+        //IMAGES
         pw.SizedBox(height: 50.0),
         pw.Text(
           '${AppLocalizations.of(context).docGeneratedBy} ${AppInfo().appName}',
