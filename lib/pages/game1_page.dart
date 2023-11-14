@@ -15,7 +15,9 @@ import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 class Game1Page extends StatelessWidget {
-  const Game1Page({super.key});
+  final int gameId;
+
+  const Game1Page(this.gameId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -188,8 +190,8 @@ class Game1Page extends StatelessWidget {
                                             hitsInARow = 0;
                                           }
                                           attemptsNotif.value++;
-                                          if (prefs.games.firstWhere((g) => g.id == 1).record < hitsInARow) {
-                                            prefs.updateGame(GameModel(id: 1, record: hitsInARow));
+                                          if (prefs.games.firstWhere((g) => g.id == gameId).record < hitsInARow) {
+                                            prefs.updateGame(GameModel(id: gameId, record: hitsInARow));
                                           }
                                           respNotif.value = option.scientificName;
                                         },

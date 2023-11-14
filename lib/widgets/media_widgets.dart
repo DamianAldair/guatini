@@ -674,16 +674,20 @@ class AudioCard extends StatelessWidget {
   }
 }
 
+final audioStream = StreamController<bool>.broadcast();
+
 class AudioViewer extends StatefulWidget {
   final MediaModel media;
   final String? title;
   final bool showInfo;
+  final bool fromGame;
 
   const AudioViewer(
     this.media, {
     Key? key,
     this.title,
     this.showInfo = true,
+    this.fromGame = false,
   }) : super(key: key);
 
   @override
@@ -710,10 +714,17 @@ class _AudioViewerState extends State<AudioViewer> {
     audio.setLooping(false);
     audio.initialize().then((_) => setState(() {}));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (prefs.autoplayVideo) {
+      if (widget.fromGame) {
+        audio.seekTo(Duration(milliseconds: audio.value.duration.inMilliseconds ~/ 2)).then((_) => setState(() {}));
+      } else if (prefs.autoplayVideo) {
         audio.play();
         setState(() {});
       }
+      audioStream.stream.listen((event) {
+        if (event) {
+          audio.dispose();
+        }
+      });
     });
     super.initState();
   }
@@ -771,12 +782,12 @@ class _AudioViewerState extends State<AudioViewer> {
               ),
             ],
           ),
-        if (portrait)
+        if (!widget.fromGame && portrait)
           Icon(
             Icons.audiotrack_rounded,
             size: MediaQuery.of(context).size.width / 4,
           ),
-        Text(widget.title ?? AppLocalizations.of(context).sound),
+        if (!widget.fromGame) Text(widget.title ?? AppLocalizations.of(context).sound),
         const SizedBox(height: 20.0),
         Row(
           children: [
@@ -787,7 +798,7 @@ class _AudioViewerState extends State<AudioViewer> {
             Expanded(
               child: VideoProgressIndicator(
                 audio,
-                allowScrubbing: true,
+                allowScrubbing: false,
                 colors: VideoProgressColors(
                   playedColor: theme.iconTheme.color!,
                   bufferedColor: theme.iconTheme.color!.withOpacity(0.25),
@@ -809,7 +820,11 @@ class _AudioViewerState extends State<AudioViewer> {
               icon: const Icon(Icons.skip_previous_rounded),
               tooltip: AppLocalizations.of(context).replay,
               onPressed: () async {
-                await audio.seekTo(Duration.zero);
+                if (widget.fromGame) {
+                  await audio.seekTo(Duration(milliseconds: audio.value.duration.inMilliseconds ~/ 2));
+                } else {
+                  await audio.seekTo(Duration.zero);
+                }
                 await audio.play();
                 setState(() {});
               },
@@ -829,7 +844,16 @@ class _AudioViewerState extends State<AudioViewer> {
                 color: theme.colorScheme.background,
                 tooltip: audio.value.isPlaying ? AppLocalizations.of(context).pause : AppLocalizations.of(context).play,
                 onPressed: () async {
-                  audio.value.isPlaying ? await audio.pause() : await audio.play();
+                  if (audio.value.isPlaying) {
+                    await audio.pause();
+                  } else if (widget.fromGame) {
+                    if (audio.value.position.inMilliseconds < audio.value.duration.inMilliseconds ~/ 2) {
+                      await audio.seekTo(Duration(milliseconds: audio.value.duration.inMilliseconds ~/ 2));
+                    }
+                    await audio.play();
+                  } else {
+                    await audio.play();
+                  }
                   setState(() {});
                 },
               ),
@@ -838,7 +862,11 @@ class _AudioViewerState extends State<AudioViewer> {
               icon: const Icon(Icons.stop_rounded),
               tooltip: AppLocalizations.of(context).stop,
               onPressed: () async {
-                await audio.seekTo(Duration.zero);
+                if (widget.fromGame) {
+                  await audio.seekTo(Duration(milliseconds: audio.value.duration.inMilliseconds ~/ 2));
+                } else {
+                  await audio.seekTo(Duration.zero);
+                }
                 await audio.pause();
                 setState(() {});
               },
