@@ -525,6 +525,12 @@ abstract class AppLocalizations {
   /// **'Games'**
   String get games;
 
+  /// No description provided for @gameScoresReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Game scores reset'**
+  String get gameScoresReset;
+
   /// No description provided for @gameSelectSNameFromCName.
   ///
   /// In en, this message translates to:
@@ -920,6 +926,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Replay'**
   String get replay;
+
+  /// No description provided for @resetGameScores.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset game scores'**
+  String get resetGameScores;
 
   /// No description provided for @scientificName.
   ///

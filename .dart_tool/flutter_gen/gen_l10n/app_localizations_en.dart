@@ -228,6 +228,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get games => 'Games';
 
   @override
+  String get gameScoresReset => 'Game scores reset';
+
+  @override
   String get gameSelectSNameFromCName => 'Select the scientific name from the common name';
 
   @override
@@ -428,6 +431,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get replay => 'Replay';
+
+  @override
+  String get resetGameScores => 'Reset game scores';
 
   @override
   String get scientificName => 'Scientific name';

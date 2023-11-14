@@ -168,7 +168,7 @@ class Game2Page extends StatelessWidget {
                                                             hitsInARow = 0;
                                                           }
                                                           attemptsNotif.value++;
-                                                          if (prefs.games.firstWhere((g) => g.id == 1).record <
+                                                          if (prefs.games.firstWhere((g) => g.id == 2).record <
                                                               hitsInARow) {
                                                             prefs.updateGame(GameModel(id: 2, record: hitsInARow));
                                                           }

@@ -13,16 +13,15 @@ class UserPreferences {
   SharedPreferences? _prefs;
   final dbPathNotifier = ValueNotifier<String?>(null);
   final databasesNotifier = ValueNotifier<List<String>>([]);
-  StreamController<List<GameModel>>? _gamesStreamController;
+  final gamesNotifier = ValueNotifier<List<GameModel>>([]);
 
   Future<void> initialize() async {
     _prefs = await SharedPreferences.getInstance();
     dbPathNotifier.value = _prefs?.getString(_keyDbPath);
     databasesNotifier.value = _prefs?.getStringList(_keyDatabases) ?? [];
-    _gamesStreamController = StreamController<List<GameModel>>.broadcast();
   }
 
-  // If the app is opened for the forst time
+  // If the app is opened for the first time
   final String _keyFirstTime = 'firstTime';
 
   bool get firstTime => _prefs!.getBool(_keyFirstTime) ?? true;
@@ -199,38 +198,28 @@ class UserPreferences {
   final String _keyGames = 'games';
 
   List<GameModel> get games {
-    final temp = _prefs!.getStringList(_keyGames) ?? [];
-    final list = <GameModel>[];
-    for (String s in temp) {
-      list.add(GameModel.fromJson(json.decode(s)));
-    }
-    return list;
+    final list = _prefs!.getStringList(_keyGames) ?? [];
+    return list.map((s) => GameModel.fromJson(json.decode(s))).toList();
   }
 
+  Future<bool> resetGames() => _prefs!.remove(_keyGames);
+
   void addGame(GameModel game) {
-    final strings = <String>[];
     final list = games;
     if (!list.any((e) => e.id == game.id)) {
       list.add(game);
-      for (GameModel g in list) {
-        strings.add(json.encode(g.toJson()));
-      }
-      _prefs!.setStringList(_keyGames, strings).then((_) => _gamesStreamController!.add(list));
+      final strings = list.map((g) => json.encode(g.toJson())).toList();
+      _prefs!.setStringList(_keyGames, strings).then((_) => gamesNotifier.value = list);
     }
   }
 
   void updateGame(GameModel game) {
-    final strings = <String>[];
     final list = games;
     list.removeWhere((e) => e.id == game.id);
     list.add(game);
-    for (GameModel g in list) {
-      strings.add(json.encode(g.toJson()));
-    }
-    _prefs!.setStringList(_keyGames, strings).then((_) => _gamesStreamController!.add(list));
+    final strings = list.map((g) => json.encode(g.toJson())).toList();
+    _prefs!.setStringList(_keyGames, strings).then((_) => gamesNotifier.value = list);
   }
-
-  Stream<List<GameModel>> get gamesStream => _gamesStreamController!.stream;
 
   //ADS
   final String _keyShowAds = 'showAds';

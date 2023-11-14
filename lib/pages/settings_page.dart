@@ -143,6 +143,19 @@ class _SettingsPageState extends State<SettingsPage> {
             onChanged: (bool value) => setState(() => prefs.showAds = value),
           ),
           ListTile(
+            leading: const Icon(Icons.games_rounded),
+            title: Text(AppLocalizations.of(context).resetGameScores),
+            onTap: () => prefs.resetGames().then((reseted) {
+              if (reseted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(AppLocalizations.of(context).gameScoresReset),
+                  ),
+                );
+              }
+            }),
+          ),
+          ListTile(
             leading: const Icon(Icons.replay_rounded),
             title: Text(AppLocalizations.of(context).wizardAgain),
             onTap: () => Navigator.push(
