@@ -379,16 +379,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get ok => 'Aceptar';
 
   @override
-  String get onlineAudio => 'Audio en línea';
+  String get onlineAudio => 'Permitir audio en línea';
 
   @override
-  String get onlineImage => 'Imagen en línea';
+  String get onlineImage => 'Permitir imagen en línea';
 
   @override
   String get onlineUse => 'Uso en línea';
 
   @override
-  String get onlineVideo => 'Video en línea';
+  String get onlineVideo => 'Permitir video en línea';
 
   @override
   String get onlineUseText => 'Uso de información desde internet';

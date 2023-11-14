@@ -822,13 +822,13 @@ abstract class AppLocalizations {
   /// No description provided for @onlineAudio.
   ///
   /// In en, this message translates to:
-  /// **'Online audio'**
+  /// **'Allow online audio'**
   String get onlineAudio;
 
   /// No description provided for @onlineImage.
   ///
   /// In en, this message translates to:
-  /// **'Online image'**
+  /// **'Allow online image'**
   String get onlineImage;
 
   /// No description provided for @onlineUse.
@@ -840,7 +840,7 @@ abstract class AppLocalizations {
   /// No description provided for @onlineVideo.
   ///
   /// In en, this message translates to:
-  /// **'Online video'**
+  /// **'Allow online video'**
   String get onlineVideo;
 
   /// No description provided for @onlineUseText.

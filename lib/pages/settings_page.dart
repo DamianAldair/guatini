@@ -47,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.open_in_new_rounded),
+            leading: const Icon(Icons.language_rounded),
             title: Text(AppLocalizations.of(context).onlineUse),
             subtitle: Text(AppLocalizations.of(context).onlineUseText),
             trailing: const Icon(Icons.chevron_right_rounded),
