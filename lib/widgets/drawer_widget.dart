@@ -95,7 +95,7 @@ List<_Route> _drawerPagesRoutes(BuildContext context) => [
       if (UserPreferences().dbPathNotifier.value != null)
         _Route(
           isMainPage: false,
-          icon: Icons.gamepad_rounded,
+          icon: Icons.games_rounded,
           title: AppLocalizations.of(context).games,
           page: const GamesPage(),
         ),

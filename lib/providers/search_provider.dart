@@ -9,7 +9,6 @@ import 'package:guatini/models/diet_model.dart';
 import 'package:guatini/models/domain_model.dart';
 import 'package:guatini/models/endemism_model.dart';
 import 'package:guatini/models/family_model.dart';
-import 'package:guatini/models/game_models.dart';
 import 'package:guatini/models/genus_model.dart';
 import 'package:guatini/models/habitat_model.dart';
 import 'package:guatini/models/kindom_model.dart';
@@ -956,32 +955,70 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<List<Game1Option>> getGame1Options(Database db) async {
+  // static Future<List<Game1Option>> getGame1Options(Database db) async {
+  //   try {
+  //     const query = '''
+  //       SELECT DISTINCT
+  //             [main].[specie].[id],
+  //             [main].[specie].[scientific_name],
+  //             [main].[common_name].[name],
+  //             [main].[media].[path]
+  //       FROM  [main].[media]
+  //             INNER JOIN [main].[specie] ON [main].[specie].[id] = [main].[media].[fk_specie_]
+  //             INNER JOIN [main].[common_name] ON [main].[specie].[id] = [main].[common_name].[fk_specie_]
+  //             INNER JOIN [main].[type] ON [main].[type].[id] = [main].[media].[fk_type_]
+  //       WHERE (LOWER([main].[type].[type]) = LOWER('image') OR LOWER([main].[type].[type]) = LOWER('imagen'))
+  //       AND NOT ([main].[media].[path] LIKE '%://%')
+  //       GROUP BY [main].[specie].[id]
+  //       ORDER BY RANDOM()
+  //       LIMIT 4;
+  //     ''';
+  //     final result = await db.rawQuery(query);
+  //     final results = <Game1Option>[];
+  //     for (var item in result) {
+  //       results.add(Game1Option.fromJson(item));
+  //     }
+  //     return results;
+  //   } catch (e) {
+  //     return [];
+  //   }
+  // }
+  static Future<List<List>> getGameOptions(Database db, MediaType mediaType) async {
+    final type = switch (mediaType) {
+      MediaType.image => 1,
+      MediaType.video => 2,
+      MediaType.audio => 3,
+    };
+    final asType = switch (mediaType) {
+      MediaType.image => 'path',
+      MediaType.video => 'video',
+      MediaType.audio => 'audio',
+    };
     try {
-      const query = '''
-        SELECT DISTINCT
-              [main].[specie].[id], 
-              [main].[specie].[scientific_name], 
-              [main].[common_name].[name], 
-              [main].[media].[path]
-        FROM  [main].[media]
-              INNER JOIN [main].[specie] ON [main].[specie].[id] = [main].[media].[fk_specie_]
-              INNER JOIN [main].[common_name] ON [main].[specie].[id] = [main].[common_name].[fk_specie_]
-              INNER JOIN [main].[type] ON [main].[type].[id] = [main].[media].[fk_type_]
-        WHERE (LOWER([main].[type].[type]) = LOWER('image') OR LOWER([main].[type].[type]) = LOWER('imagen'))
-        AND NOT ([main].[media].[path] LIKE '%://%')
-        GROUP BY [main].[specie].[id]
-        ORDER BY RANDOM()
-        LIMIT 4;
+      final query = '''
+          select
+            [main].[specie].[id],
+            [main].[specie].[scientific_name],
+            [main].[common_name].[name],
+            [main].[media].[path] as $asType
+          from [main].[specie]
+            inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+            inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+          where [main].[media].[fk_type_] = $type AND
+            ${_excludeOnline('[main].[media].[path]')}
+          group by [main].[specie].[id]
+          order by RANDOM();
       ''';
       final result = await db.rawQuery(query);
-      final results = <Game1Option>[];
-      for (var item in result) {
-        results.add(Game1Option.fromJson(item));
+      final species = <SpeciesModel>[];
+      final mediaPaths = <String>[];
+      for (final json in result) {
+        species.add(SpeciesModel.fromSimpleSearch(json));
+        mediaPaths.add(json[asType] as String);
       }
-      return results;
-    } catch (e) {
-      return [];
+      return [species, mediaPaths];
+    } catch (_) {
+      return [[], []];
     }
   }
 }

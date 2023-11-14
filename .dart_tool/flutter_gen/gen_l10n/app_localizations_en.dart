@@ -219,6 +219,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get game => 'Game';
 
   @override
+  String get gameOver => 'Game Over!';
+
+  @override
   String get games => 'Games';
 
   @override
@@ -232,6 +235,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get go => 'Go';
+
+  @override
+  String get goBack => 'Go back';
 
   @override
   String get gpsMode => 'GPS mode';

@@ -48,7 +48,7 @@ class _GamesPageState extends State<GamesPage> {
           return ListTile(
             title: Text(game.name),
             subtitle: Text('Record: ${AppLocalizations.of(context).inARow(hitsInARow)}'),
-            leading: const Icon(Icons.gamepad_rounded),
+            leading: const CircleAvatar(child: Icon(Icons.games_rounded)),
             trailing: const Icon(Icons.chevron_right_rounded),
             onTap: () => Navigator.push(
               context,

@@ -507,6 +507,12 @@ abstract class AppLocalizations {
   /// **'Game'**
   String get game;
 
+  /// No description provided for @gameOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Game Over!'**
+  String get gameOver;
+
   /// No description provided for @games.
   ///
   /// In en, this message translates to:
@@ -536,6 +542,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go'**
   String get go;
+
+  /// No description provided for @goBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back'**
+  String get goBack;
 
   /// No description provided for @gpsMode.
   ///
