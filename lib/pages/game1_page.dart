@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,6 +9,7 @@ import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:guatini/util/util_data.dart';
 import 'package:guatini/widgets/media_widgets.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
@@ -110,29 +110,31 @@ class Game1Page extends StatelessWidget {
                   final image = File(p.join(prefs.dbPathNotifier.value!, mediaPaths[counter]).replaceAll('\\', '/'));
                   return ValueListenableBuilder(
                     valueListenable: respNotif,
-                    builder: (_, String? resp, ___) {
-                      return Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context).gameSelectSNameFromCName,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 20.0),
-                            ),
-                            const SizedBox(height: 30.0),
-                            Flexible(
-                              child: AnimatedSize(
-                                duration: duration,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  child: !image.existsSync()
-                                      ? Image.asset('assets/images/image_not_available.png')
-                                      : GestureDetector(
-                                          child: Image.file(image),
-                                          onTap: () {
-                                            Navigator.push(
+                    builder: (_, String? resp, ___) => Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context).gameSelectSNameFromCName,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 20.0),
+                          ),
+                          const SizedBox(height: 30.0),
+                          Flexible(
+                            child: AnimatedSize(
+                              duration: duration,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: !image.existsSync()
+                                    ? Image.asset('assets/images/image_not_available.png')
+                                    : Stack(
+                                        alignment: Alignment.topRight,
+                                        children: [
+                                          Image.file(image),
+                                          IconButton.filledTonal(
+                                            icon: const Icon(Icons.fullscreen_rounded),
+                                            onPressed: () => Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (_) => ImageViewer(
@@ -146,115 +148,114 @@ class Game1Page extends StatelessWidget {
                                                   )..type = const MediaTypeModel(id: 0, type: MediaType.image),
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 20.0,
-                                horizontal: 5.0,
-                              ),
-                              child: Text(
-                                species[counter].searchName ?? '',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 20.0),
-                              ),
-                            ),
-                            AnimatedSwitcher(
-                              duration: duration,
-                              child: resp == null
-                                  ? Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                                      children: List.generate(optionIndexes.length, (i) {
-                                        final option = species[optionIndexes[i]];
-                                        return OutlinedButton(
-                                          child: Text(
-                                            option.scientificName ?? '',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
+                                            ),
                                           ),
-                                          onPressed: () {
-                                            if (optionIndexes[i] == counter) {
-                                              hitsNotif.value++;
-                                              hitsInARow++;
-                                            } else {
-                                              hitsInARow = 0;
-                                            }
-                                            attemptsNotif.value++;
-                                            if (prefs.games.firstWhere((g) => g.id == 1).record < hitsInARow) {
-                                              prefs.updateGame(GameModel(id: 1, record: hitsInARow));
-                                            }
-                                            respNotif.value = option.scientificName;
-                                          },
-                                        );
-                                      }),
-                                    )
-                                  : Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Icon(
-                                              resp == species[counter].scientificName
-                                                  ? Icons.check_circle_rounded
-                                                  : Icons.cancel_rounded,
+                                        ],
+                                      ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 20.0,
+                              horizontal: 5.0,
+                            ),
+                            child: Text(
+                              species[counter].searchName ?? '',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(fontSize: 20.0),
+                            ),
+                          ),
+                          AnimatedSwitcher(
+                            duration: duration,
+                            child: resp == null
+                                ? Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: List.generate(optionIndexes.length, (i) {
+                                      final option = species[optionIndexes[i]];
+                                      return OutlinedButton(
+                                        child: Text(
+                                          option.scientificName ?? '',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        onPressed: () {
+                                          if (optionIndexes[i] == counter) {
+                                            hitsNotif.value++;
+                                            hitsInARow++;
+                                          } else {
+                                            hitsInARow = 0;
+                                          }
+                                          attemptsNotif.value++;
+                                          if (prefs.games.firstWhere((g) => g.id == 1).record < hitsInARow) {
+                                            prefs.updateGame(GameModel(id: 1, record: hitsInARow));
+                                          }
+                                          respNotif.value = option.scientificName;
+                                        },
+                                      );
+                                    }),
+                                  )
+                                : Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            resp == species[counter].scientificName
+                                                ? Icons.check_circle_rounded
+                                                : Icons.cancel_rounded,
+                                            color: resp == species[counter].scientificName ? Colors.green : Colors.red,
+                                          ),
+                                          const SizedBox.square(dimension: 5.0),
+                                          Text(
+                                            resp == species[counter].scientificName
+                                                ? AppLocalizations.of(context).correct
+                                                : AppLocalizations.of(context).incorrect,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 15.0,
                                               color:
                                                   resp == species[counter].scientificName ? Colors.green : Colors.red,
                                             ),
-                                            const SizedBox.square(dimension: 5.0),
-                                            Text(
-                                              resp == species[counter].scientificName
-                                                  ? AppLocalizations.of(context).correct
-                                                  : AppLocalizations.of(context).incorrect,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 15.0,
-                                                color:
-                                                    resp == species[counter].scientificName ? Colors.green : Colors.red,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 15.0),
-                                        if (resp != species[counter].scientificName)
-                                          Text(
-                                            '${AppLocalizations.of(context).itIsNot} $resp.',
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontSize: 15.0,
-                                              color: Colors.red,
-                                            ),
                                           ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 15.0),
+                                      if (resp != species[counter].scientificName)
                                         Text(
-                                          '${AppLocalizations.of(context).itIs} ${species[counter].scientificName}',
+                                          '${AppLocalizations.of(context).itIsNot} $resp.',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 15.0,
-                                            color: resp == species[counter].scientificName ? Colors.green : Colors.red,
+                                            color: Colors.red,
                                           ),
                                         ),
-                                        const SizedBox(height: 20.0),
-                                        ElevatedButton(
-                                          child: Text(
-                                            AppLocalizations.of(context).next,
-                                          ),
-                                          onPressed: () {
-                                            respNotif.value = null;
-                                            counterNotif.value++;
-                                          },
+                                      Text(
+                                        '${AppLocalizations.of(context).itIs} ${species[counter].scientificName}',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                          color: resp == species[counter].scientificName ? Colors.green : Colors.red,
                                         ),
-                                      ],
-                                    ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                                      ),
+                                      const SizedBox(height: 20.0),
+                                      ElevatedButton(
+                                        child: Text(
+                                          AppLocalizations.of(context).next,
+                                        ),
+                                        onPressed: () {
+                                          respNotif.value = null;
+                                          counterNotif.value++;
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 },
               );
@@ -263,17 +264,5 @@ class Game1Page extends StatelessWidget {
         },
       ),
     );
-  }
-
-  List<int> get3RandomIndexes(int index, int listLength) {
-    final random = Random();
-    final indexes = <int>[];
-    while (indexes.length < 3) {
-      final randomIndex = random.nextInt(listLength);
-      if (randomIndex != index && !indexes.contains(randomIndex)) {
-        indexes.add(randomIndex);
-      }
-    }
-    return indexes;
   }
 }

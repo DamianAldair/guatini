@@ -26,6 +26,7 @@
     "criticalEndangered": "En peligro crítico",
     "copy": "Copiar",
     "correct": "Correcto",
+    "correctAnswerIs": "La respuesta correcta es:",
     "current": "Actual",
     "customLocationMode": "Ubicación personalizada",
     "customLocationModeString": "Toque sobre el mapa para seleccionar una ubicación",

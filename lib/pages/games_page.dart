@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/game_models.dart';
 import 'package:guatini/pages/game1_page.dart';
+import 'package:guatini/pages/game2_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 
 class GamesPage extends StatefulWidget {
@@ -26,6 +27,11 @@ class _GamesPageState extends State<GamesPage> {
         id: 1,
         name: AppLocalizations.of(context).gameSelectSNameFromCName,
         page: const Game1Page(),
+      ),
+      _Game(
+        id: 2,
+        name: AppLocalizations.of(context).gameSelectImageFromCName,
+        page: const Game2Page(),
       ),
     ];
 

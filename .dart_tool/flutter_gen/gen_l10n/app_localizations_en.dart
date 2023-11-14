@@ -88,6 +88,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get correct => 'Correct';
 
   @override
+  String get correctAnswerIs => 'The correct answer is:';
+
+  @override
   String get current => 'Current';
 
   @override

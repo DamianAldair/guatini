@@ -26,6 +26,7 @@
     "criticalEndangered": "Critical endangered",
     "copy": "Copy",
     "correct": "Correct",
+    "correctAnswerIs": "The correct answer is:",
     "current": "Current",
     "customLocationMode": "Custom location mode",
     "customLocationModeString": "Tap on the map to select a location",

@@ -255,6 +255,12 @@ abstract class AppLocalizations {
   /// **'Correct'**
   String get correct;
 
+  /// No description provided for @correctAnswerIs.
+  ///
+  /// In en, this message translates to:
+  /// **'The correct answer is:'**
+  String get correctAnswerIs;
+
   /// No description provided for @current.
   ///
   /// In en, this message translates to:
