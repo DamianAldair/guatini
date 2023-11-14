@@ -198,8 +198,10 @@ class UserPreferences {
   final String _keyGames = 'games';
 
   List<GameModel> get games {
-    final list = _prefs!.getStringList(_keyGames) ?? [];
-    return list.map((s) => GameModel.fromJson(json.decode(s))).toList();
+    final raw = _prefs!.getStringList(_keyGames) ?? [];
+    final list = raw.map((s) => GameModel.fromJson(json.decode(s))).toList();
+    gamesNotifier.value = list;
+    return list;
   }
 
   Future<bool> resetGames() => _prefs!.remove(_keyGames);
