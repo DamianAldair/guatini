@@ -17,7 +17,9 @@ import 'package:guatini/models/media_model.dart';
 import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
+import 'package:guatini/util/parse.dart';
 import 'package:path/path.dart' as p;
+import 'package:syncfusion_flutter_maps/maps.dart';
 
 class SpeciesModel {
   final int? id;
@@ -42,6 +44,7 @@ class SpeciesModel {
   final bool? dimorphism;
   final String? description;
   final List<MediaModel>? medias;
+  final List<MapPolygon>? distribution;
 
   const SpeciesModel({
     this.id,
@@ -66,6 +69,7 @@ class SpeciesModel {
     this.dimorphism,
     this.description,
     this.medias,
+    this.distribution,
   });
 
   factory SpeciesModel.fromMap({
@@ -115,11 +119,17 @@ class SpeciesModel {
       );
 
   factory SpeciesModel.fromSimpleSearch(Map<String, dynamic> json) {
+    List<MapPolygon>? distribution;
+    final raw = json["distribution"];
+    if (raw != null) {
+      distribution = toPolygons(raw).map((lmll) => MapPolygon(points: lmll)).toList();
+    }
     return SpeciesModel(
       id: json["id"],
       searchName: json["name"],
       scientificName: json["scientific_name"],
       imagePath: json["path"],
+      distribution: distribution,
     );
   }
 

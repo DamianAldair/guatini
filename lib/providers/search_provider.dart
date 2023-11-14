@@ -27,7 +27,7 @@ import 'package:syncfusion_flutter_maps/maps.dart';
 
 abstract class SearchProvider {
   static String _excludeOnline(String column) {
-    final wheres = protocols.map((p) => '$column NOT LIKE \'%$p://%\'');
+    final wheres = protocols.map((p) => '$column NOT LIKE \'$p://%\'');
     return wheres.join(' AND ');
   }
 
@@ -905,6 +905,32 @@ abstract class SearchProvider {
       return DietModel.fromMap(result.first);
     } catch (e) {
       return Future.value(null);
+    }
+  }
+
+  static Future<List<SpeciesModel>> getAllDistributions(Database db) async {
+    try {
+      final query = '''
+        select 
+          [main].[specie].[id], 
+          [main].[specie].[scientific_name], 
+          [main].[common_name].[name], 
+          [main].[media].[path], 
+          [main].[distribution].[polygon] as distribution
+        from   [main].[distribution]
+          inner join [main].[specie_distribution] on [main].[distribution].[id] = [main].[specie_distribution].[fk_distribution_]
+          inner join [main].[specie] on [main].[specie].[id] = [main].[specie_distribution].[fk_specie_]
+          inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+          inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+        where [main].[media].[fk_type_] = 1 AND
+          ${_excludeOnline('[main].[media].[path]')}
+        group by [main].[specie].[id]
+        order by [main].[specie].[id];
+      ''';
+      final result = await db.rawQuery(query);
+      return result.map((json) => SpeciesModel.fromSimpleSearch(json)).toList();
+    } catch (_) {
+      return [];
     }
   }
 

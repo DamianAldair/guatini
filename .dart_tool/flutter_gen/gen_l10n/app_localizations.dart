@@ -693,6 +693,12 @@ abstract class AppLocalizations {
   /// **'More with'**
   String get moreWith;
 
+  /// No description provided for @nearbySpecies.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby species'**
+  String get nearbySpecies;
+
   /// No description provided for @nearThreataned.
   ///
   /// In en, this message translates to:
@@ -740,6 +746,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There is not a selected data source'**
   String get noSelectedDatabase;
+
+  /// No description provided for @noSpeciesNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no species nearby'**
+  String get noSpeciesNearby;
 
   /// No description provided for @noStoragePermission.
   ///
@@ -915,6 +927,12 @@ abstract class AppLocalizations {
   /// **'Search history size'**
   String get searchHistotySize;
 
+  /// No description provided for @searchNearbySpecies.
+  ///
+  /// In en, this message translates to:
+  /// **'Search nearby species'**
+  String get searchNearbySpecies;
+
   /// No description provided for @searchOnEcured.
   ///
   /// In en, this message translates to:
@@ -968,6 +986,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select mode'**
   String get selectMode;
+
+  /// No description provided for @setPointOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'First, set a point on the map'**
+  String get setPointOnMap;
 
   /// No description provided for @settings.
   ///

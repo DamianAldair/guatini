@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:guatini/pages/nearby_species_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/util/parse.dart';
 import 'package:path/path.dart' as p;
@@ -178,9 +179,34 @@ class _MapPageState extends State<MapPage> {
       ),
       floatingActionButton: onlySee
           ? null
-          : FloatingActionButton(
-              onPressed: getPosition,
-              child: const Icon(Icons.gps_fixed_rounded),
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton(
+                  onPressed: getPosition,
+                  child: const Icon(Icons.gps_fixed_rounded),
+                ),
+                const SizedBox.square(dimension: 20.0),
+                FloatingActionButton.extended(
+                  heroTag: 'search_near',
+                  icon: const Icon(Icons.search_rounded),
+                  label: Text(AppLocalizations.of(context).searchNearbySpecies),
+                  onPressed: () {
+                    if (_currentPosition.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(AppLocalizations.of(context).setPointOnMap),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => NearbySpeciesPage(_currentPosition[0])),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
     );
   }
@@ -233,48 +259,48 @@ class _MapPageState extends State<MapPage> {
       );
 
   void getPosition() {
-    Geolocator.isLocationServiceEnabled().then((enabled) {
-      if (!enabled) {
+    if (useGps == null) {
+      showPositionOptions();
+    } else if (!useGps!) {
+      if (_currentPosition.isNotEmpty) {
+        _zoomPan?.focalLatLng = _currentPosition[0];
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context).noLocationEnabled),
+            content: Text(AppLocalizations.of(context).customLocationModeString),
           ),
         );
-        return;
       }
-      Geolocator.requestPermission().then((lp) {
-        final hasPermission = lp == LocationPermission.always || lp == LocationPermission.whileInUse;
-        if (!hasPermission) {
+    } else {
+      Geolocator.isLocationServiceEnabled().then((enabled) {
+        if (!enabled) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(AppLocalizations.of(context).noLocationPermission),
+              content: Text(AppLocalizations.of(context).noLocationEnabled),
             ),
           );
-          return;
-        }
-        if (_currentPosition.isNotEmpty) {
-          _zoomPan?.focalLatLng = _currentPosition[0];
         } else {
-          if (useGps == null) {
-            showPositionOptions();
-          } else {
-            if (useGps!) {
+          Geolocator.requestPermission().then((lp) {
+            final hasPermission = lp == LocationPermission.always || lp == LocationPermission.whileInUse;
+            if (!hasPermission) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppLocalizations.of(context).noLocationPermission),
+                ),
+              );
+            } else if (_currentPosition.isNotEmpty) {
+              _zoomPan?.focalLatLng = _currentPosition[0];
+            } else {
               Geolocator.getCurrentPosition().then((position) {
                 _currentPosition.clear();
                 _mapController?.clearMarkers();
                 _currentPosition.add(MapLatLng(position.latitude, position.longitude));
                 _mapController?.insertMarker(0);
               });
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(AppLocalizations.of(context).customLocationModeString),
-                ),
-              );
             }
-          }
+          });
         }
       });
-    });
+    }
   }
 }

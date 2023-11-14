@@ -314,6 +314,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get moreWith => 'More with';
 
   @override
+  String get nearbySpecies => 'Nearby species';
+
+  @override
   String get nearThreataned => 'Near threataned';
 
   @override
@@ -338,6 +341,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noSelectedDatabase => 'There is not a selected data source';
+
+  @override
+  String get noSpeciesNearby => 'There are no species nearby';
 
   @override
   String get noStoragePermission => 'Guatiní has not permission to access to storage';
@@ -427,6 +433,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get searchHistotySize => 'Search history size';
 
   @override
+  String get searchNearbySpecies => 'Search nearby species';
+
+  @override
   String get searchOnEcured => 'Search on Ecured';
 
   @override
@@ -452,6 +461,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectMode => 'Select mode';
+
+  @override
+  String get setPointOnMap => 'First, set a point on the map';
 
   @override
   String get settings => 'Settings';
