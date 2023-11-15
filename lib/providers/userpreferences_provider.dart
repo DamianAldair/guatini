@@ -158,8 +158,7 @@ class UserPreferences {
 
   final String _keyImageOnline = 'imageOnline';
 
-  // bool get imageOnline => _prefs!.getBool(_keyImageOnline) ?? true;
-  bool get imageOnline => _prefs!.getBool(_keyImageOnline) ?? false;
+  bool get imageOnline => _prefs!.getBool(_keyImageOnline) ?? true;
 
   set imageOnline(bool online) => _prefs!.setBool(_keyImageOnline, online);
 
