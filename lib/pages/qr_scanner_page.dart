@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/qr_models.dart';
 import 'package:guatini/widgets/dialogs.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrScannerPage extends StatefulWidget {
@@ -67,11 +68,16 @@ class _QrScannerPageState extends State<QrScannerPage> {
       ),
       onPermissionSet: (_, allowed) {
         if (!allowed) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppLocalizations.of(context).noCameraPermission),
-            ),
-          );
+          openAppSettings().then((open) {
+            if (!open) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(AppLocalizations.of(context).noCameraPermission),
+                ),
+              );
+            }
+          });
         }
       },
       onQRViewCreated: (controller) {

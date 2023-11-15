@@ -11,6 +11,7 @@ import 'package:guatini/pages/nearby_species_page.dart';
 import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/util/parse.dart';
 import 'package:path/path.dart' as p;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 class MapPage extends StatefulWidget {
@@ -265,6 +266,7 @@ class _MapPageState extends State<MapPage> {
       if (_currentPosition.isNotEmpty) {
         _zoomPan?.focalLatLng = _currentPosition[0];
       } else {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context).customLocationModeString),
@@ -274,6 +276,7 @@ class _MapPageState extends State<MapPage> {
     } else {
       Geolocator.isLocationServiceEnabled().then((enabled) {
         if (!enabled) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(AppLocalizations.of(context).noLocationEnabled),
@@ -283,11 +286,16 @@ class _MapPageState extends State<MapPage> {
           Geolocator.requestPermission().then((lp) {
             final hasPermission = lp == LocationPermission.always || lp == LocationPermission.whileInUse;
             if (!hasPermission) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(AppLocalizations.of(context).noLocationPermission),
-                ),
-              );
+              openAppSettings().then((open) {
+                if (!open) {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(AppLocalizations.of(context).noLocationPermission),
+                    ),
+                  );
+                }
+              });
             } else if (_currentPosition.isNotEmpty) {
               _zoomPan?.focalLatLng = _currentPosition[0];
             } else {

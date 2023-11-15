@@ -41,10 +41,14 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             trailing: const Icon(Icons.chevron_right_rounded),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const DatabasesPage()),
-            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const DatabasesPage()),
+              );
+              // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+              prefs.dbPathNotifier.notifyListeners();
+            },
           ),
           ListTile(
             leading: const Icon(Icons.language_rounded),
