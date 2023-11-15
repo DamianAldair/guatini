@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/game_models.dart';
 import 'package:guatini/pages/game1_page.dart';
@@ -11,6 +12,7 @@ class GamesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     final games = [
       _Game(
         id: 1,
@@ -34,34 +36,44 @@ class GamesPage extends StatelessWidget {
       prefs.addGame(GameModel(id: g.id, record: 0));
     }
 
-    return ValueListenableBuilder(
-      valueListenable: prefs.gamesNotifier,
-      builder: (_, List<GameModel> gamelist, ___) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(AppLocalizations.of(context).games),
-          ),
-          body: ListView.builder(
-            itemCount: games.length,
-            itemBuilder: (_, int i) {
-              final game = games[i];
-              int hitsInARow = gamelist.where((e) => e.id == game.id).isEmpty
-                  ? 0
-                  : gamelist.where((e) => e.id == game.id).first.record;
-              return ListTile(
-                title: Text(game.name),
-                subtitle: Text('Record: ${AppLocalizations.of(context).inARow(hitsInARow)}'),
-                leading: const CircleAvatar(child: Icon(Icons.games_rounded)),
-                trailing: const Icon(Icons.chevron_right_rounded),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => game.page),
-                ),
-              );
-            },
-          ),
-        );
+    return WillPopScope(
+      onWillPop: () async {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.landscapeRight,
+        ]);
+        return true;
       },
+      child: ValueListenableBuilder(
+        valueListenable: prefs.gamesNotifier,
+        builder: (_, List<GameModel> gamelist, ___) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(AppLocalizations.of(context).games),
+            ),
+            body: ListView.builder(
+              itemCount: games.length,
+              itemBuilder: (_, int i) {
+                final game = games[i];
+                int hitsInARow = gamelist.where((e) => e.id == game.id).isEmpty
+                    ? 0
+                    : gamelist.where((e) => e.id == game.id).first.record;
+                return ListTile(
+                  title: Text(game.name),
+                  subtitle: Text('Record: ${AppLocalizations.of(context).inARow(hitsInARow)}'),
+                  leading: const CircleAvatar(child: Icon(Icons.games_rounded)),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => game.page),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }
