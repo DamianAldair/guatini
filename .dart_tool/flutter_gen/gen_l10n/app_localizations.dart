@@ -801,6 +801,12 @@ abstract class AppLocalizations {
   /// **'No data sources'**
   String get noDatabases;
 
+  /// No description provided for @noElements.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no elements to show'**
+  String get noElements;
+
   /// No description provided for @noRecentSearches.
   ///
   /// In en, this message translates to:

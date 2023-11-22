@@ -16,16 +16,19 @@ class GamesPage extends StatelessWidget {
     final games = [
       _Game(
         id: 1,
+        icon: Icons.font_download_rounded,
         name: AppLocalizations.of(context).gameSelectSNameFromCName,
         page: const Game1Page(1),
       ),
       _Game(
         id: 2,
+        icon: Icons.image_rounded,
         name: AppLocalizations.of(context).gameSelectImageFromCName,
         page: const Game2Page(2),
       ),
       _Game(
         id: 3,
+        icon: Icons.audiotrack_rounded,
         name: AppLocalizations.of(context).gameSelectCNameFromSound,
         page: const Game3Page(3),
       ),
@@ -62,7 +65,7 @@ class GamesPage extends StatelessWidget {
                 return ListTile(
                   title: Text(game.name),
                   subtitle: Text('Record: ${AppLocalizations.of(context).inARow(hitsInARow)}'),
-                  leading: const CircleAvatar(child: Icon(Icons.games_rounded)),
+                  leading: CircleAvatar(child: Icon(game.icon ?? Icons.games_rounded)),
                   trailing: const Icon(Icons.chevron_right_rounded),
                   onTap: () => Navigator.push(
                     context,
@@ -80,11 +83,13 @@ class GamesPage extends StatelessWidget {
 
 class _Game {
   final int id;
+  final IconData? icon;
   final String name;
   final Widget page;
 
   _Game({
     required this.id,
+    required this.icon,
     required this.name,
     required this.page,
   });

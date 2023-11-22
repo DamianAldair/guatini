@@ -144,6 +144,7 @@
     "notEvaluated": "Not evaluated",
     "no": "No",
     "noDatabases": "No data sources",
+    "noElements": "There are no elements to show",
     "noRecentSearches": "There are no recent searches",
     "noResults": "There are no results",
     "notSelected": "Not selected",

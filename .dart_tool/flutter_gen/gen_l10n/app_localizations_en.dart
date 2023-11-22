@@ -370,6 +370,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noDatabases => 'No data sources';
 
   @override
+  String get noElements => 'There are no elements to show';
+
+  @override
   String get noRecentSearches => 'There are no recent searches';
 
   @override
