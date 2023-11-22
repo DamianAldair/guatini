@@ -487,6 +487,35 @@ abstract class SearchProvider {
     }
   }
 
+  static Future<List<SpeciesModel>> homeSuggestionWithoutImages(Database db, int max) async {
+    try {
+      final query = '''
+          select * from (
+            select * from (
+              select distinct
+                [main].[specie].[id], 
+                [main].[common_name].[name], 
+                [main].[specie].[scientific_name]
+              from [main].[specie]
+                inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+              order by random()
+            )
+            group by id
+          )
+          order by random()
+          limit $max;
+      ''';
+      final result = await db.rawQuery(query);
+      final results = <SpeciesModel>[];
+      for (var item in result) {
+        results.add(SpeciesModel.fromSimpleSearch(item));
+      }
+      return results;
+    } catch (e) {
+      return Future.error(Exception());
+    }
+  }
+
   static Future<List<MediaModel>> moreMedia(
     Database db, {
     int? authorId,

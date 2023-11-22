@@ -66,6 +66,14 @@ class _MainPageState extends State<MainPage> {
         body: ValueListenableBuilder(
             valueListenable: prefs.dbPathNotifier,
             builder: (_, __, ___) {
+              final error = Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  AppLocalizations.of(context).errorObtainingInfo,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
+              );
               const loading = Center(child: CircularProgressIndicator());
               final noDb = Center(
                 child: Column(
@@ -112,53 +120,80 @@ class _MainPageState extends State<MainPage> {
                   return FutureBuilder(
                     future: SearchProvider.homeSuggestion(db, prefs.suggestions),
                     builder: (_, AsyncSnapshot<List<SpeciesModel>> snapshot) {
-                      if (snapshot.hasError) {
-                        return Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Text(
-                            AppLocalizations.of(context).errorObtainingInfo,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                        );
-                      }
+                      if (snapshot.hasError) return error;
                       if (!snapshot.hasData) return loading;
                       final list = snapshot.data!;
-                      if (list.isEmpty) {
-                        return Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Text(
-                            AppLocalizations.of(context).noElements,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center,
+                      if (list.isNotEmpty) {
+                        return Swiper(
+                          loop: false,
+                          autoplay: true,
+                          autoplayDisableOnInteraction: true,
+                          autoplayDelay: 5000,
+                          duration: 1000,
+                          viewportFraction: 0.85,
+                          outer: true,
+                          indicatorLayout: PageIndicatorLayout.SCALE,
+                          controller: controller,
+                          pagination: const SwiperPagination(
+                            builder: DotSwiperPaginationBuilder(
+                              color: Color.fromARGB(255, 200, 200, 200),
+                              size: 7.0,
+                              activeSize: 7.0,
+                            ),
+                          ),
+                          itemCount: list.length,
+                          itemBuilder: (_, int i) => _suggestionCard(context, list[i]),
+                          onTap: (i) => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => SpeciesDetailsPage(list[i].id),
+                            ),
                           ),
                         );
                       }
-                      return Swiper(
-                        loop: false,
-                        autoplay: true,
-                        autoplayDisableOnInteraction: true,
-                        autoplayDelay: 5000,
-                        duration: 1000,
-                        viewportFraction: 0.85,
-                        outer: true,
-                        indicatorLayout: PageIndicatorLayout.SCALE,
-                        controller: controller,
-                        pagination: const SwiperPagination(
-                          builder: DotSwiperPaginationBuilder(
-                            color: Color.fromARGB(255, 200, 200, 200),
-                            size: 7.0,
-                            activeSize: 7.0,
-                          ),
-                        ),
-                        itemCount: list.length,
-                        itemBuilder: (_, int i) => _suggestionCard(context, list[i]),
-                        onTap: (i) => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => SpeciesDetailsPage(list[i].id),
-                          ),
-                        ),
+                      return FutureBuilder(
+                        future: SearchProvider.homeSuggestionWithoutImages(db, prefs.suggestions),
+                        builder: (_, AsyncSnapshot<List<SpeciesModel>> snapshot) {
+                          if (snapshot.hasError) return error;
+                          if (!snapshot.hasData) return loading;
+                          final list = snapshot.data!;
+                          if (list.isEmpty) {
+                            return Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                                AppLocalizations.of(context).noElements,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          }
+                          return Swiper(
+                            loop: false,
+                            autoplay: true,
+                            autoplayDisableOnInteraction: true,
+                            autoplayDelay: 5000,
+                            duration: 1000,
+                            viewportFraction: 0.85,
+                            outer: true,
+                            indicatorLayout: PageIndicatorLayout.SCALE,
+                            controller: controller,
+                            pagination: const SwiperPagination(
+                              builder: DotSwiperPaginationBuilder(
+                                color: Color.fromARGB(255, 200, 200, 200),
+                                size: 7.0,
+                                activeSize: 7.0,
+                              ),
+                            ),
+                            itemCount: list.length,
+                            itemBuilder: (_, int i) => _suggestionCard(context, list[i]),
+                            onTap: (i) => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SpeciesDetailsPage(list[i].id),
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   );
