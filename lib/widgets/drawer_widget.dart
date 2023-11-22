@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:guatini/pages/about_page.dart';
 import 'package:guatini/pages/games_page.dart';
 import 'package:guatini/pages/map_page.dart';
@@ -47,7 +48,10 @@ class MyDrawer extends StatelessWidget {
     for (_Route pageRoute in _drawerPagesRoutes(context)) {
       list.add(
         ListTile(
-          leading: Icon(pageRoute.icon),
+          leading: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: FaIcon(pageRoute.icon),
+          ),
           title: Text(pageRoute.title),
           onTap: () {
             Navigator.pop(context);
@@ -95,7 +99,7 @@ List<_Route> _drawerPagesRoutes(BuildContext context) => [
       if (UserPreferences().dbPathNotifier.value != null)
         _Route(
           isMainPage: false,
-          icon: Icons.games_rounded,
+          icon: FontAwesomeIcons.gamepad,
           title: AppLocalizations.of(context).games,
           page: const GamesPage(),
         ),

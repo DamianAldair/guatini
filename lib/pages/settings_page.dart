@@ -28,7 +28,10 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           TitleDivider(AppLocalizations.of(context).sourceOfInfo),
           ListTile(
-            leading: const FaIcon(FontAwesomeIcons.database),
+            leading: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: FaIcon(FontAwesomeIcons.database),
+            ),
             title: Text(AppLocalizations.of(context).database),
             subtitle: ValueListenableBuilder(
               valueListenable: prefs.dbPathNotifier,
@@ -51,7 +54,10 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.language_rounded),
+            leading: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(Icons.language_rounded),
+            ),
             title: Text(AppLocalizations.of(context).onlineUse),
             subtitle: Text(AppLocalizations.of(context).onlineUseText),
             trailing: const Icon(Icons.chevron_right_rounded),
@@ -62,7 +68,10 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           TitleDivider(AppLocalizations.of(context).ui),
           ListTile(
-            leading: const Icon(Icons.brightness_6_rounded),
+            leading: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(Icons.brightness_6_rounded),
+            ),
             title: Text(AppLocalizations.of(context).theme),
             subtitle: Text(parseTheme(context)),
             trailing: const Icon(Icons.chevron_right_rounded),
@@ -72,7 +81,10 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           ListTile(
-            leading: const Icon(FontAwesomeIcons.language),
+            leading: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: FaIcon(FontAwesomeIcons.language),
+            ),
             title: Text(AppLocalizations.of(context).language),
             subtitle: Text(AppLocalizations.of(context).languageName),
             trailing: const Icon(Icons.chevron_right_rounded),
@@ -82,7 +94,10 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.home_rounded),
+            leading: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(Icons.home_rounded),
+            ),
             title: Text(AppLocalizations.of(context).numberSeggestions),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -103,7 +118,10 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.manage_search_outlined),
+            leading: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(Icons.manage_search_outlined),
+            ),
             title: Text(AppLocalizations.of(context).searchHistotySize),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
@@ -125,14 +143,20 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           TitleDivider(AppLocalizations.of(context).players),
           SwitchListTile(
-            secondary: const Icon(Icons.play_arrow_rounded),
+            secondary: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(FontAwesomeIcons.circlePlay),
+            ),
             title: Text(AppLocalizations.of(context).autoplayAudio),
             subtitle: Text(AppLocalizations.of(context).autoplayAudioInfo),
             value: prefs.autoplayAudio,
             onChanged: (bool value) => setState(() => prefs.autoplayAudio = value),
           ),
           SwitchListTile(
-            secondary: const Icon(Icons.ondemand_video_rounded),
+            secondary: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(Icons.ondemand_video_rounded),
+            ),
             title: Text(AppLocalizations.of(context).autoplayVideo),
             subtitle: Text(AppLocalizations.of(context).autoplayVideoInfo),
             value: prefs.autoplayVideo,
@@ -140,14 +164,20 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           TitleDivider(AppLocalizations.of(context).others),
           SwitchListTile(
-            secondary: const Icon(FontAwesomeIcons.rectangleAd),
+            secondary: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: FaIcon(FontAwesomeIcons.rectangleAd),
+            ),
             title: Text(AppLocalizations.of(context).showAds),
             subtitle: Text(AppLocalizations.of(context).showAdsText),
             value: prefs.showAds,
             onChanged: (bool value) => setState(() => prefs.showAds = value),
           ),
           ListTile(
-            leading: const Icon(Icons.games_rounded),
+            leading: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: FaIcon(FontAwesomeIcons.gamepad),
+            ),
             title: Text(AppLocalizations.of(context).resetGameScores),
             onTap: () => prefs.resetGames().then((reseted) {
               if (reseted) {
@@ -160,7 +190,10 @@ class _SettingsPageState extends State<SettingsPage> {
             }),
           ),
           ListTile(
-            leading: const Icon(Icons.replay_rounded),
+            leading: const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(Icons.replay_rounded),
+            ),
             title: Text(AppLocalizations.of(context).wizardAgain),
             onTap: () => Navigator.push(
               context,
