@@ -192,7 +192,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             leading: const CircleAvatar(
               backgroundColor: Colors.transparent,
-              child: Icon(Icons.replay_rounded),
+              child: Icon(Icons.switch_access_shortcut_rounded),
             ),
             title: Text(AppLocalizations.of(context).wizardAgain),
             onTap: () => Navigator.push(
