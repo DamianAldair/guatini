@@ -798,7 +798,7 @@ class _AudioViewerState extends State<AudioViewer> {
             Expanded(
               child: VideoProgressIndicator(
                 audio,
-                allowScrubbing: false,
+                allowScrubbing: !widget.fromGame,
                 colors: VideoProgressColors(
                   playedColor: theme.iconTheme.color!,
                   bufferedColor: theme.iconTheme.color!.withOpacity(0.25),
