@@ -66,9 +66,7 @@ class _MainPageState extends State<MainPage> {
         body: ValueListenableBuilder(
             valueListenable: prefs.dbPathNotifier,
             builder: (_, __, ___) {
-              final loading = Center(
-                child: Text(AppLocalizations.of(context).noDatabases),
-              );
+              const loading = Center(child: CircularProgressIndicator());
               final noDb = Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -114,9 +112,28 @@ class _MainPageState extends State<MainPage> {
                   return FutureBuilder(
                     future: SearchProvider.homeSuggestion(db, prefs.suggestions),
                     builder: (_, AsyncSnapshot<List<SpeciesModel>> snapshot) {
+                      if (snapshot.hasError) {
+                        return Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text(
+                            AppLocalizations.of(context).errorObtainingInfo,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
                       if (!snapshot.hasData) return loading;
                       final list = snapshot.data!;
-                      if (list.isEmpty) return noDb;
+                      if (list.isEmpty) {
+                        return Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text(
+                            AppLocalizations.of(context).noElements,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
                       return Swiper(
                         loop: false,
                         autoplay: true,
@@ -207,7 +224,7 @@ class _MainPageState extends State<MainPage> {
                           BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                             child: Container(
-                              color: isDark ? Colors.black : const Color.fromARGB(150, 255, 255, 255),
+                              color: isDark ? Colors.black.withOpacity(0.6) : Colors.grey.withOpacity(0.7),
                             ),
                           ),
                         ],

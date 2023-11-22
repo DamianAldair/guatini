@@ -483,7 +483,7 @@ abstract class SearchProvider {
       }
       return results;
     } catch (e) {
-      return [];
+      return Future.error(Exception());
     }
   }
 
