@@ -18,9 +18,61 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:http/http.dart' as http;
 
 class MainImage extends StatelessWidget {
+  final MediaModel? image;
+
+  const MainImage(this.image, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (image?.path == null) return const SizedBox.shrink();
+    final prefs = UserPreferences();
+    final db = prefs.dbPathNotifier.value!;
+    final file = File(p.join(db, image!.path).replaceAll('\\', '/'));
+    return FutureBuilder(
+      future: file.exists(),
+      builder: (_, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasError) return const SizedBox.shrink();
+        if (!snapshot.hasData) {
+          return const Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if (!snapshot.data!) return const SizedBox.shrink();
+        return Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: GestureDetector(
+            child: Hero(
+              tag: Null,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: Image.file(
+                  file,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ImageViewer(image!),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+class MainImageFromSpecies extends StatelessWidget {
   final SpeciesModel species;
 
-  const MainImage(this.species, {Key? key}) : super(key: key);
+  const MainImageFromSpecies(this.species, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:guatini/models/media_model.dart';
+import 'package:guatini/models/mediatype_model.dart';
 import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/pages/map_page.dart';
 import 'package:guatini/pages/similars_page.dart';
@@ -57,10 +59,11 @@ class SpeciesDetailsPage extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     }
                     species = snapshot.data as SpeciesModel;
+                    final speciesMedias = extractMainImage(species?.medias);
                     return SingleChildScrollView(
                       child: Column(
                         children: [
-                          MainImage(species!),
+                          MainImage(speciesMedias.$1),
                           Text(
                             species!.commonNamesAsString,
                             textAlign: TextAlign.center,
@@ -184,10 +187,7 @@ class SpeciesDetailsPage extends StatelessWidget {
                               );
                             },
                           ),
-                          Gallery(
-                            species!.medias,
-                            mainImageId: species!.mainImage != null ? species!.mainImage!.id : null,
-                          ),
+                          Gallery(speciesMedias.$2),
                           const SizedBox(height: 20.0),
                           if (prefs.wikipediaOnline)
                             OutlinedButton(
@@ -224,5 +224,14 @@ class SpeciesDetailsPage extends StatelessWidget {
               },
             ),
     );
+  }
+
+  (MediaModel?, List<MediaModel>) extractMainImage(List<MediaModel>? medias) {
+    if (medias == null) return (null, []);
+    if (medias.isEmpty) return (null, []);
+    final hasImages = medias.any((m) => m.mediaType.type == MediaType.image);
+    final mainImage = !hasImages ? null : medias.firstWhere((m) => m.mediaType.type == MediaType.image);
+    final others = medias..remove(mainImage);
+    return (mainImage, others);
   }
 }
