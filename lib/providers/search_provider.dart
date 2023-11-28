@@ -124,7 +124,8 @@ abstract class SearchProvider {
         [main].[common_name].[name]
         from [main].[specie]
         inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-        where [main].[specie].[id] = $speciesId;
+        where [main].[specie].[id] = $speciesId
+        group by [main].[common_name].[name];
     ''';
       final result = await db.rawQuery(query);
       return result.map((map) => CommonNameModel.fromMap(map)).toList();
@@ -319,7 +320,8 @@ abstract class SearchProvider {
         from [main].[specie]
         inner join [main].[specie_activity] on [main].[specie].[id] = [main].[specie_activity].[fk_specie_]
         inner join [main].[activity] on [main].[activity].[id] = [main].[specie_activity].[fk_activity_]
-        where [main].[specie].[id] = $speciesId;
+        where [main].[specie].[id] = $speciesId
+        group by [main].[activity].[activity];
     ''';
       final result = await db.rawQuery(query);
       return result.map((map) => ActivityModel.fromMap(map)).toList();
@@ -337,7 +339,8 @@ abstract class SearchProvider {
         from [main].[specie]
         inner join [main].[specie_habitat] on [main].[specie].[id] = [main].[specie_habitat].[fk_specie_]
         inner join [main].[habitat] on [main].[habitat].[id] = [main].[specie_habitat].[fk_habitat_]
-        where [main].[specie].[id] = $speciesId;
+        where [main].[specie].[id] = $speciesId
+        group by [main].[habitat].[habitat];
     ''';
       final result = await db.rawQuery(query);
       return result.map((map) => HabitatModel.fromMap(map)).toList();
@@ -355,7 +358,8 @@ abstract class SearchProvider {
         from [main].[specie]
         inner join [main].[specie_diet] on [main].[specie].[id] = [main].[specie_diet].[fk_specie_]
         inner join [main].[diet] on [main].[diet].[id] = [main].[specie_diet].[fk_diet_]
-        where [main].[specie].[id] = $speciesId;
+        where [main].[specie].[id] = $speciesId
+        group by [main].[diet].[diet];
     ''';
       final result = await db.rawQuery(query);
       return result.map((map) => DietModel.fromMap(map)).toList();
@@ -380,7 +384,8 @@ abstract class SearchProvider {
         INNER JOIN [main].[media_author] ON [main].[media].[id] = [main].[media_author].[fk_media_]
         INNER JOIN [main].[author] ON [main].[author].[id] = [main].[media_author].[fk_author_]
         INNER JOIN [main].[type] ON [main].[type].[id] = [main].[media].[fk_type_]
-        WHERE [main].[media].[fk_specie_] = $speciesId;
+        WHERE [main].[media].[fk_specie_] = $speciesId
+        group by [main].[media].[path];
     ''';
       final result = await db.rawQuery(query);
       final medias = <MediaModel>[];
@@ -479,7 +484,7 @@ abstract class SearchProvider {
           inner join [main].[specie_similar] on [main].[specie].[id] = [main].[specie_similar].[id_similar]
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
         where [main].[media].[fk_type_] = 1 AND [main].[specie_similar].[fk_specie_] = $speciesId
-        group by [main].[specie].[id]
+        group by [main].[specie].[scientific_name]
         order by [main].[specie].[id];
       ''';
       final result = await db.rawQuery(query);
@@ -531,7 +536,7 @@ abstract class SearchProvider {
                 [main].[media].[fk_type_] = 1
               order by random()
             )
-            group by id
+            group by scientific_name
           )
           order by random()
           limit $max;
@@ -556,7 +561,7 @@ abstract class SearchProvider {
                 inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
               order by random()
             )
-            group by id
+            group by scientific_name
           )
           order by random()
           limit $max;
@@ -589,7 +594,8 @@ abstract class SearchProvider {
             inner join [main].[media_author] on [main].[media].[id] = [main].[media_author].[fk_media_]
             inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
           where${_excludeOnline('[main].[media].[path]')} AND
-            [main].[media_author].[fk_author_] = $authorId;
+            [main].[media_author].[fk_author_] = $authorId
+          group by [main].[media].[path];
         ''';
       }
       if (licenseId != null) {
@@ -605,7 +611,8 @@ abstract class SearchProvider {
           from [main].[media]
             inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
           where ${_excludeOnline('[main].[media].[path]')} AND
-            [main].[media].[fk_license_] = $licenseId;
+            [main].[media].[fk_license_] = $licenseId
+          group by [main].[media].[path];
         ''';
       }
       final result = await db.rawQuery(query!);
@@ -767,7 +774,8 @@ abstract class SearchProvider {
       final query = '''
           select [main].[specie].[id]
           from   [main].[specie]
-          where  lower([main].[specie].[scientific_name]) = lower('$scientificName');
+          where  lower([main].[specie].[scientific_name]) = lower('$scientificName')
+          group by [main].[specie].[id];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return 0;
@@ -785,7 +793,8 @@ abstract class SearchProvider {
                [main].[t_genus].[name], 
                [main].[t_genus].[description]
         from   [main].[t_genus]
-        where  lower([main].[t_genus].[name]) = lower('$name');
+        where  lower([main].[t_genus].[name]) = lower('$name')
+        group by [main].[t_genus].[name];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -803,7 +812,8 @@ abstract class SearchProvider {
                [main].[t_family].[name], 
                [main].[t_family].[description]
         from   [main].[t_family]
-        where  lower([main].[t_family].[name]) = lower('$name');
+        where  lower([main].[t_family].[name]) = lower('$name')
+        group by [main].[t_family].[name];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -821,7 +831,8 @@ abstract class SearchProvider {
                [main].[t_order].[name], 
                [main].[t_order].[description]
         from   [main].[t_order]
-        where  lower([main].[t_order].[name]) = lower('$name');
+        where  lower([main].[t_order].[name]) = lower('$name')
+        group by [main].[t_order].[name];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -839,7 +850,8 @@ abstract class SearchProvider {
                [main].[t_class].[name], 
                [main].[t_class].[description]
         from   [main].[t_class]
-        where  lower([main].[t_class].[name]) = lower('$name');
+        where  lower([main].[t_class].[name]) = lower('$name')
+        group by [main].[t_class].[name];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -857,7 +869,8 @@ abstract class SearchProvider {
                [main].[t_phylum].[name], 
                [main].[t_phylum].[description]
         from   [main].[t_phylum]
-        where  lower([main].[t_phylum].[name]) = lower('$name');
+        where  lower([main].[t_phylum].[name]) = lower('$name')
+        group by [main].[t_phylum].[name];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -875,7 +888,8 @@ abstract class SearchProvider {
                [main].[t_kindom].[name], 
                [main].[t_kindom].[description]
         from   [main].[t_kindom]
-        where  lower([main].[t_kindom].[name]) = lower('$name');
+        where  lower([main].[t_kindom].[name]) = lower('$name')
+        group by [main].[t_kindom].[name];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -893,7 +907,8 @@ abstract class SearchProvider {
                [main].[t_domain].[name], 
                [main].[t_domain].[description]
         from   [main].[t_domain]
-        where  lower([main].[t_domain].[name]) = lower('$name');
+        where  lower([main].[t_domain].[name]) = lower('$name')
+        group by [main].[t_domain].[name];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -910,7 +925,8 @@ abstract class SearchProvider {
           [main].[endemism].[id], 
           [main].[endemism].[zone]
         from   [main].[endemism]
-        where  lower([main].[endemism].[zone]) = lower('$name');
+        where  lower([main].[endemism].[zone]) = lower('$name')
+        group by [main].[endemism].[zone];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -927,7 +943,8 @@ abstract class SearchProvider {
           [main].[abundance].[id], 
           [main].[abundance].[abundance]
         from   [main].[abundance]
-        where  lower([main].[abundance].[abundance]) = lower('$name');
+        where  lower([main].[abundance].[abundance]) = lower('$name')
+        group by [main].[abundance].[abundance];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -944,7 +961,8 @@ abstract class SearchProvider {
           [main].[activity].[id], 
           [main].[activity].[activity]
         from   [main].[activity]
-        where  lower([main].[activity].[activity]) = lower('$name');
+        where  lower([main].[activity].[activity]) = lower('$name')
+        group by [main].[activity].[activity];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -961,7 +979,8 @@ abstract class SearchProvider {
           [main].[habitat].[id], 
           [main].[habitat].[habitat]
         from   [main].[habitat]
-        where  lower([main].[habitat].[habitat]) = lower('$name');
+        where  lower([main].[habitat].[habitat]) = lower('$name')
+        group by [main].[habitat].[habitat];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -978,7 +997,8 @@ abstract class SearchProvider {
           [main].[diet].[id], 
           [main].[diet].[diet]
         from   [main].[diet]
-        where  lower([main].[diet].[diet]) = lower('$name');
+        where  lower([main].[diet].[diet]) = lower('$name')
+        group by [main].[diet].[diet];
       ''';
       final result = await db.rawQuery(query);
       if (result.isEmpty) return null;
@@ -1004,7 +1024,7 @@ abstract class SearchProvider {
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
         where [main].[media].[fk_type_] = 1 AND
           ${_excludeOnline('[main].[media].[path]')}
-        group by [main].[specie].[id]
+        group by [main].[specie].[scientific_name]
         order by [main].[specie].[id];
       ''';
       final result = await db.rawQuery(query);
@@ -1023,7 +1043,8 @@ abstract class SearchProvider {
         [main].[distribution].[description]
       from [main].[distribution]
         inner join [main].[specie_distribution] on [main].[distribution].[id] = [main].[specie_distribution].[fk_distribution_]
-      where [main].[specie_distribution].[fk_specie_] = $speciesId;
+      where [main].[specie_distribution].[fk_specie_] = $speciesId
+      group by [main].[distribution].[polygon];
       ''';
       final result = await db.rawQuery(query);
       final polygons = <List<MapLatLng>>[];
@@ -1059,7 +1080,7 @@ abstract class SearchProvider {
             inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
           where [main].[media].[fk_type_] = $type AND
             ${_excludeOnline('[main].[media].[path]')}
-          group by [main].[specie].[id]
+          group by [main].[specie].[scientific_name]
           order by RANDOM();
       ''';
       final result = await db.rawQuery(query);

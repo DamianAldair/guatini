@@ -88,8 +88,8 @@ class _MapPageState extends State<MapPage> {
         future: Directory(p.join(prefs.dbPathNotifier.value!, 'map')).list().toList(),
         builder: (_, AsyncSnapshot<List<FileSystemEntity>> snapshot) {
           const placeholder = Center(child: CircularProgressIndicator());
-          if (!snapshot.hasData) return placeholder;
-          final files = snapshot.data!.whereType<File>();
+          if (!snapshot.hasData && snapshot.connectionState != ConnectionState.done) return placeholder;
+          final files = (snapshot.data ?? []).whereType<File>();
           return FutureBuilder(
             future: deleteCountries(
               'assets/map/world_map.json',
