@@ -138,7 +138,8 @@ class Gallery extends StatelessWidget {
     for (MediaModel m in medias!) {
       if (m.mediaType.type != MediaType.audio) {
         if (mainImageId == null || m.id != mainImageId) {
-          if (m.isOffline ||
+          final path = p.join(prefs.dbPathNotifier.value!, m.path).replaceAll('\\', '/');
+          if ((m.isOffline && File(path).existsSync()) ||
               (m.mediaType.type == MediaType.image && prefs.imageOnline) ||
               (m.mediaType.type == MediaType.video && prefs.videoOnline)) {
             gallery.add(m);
@@ -637,12 +638,14 @@ class AudioCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = 10.0;
+    final prefs = UserPreferences();
 
     List<MediaModel> list = [];
     if (medias != null) {
       for (MediaModel m in medias!) {
         if (m.mediaType.type != null && m.mediaType.type! == MediaType.audio) {
-          if (m.isOffline) {
+          final path = p.join(prefs.dbPathNotifier.value!, m.path).replaceAll('\\', '/');
+          if (m.isOffline && File(path).existsSync()) {
             list.add(m);
           } else if (UserPreferences().audioOnline) {
             list.add(m);

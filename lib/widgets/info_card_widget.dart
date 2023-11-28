@@ -34,7 +34,7 @@ class InfoCard<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     String text = '';
     if (instance == null && instances == null) {
-      text = AppLocalizations.of(context).unavailable;
+      return const SizedBox.shrink();
     } else if (instances != null) {
       for (T i in instances!) {
         text += '${i.toString()}\n';
