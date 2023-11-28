@@ -166,8 +166,8 @@ class SpeciesDetailsPage extends StatelessWidget {
                               const placeholder = SizedBox.shrink();
                               if (snapshot.hasError) return placeholder;
                               if (!snapshot.hasData) return placeholder;
-                              final length = snapshot.data!.length;
-                              if (length == 0) return placeholder;
+                              final similars = snapshot.data!;
+                              if (similars.isEmpty) return placeholder;
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 20.0,
@@ -176,12 +176,17 @@ class SpeciesDetailsPage extends StatelessWidget {
                                 child: OutlinedButton.icon(
                                   icon: const Icon(Icons.search_rounded),
                                   label: Text(
-                                    '${AppLocalizations.of(context).seeSimilarSpecies} ($length)',
+                                    '${AppLocalizations.of(context).seeSimilarSpecies} (${similars.length})',
                                     textAlign: TextAlign.center,
                                   ),
                                   onPressed: () => Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (_) => SimilarsPage(species!)),
+                                    MaterialPageRoute(
+                                      builder: (_) => SimilarsPage(
+                                        species!,
+                                        similars: similars,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               );
