@@ -765,6 +765,12 @@ abstract class AppLocalizations {
   /// **'Guatiní has not permission to access to location'**
   String get noLocationPermission;
 
+  /// No description provided for @noEnoughDbInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'There is not enough information in the data source to play the game.'**
+  String get noEnoughDbInfo;
+
   /// No description provided for @noSelectedDatabase.
   ///
   /// In en, this message translates to:

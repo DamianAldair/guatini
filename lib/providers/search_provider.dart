@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:guatini/models/abundance_model.dart';
 import 'package:guatini/models/activity_model.dart';
 import 'package:guatini/models/ad_model.dart';
@@ -19,8 +21,10 @@ import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
 import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/models/sql_table_model.dart';
+import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/util/parse.dart';
 import 'package:guatini/util/util_data.dart';
+import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
@@ -1057,7 +1061,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<List<List>> getGameOptions(Database db, MediaType mediaType) async {
+  static Future<List<List>> getGameOptions(Database db, MediaType mediaType, [int force = 4]) async {
     final type = switch (mediaType) {
       MediaType.image => 1,
       MediaType.video => 2,
@@ -1084,15 +1088,21 @@ abstract class SearchProvider {
           order by RANDOM();
       ''';
       final result = await db.rawQuery(query);
+      final prefs = UserPreferences();
       final species = <SpeciesModel>[];
       final mediaPaths = <String>[];
       for (final json in result) {
-        species.add(SpeciesModel.fromSimpleSearch(json));
-        mediaPaths.add(json[asType] as String);
+        final mediaPath = json[asType] as String;
+        final path = p.join(prefs.dbPathNotifier.value!, mediaPath).replaceAll('\\', '/');
+        if (await File(path).exists()) {
+          species.add(SpeciesModel.fromSimpleSearch(json));
+          mediaPaths.add(mediaPath);
+        }
       }
+      if (species.length < force) return [<SpeciesModel>[], <String>[]];
       return [species, mediaPaths];
     } catch (_) {
-      return [[], []];
+      return [<SpeciesModel>[], <String>[]];
     }
   }
 }

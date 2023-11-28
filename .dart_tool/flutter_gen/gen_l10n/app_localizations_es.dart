@@ -352,6 +352,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noLocationPermission => 'Guatiní no tiene permiso para utilizar la ubicación';
 
   @override
+  String get noEnoughDbInfo => 'No hay suficiente información en la fuente de datos para jugar.';
+
+  @override
   String get noSelectedDatabase => 'No hay una fuente de datos seleccionada';
 
   @override

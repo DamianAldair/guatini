@@ -67,6 +67,18 @@ class Game3Page extends StatelessWidget {
               if (!snapshot.hasData) return phLoad;
               final species = snapshot.data![0] as List<SpeciesModel>;
               final mediaPaths = snapshot.data![1] as List<String>;
+              if (species.isEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      AppLocalizations.of(context).noEnoughDbInfo,
+                      style: Theme.of(context).textTheme.titleLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              }
               return ValueListenableBuilder(
                 valueListenable: counterNotif,
                 builder: (_, int counter, ___) {
