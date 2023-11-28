@@ -132,8 +132,16 @@ class _DatabasesPageState extends State<DatabasesPage> {
                         },
                       ),
                       onTap: () async {
-                        await DbProvider.open(db);
-                        setState(() {});
+                        if (await Directory(db).exists()) {
+                          await DbProvider.open(db);
+                          setState(() {});
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          showDialog(
+                            context: context,
+                            builder: (_) => dbNotFoundDialog(context: context),
+                          );
+                        }
                       },
                     );
                   },

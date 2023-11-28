@@ -117,6 +117,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dark => 'Dark';
 
   @override
+  String get dbNotFound => 'Data source not found';
+
+  @override
+  String get dbNotFoundInfo => 'THis data source appears to have been deleted or moved and cannot be selected.';
+
+  @override
   String get dbStructureNoCorrect => 'The data source structure is not correct';
 
   @override
@@ -355,7 +361,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noEnoughDbInfo => 'There is not enough information in the data source to play the game.';
 
   @override
-  String get noSelectedDatabase => 'There is not a selected data source';
+  String get noSelectedDatabase => 'There is not no data source selected or the one that was selected does not exist or has been moved';
 
   @override
   String get noSpeciesNearby => 'There are no species nearby';

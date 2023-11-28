@@ -303,6 +303,18 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get dark;
 
+  /// No description provided for @dbNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Data source not found'**
+  String get dbNotFound;
+
+  /// No description provided for @dbNotFoundInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'THis data source appears to have been deleted or moved and cannot be selected.'**
+  String get dbNotFoundInfo;
+
   /// No description provided for @dbStructureNoCorrect.
   ///
   /// In en, this message translates to:
@@ -774,7 +786,7 @@ abstract class AppLocalizations {
   /// No description provided for @noSelectedDatabase.
   ///
   /// In en, this message translates to:
-  /// **'There is not a selected data source'**
+  /// **'There is not no data source selected or the one that was selected does not exist or has been moved'**
   String get noSelectedDatabase;
 
   /// No description provided for @noSpeciesNearby.
