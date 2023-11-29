@@ -135,21 +135,21 @@ class _MapPageState extends State<MapPage> {
                                       points: widget.polygons![i],
                                       strokeWidth: 0.0,
                                       color: Colors.blue.withOpacity(0.5),
-                                      onTap: () {
-                                        final desc = widget.descriptiopns?[i];
-                                        if (desc != null) {
-                                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                              content: Text(desc),
-                                              action: SnackBarAction(
-                                                label: AppLocalizations.of(context).ok,
-                                                onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      },
+                                      // onTap: () {
+                                      //   final desc = widget.descriptiopns?[i];
+                                      //   if (desc != null) {
+                                      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                      //     ScaffoldMessenger.of(context).showSnackBar(
+                                      //       SnackBar(
+                                      //         content: Text(desc),
+                                      //         action: SnackBarAction(
+                                      //           label: AppLocalizations.of(context).ok,
+                                      //           onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+                                      //         ),
+                                      //       ),
+                                      //     );
+                                      //   }
+                                      // },
                                     ),
                                   ).toSet(),
                                 ),
