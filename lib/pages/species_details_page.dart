@@ -130,11 +130,12 @@ class SpeciesDetailsPage extends StatelessWidget {
                           Description(species!.description.toString()),
                           FutureBuilder(
                             future: SearchProvider.getDistribution(db, species!.id!),
-                            builder: (_, AsyncSnapshot<List<List<MapLatLng>>> snapshot) {
+                            builder: (_, AsyncSnapshot<(List<List<MapLatLng>>, List<String>)> snapshot) {
                               const placeholder = SizedBox.shrink();
                               if (snapshot.hasError) return placeholder;
                               if (!snapshot.hasData) return placeholder;
-                              final polygons = snapshot.data!;
+                              final polygons = snapshot.data!.$1;
+                              final descriptiopns = snapshot.data!.$2;
                               if (polygons.isEmpty) return placeholder;
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -152,6 +153,7 @@ class SpeciesDetailsPage extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (_) => MapPage(
                                         polygons: polygons,
+                                        descriptiopns: descriptiopns,
                                         customTitle: AppLocalizations.of(context).seeSpeciesDistribution,
                                       ),
                                     ),

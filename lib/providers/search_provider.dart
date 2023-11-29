@@ -1038,7 +1038,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<List<List<MapLatLng>>> getDistribution(Database db, int speciesId) async {
+  static Future<(List<List<MapLatLng>>, List<String>)> getDistribution(Database db, int speciesId) async {
     try {
       final query = '''
       select 
@@ -1052,12 +1052,14 @@ abstract class SearchProvider {
       ''';
       final result = await db.rawQuery(query);
       final polygons = <List<MapLatLng>>[];
+      final descriptions = <String>[];
       for (final r in result) {
         polygons.addAll(toPolygons(r['polygon'] as String));
+        descriptions.add(r['description'] as String);
       }
-      return polygons;
+      return (polygons, descriptions);
     } catch (_) {
-      return [];
+      return (<List<MapLatLng>>[], <String>[]);
     }
   }
 
