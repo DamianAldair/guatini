@@ -388,6 +388,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noResults => 'There are no results';
 
   @override
+  String get noResultsFromQr => 'There are no results for the information read from this QR code.';
+
+  @override
   String get notSelected => 'Not selected';
 
   @override

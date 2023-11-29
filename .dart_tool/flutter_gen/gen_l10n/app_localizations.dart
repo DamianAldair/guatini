@@ -837,6 +837,12 @@ abstract class AppLocalizations {
   /// **'There are no results'**
   String get noResults;
 
+  /// No description provided for @noResultsFromQr.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no results for the information read from this QR code.'**
+  String get noResultsFromQr;
+
   /// No description provided for @notSelected.
   ///
   /// In en, this message translates to:

@@ -18,7 +18,7 @@ import 'package:syncfusion_flutter_maps/maps.dart';
 class SpeciesDetailsPage extends StatelessWidget {
   final int? speciesId;
 
-  const SpeciesDetailsPage(this.speciesId, {Key? key}) : super(key: key);
+  const SpeciesDetailsPage(this.speciesId, {super.key});
 
   @override
   Widget build(BuildContext context) {

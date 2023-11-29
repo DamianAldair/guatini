@@ -160,8 +160,8 @@ class _QrScannerPageState extends State<QrScannerPage> {
         dialog.call();
         return;
       }
-      Navigator.pop(context);
-      qrResult.launch(context);
+      if (qrResult is! QrOffline) Navigator.pop(context);
+      qrResult.launch(context).onError((_, __) => dialog.call(AppLocalizations.of(context).noResultsFromQr));
     } catch (_) {
       dialog.call();
     }

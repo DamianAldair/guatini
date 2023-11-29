@@ -150,6 +150,7 @@
     "noElements": "No hay elementos para mostrar",
     "noRecentSearches": "No hay búsquedas recientes",
     "noResults": "No hay resultados",
+    "noResultsFromQr": "No hay resultados de la información leída en este código QR.",
     "notSelected": "No seleccionada",
     "numberItemsSearchHistory": "Cantidad de elementos en el historial de búsqueda",
     "numberSeggestions": "Cantidad de sugerencias en Inicio",

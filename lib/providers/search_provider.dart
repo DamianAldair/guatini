@@ -773,7 +773,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<int> getIdFromScientificName(Database db, String scientificName) async {
+  static Future<int?> getIdFromScientificName(Database db, String scientificName) async {
     try {
       final query = '''
           select [main].[specie].[id]
@@ -782,10 +782,10 @@ abstract class SearchProvider {
           group by [main].[specie].[id];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return 0;
+      if (result.isEmpty) return null;
       return result.first["id"] as int;
     } catch (e) {
-      return -1;
+      return null;
     }
   }
 

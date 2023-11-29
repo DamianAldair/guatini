@@ -388,6 +388,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noResults => 'No hay resultados';
 
   @override
+  String get noResultsFromQr => 'No hay resultados de la información leída en este código QR.';
+
+  @override
   String get notSelected => 'No seleccionada';
 
   @override
