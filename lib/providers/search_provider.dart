@@ -80,7 +80,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<AuthorModel?> getAuthor(Database db, int id) async {
+  static Future<List<AuthorModel>> getAuthors(Database db, int id) async {
     try {
       final query = '''
       SELECT 
@@ -91,9 +91,9 @@ abstract class SearchProvider {
       WHERE  [main].[author].[id] = $id;
     ''';
       final result = await db.rawQuery(query);
-      return result.isNotEmpty ? AuthorModel.fromMap(result.first) : null;
+      return result.map((r) => AuthorModel.fromMap(r)).toList();
     } catch (_) {
-      return null;
+      return [];
     }
   }
 

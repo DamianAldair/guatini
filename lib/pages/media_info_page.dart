@@ -45,7 +45,9 @@ class MediaInfoPage extends StatelessWidget {
             final db = snapshot.data as Database;
             return FutureBuilder(
                 future: Future.wait([
-                  media.authorId == null ? Future.value(null) : SearchProvider.getAuthor(db, media.authorId!),
+                  media.authorId == null
+                      ? Future.value(<AuthorModel>[])
+                      : SearchProvider.getAuthors(db, media.authorId!),
                   media.licenseId == null ? Future.value(null) : SearchProvider.getLicense(db, media.licenseId!),
                 ]),
                 builder: (_, AsyncSnapshot snapshot) {
@@ -53,7 +55,7 @@ class MediaInfoPage extends StatelessWidget {
                     return const Center(child: CircularProgressIndicator());
                   }
                   final results = snapshot.data as List;
-                  final author = results[0] as AuthorModel?;
+                  final authors = results[0] as List<AuthorModel>;
                   final license = results[1] as LicenseModel?;
                   return SingleChildScrollView(
                     child: Column(
@@ -144,7 +146,7 @@ class MediaInfoPage extends StatelessWidget {
                             style: const TextStyle(fontSize: 17.0),
                           ),
                         ),
-                        AuthorCard(author!, media.mediaType.type!),
+                        AuthorCard(authors, media.mediaType.type!),
                         LicenseCard(license),
                         if (media.latitude != null && media.longitude != null)
                           Padding(
