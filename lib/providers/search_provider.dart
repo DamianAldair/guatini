@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:guatini/models/abundance_model.dart';
 import 'package:guatini/models/activity_model.dart';
 import 'package:guatini/models/ad_model.dart';
@@ -19,8 +21,10 @@ import 'package:guatini/models/order_model.dart';
 import 'package:guatini/models/phylum_model.dart';
 import 'package:guatini/models/specie_model.dart';
 import 'package:guatini/models/sql_table_model.dart';
+import 'package:guatini/providers/userpreferences_provider.dart';
 import 'package:guatini/util/parse.dart';
 import 'package:guatini/util/util_data.dart';
+import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
@@ -42,7 +46,8 @@ abstract class SearchProvider {
   }
 
   static Future<List<SqlTableModel>> getTables(Database db) async {
-    const query = '''
+    try {
+      const query = '''
       SELECT name, (
         SELECT group_concat(name,'/')
         FROM PRAGMA_TABLE_INFO(m.name)
@@ -50,13 +55,17 @@ abstract class SearchProvider {
       FROM sqlite_master AS m
       WHERE type='table';
     ''';
-    final result = await db.rawQuery(query);
-    if (result.isEmpty) return [];
-    return result.map((map) => SqlTableModel.fromMap(map)).toList();
+      final result = await db.rawQuery(query);
+      if (result.isEmpty) return [];
+      return result.map((map) => SqlTableModel.fromMap(map)).toList();
+    } catch (_) {
+      return [];
+    }
   }
 
   static Future<LicenseModel?> getLicense(Database db, int id) async {
-    final query = '''
+    try {
+      final query = '''
       SELECT 
       [main].[license].[id], 
       [main].[license].[name], 
@@ -64,12 +73,16 @@ abstract class SearchProvider {
       FROM   [main].[license]
       WHERE  [main].[license].[id] = $id;
     ''';
-    final result = await db.rawQuery(query);
-    return result.isNotEmpty ? LicenseModel.fromMap(result.first) : null;
+      final result = await db.rawQuery(query);
+      return result.isNotEmpty ? LicenseModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
-  static Future<AuthorModel?> getAuthor(Database db, int id) async {
-    final query = '''
+  static Future<List<AuthorModel>> getAuthors(Database db, int id) async {
+    try {
+      final query = '''
       SELECT 
       [main].[author].[id], 
       [main].[author].[name], 
@@ -77,12 +90,16 @@ abstract class SearchProvider {
       FROM   [main].[author]
       WHERE  [main].[author].[id] = $id;
     ''';
-    final result = await db.rawQuery(query);
-    return result.isNotEmpty ? AuthorModel.fromMap(result.first) : null;
+      final result = await db.rawQuery(query);
+      return result.map((r) => AuthorModel.fromMap(r)).toList();
+    } catch (_) {
+      return [];
+    }
   }
 
   static Future<MainImageModel?> _getMainImage(Database db, int speciesId) async {
-    final query = '''
+    try {
+      final query = '''
       select 
         [main].[main_image].[fk_media_] AS [id], 
         [main].[media].[path], 
@@ -96,29 +113,34 @@ abstract class SearchProvider {
         inner join [main].[media_author] on [main].[media].[id] = [main].[media_author].[fk_media_]
       where [main].[media].[fk_specie_] = $speciesId;
     ''';
-    final result = await db.rawQuery(query);
-    return result.isNotEmpty ? MainImageModel.fromMap(result.first) : null;
+      final result = await db.rawQuery(query);
+      return result.isNotEmpty ? MainImageModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<List<CommonNameModel>> _getCommonNames(Database db, int speciesId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[common_name].[id],
         [main].[common_name].[name]
         from [main].[specie]
         inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-        where [main].[specie].[id] = $speciesId;
+        where [main].[specie].[id] = $speciesId
+        group by [main].[common_name].[name];
     ''';
-    final result = await db.rawQuery(query);
-    final commonNames = <CommonNameModel>[];
-    for (var item in result) {
-      commonNames.add(CommonNameModel.fromMap(item));
+      final result = await db.rawQuery(query);
+      return result.map((map) => CommonNameModel.fromMap(map)).toList();
+    } catch (_) {
+      return [];
     }
-    return commonNames;
   }
 
   static Future<GenusModel?> _getGenus(Database db, int? speciesId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[t_genus].[id],
         [main].[t_genus].[name],
@@ -127,12 +149,16 @@ abstract class SearchProvider {
         inner join [main].[t_genus] on [main].[t_genus].[id] = [main].[specie].[fk_t_genus_]
         where [main].[specie].[id] = $speciesId;
     ''';
-    final result = speciesId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? GenusModel.fromMap(result.first) : null;
+      final result = speciesId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? GenusModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<FamilyModel?> _getFamily(Database db, int? genusId) async {
-    final query = '''
+    try {
+      final query = '''
         select 
         [main].[t_family].[id], 
         [main].[t_family].[name], 
@@ -141,12 +167,16 @@ abstract class SearchProvider {
         inner join [main].[t_family] on [main].[t_family].[id] = [main].[t_genus].[fk_t_family_]
         where [main].[t_genus].[id] = $genusId;
     ''';
-    final result = genusId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? FamilyModel.fromMap(result.first) : null;
+      final result = genusId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? FamilyModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<OrderModel?> _getOrder(Database db, int? familyId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[t_order].[id],
         [main].[t_order].[name],
@@ -155,12 +185,16 @@ abstract class SearchProvider {
         inner join [main].[t_order] on [main].[t_order].[id] = [main].[t_family].[fk_t_order_]
         where [main].[t_family].[id] = $familyId;
     ''';
-    final result = familyId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? OrderModel.fromMap(result.first) : null;
+      final result = familyId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? OrderModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<ClassModel?> _getClass(Database db, int? orderId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[t_class].[id],
         [main].[t_class].[name],
@@ -169,12 +203,16 @@ abstract class SearchProvider {
         inner join [main].[t_class] on [main].[t_class].[id] = [main].[t_order].[fk_t_class_]
         where [main].[t_order].[id] = $orderId;
     ''';
-    final result = orderId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? ClassModel.fromMap(result.first) : null;
+      final result = orderId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? ClassModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<PhylumModel?> _getPhylum(Database db, int? classId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[t_phylum].[id],
         [main].[t_phylum].[name],
@@ -183,12 +221,16 @@ abstract class SearchProvider {
         inner join [main].[t_phylum] on [main].[t_phylum].[id] = [main].[t_class].[fk_t_phylum_]
         where [main].[t_class].[id] = $classId;
     ''';
-    final result = classId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? PhylumModel.fromMap(result.first) : null;
+      final result = classId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? PhylumModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<KindomModel?> _getKindom(Database db, int? phylumId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[t_kindom].[id],
         [main].[t_kindom].[name],
@@ -197,12 +239,16 @@ abstract class SearchProvider {
         inner join [main].[t_kindom] on [main].[t_kindom].[id] = [main].[t_phylum].[fk_t_kindom_]
         where [main].[t_phylum].[id] = $phylumId;
     ''';
-    final result = phylumId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? KindomModel.fromMap(result.first) : null;
+      final result = phylumId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? KindomModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<DomainModel?> _getDomain(Database db, int? kindomId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[t_domain].[id],
         [main].[t_domain].[name],
@@ -211,12 +257,16 @@ abstract class SearchProvider {
         inner join [main].[t_domain] on [main].[t_domain].[id] = [main].[t_kindom].[fk_t_domain_]
         where [main].[t_kindom].[id] = $kindomId;
     ''';
-    final result = kindomId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? DomainModel.fromMap(result.first) : null;
+      final result = kindomId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? DomainModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<ConservationStatusModel?> _getConservationStatus(Database db, int? speciesId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[conservation_status].[id], 
         [main].[conservation_status].[status]
@@ -224,12 +274,16 @@ abstract class SearchProvider {
         inner join [main].[conservation_status] on [main].[conservation_status].[id] = [main].[specie].[fk_coservation_status_]
         where [main].[specie].[id] = $speciesId;
     ''';
-    final result = speciesId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? ConservationStatusModel.fromMap(result.first) : null;
+      final result = speciesId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? ConservationStatusModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<EndemismModel?> _getEndemism(Database db, int? speciesId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[endemism].[id],
         [main].[endemism].[zone]
@@ -237,12 +291,16 @@ abstract class SearchProvider {
         inner join [main].[endemism] on [main].[endemism].[id] = [main].[specie].[fk_endemism_]
         where [main].[specie].[id] = $speciesId;
     ''';
-    final result = speciesId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? EndemismModel.fromMap(result.first) : null;
+      final result = speciesId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? EndemismModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<AbundanceModel?> _getAbundance(Database db, int? speciesId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[abundance].[id],
         [main].[abundance].[abundance]
@@ -250,66 +308,73 @@ abstract class SearchProvider {
         inner join [main].[abundance] on [main].[abundance].[id] = [main].[specie].[fk_abundance_]
         where [main].[specie].[id] = $speciesId;
     ''';
-    final result = speciesId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? AbundanceModel.fromMap(result.first) : null;
+      final result = speciesId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? AbundanceModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<List<ActivityModel>> _getActivities(Database db, int speciesId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[activity].[id],
         [main].[activity].[activity]
         from [main].[specie]
         inner join [main].[specie_activity] on [main].[specie].[id] = [main].[specie_activity].[fk_specie_]
         inner join [main].[activity] on [main].[activity].[id] = [main].[specie_activity].[fk_activity_]
-        where [main].[specie].[id] = $speciesId;
+        where [main].[specie].[id] = $speciesId
+        group by [main].[activity].[activity];
     ''';
-    final result = await db.rawQuery(query);
-    final activities = <ActivityModel>[];
-    for (var item in result) {
-      activities.add(ActivityModel.fromMap(item));
+      final result = await db.rawQuery(query);
+      return result.map((map) => ActivityModel.fromMap(map)).toList();
+    } catch (_) {
+      return [];
     }
-    return activities;
   }
 
   static Future<List<HabitatModel>> _getHabitats(Database db, int speciesId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[habitat].[id],
         [main].[habitat].[habitat]
         from [main].[specie]
         inner join [main].[specie_habitat] on [main].[specie].[id] = [main].[specie_habitat].[fk_specie_]
         inner join [main].[habitat] on [main].[habitat].[id] = [main].[specie_habitat].[fk_habitat_]
-        where [main].[specie].[id] = $speciesId;
+        where [main].[specie].[id] = $speciesId
+        group by [main].[habitat].[habitat];
     ''';
-    final result = await db.rawQuery(query);
-    final habitats = <HabitatModel>[];
-    for (var item in result) {
-      habitats.add(HabitatModel.fromMap(item));
+      final result = await db.rawQuery(query);
+      return result.map((map) => HabitatModel.fromMap(map)).toList();
+    } catch (_) {
+      return [];
     }
-    return habitats;
   }
 
   static Future<List<DietModel>> _getDiets(Database db, int speciesId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[diet].[id],
         [main].[diet].[diet]
         from [main].[specie]
         inner join [main].[specie_diet] on [main].[specie].[id] = [main].[specie_diet].[fk_specie_]
         inner join [main].[diet] on [main].[diet].[id] = [main].[specie_diet].[fk_diet_]
-        where [main].[specie].[id] = $speciesId;
+        where [main].[specie].[id] = $speciesId
+        group by [main].[diet].[diet];
     ''';
-    final result = await db.rawQuery(query);
-    final diets = <DietModel>[];
-    for (var item in result) {
-      diets.add(DietModel.fromMap(item));
+      final result = await db.rawQuery(query);
+      return result.map((map) => DietModel.fromMap(map)).toList();
+    } catch (_) {
+      return [];
     }
-    return diets;
   }
 
   static Future<List<MediaModel>> _getMedias(Database db, int speciesId) async {
-    final query = '''
+    try {
+      final query = '''
         SELECT 
         [main].[media].[id], 
         [main].[media].[path], 
@@ -323,21 +388,26 @@ abstract class SearchProvider {
         INNER JOIN [main].[media_author] ON [main].[media].[id] = [main].[media_author].[fk_media_]
         INNER JOIN [main].[author] ON [main].[author].[id] = [main].[media_author].[fk_author_]
         INNER JOIN [main].[type] ON [main].[type].[id] = [main].[media].[fk_type_]
-        WHERE [main].[media].[fk_specie_] = $speciesId;
+        WHERE [main].[media].[fk_specie_] = $speciesId
+        group by [main].[media].[path];
     ''';
-    final result = await db.rawQuery(query);
-    final medias = <MediaModel>[];
-    for (Map<String, Object?> item in result) {
-      MediaModel media = MediaModel.fromMap(item);
-      MediaTypeModel? type = await _getMediaType(db, media.id);
-      media.type = type;
-      medias.add(media);
+      final result = await db.rawQuery(query);
+      final medias = <MediaModel>[];
+      for (Map<String, Object?> item in result) {
+        MediaModel media = MediaModel.fromMap(item);
+        MediaTypeModel? type = await _getMediaType(db, media.id);
+        media.type = type;
+        medias.add(media);
+      }
+      return medias;
+    } catch (_) {
+      return [];
     }
-    return medias;
   }
 
   static Future<MediaTypeModel?> _getMediaType(Database db, int? mediaId) async {
-    final query = '''
+    try {
+      final query = '''
         select
         [main].[type].[id],
         [main].[type].[type]
@@ -345,8 +415,11 @@ abstract class SearchProvider {
         inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
         where [main].[media].[id] = $mediaId;
     ''';
-    final result = mediaId != null ? await db.rawQuery(query) : [];
-    return result.isNotEmpty ? MediaTypeModel.fromMap(result.first) : null;
+      final result = mediaId != null ? await db.rawQuery(query) : [];
+      return result.isNotEmpty ? MediaTypeModel.fromMap(result.first) : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   static Future<SpeciesModel?> getSpecie(Database db, int speciesId) async {
@@ -415,7 +488,7 @@ abstract class SearchProvider {
           inner join [main].[specie_similar] on [main].[specie].[id] = [main].[specie_similar].[id_similar]
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
         where [main].[media].[fk_type_] = 1 AND [main].[specie_similar].[fk_specie_] = $speciesId
-        group by [main].[specie].[id]
+        group by [main].[specie].[scientific_name]
         order by [main].[specie].[id];
       ''';
       final result = await db.rawQuery(query);
@@ -443,11 +516,7 @@ abstract class SearchProvider {
           order by [main].[specie].[scientific_name];
       ''';
       final result = await db.rawQuery(query);
-      final results = <SpeciesModel>[];
-      for (var item in result) {
-        results.add(SpeciesModel.fromSimpleSearch(item));
-      }
-      return results;
+      return result.map((r) => SpeciesModel.fromSimpleSearch(r)).toList();
     } catch (e) {
       return [];
     }
@@ -471,17 +540,13 @@ abstract class SearchProvider {
                 [main].[media].[fk_type_] = 1
               order by random()
             )
-            group by id
+            group by scientific_name
           )
           order by random()
           limit $max;
       ''';
       final result = await db.rawQuery(query);
-      final results = <SpeciesModel>[];
-      for (var item in result) {
-        results.add(SpeciesModel.fromSimpleSearch(item));
-      }
-      return results;
+      return result.map((r) => SpeciesModel.fromSimpleSearch(r)).toList();
     } catch (e) {
       return Future.error(Exception());
     }
@@ -500,17 +565,13 @@ abstract class SearchProvider {
                 inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
               order by random()
             )
-            group by id
+            group by scientific_name
           )
           order by random()
           limit $max;
       ''';
       final result = await db.rawQuery(query);
-      final results = <SpeciesModel>[];
-      for (var item in result) {
-        results.add(SpeciesModel.fromSimpleSearch(item));
-      }
-      return results;
+      return result.map((r) => SpeciesModel.fromSimpleSearch(r)).toList();
     } catch (e) {
       return Future.error(Exception());
     }
@@ -537,7 +598,8 @@ abstract class SearchProvider {
             inner join [main].[media_author] on [main].[media].[id] = [main].[media_author].[fk_media_]
             inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
           where${_excludeOnline('[main].[media].[path]')} AND
-            [main].[media_author].[fk_author_] = $authorId;
+            [main].[media_author].[fk_author_] = $authorId
+          group by [main].[media].[path];
         ''';
       }
       if (licenseId != null) {
@@ -553,7 +615,8 @@ abstract class SearchProvider {
           from [main].[media]
             inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
           where ${_excludeOnline('[main].[media].[path]')} AND
-            [main].[media].[fk_license_] = $licenseId;
+            [main].[media].[fk_license_] = $licenseId
+          group by [main].[media].[path];
         ''';
       }
       final result = await db.rawQuery(query!);
@@ -710,18 +773,19 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<int> getIdFromScientificName(Database db, String scientificName) async {
+  static Future<int?> getIdFromScientificName(Database db, String scientificName) async {
     try {
       final query = '''
           select [main].[specie].[id]
           from   [main].[specie]
-          where  lower([main].[specie].[scientific_name]) = lower('$scientificName');
+          where  lower([main].[specie].[scientific_name]) = lower('$scientificName')
+          group by [main].[specie].[id];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return 0;
+      if (result.isEmpty) return null;
       return result.first["id"] as int;
     } catch (e) {
-      return -1;
+      return null;
     }
   }
 
@@ -733,13 +797,14 @@ abstract class SearchProvider {
                [main].[t_genus].[name], 
                [main].[t_genus].[description]
         from   [main].[t_genus]
-        where  lower([main].[t_genus].[name]) = lower('$name');
+        where  lower([main].[t_genus].[name]) = lower('$name')
+        group by [main].[t_genus].[name];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return GenusModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -751,13 +816,14 @@ abstract class SearchProvider {
                [main].[t_family].[name], 
                [main].[t_family].[description]
         from   [main].[t_family]
-        where  lower([main].[t_family].[name]) = lower('$name');
+        where  lower([main].[t_family].[name]) = lower('$name')
+        group by [main].[t_family].[name];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return FamilyModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -769,13 +835,14 @@ abstract class SearchProvider {
                [main].[t_order].[name], 
                [main].[t_order].[description]
         from   [main].[t_order]
-        where  lower([main].[t_order].[name]) = lower('$name');
+        where  lower([main].[t_order].[name]) = lower('$name')
+        group by [main].[t_order].[name];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return OrderModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -787,13 +854,14 @@ abstract class SearchProvider {
                [main].[t_class].[name], 
                [main].[t_class].[description]
         from   [main].[t_class]
-        where  lower([main].[t_class].[name]) = lower('$name');
+        where  lower([main].[t_class].[name]) = lower('$name')
+        group by [main].[t_class].[name];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return ClassModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -805,13 +873,14 @@ abstract class SearchProvider {
                [main].[t_phylum].[name], 
                [main].[t_phylum].[description]
         from   [main].[t_phylum]
-        where  lower([main].[t_phylum].[name]) = lower('$name');
+        where  lower([main].[t_phylum].[name]) = lower('$name')
+        group by [main].[t_phylum].[name];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return PhylumModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -823,13 +892,14 @@ abstract class SearchProvider {
                [main].[t_kindom].[name], 
                [main].[t_kindom].[description]
         from   [main].[t_kindom]
-        where  lower([main].[t_kindom].[name]) = lower('$name');
+        where  lower([main].[t_kindom].[name]) = lower('$name')
+        group by [main].[t_kindom].[name];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return KindomModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -841,13 +911,14 @@ abstract class SearchProvider {
                [main].[t_domain].[name], 
                [main].[t_domain].[description]
         from   [main].[t_domain]
-        where  lower([main].[t_domain].[name]) = lower('$name');
+        where  lower([main].[t_domain].[name]) = lower('$name')
+        group by [main].[t_domain].[name];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return DomainModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -858,13 +929,14 @@ abstract class SearchProvider {
           [main].[endemism].[id], 
           [main].[endemism].[zone]
         from   [main].[endemism]
-        where  lower([main].[endemism].[zone]) = lower('$name');
+        where  lower([main].[endemism].[zone]) = lower('$name')
+        group by [main].[endemism].[zone];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return EndemismModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -875,13 +947,14 @@ abstract class SearchProvider {
           [main].[abundance].[id], 
           [main].[abundance].[abundance]
         from   [main].[abundance]
-        where  lower([main].[abundance].[abundance]) = lower('$name');
+        where  lower([main].[abundance].[abundance]) = lower('$name')
+        group by [main].[abundance].[abundance];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return AbundanceModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -892,13 +965,14 @@ abstract class SearchProvider {
           [main].[activity].[id], 
           [main].[activity].[activity]
         from   [main].[activity]
-        where  lower([main].[activity].[activity]) = lower('$name');
+        where  lower([main].[activity].[activity]) = lower('$name')
+        group by [main].[activity].[activity];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return ActivityModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -909,13 +983,14 @@ abstract class SearchProvider {
           [main].[habitat].[id], 
           [main].[habitat].[habitat]
         from   [main].[habitat]
-        where  lower([main].[habitat].[habitat]) = lower('$name');
+        where  lower([main].[habitat].[habitat]) = lower('$name')
+        group by [main].[habitat].[habitat];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return HabitatModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -926,13 +1001,14 @@ abstract class SearchProvider {
           [main].[diet].[id], 
           [main].[diet].[diet]
         from   [main].[diet]
-        where  lower([main].[diet].[diet]) = lower('$name');
+        where  lower([main].[diet].[diet]) = lower('$name')
+        group by [main].[diet].[diet];
       ''';
       final result = await db.rawQuery(query);
-      if (result.isEmpty) return Future.value(null);
+      if (result.isEmpty) return null;
       return DietModel.fromMap(result.first);
     } catch (e) {
-      return Future.value(null);
+      return null;
     }
   }
 
@@ -952,7 +1028,7 @@ abstract class SearchProvider {
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
         where [main].[media].[fk_type_] = 1 AND
           ${_excludeOnline('[main].[media].[path]')}
-        group by [main].[specie].[id]
+        group by [main].[specie].[scientific_name]
         order by [main].[specie].[id];
       ''';
       final result = await db.rawQuery(query);
@@ -962,7 +1038,7 @@ abstract class SearchProvider {
     }
   }
 
-  static Future<List<List<MapLatLng>>> getDistribution(Database db, int speciesId) async {
+  static Future<(List<List<MapLatLng>>, List<String>)> getDistribution(Database db, int speciesId) async {
     try {
       final query = '''
       select 
@@ -971,48 +1047,23 @@ abstract class SearchProvider {
         [main].[distribution].[description]
       from [main].[distribution]
         inner join [main].[specie_distribution] on [main].[distribution].[id] = [main].[specie_distribution].[fk_distribution_]
-      where [main].[specie_distribution].[fk_specie_] = $speciesId;
+      where [main].[specie_distribution].[fk_specie_] = $speciesId
+      group by [main].[distribution].[polygon];
       ''';
       final result = await db.rawQuery(query);
       final polygons = <List<MapLatLng>>[];
+      final descriptions = <String>[];
       for (final r in result) {
         polygons.addAll(toPolygons(r['polygon'] as String));
+        descriptions.add(r['description'] as String);
       }
-      return polygons;
+      return (polygons, descriptions);
     } catch (_) {
-      return [];
+      return (<List<MapLatLng>>[], <String>[]);
     }
   }
 
-  // static Future<List<Game1Option>> getGame1Options(Database db) async {
-  //   try {
-  //     const query = '''
-  //       SELECT DISTINCT
-  //             [main].[specie].[id],
-  //             [main].[specie].[scientific_name],
-  //             [main].[common_name].[name],
-  //             [main].[media].[path]
-  //       FROM  [main].[media]
-  //             INNER JOIN [main].[specie] ON [main].[specie].[id] = [main].[media].[fk_specie_]
-  //             INNER JOIN [main].[common_name] ON [main].[specie].[id] = [main].[common_name].[fk_specie_]
-  //             INNER JOIN [main].[type] ON [main].[type].[id] = [main].[media].[fk_type_]
-  //       WHERE (LOWER([main].[type].[type]) = LOWER('image') OR LOWER([main].[type].[type]) = LOWER('imagen'))
-  //       AND NOT ([main].[media].[path] LIKE '%://%')
-  //       GROUP BY [main].[specie].[id]
-  //       ORDER BY RANDOM()
-  //       LIMIT 4;
-  //     ''';
-  //     final result = await db.rawQuery(query);
-  //     final results = <Game1Option>[];
-  //     for (var item in result) {
-  //       results.add(Game1Option.fromJson(item));
-  //     }
-  //     return results;
-  //   } catch (e) {
-  //     return [];
-  //   }
-  // }
-  static Future<List<List>> getGameOptions(Database db, MediaType mediaType) async {
+  static Future<List<List>> getGameOptions(Database db, MediaType mediaType, [int force = 4]) async {
     final type = switch (mediaType) {
       MediaType.image => 1,
       MediaType.video => 2,
@@ -1035,19 +1086,25 @@ abstract class SearchProvider {
             inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
           where [main].[media].[fk_type_] = $type AND
             ${_excludeOnline('[main].[media].[path]')}
-          group by [main].[specie].[id]
+          group by [main].[specie].[scientific_name]
           order by RANDOM();
       ''';
       final result = await db.rawQuery(query);
+      final prefs = UserPreferences();
       final species = <SpeciesModel>[];
       final mediaPaths = <String>[];
       for (final json in result) {
-        species.add(SpeciesModel.fromSimpleSearch(json));
-        mediaPaths.add(json[asType] as String);
+        final mediaPath = json[asType] as String;
+        final path = p.join(prefs.dbPathNotifier.value!, mediaPath).replaceAll('\\', '/');
+        if (await File(path).exists()) {
+          species.add(SpeciesModel.fromSimpleSearch(json));
+          mediaPaths.add(mediaPath);
+        }
       }
+      if (species.length < force) return [<SpeciesModel>[], <String>[]];
       return [species, mediaPaths];
     } catch (_) {
-      return [[], []];
+      return [<SpeciesModel>[], <String>[]];
     }
   }
 }

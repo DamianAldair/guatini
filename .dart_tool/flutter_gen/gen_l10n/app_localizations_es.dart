@@ -117,6 +117,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dark => 'Oscuro';
 
   @override
+  String get dbNotFound => 'Fuente de datos no encontrada';
+
+  @override
+  String get dbNotFoundInfo => 'Esta fuente de datos parece que ha sido eliminada o movida y no se puede seleccionar.';
+
+  @override
   String get dbStructureNoCorrect => 'La estructura de la fuente de datos no es correcta';
 
   @override
@@ -352,7 +358,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noLocationPermission => 'Guatiní no tiene permiso para utilizar la ubicación';
 
   @override
-  String get noSelectedDatabase => 'No hay una fuente de datos seleccionada';
+  String get noEnoughDbInfo => 'No hay suficiente información en la fuente de datos para jugar.';
+
+  @override
+  String get noSelectedDatabase => 'No hay una fuente de datos seleccionada o la que se seleccionó no existe o se movió';
 
   @override
   String get noSpeciesNearby => 'No hay especies cerca';
@@ -377,6 +386,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noResults => 'No hay resultados';
+
+  @override
+  String get noResultsFromQr => 'No hay resultados de la información leída en este código QR.';
 
   @override
   String get notSelected => 'No seleccionada';

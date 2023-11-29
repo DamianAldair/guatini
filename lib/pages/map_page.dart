@@ -17,6 +17,7 @@ import 'package:syncfusion_flutter_maps/maps.dart';
 class MapPage extends StatefulWidget {
   final MapLatLng? location;
   final List<List<MapLatLng>>? polygons;
+  final List<String>? descriptiopns;
   final bool search;
   final String? customTitle;
 
@@ -24,6 +25,7 @@ class MapPage extends StatefulWidget {
     Key? key,
     this.location,
     this.polygons,
+    this.descriptiopns,
     this.search = false,
     this.customTitle,
   })  : assert(
@@ -88,8 +90,8 @@ class _MapPageState extends State<MapPage> {
         future: Directory(p.join(prefs.dbPathNotifier.value!, 'map')).list().toList(),
         builder: (_, AsyncSnapshot<List<FileSystemEntity>> snapshot) {
           const placeholder = Center(child: CircularProgressIndicator());
-          if (!snapshot.hasData) return placeholder;
-          final files = snapshot.data!.whereType<File>();
+          if (!snapshot.hasData && snapshot.connectionState != ConnectionState.done) return placeholder;
+          final files = (snapshot.data ?? []).whereType<File>();
           return FutureBuilder(
             future: deleteCountries(
               'assets/map/world_map.json',
@@ -133,6 +135,21 @@ class _MapPageState extends State<MapPage> {
                                       points: widget.polygons![i],
                                       strokeWidth: 0.0,
                                       color: Colors.blue.withOpacity(0.5),
+                                      // onTap: () {
+                                      //   final desc = widget.descriptiopns?[i];
+                                      //   if (desc != null) {
+                                      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                      //     ScaffoldMessenger.of(context).showSnackBar(
+                                      //       SnackBar(
+                                      //         content: Text(desc),
+                                      //         action: SnackBarAction(
+                                      //           label: AppLocalizations.of(context).ok,
+                                      //           onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+                                      //         ),
+                                      //       ),
+                                      //     );
+                                      //   }
+                                      // },
                                     ),
                                   ).toSet(),
                                 ),

@@ -303,6 +303,18 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get dark;
 
+  /// No description provided for @dbNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Data source not found'**
+  String get dbNotFound;
+
+  /// No description provided for @dbNotFoundInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'THis data source appears to have been deleted or moved and cannot be selected.'**
+  String get dbNotFoundInfo;
+
   /// No description provided for @dbStructureNoCorrect.
   ///
   /// In en, this message translates to:
@@ -765,10 +777,16 @@ abstract class AppLocalizations {
   /// **'Guatiní has not permission to access to location'**
   String get noLocationPermission;
 
+  /// No description provided for @noEnoughDbInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'There is not enough information in the data source to play the game.'**
+  String get noEnoughDbInfo;
+
   /// No description provided for @noSelectedDatabase.
   ///
   /// In en, this message translates to:
-  /// **'There is not a selected data source'**
+  /// **'There is not no data source selected or the one that was selected does not exist or has been moved'**
   String get noSelectedDatabase;
 
   /// No description provided for @noSpeciesNearby.
@@ -818,6 +836,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There are no results'**
   String get noResults;
+
+  /// No description provided for @noResultsFromQr.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no results for the information read from this QR code.'**
+  String get noResultsFromQr;
 
   /// No description provided for @notSelected.
   ///

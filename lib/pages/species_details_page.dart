@@ -18,7 +18,7 @@ import 'package:syncfusion_flutter_maps/maps.dart';
 class SpeciesDetailsPage extends StatelessWidget {
   final int? speciesId;
 
-  const SpeciesDetailsPage(this.speciesId, {Key? key}) : super(key: key);
+  const SpeciesDetailsPage(this.speciesId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -130,11 +130,12 @@ class SpeciesDetailsPage extends StatelessWidget {
                           Description(species!.description.toString()),
                           FutureBuilder(
                             future: SearchProvider.getDistribution(db, species!.id!),
-                            builder: (_, AsyncSnapshot<List<List<MapLatLng>>> snapshot) {
+                            builder: (_, AsyncSnapshot<(List<List<MapLatLng>>, List<String>)> snapshot) {
                               const placeholder = SizedBox.shrink();
                               if (snapshot.hasError) return placeholder;
                               if (!snapshot.hasData) return placeholder;
-                              final polygons = snapshot.data!;
+                              final polygons = snapshot.data!.$1;
+                              final descriptiopns = snapshot.data!.$2;
                               if (polygons.isEmpty) return placeholder;
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -152,6 +153,7 @@ class SpeciesDetailsPage extends StatelessWidget {
                                     MaterialPageRoute(
                                       builder: (_) => MapPage(
                                         polygons: polygons,
+                                        descriptiopns: descriptiopns,
                                         customTitle: AppLocalizations.of(context).seeSpeciesDistribution,
                                       ),
                                     ),
@@ -166,8 +168,8 @@ class SpeciesDetailsPage extends StatelessWidget {
                               const placeholder = SizedBox.shrink();
                               if (snapshot.hasError) return placeholder;
                               if (!snapshot.hasData) return placeholder;
-                              final length = snapshot.data!.length;
-                              if (length == 0) return placeholder;
+                              final similars = snapshot.data!;
+                              if (similars.isEmpty) return placeholder;
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 20.0,
@@ -176,12 +178,17 @@ class SpeciesDetailsPage extends StatelessWidget {
                                 child: OutlinedButton.icon(
                                   icon: const Icon(Icons.search_rounded),
                                   label: Text(
-                                    '${AppLocalizations.of(context).seeSimilarSpecies} ($length)',
+                                    '${AppLocalizations.of(context).seeSimilarSpecies} (${similars.length})',
                                     textAlign: TextAlign.center,
                                   ),
                                   onPressed: () => Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (_) => SimilarsPage(species!)),
+                                    MaterialPageRoute(
+                                      builder: (_) => SimilarsPage(
+                                        species!,
+                                        similars: similars,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               );

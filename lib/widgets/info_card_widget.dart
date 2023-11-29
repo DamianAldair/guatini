@@ -34,7 +34,7 @@ class InfoCard<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     String text = '';
     if (instance == null && instances == null) {
-      text = AppLocalizations.of(context).unavailable;
+      return const SizedBox.shrink();
     } else if (instances != null) {
       for (T i in instances!) {
         text += '${i.toString()}\n';
@@ -298,10 +298,10 @@ class Description extends StatelessWidget {
 }
 
 class AuthorCard extends StatelessWidget {
-  final AuthorModel? author;
+  final List<AuthorModel> authors;
   final MediaType type;
 
-  const AuthorCard(this.author, this.type, {Key? key}) : super(key: key);
+  const AuthorCard(this.authors, this.type, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -311,46 +311,54 @@ class AuthorCard extends StatelessWidget {
         horizontal: 15.0,
         vertical: 7.0,
       ),
-      child: InkWell(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => AuthorDetailsPage(author)),
+      child: Ink(
+        decoration: BoxDecoration(
+          color: Colors.black12,
+          borderRadius: BorderRadius.circular(radius),
         ),
-        borderRadius: BorderRadius.circular(radius),
-        child: Ink(
-          decoration: BoxDecoration(
-            color: Colors.black12,
-            borderRadius: BorderRadius.circular(radius),
-          ),
-          width: double.infinity,
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(10.0),
+        width: double.infinity,
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.person_rounded),
+                  const SizedBox(width: 5.0),
+                  Text(AppLocalizations.of(context).author),
+                ],
+              ),
+            ),
+            for (final author in authors)
+              InkWell(
+                borderRadius: BorderRadius.circular(radius),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => AuthorDetailsPage(author)),
                 ),
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.person_rounded),
-                    const SizedBox(width: 5.0),
-                    Text(AppLocalizations.of(context).author),
-                  ],
+                child: Ink(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(radius),
+                  ),
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      author.name ?? AppLocalizations.of(context).unknown,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  author?.name ?? AppLocalizations.of(context).unknown,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );

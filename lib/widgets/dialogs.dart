@@ -67,6 +67,19 @@ AlertDialog deleteDatabaseDialog({
   );
 }
 
+AlertDialog dbNotFoundDialog({required BuildContext context}) {
+  return AlertDialog(
+    title: Text(AppLocalizations.of(context).dbNotFound),
+    content: Text(AppLocalizations.of(context).dbNotFoundInfo),
+    actions: [
+      TextButton(
+        child: Text(AppLocalizations.of(context).ok),
+        onPressed: () => Navigator.pop(context),
+      ),
+    ],
+  );
+}
+
 AlertDialog inputDialog({
   required BuildContext context,
   required String title,

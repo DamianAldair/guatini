@@ -199,7 +199,7 @@ class QrOffline extends QrResult {
     String errorText = '';
     if (species != null) {
       final id = await SearchProvider.getIdFromScientificName(db, species!);
-      if (id <= 0) {
+      if (id == null) {
         errorText = species!;
       } else {
         Navigator.pop(context);
