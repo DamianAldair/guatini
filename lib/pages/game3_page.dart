@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/game_models.dart';
@@ -119,7 +121,8 @@ class Game3Page extends StatelessWidget {
                     );
                   }
                   final optionIndexes = [counter, ...get3RandomIndexes(counter, species.length)]..shuffle();
-                  final soundPath = p.join(prefs.dbPathNotifier.value!, mediaPaths[counter]).replaceAll('\\', '/');
+                  final db = prefs.dbPathNotifier.value!;
+                  final soundPath = p.join(File(db).parent.path, mediaPaths[counter]).replaceAll('\\', '/');
                   return ValueListenableBuilder(
                     valueListenable: respNotif,
                     builder: (_, String? resp, ___) {

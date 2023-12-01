@@ -10,13 +10,13 @@ import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 
 class DbProvider {
-  static final String relativeDbPath = p.join('guatini.db');
-
   static final DbProvider _instance = DbProvider._();
   DbProvider._();
   factory DbProvider() => _instance;
 
   static Database? _db;
+
+  static final String relativeDbPath = p.join('guatini.db');
 
   static Future<Database?> get database async {
     if (_db != null) return _db;
@@ -46,11 +46,10 @@ class DbProvider {
     final prefs = UserPreferences();
     final path = prefs.dbPathNotifier.value;
     if (path == null) return null;
-    final db = p.join(path, relativeDbPath);
-    if (!File(db).existsSync()) return null;
+    if (!File(path).existsSync()) return null;
     try {
       _db = await openDatabase(
-        db,
+        path,
         version: 1,
         onCreate: (_, __) async {},
       );
@@ -63,16 +62,25 @@ class DbProvider {
     return _db;
   }
 
+  static bool canBeDb(String path) {
+    final extensions = [
+      'db',
+      'db3',
+      'sqlite',
+    ];
+    final fileExtension = p.extension(path).replaceAll('.', '').toLowerCase();
+    return extensions.contains(fileExtension);
+  }
+
   /// Return:
   ///  - null: Problems to access to DB.
   ///  - false: DB schema is not correct.
   ///  - true: DB schema is correct.
-  static Future<bool?> check(String folderPath) async {
-    final dbPath = p.join(folderPath, relativeDbPath);
-    if (!await File(dbPath).exists()) return null;
+  static Future<bool?> check(String filePath) async {
+    if (!await File(filePath).exists()) return null;
     try {
       final db = await openDatabase(
-        dbPath,
+        filePath,
         version: 1,
         onCreate: (_, __) async {},
       );

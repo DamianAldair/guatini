@@ -121,7 +121,8 @@ class Game1Page extends StatelessWidget {
                     );
                   }
                   final optionIndexes = [counter, ...get3RandomIndexes(counter, species.length)]..shuffle();
-                  final image = File(p.join(prefs.dbPathNotifier.value!, mediaPaths[counter]).replaceAll('\\', '/'));
+                  final db = prefs.dbPathNotifier.value!;
+                  final image = File(p.join(File(db).parent.path, mediaPaths[counter]).replaceAll('\\', '/'));
                   return ValueListenableBuilder(
                     valueListenable: respNotif,
                     builder: (_, String? resp, ___) => Padding(
@@ -145,7 +146,11 @@ class Game1Page extends StatelessWidget {
                                     : Stack(
                                         alignment: Alignment.topRight,
                                         children: [
-                                          Image.file(image),
+                                          Image.file(
+                                            image,
+                                            errorBuilder: (_, __, ___) =>
+                                                Image.asset('assets/images/image_not_available.png'),
+                                          ),
                                           IconButton.filledTonal(
                                             icon: const Icon(Icons.fullscreen_rounded),
                                             onPressed: () => Navigator.push(

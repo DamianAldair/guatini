@@ -47,11 +47,17 @@ class CharacteristicPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 20.0),
-              Text(
-                subtitle,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 25.0),
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 20.0,
+                  left: 5.0,
+                  right: 5.0,
+                ),
+                child: Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 25.0),
+                ),
               ),
               if (desc != null)
                 Container(
@@ -71,7 +77,10 @@ class CharacteristicPage extends StatelessWidget {
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 5.0,
+                  vertical: 20.0,
+                ),
                 child: Text(
                   '${AppLocalizations.of(context).moreWith} $title: $subtitle',
                   textAlign: TextAlign.center,

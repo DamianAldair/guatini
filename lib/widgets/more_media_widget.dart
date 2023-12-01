@@ -49,7 +49,8 @@ class MoreMedia extends StatelessWidget {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
               itemCount: medias!.length,
               itemBuilder: (_, int i) {
-                final path = p.join(UserPreferences().dbPathNotifier.value!, medias[i].path).replaceAll('\\', '/');
+                final db = UserPreferences().dbPathNotifier.value!;
+                final path = p.join(File(db).parent.path, medias[i].path).replaceAll('\\', '/');
                 final file = File(path);
                 if (!file.existsSync()) {
                   return Image.asset(
@@ -86,7 +87,11 @@ class MoreMedia extends StatelessWidget {
                     );
                   case MediaType.image:
                     return GestureDetector(
-                      child: Image.file(file, fit: BoxFit.cover),
+                      child: Image.file(
+                        file,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Image.asset('assets/images/image_not_available.png'),
+                      ),
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(

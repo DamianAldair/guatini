@@ -129,13 +129,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deficientData => 'Datos deficientes';
 
   @override
-  String get deletedDatabase => 'Fuente de datos borrada permanentemente';
+  String get deletedDatabase => 'Archivo de base de datos borrado permanentemente';
+
+  @override
+  String get deletedDataSource => 'Fuente de datos borrada permanentemente';
+
+  @override
+  String get deleteEntireFolder => 'Toda la carpeta o fuente de datos';
 
   @override
   String get deleteFromList => 'Borrar de la lista';
 
   @override
   String get deleteFromListText => '¿Borrar de la lista?';
+
+  @override
+  String get deleteJustDb => 'Sólo el archivo de base de datos';
 
   @override
   String get deleteList => 'Borrar lista';
@@ -150,7 +159,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deletePermanentlyText => '¿Borrar permanentemente?';
 
   @override
-  String get deletePermanentlyTWarning => 'Atención: Con esta acción también se borrará del almacenamiento de su dispositivo.';
+  String get deletePermanentlyWarning => 'ATENCIÓN\nCon esta acción también se borrará del almacenamiento de su dispositivo.\nTenga en cuente que tiene la posibilidad de borrar sólo el archivo de base de datos o la fuente de datos completa, la cual incluye toda la carpeta que contiene dicha base de datos.';
 
   @override
   String get description => 'Descripción';

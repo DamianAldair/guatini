@@ -89,7 +89,7 @@ class _DatabasesPageState extends State<DatabasesPage> {
                                   builder: (_) => deleteDatabaseDialog(
                                     context: context,
                                     permanently: false,
-                                    function: () => setState(() => deleteDb()),
+                                    function1: () => setState(() => deleteDb()),
                                   ),
                                 ),
                               ),
@@ -111,18 +111,33 @@ class _DatabasesPageState extends State<DatabasesPage> {
                                   builder: (_) => deleteDatabaseDialog(
                                     context: context,
                                     permanently: true,
-                                    function: () => setState(() {
+                                    function1: () => setState(() {
                                       deleteDb();
-                                      final dir = Directory(db);
-                                      dir.deleteSync(recursive: true);
-                                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            AppLocalizations.of(context).deletedDatabase,
+                                      final file = File(db);
+                                      file.delete().then((_) {
+                                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              AppLocalizations.of(context).deletedDatabase,
+                                            ),
                                           ),
-                                        ),
-                                      );
+                                        );
+                                      });
+                                    }),
+                                    function2: () => setState(() {
+                                      deleteDb();
+                                      final dir = File(db).parent;
+                                      dir.delete(recursive: true).then((_) {
+                                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              AppLocalizations.of(context).deletedDataSource,
+                                            ),
+                                          ),
+                                        );
+                                      });
                                     }),
                                   ),
                                 ),
@@ -131,17 +146,19 @@ class _DatabasesPageState extends State<DatabasesPage> {
                           ];
                         },
                       ),
-                      onTap: () async {
-                        if (await Directory(db).exists()) {
-                          await DbProvider.open(db);
-                          setState(() {});
-                        } else {
-                          // ignore: use_build_context_synchronously
-                          showDialog(
-                            context: context,
-                            builder: (_) => dbNotFoundDialog(context: context),
-                          );
-                        }
+                      onTap: () {
+                        File(db).exists().then((exists) {
+                          if (exists) {
+                            DbProvider.open(db).then((_) {
+                              setState(() {});
+                            });
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (_) => dbNotFoundDialog(context: context),
+                            );
+                          }
+                        });
                       },
                     );
                   },

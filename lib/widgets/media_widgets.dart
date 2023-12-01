@@ -27,7 +27,7 @@ class MainImage extends StatelessWidget {
     if (image?.path == null) return const SizedBox.shrink();
     final prefs = UserPreferences();
     final db = prefs.dbPathNotifier.value!;
-    final file = File(p.join(db, image!.path).replaceAll('\\', '/'));
+    final file = File(p.join(File(db).parent.path, image!.path).replaceAll('\\', '/'));
     return FutureBuilder(
       future: file.exists(),
       builder: (_, AsyncSnapshot<bool> snapshot) {
@@ -51,6 +51,7 @@ class MainImage extends StatelessWidget {
                 child: Image.file(
                   file,
                   fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Image.asset('assets/images/image_not_available.png'),
                 ),
               ),
             ),
@@ -84,7 +85,7 @@ class MainImageFromSpecies extends StatelessWidget {
         type: MediaType.image,
       );
     if (mainImage == null) return const SizedBox.shrink();
-    final file = File(p.join(db, mainImage.path).replaceAll('\\', '/'));
+    final file = File(p.join(File(db).parent.path, mainImage.path).replaceAll('\\', '/'));
     if (!file.existsSync()) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.all(15.0),
@@ -96,6 +97,7 @@ class MainImageFromSpecies extends StatelessWidget {
             child: Image.file(
               file,
               fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Image.asset('assets/images/image_not_available.png'),
             ),
           ),
         ),
@@ -138,7 +140,8 @@ class Gallery extends StatelessWidget {
     for (MediaModel m in medias!) {
       if (m.mediaType.type != MediaType.audio) {
         if (mainImageId == null || m.id != mainImageId) {
-          final path = p.join(prefs.dbPathNotifier.value!, m.path).replaceAll('\\', '/');
+          final db = p.join(prefs.dbPathNotifier.value!);
+          final path = p.join(File(db).parent.path, m.path).replaceAll('\\', '/');
           if ((m.isOffline && File(path).existsSync()) ||
               (m.mediaType.type == MediaType.image && prefs.imageOnline) ||
               (m.mediaType.type == MediaType.video && prefs.videoOnline)) {
@@ -181,8 +184,9 @@ class Gallery extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
+                    final db = p.join(prefs.dbPathNotifier.value!);
                     final path = p.join(
-                      UserPreferences().dbPathNotifier.value!,
+                      File(db).parent.path,
                       gallery[i].path?.replaceAll('\\', '/'),
                     );
                     final file = File(path);
@@ -236,7 +240,8 @@ class Thumbnail extends StatelessWidget {
     );
     if (media.path == null) return placeholder;
     if (media.isOffline) {
-      final path = p.join(UserPreferences().dbPathNotifier.value!, media.path).replaceAll('\\', '/');
+      final db = UserPreferences().dbPathNotifier.value!;
+      final path = p.join(File(db).parent.path, media.path).replaceAll('\\', '/');
       final file = File(path);
       if (media.mediaType.type == MediaType.image) {
         return !file.existsSync()
@@ -244,6 +249,7 @@ class Thumbnail extends StatelessWidget {
             : Image.file(
                 file,
                 fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => placeholder,
               );
       } else if (media.mediaType.type == MediaType.video) {
         return !file.existsSync()
@@ -263,6 +269,7 @@ class Thumbnail extends StatelessWidget {
                       return Image.memory(
                         snapshot.data,
                         fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Image.asset('assets/images/video_not_available.png'),
                       );
                     },
                   ),
@@ -396,7 +403,8 @@ class _ImageViewerState extends State<ImageViewer> with SingleTickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    final path = p.join(UserPreferences().dbPathNotifier.value!, widget.media.path);
+    final db = UserPreferences().dbPathNotifier.value!;
+    final path = p.join(File(db).parent.path, widget.media.path);
     final imageProvider = FileImage(File(path));
     final paddingTop = MediaQuery.of(context).padding.top;
     return Scaffold(
@@ -537,12 +545,13 @@ class _GalleryViewerState extends State<GalleryViewer> with SingleTickerProvider
               itemCount: list.length,
               pageController: pageController,
               builder: (_, int i) {
+                final db = UserPreferences().dbPathNotifier.value!;
                 final media = list[i];
                 final imageProvider = media.isOffline
                     ? FileImage(
                         File(p
                             .join(
-                              UserPreferences().dbPathNotifier.value!,
+                              File(db).parent.path,
                               media.path,
                             )
                             .replaceAll('\\', '/')),
@@ -551,6 +560,7 @@ class _GalleryViewerState extends State<GalleryViewer> with SingleTickerProvider
                 return PhotoViewGalleryPageOptions(
                   heroAttributes: PhotoViewHeroAttributes(tag: media.id!),
                   imageProvider: imageProvider,
+                  errorBuilder: (_, __, ___) => Image.asset('assets/images/image_not_available.png'),
                   minScale: PhotoViewComputedScale.contained,
                   maxScale: 10.0,
                 );
@@ -644,7 +654,8 @@ class AudioCard extends StatelessWidget {
     if (medias != null) {
       for (MediaModel m in medias!) {
         if (m.mediaType.type != null && m.mediaType.type! == MediaType.audio) {
-          final path = p.join(prefs.dbPathNotifier.value!, m.path).replaceAll('\\', '/');
+          final db = prefs.dbPathNotifier.value!;
+          final path = p.join(File(db).parent.path, m.path).replaceAll('\\', '/');
           if (m.isOffline && File(path).existsSync()) {
             list.add(m);
           } else if (UserPreferences().audioOnline) {
@@ -756,7 +767,8 @@ class _AudioViewerState extends State<AudioViewer> {
   @override
   void initState() {
     if (widget.media.isOffline) {
-      final path = p.join(prefs.dbPathNotifier.value!, widget.media.path).replaceAll('\\', '/');
+      final db = prefs.dbPathNotifier.value!;
+      final path = p.join(File(db).parent.path, widget.media.path).replaceAll('\\', '/');
       audio = VideoPlayerController.file(File(path));
     } else {
       audio = VideoPlayerController.network(widget.media.path!);
@@ -961,7 +973,8 @@ class _VideoViewerState extends State<VideoViewer> with SingleTickerProviderStat
       duration: const Duration(milliseconds: 150),
     );
     if (widget.media.isOffline) {
-      final path = p.join(prefs.dbPathNotifier.value!, widget.media.path).replaceAll('\\', '/');
+      final db = prefs.dbPathNotifier.value!;
+      final path = p.join(File(db).parent.path, widget.media.path).replaceAll('\\', '/');
       video = VideoPlayerController.file(File(path));
     } else {
       video = VideoPlayerController.network(widget.media.path!);

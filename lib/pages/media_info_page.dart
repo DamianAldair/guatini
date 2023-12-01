@@ -28,7 +28,8 @@ class MediaInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final path = p.join(UserPreferences().dbPathNotifier.value!, media.path).replaceAll('\\', '/');
+    final db = UserPreferences().dbPathNotifier.value!;
+    final path = p.join(File(db).parent.path, media.path).replaceAll('\\', '/');
     final file = File(path);
     final size = MediaQuery.of(context).size.width / 3;
 
@@ -87,6 +88,10 @@ class MediaInfoPage extends StatelessWidget {
                                               ? Image.file(
                                                   file,
                                                   fit: BoxFit.cover,
+                                                  errorBuilder: (_, __, ___) => Image.asset(
+                                                    'assets/images/image_not_available.png',
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 )
                                               : Image.asset(
                                                   'assets/images/image_not_available.png',
@@ -110,6 +115,10 @@ class MediaInfoPage extends StatelessWidget {
                                                   Image.memory(
                                                     snapshot.data,
                                                     fit: BoxFit.cover,
+                                                    errorBuilder: (_, __, ___) => Image.asset(
+                                                      'assets/images/video_not_available.png',
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                   Container(
                                                     width: 45.0,

@@ -236,8 +236,8 @@ class SpeciesDetailsPage extends StatelessWidget {
   (MediaModel?, List<MediaModel>) extractMainImage(List<MediaModel>? medias) {
     if (medias == null) return (null, []);
     if (medias.isEmpty) return (null, []);
-    final hasImages = medias.any((m) => m.mediaType.type == MediaType.image);
-    final mainImage = !hasImages ? null : medias.firstWhere((m) => m.mediaType.type == MediaType.image);
+    final hasImages = medias.any((m) => m.mediaType.type == MediaType.image && m.isOffline);
+    final mainImage = !hasImages ? null : medias.firstWhere((m) => m.mediaType.type == MediaType.image && m.isOffline);
     final others = medias..remove(mainImage);
     return (mainImage, others);
   }
