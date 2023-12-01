@@ -87,7 +87,11 @@ class MoreMedia extends StatelessWidget {
                     );
                   case MediaType.image:
                     return GestureDetector(
-                      child: Image.file(file, fit: BoxFit.cover),
+                      child: Image.file(
+                        file,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Image.asset('assets/images/image_not_available.png'),
+                      ),
                       onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(

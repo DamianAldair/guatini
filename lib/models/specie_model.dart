@@ -152,6 +152,10 @@ class SpeciesModel {
     if (db == null) return placeholder;
     final file = File(p.join(File(db).parent.path, imagePath).replaceAll('\\', '/'));
     if (!file.existsSync()) return placeholder;
-    return Image.file(file, fit: BoxFit.cover);
+    return Image.file(
+      file,
+      fit: BoxFit.cover,
+      errorBuilder: (_, __, ___) => placeholder,
+    );
   }
 }

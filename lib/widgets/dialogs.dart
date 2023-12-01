@@ -160,6 +160,7 @@ Widget adDialog(BuildContext context, AdModel ad) {
         ),
       AdModelType.image => Image.file(
           File(p.join(File(UserPreferences().dbPathNotifier.value!).parent.path, ad.path).replaceAll('\\', '/')),
+          errorBuilder: (_, __, ___) => Image.asset('assets/images/image_not_available.png'),
         ),
     },
   );

@@ -146,7 +146,11 @@ class Game1Page extends StatelessWidget {
                                     : Stack(
                                         alignment: Alignment.topRight,
                                         children: [
-                                          Image.file(image),
+                                          Image.file(
+                                            image,
+                                            errorBuilder: (_, __, ___) =>
+                                                Image.asset('assets/images/image_not_available.png'),
+                                          ),
                                           IconButton.filledTonal(
                                             icon: const Icon(Icons.fullscreen_rounded),
                                             onPressed: () => Navigator.push(

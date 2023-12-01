@@ -173,7 +173,11 @@ class Game2Page extends StatelessWidget {
                                                     alignment: Alignment.center,
                                                     children: [
                                                       GestureDetector(
-                                                        child: Image.file(image),
+                                                        child: Image.file(
+                                                          image,
+                                                          errorBuilder: (_, __, ___) =>
+                                                              Image.asset('assets/images/image_not_available.png'),
+                                                        ),
                                                         onTap: () {
                                                           if (optionIndexes[i] == counter) {
                                                             hitsNotif.value++;
@@ -268,10 +272,13 @@ class Game2Page extends StatelessWidget {
                                               if (!snapshot.hasData) return phLoad;
                                               return !snapshot.data!
                                                   ? Image.asset('assets/images/image_not_available.png')
-                                                  : Image.file(File(p
-                                                      .join(File(prefs.dbPathNotifier.value!).parent.path,
-                                                          mediaPaths[counter])
-                                                      .replaceAll('\\', '/')));
+                                                  : Image.file(
+                                                      File(p
+                                                          .join(File(prefs.dbPathNotifier.value!).parent.path,
+                                                              mediaPaths[counter])
+                                                          .replaceAll('\\', '/')),
+                                                      errorBuilder: (_, __, ___) => phError,
+                                                    );
                                             },
                                           ),
                                         ),

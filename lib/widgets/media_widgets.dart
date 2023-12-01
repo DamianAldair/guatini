@@ -51,6 +51,7 @@ class MainImage extends StatelessWidget {
                 child: Image.file(
                   file,
                   fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Image.asset('assets/images/image_not_available.png'),
                 ),
               ),
             ),
@@ -96,6 +97,7 @@ class MainImageFromSpecies extends StatelessWidget {
             child: Image.file(
               file,
               fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Image.asset('assets/images/image_not_available.png'),
             ),
           ),
         ),
@@ -247,6 +249,7 @@ class Thumbnail extends StatelessWidget {
             : Image.file(
                 file,
                 fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => placeholder,
               );
       } else if (media.mediaType.type == MediaType.video) {
         return !file.existsSync()
@@ -266,6 +269,7 @@ class Thumbnail extends StatelessWidget {
                       return Image.memory(
                         snapshot.data,
                         fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Image.asset('assets/images/video_not_available.png'),
                       );
                     },
                   ),
@@ -556,6 +560,7 @@ class _GalleryViewerState extends State<GalleryViewer> with SingleTickerProvider
                 return PhotoViewGalleryPageOptions(
                   heroAttributes: PhotoViewHeroAttributes(tag: media.id!),
                   imageProvider: imageProvider,
+                  errorBuilder: (_, __, ___) => Image.asset('assets/images/image_not_available.png'),
                   minScale: PhotoViewComputedScale.contained,
                   maxScale: 10.0,
                 );
