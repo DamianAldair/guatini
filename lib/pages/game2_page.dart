@@ -160,8 +160,8 @@ class Game2Page extends StatelessWidget {
                                     itemCount: optionIndexes.length,
                                     itemBuilder: (_, int i) {
                                       final option = mediaPaths[optionIndexes[i]];
-                                      final image =
-                                          File(p.join(prefs.dbPathNotifier.value!, option).replaceAll('\\', '/'));
+                                      final db = prefs.dbPathNotifier.value!;
+                                      final image = File(p.join(File(db).parent.path, option).replaceAll('\\', '/'));
                                       return AnimatedSize(
                                         duration: duration,
                                         child: Card(
@@ -257,7 +257,8 @@ class Game2Page extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(12.0),
                                           child: FutureBuilder(
                                             future: File(p
-                                                    .join(prefs.dbPathNotifier.value!, mediaPaths[counter])
+                                                    .join(File(prefs.dbPathNotifier.value!).parent.path,
+                                                        mediaPaths[counter])
                                                     .replaceAll('\\', '/'))
                                                 .exists(),
                                             builder: (_, AsyncSnapshot<bool> snapshot) {
@@ -268,7 +269,8 @@ class Game2Page extends StatelessWidget {
                                               return !snapshot.data!
                                                   ? Image.asset('assets/images/image_not_available.png')
                                                   : Image.file(File(p
-                                                      .join(prefs.dbPathNotifier.value!, mediaPaths[counter])
+                                                      .join(File(prefs.dbPathNotifier.value!).parent.path,
+                                                          mediaPaths[counter])
                                                       .replaceAll('\\', '/')));
                                             },
                                           ),

@@ -22,10 +22,17 @@ class _FindDatabasePageState extends State<FindDatabasePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Directory> content = [];
+    List<FileSystemEntity> content = [];
     try {
-      content = Directory(path).listSync().whereType<Directory>().toList()
-        ..sort((a, b) => a.path.toLowerCase().compareTo(b.path.toLowerCase()));
+      content =
+          Directory(path).listSync().where((e) => e is Directory || (e is File && DbProvider.canBeDb(e.path))).toList()
+            ..sort((a, b) {
+              final aIsDir = a is Directory;
+              final bIsDir = b is Directory;
+              if (aIsDir && !bIsDir) return -1;
+              if (!aIsDir && bIsDir) return 1;
+              return a.path.toLowerCase().compareTo(b.path.toLowerCase());
+            });
     } catch (_) {
       path = '';
     }
@@ -131,24 +138,23 @@ class _FindDatabasePageState extends State<FindDatabasePage> {
                     child: ListView.builder(
                       itemCount: content.length,
                       itemBuilder: (_, int i) {
-                        final dir = content[i];
-                        final isDB = File(
-                          p.join(dir.path, DbProvider.relativeDbPath),
-                        ).existsSync();
-                        final isAdded = prefs.databasesNotifier.value.contains(dir.path);
+                        final isDir = content[i] is Directory;
+                        final dir = isDir ? content[i] as Directory : null;
+                        final file = !isDir ? content[i] as File : null;
+                        final isAdded = file != null && prefs.databasesNotifier.value.contains(file.path);
                         return ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: !isDB ? Colors.transparent : null,
-                            child: isDB ? const FaIcon(FontAwesomeIcons.database) : const Icon(Icons.folder_rounded),
+                            backgroundColor: isDir ? Colors.transparent : null,
+                            child: isDir ? const Icon(Icons.folder_rounded) : const FaIcon(FontAwesomeIcons.database),
                           ),
-                          title: Text(p.split(dir.path).last),
-                          trailing: !isDB
+                          title: Text(p.basename(content[i].path)),
+                          trailing: isDir
                               ? const Icon(Icons.chevron_right_rounded)
                               : isAdded
                                   ? Text(AppLocalizations.of(context).added)
                                   : null,
-                          onTap: !isDB
-                              ? () => setState(() => path = dir.path)
+                          onTap: isDir
+                              ? () => setState(() => path = dir!.path)
                               : () {
                                   if (isAdded) {
                                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -158,7 +164,7 @@ class _FindDatabasePageState extends State<FindDatabasePage> {
                                       ),
                                     );
                                   } else {
-                                    DbProvider.check(dir.path).then((bool? correct) {
+                                    DbProvider.check(file!.path).then((bool? correct) {
                                       if (correct == null) {
                                         showDialog(
                                           context: context,
@@ -176,11 +182,11 @@ class _FindDatabasePageState extends State<FindDatabasePage> {
                                           ),
                                         );
                                       } else {
-                                        setState(() => prefs.newDatabase(dir.path));
+                                        setState(() => prefs.newDatabase(file.path));
                                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
-                                            content: Text(AppLocalizations.of(context).addDatabase),
+                                            content: Text(AppLocalizations.of(context).addedDatabase),
                                           ),
                                         );
                                       }
@@ -237,7 +243,7 @@ class EmptyFolderPlaceholder extends StatelessWidget {
             ),
             const SizedBox(height: space),
             Text(
-              AppLocalizations.of(context).noFolders,
+              AppLocalizations.of(context).noElements,
               style: TextStyle(
                 color: color,
                 fontWeight: FontWeight.bold,

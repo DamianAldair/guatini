@@ -330,8 +330,20 @@ abstract class AppLocalizations {
   /// No description provided for @deletedDatabase.
   ///
   /// In en, this message translates to:
-  /// **'Data source permanently deleted'**
+  /// **'Database file permanently deleted'**
   String get deletedDatabase;
+
+  /// No description provided for @deletedDataSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Data source permanently deleted'**
+  String get deletedDataSource;
+
+  /// No description provided for @deleteEntireFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Entire folder or data source'**
+  String get deleteEntireFolder;
 
   /// No description provided for @deleteFromList.
   ///
@@ -344,6 +356,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete from list?'**
   String get deleteFromListText;
+
+  /// No description provided for @deleteJustDb.
+  ///
+  /// In en, this message translates to:
+  /// **'Just the database'**
+  String get deleteJustDb;
 
   /// No description provided for @deleteList.
   ///
@@ -369,11 +387,11 @@ abstract class AppLocalizations {
   /// **'Delete permanently?'**
   String get deletePermanentlyText;
 
-  /// No description provided for @deletePermanentlyTWarning.
+  /// No description provided for @deletePermanentlyWarning.
   ///
   /// In en, this message translates to:
-  /// **'Warning: This action will also delete it from your device\'s storage.'**
-  String get deletePermanentlyTWarning;
+  /// **'WARNING\nThis action will also delete it from your device\'s storage.\nNote that you have the option of deleting just tha database file or the entire data source, which includes the entire folder containing the database file.'**
+  String get deletePermanentlyWarning;
 
   /// No description provided for @description.
   ///

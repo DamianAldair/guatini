@@ -28,7 +28,8 @@ class MediaInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final path = p.join(UserPreferences().dbPathNotifier.value!, media.path).replaceAll('\\', '/');
+    final db = UserPreferences().dbPathNotifier.value!;
+    final path = p.join(File(db).parent.path, media.path).replaceAll('\\', '/');
     final file = File(path);
     final size = MediaQuery.of(context).size.width / 3;
 

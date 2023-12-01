@@ -1095,7 +1095,8 @@ abstract class SearchProvider {
       final mediaPaths = <String>[];
       for (final json in result) {
         final mediaPath = json[asType] as String;
-        final path = p.join(prefs.dbPathNotifier.value!, mediaPath).replaceAll('\\', '/');
+        final db = prefs.dbPathNotifier.value!;
+        final path = p.join(File(db).parent.path, mediaPath).replaceAll('\\', '/');
         if (await File(path).exists()) {
           species.add(SpeciesModel.fromSimpleSearch(json));
           mediaPaths.add(mediaPath);

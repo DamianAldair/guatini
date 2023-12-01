@@ -44,25 +44,38 @@ AlertDialog exitDialog(BuildContext context) {
 AlertDialog deleteDatabaseDialog({
   required BuildContext context,
   required bool permanently,
-  required void Function() function,
+
+  /// `Yes` or `Just DB`
+  required void Function() function1,
+
+  /// `Entire folder`
+  void Function()? function2,
 }) {
   return AlertDialog(
     title: Text(permanently
         ? AppLocalizations.of(context).deletePermanentlyText
         : AppLocalizations.of(context).deleteFromListText),
-    content: !permanently ? null : Text(AppLocalizations.of(context).deletePermanentlyTWarning),
+    content: !permanently ? null : Text(AppLocalizations.of(context).deletePermanentlyWarning),
     actions: [
       TextButton(
         child: Text(AppLocalizations.of(context).no),
         onPressed: () => Navigator.pop(context),
       ),
       TextButton(
-        child: Text(AppLocalizations.of(context).yes),
+        child: Text(!permanently ? AppLocalizations.of(context).yes : AppLocalizations.of(context).deleteJustDb),
         onPressed: () {
           Navigator.pop(context);
-          function.call();
+          function1.call();
         },
       ),
+      if (permanently)
+        TextButton(
+          child: Text(AppLocalizations.of(context).deleteEntireFolder),
+          onPressed: () {
+            Navigator.pop(context);
+            function2?.call();
+          },
+        ),
     ],
   );
 }
@@ -146,7 +159,7 @@ Widget adDialog(BuildContext context, AdModel ad) {
           child: Text(ad.path ?? AppLocalizations.of(AdsProvider.context!).link),
         ),
       AdModelType.image => Image.file(
-          File(p.join(UserPreferences().dbPathNotifier.value!, ad.path).replaceAll('\\', '/')),
+          File(p.join(File(UserPreferences().dbPathNotifier.value!).parent.path, ad.path).replaceAll('\\', '/')),
         ),
     },
   );

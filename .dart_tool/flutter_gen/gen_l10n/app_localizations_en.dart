@@ -129,13 +129,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deficientData => 'Deficient data';
 
   @override
-  String get deletedDatabase => 'Data source permanently deleted';
+  String get deletedDatabase => 'Database file permanently deleted';
+
+  @override
+  String get deletedDataSource => 'Data source permanently deleted';
+
+  @override
+  String get deleteEntireFolder => 'Entire folder or data source';
 
   @override
   String get deleteFromList => 'Delete from list';
 
   @override
   String get deleteFromListText => 'Delete from list?';
+
+  @override
+  String get deleteJustDb => 'Just the database';
 
   @override
   String get deleteList => 'Delete list';
@@ -150,7 +159,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deletePermanentlyText => 'Delete permanently?';
 
   @override
-  String get deletePermanentlyTWarning => 'Warning: This action will also delete it from your device\'s storage.';
+  String get deletePermanentlyWarning => 'WARNING\nThis action will also delete it from your device\'s storage.\nNote that you have the option of deleting just tha database file or the entire data source, which includes the entire folder containing the database file.';
 
   @override
   String get description => 'Description';
