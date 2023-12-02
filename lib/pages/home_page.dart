@@ -68,10 +68,12 @@ class _MainPageState extends State<MainPage> {
             builder: (_, __, ___) {
               final error = Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  AppLocalizations.of(context).errorObtainingInfo,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
+                child: Center(
+                  child: Text(
+                    AppLocalizations.of(context).errorObtainingInfo,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               );
               const loading = Center(child: CircularProgressIndicator());

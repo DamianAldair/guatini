@@ -100,7 +100,10 @@ class _DatabasesPageState extends State<DatabasesPage> {
                                     builder: (_) => deleteDatabaseDialog(
                                       context: context,
                                       permanently: false,
-                                      function1: () => setState(() => deleteDb()),
+                                      function1: () => setState(() {
+                                        deleteDb();
+                                        needRefresh = true;
+                                      }),
                                     ),
                                   ),
                                 ),
@@ -124,6 +127,7 @@ class _DatabasesPageState extends State<DatabasesPage> {
                                       permanently: true,
                                       function1: () => setState(() {
                                         deleteDb();
+                                        needRefresh = true;
                                         final file = File(db);
                                         file.delete().then((_) {
                                           ScaffoldMessenger.of(context).hideCurrentSnackBar();
