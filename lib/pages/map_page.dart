@@ -87,7 +87,7 @@ class _MapPageState extends State<MapPage> {
         ],
       ),
       body: FutureBuilder(
-        future: Directory(p.join(prefs.dbPathNotifier.value!, 'map')).list().toList(),
+        future: Directory(p.join(File(prefs.dbPathNotifier.value!).parent.path, 'map')).list().toList(),
         builder: (_, AsyncSnapshot<List<FileSystemEntity>> snapshot) {
           const placeholder = Center(child: CircularProgressIndicator());
           if (!snapshot.hasData && snapshot.connectionState != ConnectionState.done) return placeholder;

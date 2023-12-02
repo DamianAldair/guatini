@@ -30,8 +30,8 @@ import 'package:syncfusion_flutter_maps/maps.dart';
 
 abstract class SearchProvider {
   static String _excludeOnline(String column) {
-    final wheres = protocols.map((p) => '$column NOT LIKE \'$p://%\'');
-    return wheres.join(' AND ');
+    final wheres = protocols.map((p) => '($column NOT LIKE \'$p://%\' OR [main].[media].[fk_type_] IS NULL)');
+    return wheres.join(' AND\n');
   }
 
   static Future<List<AdModel>> getAds(Database db) async {
@@ -487,8 +487,8 @@ abstract class SearchProvider {
         from [main].[specie]
           left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
           inner join [main].[specie_similar] on [main].[specie].[id] = [main].[specie_similar].[id_similar]
-          inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-        where [main].[media].[fk_type_] = 1 AND
+          left join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+        where ([main].[media].[fk_type_] IS 1 OR [main].[media].[fk_type_] IS NULL) AND
               ${_excludeOnline('[main].[media].[path]')} AND
               [main].[specie_similar].[fk_specie_] = $speciesId
         group by [main].[specie].[scientific_name]
@@ -511,8 +511,8 @@ abstract class SearchProvider {
           [main].[media].[path]
           from [main].[specie]
           left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-          inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-          where [main].[media].[fk_type_] = 1 AND
+          left join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+          where ([main].[media].[fk_type_] IS 1 OR [main].[media].[fk_type_] IS NULL) AND
             ${_excludeOnline('[main].[media].[path]')} AND
             ([main].[common_name].[name] LIKE '%$search%' OR [main].[specie].[scientific_name] LIKE '%$search%')
           group by [main].[specie].[scientific_name]
@@ -540,7 +540,7 @@ abstract class SearchProvider {
                 inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
                 inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
               where ${_excludeOnline('[main].[media].[path]')} AND
-                [main].[media].[fk_type_] = 1
+                ([main].[media].[fk_type_] IS 1 OR [main].[media].[fk_type_] IS NULL)
               order by random()
             )
             group by scientific_name
@@ -672,7 +672,7 @@ abstract class SearchProvider {
             [main].[$sqlTable].[id] as sqlTable
           from [main].[specie]
             left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-            inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+            left join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
             inner join [main].[t_genus] on [main].[t_genus].[id] = [main].[specie].[fk_t_genus_]
             inner join [main].[t_family] on [main].[t_family].[id] = [main].[t_genus].[fk_t_family_]
             inner join [main].[t_order] on [main].[t_order].[id] = [main].[t_family].[fk_t_order_]
@@ -680,18 +680,14 @@ abstract class SearchProvider {
             inner join [main].[t_phylum] on [main].[t_phylum].[id] = [main].[t_class].[fk_t_phylum_]
             inner join [main].[t_kindom] on [main].[t_kindom].[id] = [main].[t_phylum].[fk_t_kindom_]
             inner join [main].[t_domain] on [main].[t_domain].[id] = [main].[t_kindom].[fk_t_domain_]
-          where [main].[media].[fk_type_] = 1 AND
+          where ([main].[media].[fk_type_] IS 1 OR [main].[media].[fk_type_] IS NULL) AND
                 ${_excludeOnline('[main].[media].[path]')}
           group by [main].[specie].[scientific_name]
           order by [main].[common_name].[name]
       ) where sqlTable = ${taxonomyModel.id};
       ''';
       final result = await db.rawQuery(query);
-      final results = <SpeciesModel>[];
-      for (var item in result) {
-        results.add(SpeciesModel.fromSimpleSearch(item));
-      }
-      return results;
+      return result.map((r) => SpeciesModel.fromSimpleSearch(r)).toList();
     } catch (e) {
       return [];
     }
@@ -725,9 +721,10 @@ abstract class SearchProvider {
             [main].[media].[fk_type_] as type
           from [main].[specie]
             left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-            inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-          where [main].[specie].[$prop] = ${model.id} AND
-                ${_excludeOnline('[main].[media].[path]')}
+            left join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+          where ([main].[media].[fk_type_] IS 1 OR [main].[media].[fk_type_] IS NULL) AND
+                ${_excludeOnline('[main].[media].[path]')} AND
+                [main].[specie].[$prop] = ${model.id}
           group by [main].[specie].[scientific_name]
           order by [main].[common_name].[name];
         ''';
@@ -758,22 +755,17 @@ abstract class SearchProvider {
             [main].[media].[fk_type_] as type
           from [main].[specie]
             left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-            inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+            left join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
             $join
           where $where = ${model.id} AND
+                ([main].[media].[fk_type_] IS 1 OR [main].[media].[fk_type_] IS NULL) AND
                 ${_excludeOnline('[main].[media].[path]')}
           group by [main].[specie].[scientific_name]
           order by [main].[specie].[scientific_name];
         ''';
       }
       final result = await db.rawQuery(query);
-      final results = <SpeciesModel>[];
-      for (var item in result) {
-        if (item['type'] == 1) {
-          results.add(SpeciesModel.fromSimpleSearch(item));
-        }
-      }
-      return results;
+      return result.map((r) => SpeciesModel.fromSimpleSearch(r)).toList();
     } catch (e) {
       return [];
     }
@@ -1031,8 +1023,8 @@ abstract class SearchProvider {
           inner join [main].[specie_distribution] on [main].[distribution].[id] = [main].[specie_distribution].[fk_distribution_]
           inner join [main].[specie] on [main].[specie].[id] = [main].[specie_distribution].[fk_specie_]
           left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
-          inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-        where [main].[media].[fk_type_] = 1 AND
+          left join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+        where ([main].[media].[fk_type_] IS 1 OR [main].[media].[fk_type_] IS NULL) AND
           ${_excludeOnline('[main].[media].[path]')}
         group by [main].[specie].[scientific_name]
         order by [main].[specie].[id];

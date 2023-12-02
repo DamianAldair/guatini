@@ -135,7 +135,7 @@ class Game2Page extends StatelessWidget {
                             style: const TextStyle(fontSize: 20.0),
                           ),
                           const SizedBox(height: 30.0),
-                          Expanded(
+                          Flexible(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
