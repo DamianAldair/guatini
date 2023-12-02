@@ -120,6 +120,12 @@ class CharacteristicPage extends StatelessWidget {
                               itemCount: list.length,
                               itemBuilder: (_, int i) {
                                 final species = list[i];
+                                final title = species.searchName == null || species.searchName!.isEmpty
+                                    ? species.scientificName ?? ''
+                                    : species.searchName!;
+                                final subtitle = species.searchName == null || species.searchName!.isEmpty
+                                    ? ''
+                                    : species.scientificName ?? '';
                                 return ListTile(
                                   leading: SizedBox(
                                     height: 60.0,
@@ -131,11 +137,11 @@ class CharacteristicPage extends StatelessWidget {
                                   ),
                                   title: Padding(
                                     padding: const EdgeInsets.only(top: 10.0),
-                                    child: Text(species.searchName.toString()),
+                                    child: Text(title),
                                   ),
                                   subtitle: Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 5.0),
-                                    child: Text(species.scientificName.toString()),
+                                    child: Text(subtitle),
                                   ),
                                   onTap: () => Navigator.push(
                                     context,

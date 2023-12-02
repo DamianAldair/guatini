@@ -102,31 +102,41 @@ class SimpleSearch extends SearchDelegate {
             final results = joinEquals(snapshot.data as List<SpeciesModel>);
             return ListView.builder(
               itemCount: results.length,
-              itemBuilder: (_, int i) => ListTile(
-                  leading: SizedBox(
-                    height: 60.0,
-                    width: 60.0,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(5.0),
-                      child: results[i].image,
+              itemBuilder: (_, int i) {
+                final searchName = results[i].searchName;
+                final scientificName = results[i].scientificName;
+                return ListTile(
+                    leading: SizedBox(
+                      height: 60.0,
+                      width: 60.0,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5.0),
+                        child: results[i].image,
+                      ),
                     ),
-                  ),
-                  title: Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: getSearchedText(results[i].searchName!, query),
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: getSearchedText(results[i].scientificName!, query),
-                  ),
-                  onTap: () {
-                    UserPreferences().newSearch(query);
-                    close(context, null);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => SpeciesDetailsPage(results[i].id)),
-                    );
-                  }),
+                    title: Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: getSearchedText(
+                        searchName == null || searchName.isEmpty ? scientificName ?? '' : searchName,
+                        query,
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: getSearchedText(
+                        searchName == null || searchName.isEmpty ? '' : scientificName ?? '',
+                        query,
+                      ),
+                    ),
+                    onTap: () {
+                      UserPreferences().newSearch(query);
+                      close(context, null);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => SpeciesDetailsPage(results[i].id)),
+                      );
+                    });
+              },
             );
           },
         );

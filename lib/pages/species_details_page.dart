@@ -65,14 +65,16 @@ class SpeciesDetailsPage extends StatelessWidget {
                         children: [
                           MainImage(speciesMedias.$1),
                           Text(
-                            species!.commonNamesAsString,
+                            species!.commonNamesAsString.isNotEmpty
+                                ? species!.commonNamesAsString
+                                : species!.scientificName ?? '',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 20.0,
                             ),
                           ),
                           const SizedBox(height: 20.0),
-                          Text(species!.scientificName.toString()),
+                          if (species!.commonNamesAsString.isNotEmpty) Text(species!.scientificName ?? ''),
                           const SizedBox(height: 10.0),
                           InfoCard(
                             title: AppLocalizations.of(context).taxDomain,

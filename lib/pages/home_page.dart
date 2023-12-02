@@ -158,12 +158,14 @@ class _MainPageState extends State<MainPage> {
                           if (!snapshot.hasData) return loading;
                           final list = snapshot.data!;
                           if (list.isEmpty) {
-                            return Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Text(
-                                AppLocalizations.of(context).noElements,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                                textAlign: TextAlign.center,
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Text(
+                                  AppLocalizations.of(context).noElements,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             );
                           }
@@ -280,7 +282,7 @@ class _MainPageState extends State<MainPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    species.searchName!,
+                    species.searchName ?? species.scientificName ?? '',
                     overflow: portrait ? TextOverflow.ellipsis : null,
                     style: const TextStyle(
                       fontSize: 20.0,
@@ -289,7 +291,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    species.scientificName!,
+                    species.searchName != null ? species.scientificName ?? '' : '',
                     overflow: portrait ? TextOverflow.ellipsis : null,
                   ),
                 ],

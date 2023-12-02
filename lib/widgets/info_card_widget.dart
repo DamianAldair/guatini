@@ -40,7 +40,7 @@ class InfoCard<T> extends StatelessWidget {
         text += '${i.toString()}\n';
       }
       if (instances!.isNotEmpty) {
-        text = text.substring(0, text.length - 1);
+        text = text.trim();
       } else {
         text = AppLocalizations.of(context).unknown;
       }

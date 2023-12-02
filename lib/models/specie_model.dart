@@ -135,10 +135,10 @@ class SpeciesModel {
 
   String get commonNamesAsString {
     String names = '';
-    for (var item in commonNames!) {
+    for (var item in commonNames ?? []) {
       names += '${item.name}\n';
     }
-    return names.substring(0, names.length - 1);
+    return names.trim();
   }
 
   Image get image {
