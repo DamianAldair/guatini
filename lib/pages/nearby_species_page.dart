@@ -63,6 +63,9 @@ class NearbySpeciesPage extends StatelessWidget {
                   itemCount: list.length,
                   itemBuilder: (_, int i) {
                     final s = list[i];
+                    final title =
+                        s.searchName == null || s.searchName!.isEmpty ? s.scientificName ?? '' : s.searchName!;
+                    final subtitle = s.searchName == null || s.searchName!.isEmpty ? '' : s.scientificName ?? '';
                     return ListTile(
                       leading: SizedBox(
                         height: 60.0,
@@ -74,11 +77,11 @@ class NearbySpeciesPage extends StatelessWidget {
                       ),
                       title: Padding(
                         padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(s.searchName.toString()),
+                        child: Text(title),
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Text(s.scientificName.toString()),
+                        child: Text(subtitle),
                       ),
                       onTap: () => Navigator.push(
                         context,

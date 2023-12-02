@@ -143,7 +143,7 @@
     },
     "noLocationEnabled": "Se necesita activar la ubicación de su dispositivo",
     "noLocationPermission": "Guatiní no tiene permiso para utilizar la ubicación",
-    "noEnoughDbInfo": "No hay suficiente información en la fuente de datos para jugar.",
+    "noEnoughDbInfo": "No hay suficiente información o faltan datos en la fuente de datos para jugar.",
     "noSelectedDatabase": "No hay una fuente de datos seleccionada o la que se seleccionó no existe o se movió",
     "noSpeciesNearby": "No hay especies cerca",
     "noStoragePermission": "Guatiní no tiene permiso para acceder al almacenamiento",

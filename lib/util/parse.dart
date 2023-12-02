@@ -48,12 +48,12 @@ List<SpeciesModel> joinEquals(List<SpeciesModel> list) {
       sname = s.scientificName.toString();
     }
     if (sname == s.scientificName) {
-      cname += '${s.searchName}\n';
+      cname += '${s.searchName ?? ''}\n';
     }
     if ((i + 1 < list.length && sname != list[i + 1].scientificName) || i + 1 >= list.length) {
       final json = {
         "id": s.id,
-        "name": cname.substring(0, cname.length - 1),
+        "name": cname.trim(),
         "scientific_name": sname,
         "path": s.imagePath,
       };

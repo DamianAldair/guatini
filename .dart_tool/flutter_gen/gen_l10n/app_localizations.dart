@@ -798,7 +798,7 @@ abstract class AppLocalizations {
   /// No description provided for @noEnoughDbInfo.
   ///
   /// In en, this message translates to:
-  /// **'There is not enough information in the data source to play the game.'**
+  /// **'There is not enough information or missing data in the data source to play the game.'**
   String get noEnoughDbInfo;
 
   /// No description provided for @noSelectedDatabase.

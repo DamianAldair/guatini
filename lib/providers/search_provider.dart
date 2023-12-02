@@ -485,7 +485,7 @@ abstract class SearchProvider {
           [main].[specie].[scientific_name],
           [main].[media].[path]
         from [main].[specie]
-          inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+          left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
           inner join [main].[specie_similar] on [main].[specie].[id] = [main].[specie_similar].[id_similar]
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
         where [main].[media].[fk_type_] = 1 AND
@@ -510,8 +510,8 @@ abstract class SearchProvider {
           [main].[specie].[scientific_name],
           [main].[media].[path]
           from [main].[specie]
+          left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-          inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
           where [main].[media].[fk_type_] = 1 AND
             ${_excludeOnline('[main].[media].[path]')} AND
             ([main].[common_name].[name] LIKE '%$search%' OR [main].[specie].[scientific_name] LIKE '%$search%')
@@ -536,7 +536,7 @@ abstract class SearchProvider {
                 [main].[specie].[scientific_name], 
                 [main].[media].[path]
               from [main].[specie]
-                inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+                left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
                 inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
                 inner join [main].[type] on [main].[type].[id] = [main].[media].[fk_type_]
               where ${_excludeOnline('[main].[media].[path]')} AND
@@ -565,7 +565,7 @@ abstract class SearchProvider {
                 [main].[common_name].[name], 
                 [main].[specie].[scientific_name]
               from [main].[specie]
-                inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+                left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
               order by random()
             )
             group by scientific_name
@@ -671,7 +671,7 @@ abstract class SearchProvider {
             [main].[media].[path],
             [main].[$sqlTable].[id] as sqlTable
           from [main].[specie]
-            inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+            left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
             inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
             inner join [main].[t_genus] on [main].[t_genus].[id] = [main].[specie].[fk_t_genus_]
             inner join [main].[t_family] on [main].[t_family].[id] = [main].[t_genus].[fk_t_family_]
@@ -724,8 +724,8 @@ abstract class SearchProvider {
             [main].[media].[path],
             [main].[media].[fk_type_] as type
           from [main].[specie]
+            left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
             inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-            inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
           where [main].[specie].[$prop] = ${model.id} AND
                 ${_excludeOnline('[main].[media].[path]')}
           group by [main].[specie].[scientific_name]
@@ -757,8 +757,8 @@ abstract class SearchProvider {
             [main].[media].[path],
             [main].[media].[fk_type_] as type
           from [main].[specie]
+            left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
             inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
-            inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
             $join
           where $where = ${model.id} AND
                 ${_excludeOnline('[main].[media].[path]')}
@@ -1030,7 +1030,7 @@ abstract class SearchProvider {
         from   [main].[distribution]
           inner join [main].[specie_distribution] on [main].[distribution].[id] = [main].[specie_distribution].[fk_distribution_]
           inner join [main].[specie] on [main].[specie].[id] = [main].[specie_distribution].[fk_specie_]
-          inner join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+          left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
           inner join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
         where [main].[media].[fk_type_] = 1 AND
           ${_excludeOnline('[main].[media].[path]')}

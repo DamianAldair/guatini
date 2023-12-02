@@ -143,7 +143,7 @@
     },
     "noLocationEnabled": "You must turn on location",
     "noLocationPermission": "Guatiní has not permission to access to location",
-    "noEnoughDbInfo": "There is not enough information in the data source to play the game.",
+    "noEnoughDbInfo": "There is not enough information or missing data in the data source to play the game.",
     "noSelectedDatabase": "There is not no data source selected or the one that was selected does not exist or has been moved",
     "noSpeciesNearby": "There are no species nearby",
     "noStoragePermission": "Guatiní has not permission to access to storage",
