@@ -141,6 +141,12 @@ abstract class AppLocalizations {
   /// **'Added data source'**
   String get addedDatabase;
 
+  /// No description provided for @allSpecies.
+  ///
+  /// In en, this message translates to:
+  /// **'All species'**
+  String get allSpecies;
+
   /// No description provided for @alreadyAdded.
   ///
   /// In en, this message translates to:
@@ -717,6 +723,12 @@ abstract class AppLocalizations {
   /// **'Link'**
   String get link;
 
+  /// No description provided for @listAllSpecies.
+  ///
+  /// In en, this message translates to:
+  /// **'List all species'**
+  String get listAllSpecies;
+
   /// No description provided for @location.
   ///
   /// In en, this message translates to:
@@ -1190,6 +1202,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Theme'**
   String get theme;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
 
   /// No description provided for @ui.
   ///

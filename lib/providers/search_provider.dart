@@ -501,6 +501,29 @@ abstract class SearchProvider {
     }
   }
 
+  static Future<List<SpeciesModel>> searchAllSpecies(Database db) async {
+    try {
+      final query = '''
+          select 
+            [main].[specie].[id], 
+            [main].[common_name].[name], 
+            [main].[specie].[scientific_name],
+            [main].[media].[path]
+          from [main].[specie]
+            left join [main].[common_name] on [main].[specie].[id] = [main].[common_name].[fk_specie_]
+            left join [main].[media] on [main].[specie].[id] = [main].[media].[fk_specie_]
+          where ([main].[media].[fk_type_] IS 1 OR [main].[media].[fk_type_] IS NULL) AND
+            ${_excludeOnline('[main].[media].[path]')}
+          group by [main].[specie].[scientific_name]
+          order by [main].[specie].[scientific_name];
+      ''';
+      final result = await db.rawQuery(query);
+      return result.map((r) => SpeciesModel.fromSimpleSearch(r)).toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
   static Future<List<SpeciesModel>> searchSpecie(Database db, String search) async {
     try {
       final query = '''

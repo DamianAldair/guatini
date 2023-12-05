@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:guatini/models/specie_model.dart';
+import 'package:guatini/pages/all_species_page.dart';
 import 'package:guatini/pages/species_details_page.dart';
 import 'package:guatini/providers/db_provider.dart';
 import 'package:guatini/providers/search_provider.dart';
@@ -18,13 +19,32 @@ class SimpleSearch extends SearchDelegate {
   String get searchFieldLabel => AppLocalizations.of(context).searchSpecies;
 
   @override
+  void close(BuildContext context, dynamic result) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    super.close(context, result);
+  }
+
+  @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(
-        icon: const Icon(Icons.clear_rounded),
-        tooltip: AppLocalizations.of(context).clear,
-        onPressed: () => query = '',
-      ),
+      if (query.isNotEmpty)
+        IconButton(
+          icon: const Icon(Icons.clear_rounded),
+          tooltip: AppLocalizations.of(context).clear,
+          onPressed: () => query = '',
+        )
+      else if (DbProvider.isOpen())
+        IconButton(
+          icon: const Icon(Icons.view_list_rounded),
+          tooltip: AppLocalizations.of(context).listAllSpecies,
+          onPressed: () {
+            close(context, null);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AllSpeciesPage()),
+            );
+          },
+        ),
     ];
   }
 
@@ -38,12 +58,12 @@ class SimpleSearch extends SearchDelegate {
   }
 
   @override
-  Widget buildResults(BuildContext context) {
-    return Container();
-  }
+  Widget buildResults(BuildContext context) => _searched();
 
   @override
-  Widget buildSuggestions(BuildContext context) {
+  Widget buildSuggestions(BuildContext context) => _searched();
+
+  Widget _searched() {
     if (query.isEmpty) {
       final prefs = UserPreferences();
       final lastSearches = prefs.lastSearches.reversed.toList();
@@ -106,36 +126,37 @@ class SimpleSearch extends SearchDelegate {
                 final searchName = results[i].searchName;
                 final scientificName = results[i].scientificName;
                 return ListTile(
-                    leading: SizedBox(
-                      height: 60.0,
-                      width: 60.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5.0),
-                        child: results[i].image,
-                      ),
+                  leading: SizedBox(
+                    height: 60.0,
+                    width: 60.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(5.0),
+                      child: results[i].image,
                     ),
-                    title: Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: getSearchedText(
-                        searchName == null || searchName.isEmpty ? scientificName ?? '' : searchName,
-                        query,
-                      ),
+                  ),
+                  title: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: getSearchedText(
+                      searchName == null || searchName.isEmpty ? scientificName ?? '' : searchName,
+                      query,
                     ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: getSearchedText(
-                        searchName == null || searchName.isEmpty ? '' : scientificName ?? '',
-                        query,
-                      ),
+                  ),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5.0),
+                    child: getSearchedText(
+                      searchName == null || searchName.isEmpty ? '' : scientificName ?? '',
+                      query,
                     ),
-                    onTap: () {
-                      UserPreferences().newSearch(query);
-                      close(context, null);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => SpeciesDetailsPage(results[i].id)),
-                      );
-                    });
+                  ),
+                  onTap: () {
+                    UserPreferences().newSearch(query);
+                    close(context, null);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => SpeciesDetailsPage(results[i].id)),
+                    );
+                  },
+                );
               },
             );
           },
