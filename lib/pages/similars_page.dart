@@ -50,11 +50,15 @@ class SimilarsPage extends StatelessWidget {
             ),
             title: Padding(
               padding: const EdgeInsets.only(top: 10.0),
-              child: Text(s.searchName.toString()),
+              child: Text(
+                s.searchName == null || s.searchName!.isEmpty ? s.scientificName ?? '' : s.searchName.toString(),
+              ),
             ),
             subtitle: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5.0),
-              child: Text(s.scientificName.toString()),
+              child: Text(
+                s.searchName == null || s.searchName!.isEmpty ? '' : s.scientificName ?? '',
+              ),
             ),
             onTap: () => Navigator.push(
               context,

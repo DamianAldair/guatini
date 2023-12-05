@@ -31,6 +31,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addedDatabase => 'Fuente de datos añadida';
 
   @override
+  String get allSpecies => 'Todas las especies';
+
+  @override
   String get alreadyAdded => 'Esta fuente de datos ya está añadida';
 
   @override
@@ -326,6 +329,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get link => 'Enlace';
 
   @override
+  String get listAllSpecies => 'Listar todas las especies';
+
+  @override
   String get location => 'Ubicación';
 
   @override
@@ -563,6 +569,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get theme => 'Tema';
+
+  @override
+  String get total => 'Total';
 
   @override
   String get ui => 'Interfaz de usuario';
