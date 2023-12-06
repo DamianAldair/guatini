@@ -32,8 +32,10 @@ class InfoCard<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool unknown = false;
     String text = '';
     if (instance == null && instances == null) {
+      unknown = true;
       return const SizedBox.shrink();
     } else if (instances != null) {
       for (T i in instances!) {
@@ -42,6 +44,7 @@ class InfoCard<T> extends StatelessWidget {
       if (instances!.isNotEmpty) {
         text = text.trim();
       } else {
+        unknown = true;
         text = AppLocalizations.of(context).unknown;
       }
     } else {
@@ -61,69 +64,77 @@ class InfoCard<T> extends StatelessWidget {
                 if (instances!.length == 1) {
                   viewDescription(context, title, instances!.first);
                 } else {
-                  showDialog(
-                    context: context,
-                    barrierColor: Colors.black.withOpacity(0.7),
-                    builder: (_) {
-                      return Center(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Text(
-                                  '${AppLocalizations.of(context).chooseOne}:',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
+                  if (unknown) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(AppLocalizations.of(context).errorObtainingInfo),
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      barrierColor: Colors.black.withOpacity(0.7),
+                      builder: (_) {
+                        return Center(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Text(
+                                    '${AppLocalizations.of(context).chooseOne}:',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              for (T i in instances!)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 25.0,
-                                    vertical: 5.0,
-                                  ),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                        viewDescription(context, title, i);
-                                      },
-                                      child: Ink(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: AdaptiveTheme.of(context).brightness == Brightness.dark
-                                              ? const Color.fromARGB(255, 50, 50, 50)
-                                              : const Color.fromARGB(255, 220, 220, 220),
-                                          borderRadius: BorderRadius.circular(15.0),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(15.0),
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              i.toString(),
-                                              textAlign: TextAlign.center,
+                                for (T i in instances!)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 25.0,
+                                      vertical: 5.0,
+                                    ),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(15.0),
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          viewDescription(context, title, i);
+                                        },
+                                        child: Ink(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: AdaptiveTheme.of(context).brightness == Brightness.dark
+                                                ? const Color.fromARGB(255, 50, 50, 50)
+                                                : const Color.fromARGB(255, 220, 220, 220),
+                                            borderRadius: BorderRadius.circular(15.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(15.0),
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                i.toString(),
+                                                textAlign: TextAlign.center,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              const SizedBox.square(dimension: 20.0),
-                            ],
+                                const SizedBox.square(dimension: 20.0),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
+                        );
+                      },
+                    );
+                  }
                 }
               },
         child: Ink(
