@@ -73,6 +73,7 @@ class MoreMedia extends StatelessWidget {
                         showModalBottomSheet(
                           context: context,
                           isDismissible: false,
+                          showDragHandle: true,
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(20.0),
