@@ -714,21 +714,37 @@ class AudioCard extends StatelessWidget {
                         color: Colors.grey.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
+                      child: Stack(
+                        alignment: Alignment.center,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0),
-                            child: Icon(
-                              Icons.audiotrack_rounded,
-                              size: 35.0,
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                child: Icon(
+                                  Icons.audiotrack_rounded,
+                                  size: 35.0,
+                                ),
+                              ),
+                              Text(
+                                title,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                          if (list[i].isOnline)
+                            const Align(
+                              alignment: Alignment.topRight,
+                              child: Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Icon(
+                                  Icons.language_rounded,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                          ),
-                          Text(
-                            title,
-                            overflow: TextOverflow.ellipsis,
-                          ),
                         ],
                       ),
                     ),

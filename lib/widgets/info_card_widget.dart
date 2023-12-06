@@ -98,7 +98,7 @@ class InfoCard<T> extends StatelessWidget {
                                       child: Ink(
                                         width: double.infinity,
                                         decoration: BoxDecoration(
-                                          color: AdaptiveTheme.of(context).mode.isDark
+                                          color: AdaptiveTheme.of(context).brightness == Brightness.dark
                                               ? const Color.fromARGB(255, 50, 50, 50)
                                               : const Color.fromARGB(255, 220, 220, 220),
                                           borderRadius: BorderRadius.circular(15.0),
